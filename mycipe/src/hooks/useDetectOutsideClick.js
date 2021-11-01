@@ -9,7 +9,6 @@ export const useDetectOutsideClick = (el, initialState) => {
 
   useEffect(() => {
     const onClick = (e) => {
-      console.log(e);
       if (el.current && !el.current.contains(e.target)) {
         // ref 객체의 current, 즉 ref에 값이 잡히는 경우 (렌더 메서드 안에서 ref가 엘리먼트에게 전달되었을 때)
 

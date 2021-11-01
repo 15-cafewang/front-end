@@ -11,13 +11,8 @@ function App() {
   const toggleActive = () => setIsActive(!isActive);
   return (
     <div>
-      <button onClick={toggleActive}>
-        <More />
-        <DropDown
-          _ref={dropdownRef}
-          className={`menu ${isActive ? "active" : "inactive"}`}
-        />
-      </button>
+      <More onClick={toggleActive} />
+      <DropDown _ref={dropdownRef} className={` ${isActive ? "active" : ""}`} />
     </div>
   );
 }

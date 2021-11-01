@@ -17,8 +17,9 @@ const Menu = styled.nav`
   background: #ffffff;
   border-radius: 16px;
   position: absolute;
+  text-align: center;
   top: 40px;
-  width: 200px;
+  width: 100px;
   box-shadow: 0 1px 5px;
   opacity: 0;
   visibility: hidden;
