@@ -20,6 +20,9 @@ textarea {
   background: transparent;
 }
 
+button {
+  cursor: pointer;
+}
 button:focus,
 button:active,
 input:focus,
