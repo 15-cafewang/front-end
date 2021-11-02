@@ -53,6 +53,7 @@ const ImageUpload = () => {
 const UploadWrapper = styled.div`
   width: 328px;
   height: 328px;
+  margin: 16px auto;
   background-color: #ededed;
 `;
 
