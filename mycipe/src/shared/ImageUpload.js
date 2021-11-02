@@ -7,7 +7,7 @@ import { ReactComponent as Photo } from "../assets/photo.svg";
 const ImageUpload = () => {
   const [file, setFile] = useState({ file: "", previewURL: "" });
 
-  const uploadFile = (e) => {
+  const handleChangeImageFile = (e) => {
     let fileReader = new FileReader(); // 파일데이터 자체를 불러오려면 FileRedaer API를 사용해야한다.
     // 비동기적으로 데이터를 읽기 위해 읽을 파일을 가리키는 file 객체를 이용해 파일의 내용을 읽고 저장할 수 있다.
 
@@ -41,7 +41,7 @@ const ImageUpload = () => {
             <InputFile
               type="file"
               accept="image/jpg, impge/png, image/jpeg, image/gif"
-              onChange={uploadFile}
+              onChange={handleChangeImageFile}
             ></InputFile>
           </label>
         )}
