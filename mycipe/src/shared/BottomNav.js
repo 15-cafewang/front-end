@@ -16,16 +16,16 @@ import { ReactComponent as MyIcon } from "../assets/icon/BottomNavIcon/my.svg";
 import { ReactComponent as ActiveMyIcon } from "../assets/icon/BottomNavIcon/myActive.svg";
 
 import { useLocation } from "react-router-dom";
+
 const BottomNav = (props) => {
-  const [isActive, setIsActive] = useState(false);
-  // const [currentUrl, setCurrentUrl] = useState("/");
-  const location = useLocation(); // URL이 변경될떄마다 새로운 URL리턴.
-  console.log(location);
+  const [isActive, setIsActive] = useState(false); // plus버튼 눌렀을떄 모달상태.
+  const location = useLocation().pathname; // URL이 변경될떄마다 새로운 URL리턴.
 
   useEffect(() => {
     const DetectOutsideClick = () => {
       setIsActive(!isActive);
     };
+
     if (isActive) window.addEventListener("click", DetectOutsideClick);
     return () => {
       window.removeEventListener("click", DetectOutsideClick);
@@ -49,71 +49,63 @@ const BottomNav = (props) => {
         ""
       )}
 
-      <NavButton
-        onClick={() => {
-          // setCurrentUrl('/Home');
-          // history.push('/Home');
-        }}
-      >
-        {location.pathname === "/" ? <ActiveHomeIcon /> : <HomeIcon />}
-      </NavButton>
+      <NavButtonInner>
+        <NavButton
+          onClick={() => {
+            // history.push('/Home');
+          }}
+        >
+          {location === "/" ? <ActiveHomeIcon /> : <HomeIcon />}
+        </NavButton>
 
-      <NavButton
-        onClick={() => {
-          // setCurrentUrl('/Board');
-          // history.push('/Board');
-        }}
-      >
-        {location.pathname === "/Board" ? <ActiveBoardIcon /> : <BoardIcon />}
-      </NavButton>
+        <NavButton
+          onClick={() => {
+            // history.push('/Board');
+          }}
+        >
+          {location === "/Board" ? <ActiveBoardIcon /> : <BoardIcon />}
+        </NavButton>
 
-      <NavButton onClick={ClickedModal}>
-        <PlusIcon />
-      </NavButton>
+        <NavButton onClick={ClickedModal}>
+          <PlusIcon />
+        </NavButton>
 
-      <NavButton
-        onClick={() => {
-          // setCurrentUrl('/My');
-          // history.push('/My');
-        }}
-      >
-        {location.pathname === "/My" ? <ActiveMyIcon /> : <MyIcon />}
-      </NavButton>
+        <NavButton
+          onClick={() => {
+            // history.push('/My');
+          }}
+        >
+          {location === "/My" ? <ActiveMyIcon /> : <MyIcon />}
+        </NavButton>
 
-      <NavButton
-        onClick={() => {
-          // setCurrentUrl('/Recipe');
-          // history.push('/Recipe');
-        }}
-      >
-        {location.pathname === "/Recipe" ? (
-          <ActiveRecipeIcon />
-        ) : (
-          <RecipeIcon />
-        )}
-      </NavButton>
+        <NavButton
+          onClick={() => {
+            // history.push('/Recipe');
+          }}
+        >
+          {location === "/Recipe" ? <ActiveRecipeIcon /> : <RecipeIcon />}
+        </NavButton>
+      </NavButtonInner>
     </BottomNavInner>
   );
 };
 
 const BottomNavInner = styled.div`
-  width: 360px;
-  height: 60px;
   background: #f8f8fa;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
 `;
 
-// const NavButton = styled.button`
-//   color: yellow;
-// `;
-
 const PlusModal = styled.div`
-  height: 136px;
   padding: 24px 0px;
   border-radius: 16px 16px 0px 0px;
+  background: #fff;
 
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   align-items: center;
 `;
@@ -124,12 +116,16 @@ const ModalContentInner = styled.div`
 
   display: flex;
   flex-direction: column;
-
   align-items: center;
 `;
 
 const ModalContent = styled.p`
   padding: 12px;
+`;
+
+const NavButtonInner = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const NavButton = styled.button``;
