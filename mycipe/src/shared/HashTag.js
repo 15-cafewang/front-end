@@ -1,28 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+const hashTagStrList = [
+  "#청량한",
+  "#고소한",
+  "#단짠",
+  "#디카페인",
+  "#달달한",
+  "#아이스",
+  "#따뜻한",
+  "#새콤달콤한",
+  "#시험기간에 필수",
+  "#당충전",
+];
 
 const HashTag = () => {
+  const [hashTagList, setHashTagList] = useState(
+    // initialValue는 모두 false로 만들어준다.
+    hashTagStrList.map((val) => {
+      return { name: val, active: false };
+    })
+  );
+
+  const toggleHashTag = (currentTag) => {
+    // 현재 클릭한 태그의 상태가 true이면 나머지는 그대로 두고, 클릭한 태그의 상태만 false로 다시 뱌꿔준다.
+    if (currentTag.active === true) {
+      const newHashTagList = hashTagList.map((tag, idx) => {
+        return tag.name === currentTag.name ? { ...tag, active: false } : tag;
+      });
+      setHashTagList(newHashTagList);
+    }
+
+    // 현재 클릭한 태그의 상태가 false이면 나머지는 그대로 두고, 클릭한 태그의 상태만 true로 다시 뱌꿔준다.
+    else {
+      const newHashTagList = hashTagList.map((tag, idx) => {
+        return tag.name === currentTag.name ? { ...tag, active: true } : tag;
+      });
+      setHashTagList(newHashTagList);
+    }
+  };
+
   return (
     <>
       <HashTagBox>
-        <HashTagItemRow width="300px" margin="0px 0px 8px 0px">
-          <HashTagItem>#청량한</HashTagItem>
-          <HashTagItem>#고소한</HashTagItem>
-          <HashTagItem>#단짠</HashTagItem>
-          <HashTagItem>#디카페인</HashTagItem>
-        </HashTagItemRow>
-
-        <HashTagItemRow width="225px" margin="0px 0px 8px 0px">
-          <HashTagItem>#달달한</HashTagItem>
-          <HashTagItem>#아이스</HashTagItem>
-          <HashTagItem>#따뜻한</HashTagItem>
-        </HashTagItemRow>
-
-        <HashTagItemRow width="300px">
-          <HashTagItem>#새콤달콤한</HashTagItem>
-          <HashTagItem>#시험기간에 필수</HashTagItem>
-          <HashTagItem>#당충전</HashTagItem>
-        </HashTagItemRow>
+        {hashTagList.map((tag, idx) => {
+          return (
+            <HashTagItem
+              key={tag.name}
+              onClick={() => {
+                toggleHashTag(tag);
+              }}
+              active={tag.active}
+            >
+              {tag.name}
+            </HashTagItem>
+          );
+        })}
       </HashTagBox>
     </>
   );
@@ -30,18 +62,19 @@ const HashTag = () => {
 
 const HashTagBox = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
   width: 302px;
   height: 124px;
-`;
 
-const HashTagItemRow = styled.div`
-  ${(props) => (props.margin ? `margin : ${props.margin}` : "")};
-  width: ${(props) => props.width};
-  display: flex;
-  justify-content: space-between;
+  & > :nth-child(5) {
+    margin-left: 49.5px;
+  }
+
+  & > :nth-child(7) {
+    margin-right: 39.5px;
+  }
 `;
 
 const HashTagItem = styled.div`
@@ -51,10 +84,12 @@ const HashTagItem = styled.div`
   justify-content: center;
   align-items: center;
   padding: 8px 10px;
-  border: 1px solid #dbdbdb;
+  border: ${(props) =>
+    props.active ? `1px solid #7692E4` : `1px solid #dbdbdb`};
   border-radius: 6px;
   font-size: 14px;
-  color: #767676;
+  color: ${(props) => (props.active ? `#ffffff` : `#767676`)};
+  background-color: ${(props) => (props.active ? `#7692E4` : `#ffffff`)};
   cursor: pointer;
 `;
 
