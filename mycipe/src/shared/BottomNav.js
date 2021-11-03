@@ -18,7 +18,6 @@ import { ReactComponent as ActiveMyIcon } from "../assets/icon/BottomNavIcon/myA
 import { useLocation } from "react-router-dom";
 const BottomNav = (props) => {
   const [isActive, setIsActive] = useState(false);
-  // const [currentUrl, setCurrentUrl] = useState("/");
   const location = useLocation(); // URL이 변경될떄마다 새로운 URL리턴.
   console.log(location);
 
@@ -51,7 +50,6 @@ const BottomNav = (props) => {
 
       <NavButton
         onClick={() => {
-          // setCurrentUrl('/Home');
           // history.push('/Home');
         }}
       >
@@ -60,7 +58,6 @@ const BottomNav = (props) => {
 
       <NavButton
         onClick={() => {
-          // setCurrentUrl('/Board');
           // history.push('/Board');
         }}
       >
@@ -73,7 +70,6 @@ const BottomNav = (props) => {
 
       <NavButton
         onClick={() => {
-          // setCurrentUrl('/My');
           // history.push('/My');
         }}
       >
@@ -82,7 +78,6 @@ const BottomNav = (props) => {
 
       <NavButton
         onClick={() => {
-          // setCurrentUrl('/Recipe');
           // history.push('/Recipe');
         }}
       >
