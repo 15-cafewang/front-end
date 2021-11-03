@@ -15,9 +15,14 @@ button,
 input,
 textarea {
   font-family: "DM Sans", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   background: transparent;
+  resize: none;
+}
+
+input::placeholder {
+  color: #999999;
 }
 
 button:focus,
