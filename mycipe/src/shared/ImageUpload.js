@@ -2,20 +2,21 @@ import { React, useState } from "react";
 import styled from "styled-components";
 
 // icon
-import { ReactComponent as Photo } from "../assets/photo.svg";
+import { ReactComponent as PlusImageBefore } from "../assets/plusImageBefore.svg";
+import { ReactComponent as PlusImageAfter } from "../assets/plusImageAfter.svg";
 
 const ImageUpload = () => {
   const [file, setFile] = useState({ file: "", previewURL: "" });
 
   const handleChangeImageFile = (e) => {
-    let fileReader = new FileReader(); // ÆÄÀÏµ¥ÀÌÅÍ ÀÚÃ¼¸¦ ºÒ·¯¿À·Á¸é FileRedaer API¸¦ »ç¿ëÇØ¾ßÇÑ´Ù.
-    // ºñµ¿±âÀûÀ¸·Î µ¥ÀÌÅÍ¸¦ ÀĞ±â À§ÇØ ÀĞÀ» ÆÄÀÏÀ» °¡¸®Å°´Â file °´Ã¼¸¦ ÀÌ¿ëÇØ ÆÄÀÏÀÇ ³»¿ëÀ» ÀĞ°í ÀúÀåÇÒ ¼ö ÀÖ´Ù.
+    let fileReader = new FileReader(); // íŒŒì¼ë°ì´í„° ìì²´ë¥¼ ë¶ˆëŸ¬ì˜¤ë ¤ë©´ FileRedaer APIë¥¼ ì‚¬ìš©í•´ì•¼í•œë‹¤.
+    // ë¹„ë™ê¸°ì ìœ¼ë¡œ ë°ì´í„°ë¥¼ ì½ê¸° ìœ„í•´ ì½ì„ íŒŒì¼ì„ ê°€ë¦¬í‚¤ëŠ” file ê°ì²´ë¥¼ ì´ìš©í•´ íŒŒì¼ì˜ ë‚´ìš©ì„ ì½ê³  ì €ì¥í•  ìˆ˜ ìˆë‹¤.
 
-    let imageFile = e.target.files[0]; // ÆÄÀÏÀÌ ¼±ÅÃµÇ¾úÀ» ¶§ ¾î¶² ÆÄÀÏÀÌ ¼±ÅÃµÇ¾ú´ÂÁö¸¦ °¡¸®Å°´Â °´Ã¼
+    let imageFile = e.target.files[0]; // íŒŒì¼ì´ ì„ íƒë˜ì—ˆì„ ë•Œ ì–´ë–¤ íŒŒì¼ì´ ì„ íƒë˜ì—ˆëŠ”ì§€ë¥¼ ê°€ë¦¬í‚¤ëŠ” ê°ì²´
 
-    fileReader.readAsDataURL(imageFile); // ÆÄÀÏÀ» µ¥ÀÌÅÍ URL·Î ÀĞ¾î¿Â´Ù. (ÆÄÀÏÀ» ÀĞ´Â ¹æ¹ı Áß ÇÏ³ªÀÓ)
+    fileReader.readAsDataURL(imageFile); // íŒŒì¼ì„ ë°ì´í„° URLë¡œ ì½ì–´ì˜¨ë‹¤. (íŒŒì¼ì„ ì½ëŠ” ë°©ë²• ì¤‘ í•˜ë‚˜ì„)
 
-    // ÆÄÀÏ ÀĞ±â°¡ ¼º°øÀûÀ¸·Î ¿Ï·áµÇ¾úÀ» ‹š ½ÇÇà
+    // íŒŒì¼ ì½ê¸°ê°€ ì„±ê³µì ìœ¼ë¡œ ì™„ë£Œë˜ì—ˆì„ ë•Œ ì‹¤í–‰
     fileReader.onload = (e) => {
       setFile({ file: imageFile, previewURL: e.target.result });
     };
@@ -23,46 +24,43 @@ const ImageUpload = () => {
 
   return (
     <>
-      <UploadWrapper>
-        {file.previewURL ? (
-          <PreviewImg
-            onClick={() => {
-              setFile({ ...file, previewURL: null });
-            }}
-            alt="previewImg"
-            src={file.previewURL}
-          />
-        ) : (
-          <label>
+      <UploadWrapper previewimg={file.previewURL ? file.previewURL : null}>
+        <label>
+          {/* ì‚¬ì§„ ì„ íƒ ìœ ë®¤ì— ë”°ë¼ ì•„ì´ì½˜ ìƒ‰ìƒ ë³€ê²½ */}
+          {file.previewURL ? (
             <IconWrapper>
-              <Photo />
+              <PlusImageAfter />
             </IconWrapper>
-
-            <InputFile
-              type="file"
-              accept="image/jpg, impge/png, image/jpeg, image/gif"
-              onChange={handleChangeImageFile}
-            ></InputFile>
-          </label>
-        )}
+          ) : (
+            <IconWrapper>
+              <PlusImageBefore />
+            </IconWrapper>
+          )}
+          <InputFile
+            type="file"
+            accept="image/jpg, impge/png, image/jpeg, image/gif"
+            onChange={handleChangeImageFile}
+          ></InputFile>
+        </label>
       </UploadWrapper>
     </>
   );
 };
 
 const UploadWrapper = styled.div`
-  width: 328px;
-  height: 328px;
-  margin: 16px auto;
+  width: 320px;
+  height: 320px;
+  margin-bottom: 16px;
+  border-radius: 6px;
   background-color: #ededed;
-`;
-
-const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
+  background-size: 320px 320px;
+  background-repeat: no-repeat;
+  ${(props) =>
+    props.previewimg ? `background-image : url(${props.previewimg})` : ""};
 `;
 
 const IconWrapper = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
