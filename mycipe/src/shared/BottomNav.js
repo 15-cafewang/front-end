@@ -18,8 +18,10 @@ import { ReactComponent as ActiveMyIcon } from "../assets/icon/BottomNavIcon/myA
 import { useLocation } from "react-router-dom";
 
 const BottomNav = (props) => {
+
   const [isActive, setIsActive] = useState(false); // plus버튼 눌렀을떄 모달상태.
   const location = useLocation().pathname; // URL이 변경될떄마다 새로운 URL리턴.
+
 
   useEffect(() => {
     const DetectOutsideClick = () => {
@@ -37,6 +39,7 @@ const BottomNav = (props) => {
   };
 
   return (
+
     <>
       {isActive ? <ModalBackground /> : ""}
 

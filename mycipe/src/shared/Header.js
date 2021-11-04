@@ -27,8 +27,10 @@ const Header = (props) => {
     // 로그인페이지
     return (
       <HeaderInner>
+
         <BackIcon />
         <PageName>로그인</PageName>
+
       </HeaderInner>
     );
   }
@@ -71,6 +73,7 @@ const Header = (props) => {
           <BackIcon />
           <PageName>레시피 작성하기</PageName>
         </LeftInner>
+
 
         <Button>완료</Button>
       </HeaderInner>
@@ -145,6 +148,7 @@ const Header = (props) => {
       </HeaderInner>
     );
   }
+
 };
 
 const HeaderInner = styled.div`
