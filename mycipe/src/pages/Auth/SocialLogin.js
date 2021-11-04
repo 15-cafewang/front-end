@@ -7,7 +7,10 @@ const SocialLogin = () => {
   return (
     <React.Fragment>
       <Main>
-        <Title>내시피에서</Title>
+        <Title>
+          <span style={{ color: "#7692E4" }}>내시피</span>
+          에서
+        </Title>
         <Title>나만의 레시피를</Title>
         <Title>공유해 보세요!</Title>
       </Main>
@@ -24,7 +27,7 @@ const SocialLogin = () => {
 export default SocialLogin;
 
 const Main = styled.div`
-  margin: 150px 152px 180px 32px;
+  margin: 180px 152px 100px 32px;
 `;
 const ButtonGrid = styled.div``;
 
