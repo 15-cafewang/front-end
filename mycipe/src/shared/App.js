@@ -8,15 +8,24 @@ import BottomNav from "./BottomNav";
 
 // pages
 import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
+
+import RecipeCard from "../components/Card/RecipeCard";
+import BoardCard from "../components/Card/BoardCard";
+import Main from "../pages/MainPage/Main";
+
 import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
 
 function App() {
   return (
     <Container>
       <Route component={Header} />
-      {/* <Route component={BottomNav} /> */}
+
+      <Route component={Main} />
+      <Route component={BottomNav} />
+        
       <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
       <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
+
     </Container>
   );
 }
@@ -24,8 +33,9 @@ function App() {
 const Container = styled.div`
   width: 100%;
   max-width: 375px;
-  height: 100%;
+  height: auto;
   margin: 0 auto;
+  position: absolute;
 `;
 
 export default App;

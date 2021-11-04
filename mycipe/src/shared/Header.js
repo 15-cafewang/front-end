@@ -1,121 +1,203 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 
-import { ReactComponent as Back } from "../assets/back.svg";
+import { ReactComponent as BackIcon } from "../assets/icon/HeaderIcon/back.svg";
+import { ReactComponent as SearchIcon } from "../assets/icon/HeaderIcon/search.svg";
+import { ReactComponent as SettingIcon } from "../assets/icon/HeaderIcon/setting.svg";
+import { ReactComponent as LogoIcon } from "../assets/icon/HeaderIcon/logo.svg";
+
+import { useLocation } from "react-router-dom";
 
 const Header = (props) => {
-  const pageName = "main";
+  const location = useLocation().pathname;
 
-  // 로그인,비밀번호재설정,회원가입
-  return (
-    <>
+  //확인하고싶은헤더의 if문에 "/" 값설정하기.
+
+  if (location === "") {
+    // 회원가입페이지
+    return (
       <HeaderInner>
-        <Button icon>
-          <Back />
-        </Button>
-        <PageName>{pageName}</PageName>
-        <Button>완료</Button>
+        <BackIcon />
+        <PageName>회원가입</PageName>
       </HeaderInner>
+    );
+  }
 
-      {/* <HeaderInner flexBetween>
-        <Logo></Logo>
-        <Button icon>
-          <FontAwesomeIcon icon={faSearch} />
-        </Button>
+  if (location === "") {
+    // 로그인페이지
+    return (
+      <HeaderInner>
+
+        <BackIcon />
+        <PageName>로그인</PageName>
+
       </HeaderInner>
+    );
+  }
 
+  if (location === "/") {
+    //메인페이지
+    return (
       <HeaderInner flexBetween>
-        <PageName>{pageName}</PageName>
-        <Button icon>
-          <FontAwesomeIcon icon={faCog} />
-        </Button>
+        <LogoIcon />
+        <SearchIcon />
       </HeaderInner>
+    );
+  }
 
+  if (location === "") {
+    //레시피 메인
+    return (
+      <HeaderInner flexBetween>
+        <PageName>레시피</PageName>
+        <SearchIcon />
+      </HeaderInner>
+    );
+  }
+
+  if (location === "") {
+    //레시피 상세
+    return (
+      <HeaderInner>
+        <BackIcon />
+        <PageName>레시피 보기</PageName>
+      </HeaderInner>
+    );
+  }
+
+  if (location === "") {
+    //레시피 작성
+    return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <Button icon>
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </Button>
-          <PageName>{pageName}</PageName>
-        </LeftInner> */}
+          <BackIcon />
+          <PageName>레시피 작성하기</PageName>
+        </LeftInner>
 
-      {/* </HeaderInner> */}
-    </>
-  );
 
-  //메인
-  // return (
-  //   <HeaderInner flexBetween>
-  //     <Logo></Logo>
-  //     <Button icon>
-  //       <FontAwesomeIcon icon={faSearch} />
-  //     </Button>
-  //   </HeaderInner>
-  // );
+        <Button>완료</Button>
+      </HeaderInner>
+    );
+  }
 
-  //마이,게시판,
-  // return (
-  //   <HeaderInner flexBetween>
-  //     <PageName>{pageName}</PageName>
-  //     <Button icon>
-  //       <FontAwesomeIcon icon={faCog} />
-  //     </Button>
-  //   </HeaderInner>
-  // );
+  if (location === "") {
+    //자유게시판
+    return (
+      <HeaderInner flexBetween>
+        <PageName>게시판</PageName>
+        <SearchIcon />
+      </HeaderInner>
+    );
+  }
 
-  //내시피 작성, 리뷰작성, 신메뉴이름
-  // return (
-  //   <HeaderInner flexBetween>
-  //     <LeftInner>
-  //       <Button icon>
-  //         <FontAwesomeIcon icon={faArrowLeft} />
-  //       </Button>
-  //       <PageName>{pageName}</PageName>
-  //     </LeftInner>
+  if (location === "") {
+    //자유게시판 메인
+    return (
+      <HeaderInner>
+        <BackIcon />
+        <PageName>게시판 보기</PageName>
+      </HeaderInner>
+    );
+  }
 
-  //     <Button>완료</Button>
-  //   </HeaderInner>
-  // );
+  if (location === "") {
+    //자유게시판 작성
+    return (
+      <HeaderInner flexBetween>
+        <LeftInner>
+          <BackIcon />
+          <PageName>게시글 작성하기</PageName>
+        </LeftInner>
+
+        <Button>완료</Button>
+      </HeaderInner>
+    );
+  }
+
+  if (location === "") {
+    //마이페이지
+    return (
+      <HeaderInner flexBetween>
+        <PageName>마이페이지</PageName>
+        <SettingIcon />
+      </HeaderInner>
+    );
+  }
+
+  if (location === "") {
+    //프로필 편집
+    return (
+      <HeaderInner>
+        <BackIcon />
+        <PageName>프로필 편집</PageName>
+      </HeaderInner>
+    );
+  }
+
+  if (location === "") {
+    //검색
+    return (
+      <HeaderInner flexBetween>
+        <LeftInner>
+          <BackIcon />
+        </LeftInner>
+
+        <SearchInput placeholder="검색어를 입력해 주세요." />
+
+        <SearchButton>검색</SearchButton>
+      </HeaderInner>
+    );
+  }
+
 };
 
 const HeaderInner = styled.div`
   height: 48px;
   padding: 14px 16px;
-  background: yellow;
+
+  display: flex;
+  align-items: center;
   ${(props) =>
     props.flexBetween &&
     css`
-      display: flex;
       justify-content: space-between;
-    `}// 메인페이지
+    `}
 `;
 
 const PageName = styled.span`
   font-size: 16px;
-  margin-left: 10px;
-`;
-
-// 메인페이지
-const Logo = styled.img`
-  background-image: url("https://static.hubzum.zumst.com/hubzum/2019/02/21/10/bedc4bd3d4b740e093d08ea5c1713b58.PNG");
-  background-position: center;
-  background-size: cover;
-
-  width: 77px;
-  height: 20px;
+  margin-left: 8px;
 `;
 
 const LeftInner = styled.div``;
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
   font-size: 16px;
-  width: 30px;
-  height: 20px;
-  ${(props) =>
-    props.icon &&
-    css`
-      width: 10px;
-    `}
+  color: #7692e4;
+  justify-content: center;
+`;
+
+const SearchButton = styled(Button)`
+  width: 50px;
+  height: 28px;
+  background: #7692e4;
+  border-radius: 6px;
+  color: #fff;
+`;
+
+const SearchInput = styled.input`
+  background-color: #f8f8fa;
+  border-radius: 6px;
+  width: 250px;
+  height: 28px;
+  padding: 14px;
+
+  &::placeholder {
+    color: #999999;
+    font-size: 14px;
+  }
 `;
 
 export default Header;

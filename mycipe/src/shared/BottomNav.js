@@ -16,15 +16,18 @@ import { ReactComponent as MyIcon } from "../assets/icon/BottomNavIcon/my.svg";
 import { ReactComponent as ActiveMyIcon } from "../assets/icon/BottomNavIcon/myActive.svg";
 
 import { useLocation } from "react-router-dom";
+
 const BottomNav = (props) => {
-  const [isActive, setIsActive] = useState(false);
-  const location = useLocation(); // URL이 변경될떄마다 새로운 URL리턴.
-  console.log(location);
+
+  const [isActive, setIsActive] = useState(false); // plus버튼 눌렀을떄 모달상태.
+  const location = useLocation().pathname; // URL이 변경될떄마다 새로운 URL리턴.
+
 
   useEffect(() => {
     const DetectOutsideClick = () => {
       setIsActive(!isActive);
     };
+
     if (isActive) window.addEventListener("click", DetectOutsideClick);
     return () => {
       window.removeEventListener("click", DetectOutsideClick);
@@ -36,79 +39,86 @@ const BottomNav = (props) => {
   };
 
   return (
-    <BottomNavInner>
-      {isActive ? (
-        <PlusModal>
-          <ModalContentInner>
-            <ModalContent>레시피 공유하기</ModalContent>
-            <ModalContent>MD사진 올리기</ModalContent>
-          </ModalContentInner>
-        </PlusModal>
-      ) : (
-        ""
-      )}
 
-      <NavButton
-        onClick={() => {
-          // history.push('/Home');
-        }}
-      >
-        {location.pathname === "/" ? <ActiveHomeIcon /> : <HomeIcon />}
-      </NavButton>
+    <>
+      {isActive ? <ModalBackground /> : ""}
 
-      <NavButton
-        onClick={() => {
-          // history.push('/Board');
-        }}
-      >
-        {location.pathname === "/Board" ? <ActiveBoardIcon /> : <BoardIcon />}
-      </NavButton>
-
-      <NavButton onClick={ClickedModal}>
-        <PlusIcon />
-      </NavButton>
-
-      <NavButton
-        onClick={() => {
-          // history.push('/My');
-        }}
-      >
-        {location.pathname === "/My" ? <ActiveMyIcon /> : <MyIcon />}
-      </NavButton>
-
-      <NavButton
-        onClick={() => {
-          // history.push('/Recipe');
-        }}
-      >
-        {location.pathname === "/Recipe" ? (
-          <ActiveRecipeIcon />
+      <BottomNavInner>
+        {isActive ? (
+          <PlusModal>
+            <ModalContentInner>
+              <ModalContent onClick={() => {}}>레시피 공유하기</ModalContent>
+              <ModalContent onClick={() => {}}>게시글 작성하기</ModalContent>
+            </ModalContentInner>
+          </PlusModal>
         ) : (
-          <RecipeIcon />
+          ""
         )}
-      </NavButton>
-    </BottomNavInner>
+
+        <NavButtonInner>
+          <NavButton
+            onClick={() => {
+              // history.push('/Home');
+            }}
+          >
+            {location === "/" ? <ActiveHomeIcon /> : <HomeIcon />}
+          </NavButton>
+
+          <NavButton
+            onClick={() => {
+              // history.push('/Board');
+            }}
+          >
+            {location === "/Board" ? <ActiveBoardIcon /> : <BoardIcon />}
+          </NavButton>
+
+          <NavButton onClick={ClickedModal}>
+            <PlusIcon />
+          </NavButton>
+
+          <NavButton
+            onClick={() => {
+              // history.push('/Recipe');
+            }}
+          >
+            {location === "/Recipe" ? <ActiveRecipeIcon /> : <RecipeIcon />}
+          </NavButton>
+
+          <NavButton
+            onClick={() => {
+              // history.push('/My');
+            }}
+          >
+            {location === "/My" ? <ActiveMyIcon /> : <MyIcon />}
+          </NavButton>
+        </NavButtonInner>
+      </BottomNavInner>
+    </>
   );
 };
 
-const BottomNavInner = styled.div`
-  width: 360px;
-  height: 60px;
-  background: #f8f8fa;
+const ModalBackground = styled.div`
+  background-color: rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
-// const NavButton = styled.button`
-//   color: yellow;
-// `;
+const BottomNavInner = styled.div`
+  bottom: 0;
+  width: 375px;
+  position: fixed;
+`;
 
 const PlusModal = styled.div`
-  height: 136px;
   padding: 24px 0px;
-  border-radius: 16px 16px 0px 0px;
+  border-radius: 40px 40px 0px 0px;
 
+  background-color: #fff;
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   align-items: center;
 `;
@@ -119,12 +129,17 @@ const ModalContentInner = styled.div`
 
   display: flex;
   flex-direction: column;
-
   align-items: center;
 `;
 
 const ModalContent = styled.p`
   padding: 12px;
+`;
+
+const NavButtonInner = styled.div`
+  background: #f8f8fa;
+  display: flex;
+  justify-content: center;
 `;
 
 const NavButton = styled.button``;
