@@ -11,7 +11,10 @@ const ImageUpload = () => {
   const handleChangeImageFile = (e) => {
     let imageFile = e.target.files[0]; // 파일이 선택되었을 때 어떤 파일이 선택되었는지를 가리키는 객체
 
-    setFile({ file: imageFile, previewURL: URL.createObjectURL(imageFile) });
+    setFile({
+      file: imageFile,
+      previewURL: imageFile ? URL.createObjectURL(imageFile) : "",
+    });
   };
 
   return (
