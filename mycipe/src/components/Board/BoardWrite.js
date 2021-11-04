@@ -3,13 +3,14 @@ import styled from "styled-components";
 
 // shard components
 import ImageUpload from "../../shared/ImageUpload";
+import ImageListUpload from "../../shared/ImageListUpload";
 import HashTag from "../../shared/HashTag";
 
 const BoardWrite = ({ boardName }) => {
   return (
     <>
       <BoardWriteWrapper>
-        <ImageUpload />
+        {boardName === "recipeBoard" ? <ImageUpload /> : <ImageListUpload />}
 
         <TextInputBox
           height="48"
