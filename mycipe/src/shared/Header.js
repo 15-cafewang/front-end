@@ -1,9 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
+
+import { ReactComponent as Back } from "../assets/back.svg";
 
 const Header = (props) => {
   const pageName = "main";
@@ -13,9 +11,10 @@ const Header = (props) => {
     <>
       <HeaderInner>
         <Button icon>
-          <FontAwesomeIcon icon={faArrowLeft} />
+          <Back />
         </Button>
         <PageName>{pageName}</PageName>
+        <Button>완료</Button>
       </HeaderInner>
 
       {/* <HeaderInner flexBetween>
@@ -40,8 +39,7 @@ const Header = (props) => {
           <PageName>{pageName}</PageName>
         </LeftInner> */}
 
-        <Button>완료</Button>
-      </HeaderInner>
+      {/* </HeaderInner> */}
     </>
   );
 
@@ -82,7 +80,6 @@ const Header = (props) => {
 
 const HeaderInner = styled.div`
   height: 48px;
-  width: 360px;
   padding: 14px 16px;
   background: yellow;
   ${(props) =>
