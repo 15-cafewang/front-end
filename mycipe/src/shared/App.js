@@ -17,25 +17,26 @@ import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
 
 function App() {
   return (
-    <Container>
-      <Route component={Header} />
+    <>
+      <Container>
+        <Route component={Header} />
 
-      <Route component={Main} />
-      <Route component={BottomNav} />
-        
+        <Route component={Main} />
+        <Route component={BottomNav} />
+        {/*         
       <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
-      <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
-
-    </Container>
+      <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} /> */}
+      </Container>
+    </>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-  max-width: 375px;
+  width: 375px;
   height: auto;
   margin: 0 auto;
-  position: absolute;
+  position: relative;
 `;
 
 export default App;
