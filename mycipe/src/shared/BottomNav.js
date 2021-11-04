@@ -37,62 +37,73 @@ const BottomNav = (props) => {
   };
 
   return (
-    <BottomNavInner>
-      {isActive ? (
-        <PlusModal>
-          <ModalContentInner>
-            <ModalContent>레시피 공유하기</ModalContent>
-            <ModalContent>MD사진 올리기</ModalContent>
-          </ModalContentInner>
-        </PlusModal>
-      ) : (
-        ""
-      )}
+    <>
+      {isActive ? <ModalBackground /> : ""}
 
-      <NavButtonInner>
-        <NavButton
-          onClick={() => {
-            // history.push('/Home');
-          }}
-        >
-          {location === "/" ? <ActiveHomeIcon /> : <HomeIcon />}
-        </NavButton>
+      <BottomNavInner>
+        {isActive ? (
+          <PlusModal>
+            <ModalContentInner>
+              <ModalContent onClick={() => {}}>레시피 공유하기</ModalContent>
+              <ModalContent onClick={() => {}}>게시글 작성하기</ModalContent>
+            </ModalContentInner>
+          </PlusModal>
+        ) : (
+          ""
+        )}
 
-        <NavButton
-          onClick={() => {
-            // history.push('/Board');
-          }}
-        >
-          {location === "/Board" ? <ActiveBoardIcon /> : <BoardIcon />}
-        </NavButton>
+        <NavButtonInner>
+          <NavButton
+            onClick={() => {
+              // history.push('/Home');
+            }}
+          >
+            {location === "/" ? <ActiveHomeIcon /> : <HomeIcon />}
+          </NavButton>
 
-        <NavButton onClick={ClickedModal}>
-          <PlusIcon />
-        </NavButton>
+          <NavButton
+            onClick={() => {
+              // history.push('/Board');
+            }}
+          >
+            {location === "/Board" ? <ActiveBoardIcon /> : <BoardIcon />}
+          </NavButton>
 
-        <NavButton
-          onClick={() => {
-            // history.push('/My');
-          }}
-        >
-          {location === "/My" ? <ActiveMyIcon /> : <MyIcon />}
-        </NavButton>
+          <NavButton onClick={ClickedModal}>
+            <PlusIcon />
+          </NavButton>
 
-        <NavButton
-          onClick={() => {
-            // history.push('/Recipe');
-          }}
-        >
-          {location === "/Recipe" ? <ActiveRecipeIcon /> : <RecipeIcon />}
-        </NavButton>
-      </NavButtonInner>
-    </BottomNavInner>
+          <NavButton
+            onClick={() => {
+              // history.push('/Recipe');
+            }}
+          >
+            {location === "/Recipe" ? <ActiveRecipeIcon /> : <RecipeIcon />}
+          </NavButton>
+
+          <NavButton
+            onClick={() => {
+              // history.push('/My');
+            }}
+          >
+            {location === "/My" ? <ActiveMyIcon /> : <MyIcon />}
+          </NavButton>
+        </NavButtonInner>
+      </BottomNavInner>
+    </>
   );
 };
 
+const ModalBackground = styled.div`
+  background-color: rgba(153, 153, 153, 0.3);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
 const BottomNavInner = styled.div`
-  background: #f8f8fa;
-  z-index: 1;
   bottom: 0;
   left: 0;
   right: 0;
@@ -101,9 +112,9 @@ const BottomNavInner = styled.div`
 
 const PlusModal = styled.div`
   padding: 24px 0px;
-  border-radius: 16px 16px 0px 0px;
-  background: #fff;
+  border-radius: 40px 40px 0px 0px;
 
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,6 +135,7 @@ const ModalContent = styled.p`
 `;
 
 const NavButtonInner = styled.div`
+  background: #f8f8fa;
   display: flex;
   justify-content: center;
 `;
