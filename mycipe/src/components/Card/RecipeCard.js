@@ -33,7 +33,7 @@ const RecipeCard = (props) => {
 const RecipeCardInner = styled.li`
   height: 112px;
   display: flex;
-  margin: 12px 0px;
+  margin: 6px 0px;
   width: 320px;
   border-top: 1px solod black;
 `;
