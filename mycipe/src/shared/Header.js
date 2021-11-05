@@ -27,15 +27,13 @@ const Header = (props) => {
     // 로그인페이지
     return (
       <HeaderInner>
-
         <BackIcon />
         <PageName>로그인</PageName>
-
       </HeaderInner>
     );
   }
 
-  if (location === "/") {
+  if (location === "") {
     //메인페이지
     return (
       <HeaderInner flexBetween>
@@ -73,7 +71,6 @@ const Header = (props) => {
           <BackIcon />
           <PageName>레시피 작성하기</PageName>
         </LeftInner>
-
 
         <Button>완료</Button>
       </HeaderInner>
@@ -134,7 +131,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/") {
     //검색
     return (
       <HeaderInner flexBetween>
@@ -148,13 +145,16 @@ const Header = (props) => {
       </HeaderInner>
     );
   }
-
 };
 
 const HeaderInner = styled.div`
   height: 48px;
-  padding: 14px 16px;
 
+  padding: 0px 20px;
+  position: sticky;
+  top: 0;
+
+  background: #fff;
   display: flex;
   align-items: center;
   ${(props) =>
