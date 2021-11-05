@@ -1,13 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
+// icon
 import { ReactComponent as CommentMiniIcon } from "../../assets/icon/CommmentIcon/commentMini.svg";
 import { ReactComponent as LikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as ActiveLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
+// elements
+import Image from "../../elements/Image";
 
 const BoardCard = (props) => {
+  const { src } = props;
+
   const date = "2021.06.16";
-  const isThumbnail = true;
+  const isThumbnail = src ? true : false;
 
   return (
     <BoardCardInner>
@@ -25,8 +30,9 @@ const BoardCard = (props) => {
         텍스트가들어갑니다텍스트가들어갑니다텍스트가들어갑니다텍스트가들어갑니다
       </Content>
 
-      {/* 기본 테두리 해결못함.. */}
-      {isThumbnail ? <BoardCardTumbnail /> : ""}
+      {/* ------------------------------------------------------------ */}
+      {/* 사진 있을 경우 렌더링 */}
+      {isThumbnail && <Image shape="rectangle" size="medium2" src={src} />}
 
       <IconsInner>
         <LikeInner>
@@ -45,9 +51,8 @@ const BoardCard = (props) => {
 };
 
 const BoardCardInner = styled.div`
-  height: 80px;
   width: 320px;
-  margin: 20px;
+  margin: 0px 20px 20px;
 `;
 
 const TitleInner = styled.div`
@@ -105,18 +110,6 @@ const CommentInner = styled.div`
 const Count = styled.span`
   margin-left: 4px;
   color: #999999;
-`;
-
-const BoardCardTumbnail = styled.img`
-  /* background-image: url(""); */
-  background-position: center;
-  background-size: cover;
-
-  width: 100%;
-  height: 230px;
-
-  margin-top: 8px;
-  border-radius: 6px;
 `;
 
 export default BoardCard;

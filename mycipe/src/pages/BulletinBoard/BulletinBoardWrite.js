@@ -2,7 +2,7 @@ import React from "react";
 
 import BoardWrite from "../../components/Board/BoardWrite";
 
-const RecipeBoardWrite = () => {
+const BulletinBoardWrite = () => {
   return (
     <>
       <BoardWrite boardName="bulletinBoard" />
@@ -10,4 +10,4 @@ const RecipeBoardWrite = () => {
   );
 };
 
-export default RecipeBoardWrite;
+export default BulletinBoardWrite;
