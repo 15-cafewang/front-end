@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "../../elements";
 
+import { history } from "../../redux/configureStore";
 import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 import Kakao from "../../assets/image/kakaologin.svg";
 
@@ -21,7 +22,12 @@ const SocialLogin = () => {
         <Title>공유해 보세요!</Title>
       </Main>
       <ButtonGrid>
-        <Button margin="8px 27.5px 8px 27.5px">
+        <Button
+          margin="8px 27.5px 8px 27.5px"
+          _onClick={() => {
+            history.push("/login");
+          }}
+        >
           <Text>로그인</Text>
         </Button>
         <KakaoBtn
@@ -29,7 +35,14 @@ const SocialLogin = () => {
           alt="카카오 로그인"
           onClick={() => kakaologin()}
         />
-        <Button bg="#DBDBDB">회원가입</Button>
+        <Button
+          bg="#DBDBDB"
+          _onClick={() => {
+            history.push("/signup");
+          }}
+        >
+          회원가입
+        </Button>
       </ButtonGrid>
     </React.Fragment>
   );
