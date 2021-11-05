@@ -3,12 +3,17 @@ import styled from "styled-components";
 
 import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
+import Image from "../../elements/Image";
 
 const RecipeCard = (props) => {
+  const { src } = props;
+
   return (
     <RecipeCardInner>
       {/* 기본 테두리 해결못함.. */}
-      <CardTumbnail src="" />
+      {/* <CardTumbnail src="" /> */}
+
+      <Image shape="rectangle" src={src} size="medium" />
 
       <CardContent>
         <TextInner>
@@ -38,15 +43,15 @@ const RecipeCardInner = styled.li`
   border-top: 1px solod black;
 `;
 
-const CardTumbnail = styled.img`
-  /* background-image: url(""); */
-  background-position: center;
+// const CardTumbnail = styled.img`
+/* background-image: url(""); */
+/* background-position: center;
   background-size: cover;
 
   border-radius: 6px 0px 0px 6px;
   width: 112px;
   background: red;
-`;
+`; */
 
 const CardContent = styled.div`
   background: #f8f8fa;
@@ -55,7 +60,7 @@ const CardContent = styled.div`
 `;
 
 const TextInner = styled.div`
-  margin: 12px 12px 0px 12px;
+  margin: 12px 19.5px 0px;
 `;
 
 const Text = styled.p`
@@ -79,7 +84,7 @@ const LikeInner = styled.div`
   font-size: 16px;
   display: flex;
   align-items: center;
-  margin: 8px 12px;
+  margin: 8px 14px;
 `;
 
 const Count = styled.span`
