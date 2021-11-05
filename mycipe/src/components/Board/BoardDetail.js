@@ -8,7 +8,7 @@ import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIco
 import Image from "../../elements/Image";
 // components
 import Comment from "../../shared/Comment";
-import ImageSlider from "../../shared/ImageSlider";
+// import ImageSlider from "../../shared/ImageSlider";
 
 const BoardDetail = ({ boardName }) => {
   // 임시 정적 데이터
@@ -70,17 +70,21 @@ const BoardDetail = ({ boardName }) => {
         <Comment />
         <Comment />
         <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
       </BoardDetailContainer>
     </>
   );
 };
 
 const BoardDetailContainer = styled.div`
+  margin: 0px 20px;
   height: 100%;
-  margin: 20px 20px 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
 `;
 
 const Box = styled.div`

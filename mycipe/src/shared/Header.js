@@ -13,7 +13,7 @@ const Header = (props) => {
 
   //확인하고싶은헤더의 if문에 "/" 값설정하기.
 
-  if (location === "") {
+  if (location === "/signup") {
     // 회원가입페이지
     return (
       <HeaderInner>
