@@ -72,14 +72,14 @@ const Main = (props) => {
 
 const MainInner = styled.div`
   margin: 0px 20px;
-  /* width : 100% */
+
   flex-direction: column;
   display: flex;
   justify-content: center;
 `;
 
 const Banner = styled.div`
-  margin: 32px 0px 4px 0px;
+  margin: 32px 6px 4px 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
