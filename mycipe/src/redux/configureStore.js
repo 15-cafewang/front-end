@@ -4,12 +4,13 @@ import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 
 // import slice module
-
+import userSlice from "./Modules/userSlice";
 export const history = createBrowserHistory();
 
 // reducers
 const reducer = combineReducers({
   router: connectRouter(history),
+  user: userSlice.reducer,
 });
 
 const middlewares = [];
