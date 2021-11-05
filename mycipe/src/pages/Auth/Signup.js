@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import styled from "styled-components";
 import { Button } from "../../elements";
-import { ReactComponent as Back } from "../../assets/back.svg";
 
 import { useDispatch } from "react-redux";
 import { signupDB } from "../../redux/Async/user";
@@ -28,10 +27,6 @@ const Signup = () => {
   };
   return (
     <React.Fragment>
-      <Header>
-        <Back />
-        회원가입
-      </Header>
       <InputId
         type="text"
         placeholder="이메일"
@@ -61,10 +56,6 @@ const Signup = () => {
 
 export default Signup;
 
-const Header = styled.div`
-  display: flex;
-  height: 48px;
-`;
 const InputId = styled.input`
   background-color: #f8f8fa;
   width: 320px;

@@ -24,13 +24,14 @@ function App() {
   return (
     <ConnectedRouter history={history}>
       <Container>
+        <Route component={Header} />
         <Switch>
           <Route path="/" exact component={SocialLogin} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
-          {/* <Route component={Header} />
-      <Route component={Main} />
-      <Route component={BottomNav} /> */}
+
+          {/* <Route component={Main} /> */}
+
           <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
           <Route
             path="/bulletinboard/write"
@@ -39,6 +40,7 @@ function App() {
           />
           <Route path="/user/kakao/callback exact component={Kakao}" />
         </Switch>
+        <Route component={BottomNav} />
       </Container>
     </ConnectedRouter>
   );
