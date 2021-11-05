@@ -5,6 +5,9 @@ import styled from "styled-components";
 import { ReactComponent as PlusImageBefore } from "../assets/plusImageBefore.svg";
 import { ReactComponent as Remove } from "../assets/remove.svg";
 
+// elements
+import Image from "../elements/Image";
+
 const ImageListUpload = () => {
   const [fileList, setFileList] = useState({
     fileList: [],
@@ -52,8 +55,10 @@ const ImageListUpload = () => {
   return (
     <>
       <Grid>
-        <UploadWrapper
-          previewimg={fileList.previewURL ? fileList.previewURL : null}
+        <Image
+          shape="rectangle"
+          size="small"
+          src={fileList.previewURL ? fileList.previewURL : null}
         >
           <label>
             <IconWrapper>
@@ -67,12 +72,12 @@ const ImageListUpload = () => {
               onChange={handleChangeImageFile}
             ></InputFile>
           </label>
-        </UploadWrapper>
+        </Image>
 
         {fileList.previewURLList &&
           fileList.previewURLList.map((url, idx) => {
             return (
-              <UploadWrapper key={url} previewimg={url}>
+              <Image key={url} src={url} shape="rectangle" size="small">
                 <RemoveIconWrapper
                   onClick={() => {
                     console.log(idx);
@@ -81,7 +86,7 @@ const ImageListUpload = () => {
                 >
                   <Remove />
                 </RemoveIconWrapper>
-              </UploadWrapper>
+              </Image>
             );
           })}
       </Grid>
@@ -101,19 +106,6 @@ const Grid = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const UploadWrapper = styled.div`
-  flex: 0 0 auto; // 100px 100px 유지
-  width: 100px;
-  height: 100px;
-  margin: 0px 16px 16px 0px;
-  border-radius: 6px;
-  background-color: #ededed;
-  background-size: 100px 100px;
-  background-repeat: no-repeat;
-  ${(props) =>
-    props.previewimg ? `background-image : url(${props.previewimg})` : ""};
 `;
 
 const IconWrapper = styled.div`
