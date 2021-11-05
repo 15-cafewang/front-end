@@ -5,7 +5,7 @@ import { Button } from "../../elements";
 import { ReactComponent as Back } from "../../assets/back.svg";
 
 import { useDispatch } from "react-redux";
-import { signUpDB } from "../../redux/Async/user";
+import { signupDB } from "../../redux/Async/user";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Signup = () => {
       nickname: nickname,
     };
     console.log(data);
-    dispatch(signUpDB(data));
+    dispatch(signupDB(data));
     console.log(data);
   };
   return (
