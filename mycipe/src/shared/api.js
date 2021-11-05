@@ -18,8 +18,8 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error);
-    window.alert(error.response.data.msg);
+    console.log("에러 ", error);
+    return Promise.reject(error);
   }
 );
 // user API
