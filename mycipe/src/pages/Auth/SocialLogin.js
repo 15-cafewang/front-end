@@ -3,7 +3,14 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "../../elements";
 
+import { history } from "../../redux/configureStore";
+import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
+import Kakao from "../../assets/image/kakaologin.svg";
+
 const SocialLogin = () => {
+  const kakaologin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
   return (
     <React.Fragment>
       <Main>
@@ -15,10 +22,27 @@ const SocialLogin = () => {
         <Title>공유해 보세요!</Title>
       </Main>
       <ButtonGrid>
-        <Button margin="8px 27.5px 8px 27.5px">
+        <Button
+          margin="8px 27.5px 8px 27.5px"
+          _onClick={() => {
+            history.push("/login");
+          }}
+        >
           <Text>로그인</Text>
         </Button>
-        <Button bg="#DBDBDB">회원가입</Button>
+        <KakaoBtn
+          src={Kakao}
+          alt="카카오 로그인"
+          onClick={() => kakaologin()}
+        />
+        <Button
+          bg="#DBDBDB"
+          _onClick={() => {
+            history.push("/signup");
+          }}
+        >
+          회원가입
+        </Button>
       </ButtonGrid>
     </React.Fragment>
   );
@@ -33,6 +57,16 @@ const ButtonGrid = styled.div``;
 
 const Title = styled.div`
   font-size: 28px;
+`;
+
+const KakaoBtn = styled.img`
+  margin: 8px auto;
+  display: block;
+  cursor: pointer;
+  height: 48px;
+  &:active {
+    opacity: 0.7;
+  }
 `;
 
 const Text = styled.div`

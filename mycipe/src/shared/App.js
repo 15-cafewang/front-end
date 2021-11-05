@@ -1,13 +1,22 @@
 import React from "react";
 
 import "../index.css";
-import { Route } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "../redux/configureStore";
+import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./Header";
 import BottomNav from "./BottomNav";
 
 // pages
+import SocialLogin from "../pages/Auth/SocialLogin";
+import Login from "../pages/Auth/Login";
+import Signup from "../pages/Auth/Signup";
 import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
+import RecipeCard from "../components/Card/RecipeCard";
+import BoardCard from "../components/Card/BoardCard";
+import Main from "../pages/MainPage/Main";
+import Kakao from "../components/Kakao";
 import RecipeBoardMain from "../pages/RecipeBoard/RecipeBoardMain";
 import RecipeBoardDetail from "../pages/RecipeBoard/RecipeBoardDetail";
 import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
@@ -22,33 +31,39 @@ import SearchList from "../pages/SearchPage/SearchList";
 
 function App() {
   return (
+    <ConnectedRouter history={history}>
     <Outter>
       <Container>
-        <Route component={Header} />
+        <Header/>
+        <Switch>
+          <Route path="/" exact component={SocialLogin} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Signup} />
 
-      {/* <Route component={Main} /> */}
-
-        <Route path="/recipeboard" exact component={RecipeBoardMain} />
-        <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
-        <Route path="/recipeboard/detail" exact component={RecipeBoardDetail} />
-        <Route path="/bulletinboard" exact component={BulletinBoardMain} />
-        <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
-        <Route
-          path="/bulletinboard/detail"
-          exact
-          component={BulletinBoardDetail}
-        />
-        <Route component={SearchList} />
-        <Route component={BottomNav} />
+          {/* <Route component={Main} /> */}  
+          <Route path="/recipeboard" exact component={RecipeBoardMain} />
+          <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
+          <Route path="/recipeboard/detail" exact component={RecipeBoardDetail} />
+          <Route path="/bulletinboard" exact component={BulletinBoardMain} />
+          <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
+          <Route
+              path="/bulletinboard/detail"
+              exact
+              component={BulletinBoardDetail}
+             />
+          <Route component={SearchList} />
+          <Route path="/user/kakao/callback exact component={Kakao}" />
+        </Switch>
+        <BottomNav/>
       </Container>
-    </Outter>
+       </Outter>
+    </ConnectedRouter>
   );
 }
 
 const Container = styled.div`
   width: 375px;
   height: 100%;
-
   padding-bottom: 60px;
   position: relative;
   background: #fff;
