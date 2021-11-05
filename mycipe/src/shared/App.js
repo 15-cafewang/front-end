@@ -1,7 +1,9 @@
 import React from "react";
 
 import "../index.css";
-import { Route } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "../redux/configureStore";
+import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./Header";
 import BottomNav from "./BottomNav";
@@ -14,20 +16,31 @@ import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
 import RecipeCard from "../components/Card/RecipeCard";
 import BoardCard from "../components/Card/BoardCard";
 import Main from "../pages/MainPage/Main";
+import Kakao from "../components/Kakao";
 
 import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
 
 function App() {
   return (
-    <Container>
-      <Route component={Header} />
-
+    <ConnectedRouter history={history}>
+      <Container>
+        <Switch>
+          <Route path="/" exact component={SocialLogin} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Signup} />
+          {/* <Route component={Header} />
       <Route component={Main} />
-      <Route component={BottomNav} />
-
-      <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
-      <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
-    </Container>
+      <Route component={BottomNav} /> */}
+          <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
+          <Route
+            path="/bulletinboard/write"
+            exact
+            component={BulletinBoardWrite}
+          />
+          <Route path="/user/kakao/callback exact component={Kakao}" />
+        </Switch>
+      </Container>
+    </ConnectedRouter>
   );
 }
 
@@ -36,7 +49,7 @@ const Container = styled.div`
   max-width: 375px;
   height: auto;
   margin: 0 auto;
-  position: absolute;
+  position: relative;
 `;
 
 export default App;
