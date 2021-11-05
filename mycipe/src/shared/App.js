@@ -14,29 +14,44 @@ import BoardCard from "../components/Card/BoardCard";
 import Main from "../pages/MainPage/Main";
 
 import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
+import UserMain from "../pages/UserPage/UserMain";
+import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
+import UserPageFollowList from "../pages/UserPage/UserFollowList";
 
+import SearchMain from "../pages/SearchPage/SearchMain";
+import SearchList from "../pages/SearchPage/SearchList";
 function App() {
   return (
-    <>
+    <Outter>
       <Container>
         <Route component={Header} />
 
-        <Route component={Main} />
+        <Route component={SearchList} />
+
         <Route component={BottomNav} />
-        {/*         
-      <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
-      <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} /> */}
       </Container>
-    </>
+    </Outter>
   );
 }
 
 const Container = styled.div`
-  width: 100%;
   width: 375px;
-  height: auto;
-  margin: 0 auto;
+  height: 100%;
+
+  padding-bottom: 60px;
   position: relative;
+  background: #fff;
+  overflow-y: auto;
+`;
+
+const Outter = styled.div`
+  display: flex;
+  justify-content: cetner;
+  align-items: center;
+  flex-direction: column;
+
+  height: 100vh;
+  background: red;
 `;
 
 export default App;
