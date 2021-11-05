@@ -10,7 +10,7 @@ const BoardWrite = ({ boardName }) => {
   return (
     <>
       <BoardWriteWrapper>
-        {boardName === "recipeBoard" ? <ImageUpload /> : <ImageListUpload />}
+        <ImageListUpload />
 
         <TextInputBox
           height="48"
@@ -54,7 +54,8 @@ const BoardWrite = ({ boardName }) => {
 };
 
 const BoardWriteWrapper = styled.div`
-  margin: 20px;
+  height: 100%;
+  margin: 20px 20px 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,6 +68,23 @@ const TextInputBox = styled.textarea`
   padding: 14px 16px;
   background: #f8f8fa;
   border-radius: 6px;
+
+  /* Chrome/Opera/Safari */
+  ::-webkit-input-placeholder {
+    color: #999999;
+  }
+  /* Firefox 19+ */
+  ::-moz-placeholder {
+    color: #999999;
+  }
+  /* IE 10+ */
+  :-ms-input-placeholder {
+    color: #999999;
+  }
+  /* Firefox 18- */
+  :-moz-placeholder {
+    color: #999999;
+  }
 `;
 
 const HashTagTitle = styled.p`

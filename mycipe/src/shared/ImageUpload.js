@@ -5,6 +5,9 @@ import styled from "styled-components";
 import { ReactComponent as PlusImageBefore } from "../assets/plusImageBefore.svg";
 import { ReactComponent as PlusImageAfter } from "../assets/plusImageAfter.svg";
 
+// elements
+import Image from "../elements/Image";
+
 const ImageUpload = () => {
   const [file, setFile] = useState({ file: "", previewURL: "" });
 
@@ -19,7 +22,11 @@ const ImageUpload = () => {
 
   return (
     <>
-      <UploadWrapper previewimg={file.previewURL ? file.previewURL : null}>
+      <Image
+        shape="rectangle"
+        size="large"
+        src={file.previewURL ? file.previewURL : null}
+      >
         <label>
           {/* 사진 선택 유뮤에 따라 아이콘 색상 변경 */}
           {file.previewURL ? (
@@ -37,22 +44,10 @@ const ImageUpload = () => {
             onChange={handleChangeImageFile}
           ></InputFile>
         </label>
-      </UploadWrapper>
+      </Image>
     </>
   );
 };
-
-const UploadWrapper = styled.div`
-  width: 320px;
-  height: 320px;
-  margin-bottom: 16px;
-  border-radius: 6px;
-  background-color: #ededed;
-  background-size: 320px 320px;
-  background-repeat: no-repeat;
-  ${(props) =>
-    props.previewimg ? `background-image : url(${props.previewimg})` : ""};
-`;
 
 const IconWrapper = styled.div`
   width: 100%;

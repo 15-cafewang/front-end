@@ -43,7 +43,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/recipeboard") {
     //레시피 메인
     return (
       <HeaderInner flexBetween>
@@ -53,7 +53,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/recipeboard/detail") {
     //레시피 상세
     return (
       <HeaderInner>
@@ -63,7 +63,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/recipeboard/write") {
     //레시피 작성
     return (
       <HeaderInner flexBetween>
@@ -77,7 +77,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/bulletinboard") {
     //자유게시판
     return (
       <HeaderInner flexBetween>
@@ -87,17 +87,17 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
-    //자유게시판 메인
+  if (location === "/bulletinboard/detail") {
+    //자유게시판 상세
     return (
       <HeaderInner>
         <BackIcon />
-        <PageName>게시판 보기</PageName>
+        <PageName>게시글 보기</PageName>
       </HeaderInner>
     );
   }
 
-  if (location === "") {
+  if (location === "/bulletinboard/write") {
     //자유게시판 작성
     return (
       <HeaderInner flexBetween>
@@ -148,8 +148,9 @@ const Header = (props) => {
 };
 
 const HeaderInner = styled.div`
+  width: 100%;
   height: 48px;
-
+  z-index: 1;
   padding: 0px 20px;
   position: sticky;
   top: 0;
@@ -169,7 +170,10 @@ const PageName = styled.span`
   margin-left: 8px;
 `;
 
-const LeftInner = styled.div``;
+const LeftInner = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Button = styled.button`
   display: flex;

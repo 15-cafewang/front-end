@@ -8,26 +8,37 @@ import BottomNav from "./BottomNav";
 
 // pages
 import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
-
-import RecipeCard from "../components/Card/RecipeCard";
-import BoardCard from "../components/Card/BoardCard";
-import Main from "../pages/MainPage/Main";
-
+import RecipeBoardMain from "../pages/RecipeBoard/RecipeBoardMain";
+import RecipeBoardDetail from "../pages/RecipeBoard/RecipeBoardDetail";
 import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
+import BulletinBoardMain from "../pages/BulletinBoard/BulletinBoardMain";
+import BulletinBoardDetail from "../pages/BulletinBoard/BulletinBoardDetail";
+import Main from "../pages/MainPage/Main";
 import UserMain from "../pages/UserPage/UserMain";
 import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
-
 import SearchMain from "../pages/SearchPage/SearchMain";
 import SearchList from "../pages/SearchPage/SearchList";
+
 function App() {
   return (
     <Outter>
       <Container>
         <Route component={Header} />
 
-        <Route component={SearchList} />
+      {/* <Route component={Main} /> */}
 
+        <Route path="/recipeboard" exact component={RecipeBoardMain} />
+        <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
+        <Route path="/recipeboard/detail" exact component={RecipeBoardDetail} />
+        <Route path="/bulletinboard" exact component={BulletinBoardMain} />
+        <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
+        <Route
+          path="/bulletinboard/detail"
+          exact
+          component={BulletinBoardDetail}
+        />
+        <Route component={SearchList} />
         <Route component={BottomNav} />
       </Container>
     </Outter>
