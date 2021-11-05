@@ -104,10 +104,12 @@ const ModalBackground = styled.div`
 `;
 
 const BottomNavInner = styled.div`
-  bottom: 0;
   width: 375px;
   position: fixed;
-  z-index: 100;
+  bottom: 0;
+
+  left: 50%;
+  transform: translate(-50%, 0);
 `;
 
 const PlusModal = styled.div`

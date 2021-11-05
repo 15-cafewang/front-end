@@ -33,7 +33,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/") {
+  if (location === "") {
     //메인페이지
     return (
       <HeaderInner flexBetween>
@@ -131,7 +131,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/") {
     //검색
     return (
       <HeaderInner flexBetween>
@@ -150,12 +150,12 @@ const Header = (props) => {
 const HeaderInner = styled.div`
   width: 100%;
   height: 48px;
-  padding: 14px 20px;
-  position: sticky;
-  background: white;
-  top: 0;
   z-index: 1;
+  padding: 0px 20px;
+  position: sticky;
+  top: 0;
 
+  background: #fff;
   display: flex;
   align-items: center;
   ${(props) =>

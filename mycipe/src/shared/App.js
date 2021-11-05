@@ -14,36 +14,55 @@ import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
 import BulletinBoardMain from "../pages/BulletinBoard/BulletinBoardMain";
 import BulletinBoardDetail from "../pages/BulletinBoard/BulletinBoardDetail";
 import Main from "../pages/MainPage/Main";
+import UserMain from "../pages/UserPage/UserMain";
+import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
+import UserPageFollowList from "../pages/UserPage/UserFollowList";
+import SearchMain from "../pages/SearchPage/SearchMain";
+import SearchList from "../pages/SearchPage/SearchList";
 
 function App() {
   return (
-    <Container>
-      <Route component={Header} />
+    <Outter>
+      <Container>
+        <Route component={Header} />
 
       {/* <Route component={Main} /> */}
 
-      <Route path="/recipeboard" exact component={RecipeBoardMain} />
-      <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
-      <Route path="/recipeboard/detail" exact component={RecipeBoardDetail} />
-
-      <Route path="/bulletinboard" exact component={BulletinBoardMain} />
-      <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
-      <Route
-        path="/bulletinboard/detail"
-        exact
-        component={BulletinBoardDetail}
-      />
-      <Route component={BottomNav} />
-    </Container>
+        <Route path="/recipeboard" exact component={RecipeBoardMain} />
+        <Route path="/recipeboard/write" exact component={RecipeBoardWrite} />
+        <Route path="/recipeboard/detail" exact component={RecipeBoardDetail} />
+        <Route path="/bulletinboard" exact component={BulletinBoardMain} />
+        <Route path="/bulletinboard/write" exact component={BulletinBoardWrite} />
+        <Route
+          path="/bulletinboard/detail"
+          exact
+          component={BulletinBoardDetail}
+        />
+        <Route component={SearchList} />
+        <Route component={BottomNav} />
+      </Container>
+    </Outter>
   );
 }
 
 const Container = styled.div`
-  width: 100%;
-  max-width: 375px;
-  height: auto;
-  margin: 0 auto;
+  width: 375px;
+  height: 100%;
+
+  padding-bottom: 60px;
   position: relative;
+  background: #fff;
+  overflow-y: auto;
+`;
+
+const Outter = styled.div`
+  display: flex;
+  justify-content: cetner;
+  align-items: center;
+  flex-direction: column;
+
+  height: 100vh;
+  background: red;
 `;
 
 export default App;
