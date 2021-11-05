@@ -96,7 +96,7 @@ const BottomNav = (props) => {
 
 const ModalBackground = styled.div`
   background-color: rgba(0, 0, 0, 0.25);
-  width: 100%;
+  width: 375px;
   height: 100%;
   position: absolute;
   top: 0;

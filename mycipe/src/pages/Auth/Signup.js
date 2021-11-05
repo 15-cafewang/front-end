@@ -56,28 +56,32 @@ const Signup = () => {
 
 export default Signup;
 
-const InputId = styled.input`
+const Input = styled.input`
+  padding: 10px;
+`;
+
+const InputId = styled(Input)`
   background-color: #f8f8fa;
   width: 320px;
   margin: 56px 20px 8px 20px;
   height: 48px;
   border-radius: 6px;
 `;
-const InputNick = styled.input`
+const InputNick = styled(Input)`
   background-color: #f8f8fa;
   width: 320px;
   margin: 0px 20px 8px 20px;
   height: 48px;
   border-radius: 6px;
 `;
-const InputPwd = styled.input`
+const InputPwd = styled(Input)`
   background-color: #f8f8fa;
   width: 320px;
   margin: 0px 20px 8px 20px;
   height: 48px;
   border-radius: 6px;
 `;
-const InputPwdChk = styled.input`
+const InputPwdChk = styled(Input)`
   background-color: #f8f8fa;
   width: 320px;
   margin: 0px 20px 8px 20px;

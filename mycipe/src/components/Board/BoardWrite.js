@@ -55,7 +55,8 @@ const BoardWrite = ({ boardName }) => {
 
 const BoardWriteWrapper = styled.div`
   height: 100%;
-  margin: 20px 20px 80px;
+  margin: 0px 20px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
