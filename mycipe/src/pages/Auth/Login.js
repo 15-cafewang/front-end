@@ -13,7 +13,7 @@ const Login = () => {
   return (
     <React.Fragment>
       <InputId type="text" placeholder="이메일" />
-      <InputPwd type="text" placeholder="비밀번호" />
+      <InputPwd type="password" placeholder="비밀번호" />
       <Button margin="42px 20px 8px 20px">
         <LoginText>로그인</LoginText>
       </Button>

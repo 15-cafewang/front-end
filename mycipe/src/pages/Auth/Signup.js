@@ -38,12 +38,12 @@ const Signup = () => {
         onChange={(e) => setNickname(e.target.value)}
       />
       <InputPwd
-        type="text"
+        type="password"
         placeholder="비밀번호"
         onChange={(e) => setPassword(e.target.value)}
       />
       <InputPwdChk
-        type="text"
+        type="password"
         placeholder="비밀번호 확인"
         onChange={(e) => setPasswordCheck(e.target.value)}
       />
