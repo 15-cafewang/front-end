@@ -16,10 +16,12 @@ import { ReactComponent as MyIcon } from "../assets/icon/BottomNavIcon/my.svg";
 import { ReactComponent as ActiveMyIcon } from "../assets/icon/BottomNavIcon/myActive.svg";
 
 import { useLocation } from "react-router-dom";
-
+import { history } from "../redux/configureStore";
 const BottomNav = (props) => {
   const [isActive, setIsActive] = useState(false); // plus버튼 눌렀을떄 모달상태.
   const location = useLocation().pathname; // URL이 변경될떄마다 새로운 URL리턴.
+
+  // const { history } = props.history;
 
   useEffect(() => {
     const DetectOutsideClick = () => {
@@ -44,8 +46,20 @@ const BottomNav = (props) => {
         {isActive ? (
           <PlusModal>
             <ModalContentInner>
-              <ModalContent onClick={() => {}}>레시피 공유하기</ModalContent>
-              <ModalContent onClick={() => {}}>게시글 작성하기</ModalContent>
+              <ModalContent
+                onClick={() => {
+                  history.push("/recipeboard/write");
+                }}
+              >
+                레시피 공유하기
+              </ModalContent>
+              <ModalContent
+                onClick={() => {
+                  history.push("/bulletinboard/write");
+                }}
+              >
+                게시글 작성하기
+              </ModalContent>
             </ModalContentInner>
           </PlusModal>
         ) : (
@@ -55,18 +69,22 @@ const BottomNav = (props) => {
         <NavButtonInner>
           <NavButton
             onClick={() => {
-              // history.push('/Home');
+              history.push("/main");
             }}
           >
-            {location === "/" ? <ActiveHomeIcon /> : <HomeIcon />}
+            {location === "/main" ? <ActiveHomeIcon /> : <HomeIcon />}
           </NavButton>
 
           <NavButton
             onClick={() => {
-              // history.push('/Board');
+              history.push("/bulletinboard");
             }}
           >
-            {location === "/Board" ? <ActiveBoardIcon /> : <BoardIcon />}
+            {location === "/bulletinboard" ? (
+              <ActiveBoardIcon />
+            ) : (
+              <BoardIcon />
+            )}
           </NavButton>
 
           <NavButton onClick={ClickedModal}>
@@ -75,18 +93,22 @@ const BottomNav = (props) => {
 
           <NavButton
             onClick={() => {
-              // history.push('/Recipe');
+              history.push("/recipeboard");
             }}
           >
-            {location === "/Recipe" ? <ActiveRecipeIcon /> : <RecipeIcon />}
+            {location === "/recipeboard" ? (
+              <ActiveRecipeIcon />
+            ) : (
+              <RecipeIcon />
+            )}
           </NavButton>
 
           <NavButton
             onClick={() => {
-              // history.push('/My');
+              history.push("/userMain");
             }}
           >
-            {location === "/My" ? <ActiveMyIcon /> : <MyIcon />}
+            {location === "/userMain" ? <ActiveMyIcon /> : <MyIcon />}
           </NavButton>
         </NavButtonInner>
       </BottomNavInner>
@@ -126,14 +148,18 @@ const PlusModal = styled.div`
 const ModalContentInner = styled.div`
   height: 88px;
   margin: 10px 0px;
-
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const ModalContent = styled.p`
+const ModalContent = styled.button`
   padding: 12px;
+  width: 100%;
+  &:hover {
+    background-color: #7692e4;
+  }
 `;
 
 const NavButtonInner = styled.div`
