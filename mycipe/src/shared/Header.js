@@ -7,17 +7,22 @@ import { ReactComponent as SettingIcon } from "../assets/icon/HeaderIcon/setting
 import { ReactComponent as LogoIcon } from "../assets/icon/HeaderIcon/logo.svg";
 
 import { useLocation } from "react-router-dom";
-
+import { history } from "../redux/configureStore";
 const Header = (props) => {
   const location = useLocation().pathname;
 
   //확인하고싶은헤더의 if문에 "/" 값설정하기.
 
+  if (location === "/") {
+    // 메인페이지
+    return null;
+  }
+
   if (location === "/signup") {
     // 회원가입페이지
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon onClick={() => {}} />
         <PageName>회원가입</PageName>
       </HeaderInner>
     );
@@ -33,12 +38,50 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/main") {
     //메인페이지
     return (
       <HeaderInner flexBetween>
         <LogoIcon />
         <SearchIcon />
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/userMain") {
+    // 유저메인페이지
+    return (
+      <HeaderInner>
+        <SettingIcon />
+        <PageName>로그인</PageName>
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/UserpageProfileEdit") {
+    // 유저 프로필 수정페이지
+    return (
+      <HeaderInner>
+        <BackIcon />
+        <PageName>프로필편집</PageName>
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/UserPageFollowList") {
+    // 유저 팔로우 & 팔로잉 페이지
+    return (
+      <HeaderInner>
+        <BackIcon />
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/SearchList") {
+    // 유저 팔로우 & 팔로잉 페이지
+    return (
+      <HeaderInner>
+        <BackIcon />
       </HeaderInner>
     );
   }
@@ -111,28 +154,23 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
-    //마이페이지
+  if (location === "/SearchMain") {
+    //검색메인
     return (
       <HeaderInner flexBetween>
-        <PageName>마이페이지</PageName>
-        <SettingIcon />
+        <LeftInner>
+          <BackIcon />
+        </LeftInner>
+
+        <SearchInput placeholder="검색어를 입력해 주세요." />
+
+        <SearchButton>검색</SearchButton>
       </HeaderInner>
     );
   }
 
-  if (location === "") {
-    //프로필 편집
-    return (
-      <HeaderInner>
-        <BackIcon />
-        <PageName>프로필 편집</PageName>
-      </HeaderInner>
-    );
-  }
-
-  if (location === "/") {
-    //검색
+  if (location === "/SearchMain" || location === "/SearchList") {
+    //검색리스트
     return (
       <HeaderInner flexBetween>
         <LeftInner>

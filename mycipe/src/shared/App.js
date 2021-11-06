@@ -40,10 +40,11 @@ function App() {
         <Container>
           <Header />
           <Switch>
+            <Route path="/user/kakao/callback exact component={Kakao}" />
             <Route path="/" exact component={SocialLogin} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
-
+            <Route path="/signup" exact component={Main} />
             <Route path="/recipeboard" exact component={RecipeBoardMain} />
             <Route
               path="/recipeboard/write"
@@ -66,8 +67,22 @@ function App() {
               exact
               component={BulletinBoardDetail}
             />
-            <Route component={SearchList} />
-            <Route path="/user/kakao/callback exact component={Kakao}" />
+            {/* 강표 */}
+            <Route path="/main" exact component={Main} />
+            <Route path="/userMain" exact component={UserMain} />
+            <Route
+              path="/UserpageProfileEdit"
+              exact
+              component={UserpageProfileEdit}
+            />
+            <Route
+              path="/UserPageFollowList"
+              exact
+              component={UserPageFollowList}
+            />
+            SearchMain
+            <Route path="/SearchMain" component={SearchMain} />
+            <Route path="/SearchList" component={SearchList} />
           </Switch>
           <BottomNav />
         </Container>
