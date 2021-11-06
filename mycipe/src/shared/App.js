@@ -13,8 +13,6 @@ import SocialLogin from "../pages/Auth/SocialLogin";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
 import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
-import RecipeCard from "../components/Card/RecipeCard";
-import BoardCard from "../components/Card/BoardCard";
 
 // import Kakao from "../components/Kakao";
 import RecipeBoardMain from "../pages/RecipeBoard/RecipeBoardMain";
@@ -29,7 +27,7 @@ import UserPageFollowList from "../pages/UserPage/UserFollowList";
 import SearchMain from "../pages/SearchPage/SearchMain";
 import SearchList from "../pages/SearchPage/SearchList";
 
-import background from "../assets/image/background.png";
+import background from "../assets/image/Background.png";
 
 function App() {
   return (
@@ -40,11 +38,11 @@ function App() {
         <Container>
           <Header />
           <Switch>
-            <Route path="/user/kakao/callback exact component={Kakao}" />
+            {/* <Route path="/user/kakao/callback" exact component={Kakao} /> */}
             <Route path="/" exact component={SocialLogin} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
-            <Route path="/signup" exact component={Main} />
+            <Route path="/main" exact component={Main} />
             <Route path="/recipeboard" exact component={RecipeBoardMain} />
             <Route
               path="/recipeboard/write"
@@ -129,6 +127,7 @@ const WebVer = styled.div`
     opacity: 1;
     background-size: cover;
     background-position: 50% 90%;
+    background-repeat: no-repeat;
     background-image: url(${background});
   }
 `;
