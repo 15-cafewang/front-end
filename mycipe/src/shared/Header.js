@@ -12,7 +12,10 @@ import { useLocation } from "react-router-dom";
 const Header = (props) => {
   const location = useLocation().pathname;
 
-  //확인하고싶은헤더의 if문에 "/" 값설정하기.
+  if (location === "/") {
+    // 시작페이지
+    return null;
+  }
 
   if (location === "/signup") {
     // 회원가입페이지
@@ -20,7 +23,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.push("/");
+            history.goBack();
           }}
         />
         <PageName>회원가입</PageName>
@@ -34,7 +37,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.push("/");
+            history.goBack();
           }}
         />
         <PageName>로그인</PageName>
@@ -46,8 +49,62 @@ const Header = (props) => {
     //메인페이지
     return (
       <HeaderInner flexBetween>
-        <LogoIcon />
+        <LogoIcon
+          onClick={() => {
+            history.push("/main");
+          }}
+        />
         <SearchIcon />
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/userMain") {
+    // 유저메인페이지
+    return (
+      <HeaderInner>
+        <SettingIcon />
+        <PageName>로그인</PageName>
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/userpageProfileEdit") {
+    // 유저 프로필 수정페이지
+    return (
+      <HeaderInner>
+        <BackIcon
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+        <PageName>프로필편집</PageName>
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/userPageFollowList") {
+    // 유저 팔로우 & 팔로잉 페이지
+    return (
+      <HeaderInner>
+        <BackIcon
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+      </HeaderInner>
+    );
+  }
+
+  if (location === "/SearchList") {
+    // 유저 팔로우 & 팔로잉 페이지
+    return (
+      <HeaderInner>
+        <BackIcon
+          onClick={() => {
+            history.goBack();
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -57,7 +114,11 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>레시피</PageName>
-        <SearchIcon />
+        <SearchIcon
+          onClick={() => {
+            history.push("/searchMain");
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -68,7 +129,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.push("/recipeboard");
+            history.goBack();
           }}
         />
         <PageName>레시피 보기</PageName>
@@ -83,7 +144,7 @@ const Header = (props) => {
         <LeftInner>
           <BackIcon
             onClick={() => {
-              history.push("/recipeboard");
+              history.goBack();
             }}
           />
           <PageName>레시피 작성하기</PageName>
@@ -99,7 +160,11 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>게시판</PageName>
-        <SearchIcon />
+        <SearchIcon
+          onClick={() => {
+            history.push("/SearchMain");
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -110,7 +175,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.push("/bulletinboard");
+            history.goBack();
           }}
         />
         <PageName>게시글 보기</PageName>
@@ -124,44 +189,46 @@ const Header = (props) => {
       <HeaderInner flexBetween>
         <LeftInner>
           <BackIcon
-            onClick={() => {
+            onClick={() => {              
               history.push("/bulletinboard");
             }}
           />
           <PageName>게시글 작성하기</PageName>
         </LeftInner>
 
-        <Button>완료</Button>
+        <Button
+          onClick={() => {
+            history.goBack();
+          }}
+        >
+          완료
+        </Button>
       </HeaderInner>
     );
   }
-
-  if (location === "/usermain") {
-    //마이페이지
+    //검색메인
+  if (location === "/searchMain") {
+    //검색메인
     return (
       <HeaderInner flexBetween>
-        <PageName>마이페이지</PageName>
-        <SettingIcon />
+        <LeftInner>
+          <BackIcon
+            onClick={() => {
+              history.goback();
+            }}
+          />
+        </LeftInner>
+
+        <SearchInput placeholder="검색어를 입력해 주세요." />
+
+        <SearchButton>검색</SearchButton>
       </HeaderInner>
     );
   }
 
-  if (location === "/userpageprofileedit") {
-    //프로필 편집
-    return (
-      <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goback();
-          }}
-        />
-        <PageName>프로필 편집</PageName>
-      </HeaderInner>
-    );
-  }
+  if (location === "/searchMain" || location === "/SearchList") {
+    //검색리스트
 
-  if (location === "/searchmain") {
-    //검색
     return (
       <HeaderInner flexBetween>
         <LeftInner>
