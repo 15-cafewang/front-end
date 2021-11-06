@@ -23,7 +23,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/login") {
     // 로그인페이지
     return (
       <HeaderInner>
