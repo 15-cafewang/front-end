@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signupDB, kakaoLogin } from "../Async/user";
+import { signupDB, loginDB, kakaoLogin } from "../Async/user";
 
 // inititalState
 const initialState = {
@@ -24,6 +24,14 @@ const userSlice = createSlice({
     // 회원가입 실패시
     [signupDB.rejected]: (state, action) => {
       window.alert("회원가입에 실패 하였습니다");
+    },
+    [loginDB.fulfilled]: (state, { payload }) => {
+      state.userInfo = payload;
+      state.isLogin = true;
+      window.alert("로그인 되셨습니다! 환영합니다!");
+    },
+    [loginDB.rejected]: (state, action) => {
+      window.alert(action.meta.response.data.errMsg);
     },
   },
 });

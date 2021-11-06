@@ -6,15 +6,14 @@ import { ReactComponent as SearchIcon } from "../assets/icon/HeaderIcon/search.s
 import { ReactComponent as SettingIcon } from "../assets/icon/HeaderIcon/setting.svg";
 import { ReactComponent as LogoIcon } from "../assets/icon/HeaderIcon/logo.svg";
 
-import { useLocation } from "react-router-dom";
 import { history } from "../redux/configureStore";
+import { useLocation } from "react-router-dom";
+
 const Header = (props) => {
   const location = useLocation().pathname;
 
-  //확인하고싶은헤더의 if문에 "/" 값설정하기.
-
   if (location === "/") {
-    // 메인페이지
+    // 시작페이지
     return null;
   }
 
@@ -24,7 +23,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.goback();
+            history.goBack();
           }}
         />
         <PageName>회원가입</PageName>
@@ -38,7 +37,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.goback();
+            history.goBack();
           }}
         />
         <PageName>로그인</PageName>
@@ -76,7 +75,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.goback();
+            history.goBack();
           }}
         />
         <PageName>프로필편집</PageName>
@@ -90,7 +89,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.goback();
+            history.goBack();
           }}
         />
       </HeaderInner>
@@ -103,7 +102,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.goback();
+            history.goBack();
           }}
         />
       </HeaderInner>
@@ -130,7 +129,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.goback();
+            history.goBack();
           }}
         />
         <PageName>레시피 보기</PageName>
@@ -145,7 +144,7 @@ const Header = (props) => {
         <LeftInner>
           <BackIcon
             onClick={() => {
-              history.goback();
+              history.goBack();
             }}
           />
           <PageName>레시피 작성하기</PageName>
@@ -176,7 +175,7 @@ const Header = (props) => {
       <HeaderInner>
         <BackIcon
           onClick={() => {
-            history.goback();
+            history.goBack();
           }}
         />
         <PageName>게시글 보기</PageName>
@@ -190,8 +189,8 @@ const Header = (props) => {
       <HeaderInner flexBetween>
         <LeftInner>
           <BackIcon
-            onClick={() => {
-              history.goback();
+            onClick={() => {              
+              history.push("/bulletinboard");
             }}
           />
           <PageName>게시글 작성하기</PageName>
@@ -199,7 +198,7 @@ const Header = (props) => {
 
         <Button
           onClick={() => {
-            history.push("/searchMain");
+            history.goBack();
           }}
         >
           완료
@@ -207,7 +206,7 @@ const Header = (props) => {
       </HeaderInner>
     );
   }
-
+    //검색메인
   if (location === "/searchMain") {
     //검색메인
     return (
@@ -229,6 +228,7 @@ const Header = (props) => {
 
   if (location === "/searchMain" || location === "/SearchList") {
     //검색리스트
+
     return (
       <HeaderInner flexBetween>
         <LeftInner>

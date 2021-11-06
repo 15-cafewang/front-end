@@ -27,34 +27,41 @@ const Signup = () => {
   };
   return (
     <React.Fragment>
-      <InputId
-        type="text"
-        placeholder="이메일"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <InputNick
-        type="text"
-        placeholder="닉네임"
-        onChange={(e) => setNickname(e.target.value)}
-      />
-      <InputPwd
-        type="password"
-        placeholder="비밀번호"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <InputPwdChk
-        type="password"
-        placeholder="비밀번호 확인"
-        onChange={(e) => setPasswordCheck(e.target.value)}
-      />
-      <Button margin="32px 20px 8px 20px" _onClick={onClickSignUp}>
-        <SignupText>계속하기</SignupText>
-      </Button>
+      <SignupContainer>
+        <InputId
+          type="text"
+          placeholder="이메일"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <InputNick
+          type="text"
+          placeholder="닉네임"
+          onChange={(e) => setNickname(e.target.value)}
+        />
+        <InputPwd
+          type="password"
+          placeholder="비밀번호"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <InputPwdChk
+          type="password"
+          placeholder="비밀번호 확인"
+          onChange={(e) => setPasswordCheck(e.target.value)}
+        />
+        <Button margin="32px 20px 8px 20px" _onClick={onClickSignUp}>
+          <SignupText>계속하기</SignupText>
+        </Button>
+      </SignupContainer>
     </React.Fragment>
   );
 };
 
 export default Signup;
+
+const SignupContainer = styled.div`
+  height: 100%;
+  margin-bottom: 230px;
+`;
 
 const Input = styled.input`
   padding: 10px;
