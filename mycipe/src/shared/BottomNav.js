@@ -38,6 +38,15 @@ const BottomNav = (props) => {
     setIsActive(!isActive);
   };
 
+  if (
+    location === "/user/kakao/callback" ||
+    location === "/" ||
+    location === "/login" ||
+    location === "/signup"
+  ) {
+    return null;
+  }
+
   return (
     <>
       {isActive ? <ModalBackground /> : ""}
