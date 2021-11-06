@@ -22,7 +22,11 @@ const Header = (props) => {
     // 회원가입페이지
     return (
       <HeaderInner>
-        <BackIcon onClick={() => {}} />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
         <PageName>회원가입</PageName>
       </HeaderInner>
     );
@@ -32,7 +36,11 @@ const Header = (props) => {
     // 로그인페이지
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
         <PageName>로그인</PageName>
       </HeaderInner>
     );
@@ -42,7 +50,11 @@ const Header = (props) => {
     //메인페이지
     return (
       <HeaderInner flexBetween>
-        <LogoIcon />
+        <LogoIcon
+          onClick={() => {
+            history.push("/main");
+          }}
+        />
         <SearchIcon />
       </HeaderInner>
     );
@@ -58,21 +70,29 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/UserpageProfileEdit") {
+  if (location === "/userpageProfileEdit") {
     // 유저 프로필 수정페이지
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
         <PageName>프로필편집</PageName>
       </HeaderInner>
     );
   }
 
-  if (location === "/UserPageFollowList") {
+  if (location === "/userPageFollowList") {
     // 유저 팔로우 & 팔로잉 페이지
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -81,7 +101,11 @@ const Header = (props) => {
     // 유저 팔로우 & 팔로잉 페이지
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -91,7 +115,11 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>레시피</PageName>
-        <SearchIcon />
+        <SearchIcon
+          onClick={() => {
+            history.push("/searchMain");
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -100,7 +128,11 @@ const Header = (props) => {
     //레시피 상세
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
         <PageName>레시피 보기</PageName>
       </HeaderInner>
     );
@@ -111,7 +143,11 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <BackIcon />
+          <BackIcon
+            onClick={() => {
+              history.goback();
+            }}
+          />
           <PageName>레시피 작성하기</PageName>
         </LeftInner>
 
@@ -125,7 +161,11 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>게시판</PageName>
-        <SearchIcon />
+        <SearchIcon
+          onClick={() => {
+            history.push("/SearchMain");
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -134,7 +174,11 @@ const Header = (props) => {
     //자유게시판 상세
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
         <PageName>게시글 보기</PageName>
       </HeaderInner>
     );
@@ -145,21 +189,35 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <BackIcon />
+          <BackIcon
+            onClick={() => {
+              history.goback();
+            }}
+          />
           <PageName>게시글 작성하기</PageName>
         </LeftInner>
 
-        <Button>완료</Button>
+        <Button
+          onClick={() => {
+            history.push("/searchMain");
+          }}
+        >
+          완료
+        </Button>
       </HeaderInner>
     );
   }
 
-  if (location === "/SearchMain") {
+  if (location === "/searchMain") {
     //검색메인
     return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <BackIcon />
+          <BackIcon
+            onClick={() => {
+              history.goback();
+            }}
+          />
         </LeftInner>
 
         <SearchInput placeholder="검색어를 입력해 주세요." />
@@ -169,12 +227,16 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/SearchMain" || location === "/SearchList") {
+  if (location === "/searchMain" || location === "/SearchList") {
     //검색리스트
     return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <BackIcon />
+          <BackIcon
+            onClick={() => {
+              history.goback();
+            }}
+          />
         </LeftInner>
 
         <SearchInput placeholder="검색어를 입력해 주세요." />

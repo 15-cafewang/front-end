@@ -76,13 +76,13 @@ function App() {
               component={UserpageProfileEdit}
             />
             <Route
-              path="/UserPageFollowList"
+              path="/userPageFollowList"
               exact
               component={UserPageFollowList}
             />
             SearchMain
-            <Route path="/SearchMain" component={SearchMain} />
-            <Route path="/SearchList" component={SearchList} />
+            <Route path="/searchMain" component={SearchMain} />
+            <Route path="/searchList" component={SearchList} />
           </Switch>
           <BottomNav />
         </Container>
