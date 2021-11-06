@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const Image = ({ size, shape, src, children }) => {
-  const styles = { size: size, shape: shape, src: src };
+const Image = ({ size, shape, src, slide, children }) => {
+  const styles = { size: size, shape: shape, src: src, slide: slide };
 
   if (shape === "circle") {
     return (
@@ -25,6 +25,7 @@ Image.defaultProps = {
   size: "",
   shape: "",
   src: "",
+  slide: false,
 };
 
 const ImageCircle = styled.div`
@@ -67,7 +68,7 @@ const ImageRectångle = styled.div`
   // 레시피 작성 페이지
   ${(props) =>
     props.size === "large" &&
-    `width : 320px; height : 320px; border-radius : 6px; margin-bottom: 16px; background-size: 320px 320px;`}
+    `width : 335px; height : 335px; border-radius : 6px; margin-bottom : 16px; background-size: 335px 335px;`}
   
   background-color: #ededed;
   background-repeat: no-repeat;
