@@ -46,8 +46,20 @@ const BottomNav = (props) => {
         {isActive ? (
           <PlusModal>
             <ModalContentInner>
-              <ModalContent onClick={() => {}}>레시피 공유하기</ModalContent>
-              <ModalContent onClick={() => {}}>게시글 작성하기</ModalContent>
+              <ModalContent
+                onClick={() => {
+                  history.push("/recipeboard/write");
+                }}
+              >
+                레시피 공유하기
+              </ModalContent>
+              <ModalContent
+                onClick={() => {
+                  history.push("/bulletinboard/write");
+                }}
+              >
+                게시글 작성하기
+              </ModalContent>
             </ModalContentInner>
           </PlusModal>
         ) : (
@@ -136,14 +148,18 @@ const PlusModal = styled.div`
 const ModalContentInner = styled.div`
   height: 88px;
   margin: 10px 0px;
-
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const ModalContent = styled.p`
+const ModalContent = styled.button`
   padding: 12px;
+  width: 100%;
+  &:hover {
+    background-color: #7692e4;
+  }
 `;
 
 const NavButtonInner = styled.div`
