@@ -97,7 +97,9 @@ const Outter = styled.div`
   background-repeat: no-repeat;
 
   /* background-color: red; */
-
+  @media screen and (max-height: 100vh) {
+    height: 100vh;
+  }
   @media screen and (min-height: 100vh) {
     height: auto;
   }
