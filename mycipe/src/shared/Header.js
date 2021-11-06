@@ -6,6 +6,7 @@ import { ReactComponent as SearchIcon } from "../assets/icon/HeaderIcon/search.s
 import { ReactComponent as SettingIcon } from "../assets/icon/HeaderIcon/setting.svg";
 import { ReactComponent as LogoIcon } from "../assets/icon/HeaderIcon/logo.svg";
 
+import { history } from "../redux/configureStore";
 import { useLocation } from "react-router-dom";
 
 const Header = (props) => {
@@ -17,7 +18,11 @@ const Header = (props) => {
     // 회원가입페이지
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.push("/");
+          }}
+        />
         <PageName>회원가입</PageName>
       </HeaderInner>
     );
@@ -27,13 +32,17 @@ const Header = (props) => {
     // 로그인페이지
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.push("/");
+          }}
+        />
         <PageName>로그인</PageName>
       </HeaderInner>
     );
   }
 
-  if (location === "") {
+  if (location === "/main") {
     //메인페이지
     return (
       <HeaderInner flexBetween>
@@ -57,7 +66,11 @@ const Header = (props) => {
     //레시피 상세
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.push("/recipeboard");
+          }}
+        />
         <PageName>레시피 보기</PageName>
       </HeaderInner>
     );
@@ -68,7 +81,11 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <BackIcon />
+          <BackIcon
+            onClick={() => {
+              history.push("/recipeboard");
+            }}
+          />
           <PageName>레시피 작성하기</PageName>
         </LeftInner>
 
@@ -91,7 +108,11 @@ const Header = (props) => {
     //자유게시판 상세
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.push("/bulletinboard");
+          }}
+        />
         <PageName>게시글 보기</PageName>
       </HeaderInner>
     );
@@ -102,7 +123,11 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <BackIcon />
+          <BackIcon
+            onClick={() => {
+              history.push("/bulletinboard");
+            }}
+          />
           <PageName>게시글 작성하기</PageName>
         </LeftInner>
 
@@ -111,7 +136,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/usermain") {
     //마이페이지
     return (
       <HeaderInner flexBetween>
@@ -121,22 +146,30 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/userpageprofileedit") {
     //프로필 편집
     return (
       <HeaderInner>
-        <BackIcon />
+        <BackIcon
+          onClick={() => {
+            history.goback();
+          }}
+        />
         <PageName>프로필 편집</PageName>
       </HeaderInner>
     );
   }
 
-  if (location === "/") {
+  if (location === "/searchmain") {
     //검색
     return (
       <HeaderInner flexBetween>
         <LeftInner>
-          <BackIcon />
+          <BackIcon
+            onClick={() => {
+              history.goback();
+            }}
+          />
         </LeftInner>
 
         <SearchInput placeholder="검색어를 입력해 주세요." />
