@@ -16,4 +16,6 @@ const loginAPI = (data) => {
   });
 };
 
-export { signupAPI, loginAPI };
+const KakaoAPI = (code) => api.get(`/user/kakao/callback?code=${code}`);
+
+export { signupAPI, loginAPI, KakaoAPI };
