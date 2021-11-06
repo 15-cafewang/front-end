@@ -55,7 +55,7 @@ const BoardWrite = ({ boardName }) => {
 
 const BoardWriteWrapper = styled.div`
   height: 100%;
-  margin: 0px 20px;
+  margin: 0px 20px 350px;
 
   display: flex;
   flex-direction: column;
@@ -70,20 +70,7 @@ const TextInputBox = styled.textarea`
   background: #f8f8fa;
   border-radius: 6px;
 
-  /* Chrome/Opera/Safari */
-  ::-webkit-input-placeholder {
-    color: #999999;
-  }
-  /* Firefox 19+ */
-  ::-moz-placeholder {
-    color: #999999;
-  }
-  /* IE 10+ */
-  :-ms-input-placeholder {
-    color: #999999;
-  }
-  /* Firefox 18- */
-  :-moz-placeholder {
+  &::placeholder {
     color: #999999;
   }
 `;
