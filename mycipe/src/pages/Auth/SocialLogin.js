@@ -57,7 +57,7 @@ export default SocialLogin;
 
 const SocialLoginContainer = styled.div`
   height: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 `;
 
 const Main = styled.div`
