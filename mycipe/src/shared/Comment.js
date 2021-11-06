@@ -12,11 +12,11 @@ const Comment = () => {
   return (
     <>
       <Box directionCol>
-        <Box width="320">
+        <Box width="335">
           <CommentItem>
             <Image shape="circle" size="small" src="" />
 
-            <Box center directionCol margin="0px 0px 0px 12px">
+            <Box width="290" verCenter col margin="0px 0px 0px 12px">
               <Box margin="0px 0px 4px 0px" height="20">
                 <Nickname>레시피 화이팅</Nickname>
                 <Date>1시간 전</Date>
@@ -28,7 +28,7 @@ const Comment = () => {
                 맛있어보입니다~~~~
               </Box>
 
-              <Box width="270">
+              <Box width="270" horCenter>
                 <SmallLikeIcon />
                 <LikeCount>111개</LikeCount>
                 <MenuIcon />
@@ -43,39 +43,14 @@ const Comment = () => {
 
 const Box = styled.div`
   display: flex;
-  justify-content: space-between;
   margin: ${(props) => props.margin};
   ${(props) => props.width && `width : ${props.width}px;`}
   ${(props) => props.height && `height : ${props.height}px;`}
-  ${(props) => props.directionCol && `flex-direction : column;`}
-  ${(props) => props.center && `align-items: center;`}
+  ${(props) =>
+    props.col && `flex-direction : column; justify-content : flex-end;`}
+  ${(props) => props.verCenter && `align-items: center;`}
+  ${(props) => props.horCenter && `justify-content: space-between;`}
   ${(props) => props.cmtSize && `font-size : 12px; color: #191919;`}
-`;
-
-const TextInputBox = styled.textarea`
-  width: ${(props) => props.width}px;
-  height: ${(props) => props.height}px;
-  margin-bottom: ${(props) => props.marginBtm}px;
-  padding: 15px 16px;
-  background: #f8f8fa;
-  border-radius: 6px;
-
-  /* Chrome/Opera/Safari */
-  ::-webkit-input-placeholder {
-    color: #999999;
-  }
-  /* Firefox 19+ */
-  ::-moz-placeholder {
-    color: #999999;
-  }
-  /* IE 10+ */
-  :-ms-input-placeholder {
-    color: #999999;
-  }
-  /* Firefox 18- */
-  :-moz-placeholder {
-    color: #999999;
-  }
 `;
 
 const CommentItem = styled.div`
