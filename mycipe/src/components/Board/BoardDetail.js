@@ -8,7 +8,7 @@ import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIco
 import Image from "../../elements/Image";
 // components
 import Comment from "../../shared/Comment";
-// import ImageSlider from "../../shared/ImageSlider";
+import ImageSlider from "../../shared/ImageSlider";
 
 const BoardDetail = ({ boardName }) => {
   // 임시 정적 데이터
@@ -29,50 +29,48 @@ const BoardDetail = ({ boardName }) => {
           <MenuIcon />
         </Box>
 
-        {/* <ImageSlider src={src} /> */}
-        <Image shape="rectangle" size="large" src={src} />
+        <ImageSlider src={src} />
 
-        {/* ----------------------------------- */}
-        {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
-        {boardName === "recipeBoard" && (
-          <HashTagBox>
-            {userHashTagList.map((tag) => {
-              return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
-            })}
-          </HashTagBox>
-        )}
+        <Box col>
+          {/* ----------------------------------- */}
+          {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
+          {boardName === "recipeBoard" && (
+            <HashTagBox>
+              {userHashTagList.map((tag) => {
+                return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
+              })}
+            </HashTagBox>
+          )}
 
-        <TextInputBox width="320" height="48" marginBtm="8" value={title} />
+          <TextInputBox width="335" height="48" marginBtm="8" value={title} />
 
-        {/* ------------------------------------ */}
-        {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
-        {boardName === "recipeBoard" && (
-          <TextInputBox width="320" height="48" marginBtm="8" value={price} />
-        )}
+          {/* ------------------------------------ */}
+          {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
+          {boardName === "recipeBoard" && (
+            <TextInputBox width="335" height="48" marginBtm="8" value={price} />
+          )}
 
-        <TextInputBox width="320" height="240" value={content} />
+          <TextInputBox width="335" height="240" value={content} />
 
-        <Box width="320" margin="12px 0px 56px 0px">
-          <ActiveSmallLikeIcon />
-          <LikeCount>111개</LikeCount>
-          <Date>2021. 11. 05</Date>
+          <Box width="335px" margin="12px 0px 56px 0px">
+            <ActiveSmallLikeIcon />
+            <LikeCount>111개</LikeCount>
+            <Date>2021. 11. 05</Date>
+          </Box>
+
+          <Box width="100%" margin="0px 0px 20px 0px">
+            <TextInputBox
+              width="270"
+              height="50"
+              placeholder="댓글을 입력해 주세요."
+            />
+            <Button>등록</Button>
+          </Box>
+
+          <Comment />
+          <Comment />
+          <Comment />
         </Box>
-
-        <Box width="320" margin="0px 0px 20px 0px">
-          <TextInputBox
-            width="262"
-            height="50"
-            placeholder="댓글을 입력해 주세요."
-          />
-          <Button>등록</Button>
-        </Box>
-
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
       </BoardDetailContainer>
     </>
   );
@@ -82,13 +80,13 @@ const BoardDetailContainer = styled.div`
   margin: 0px 20px;
   height: 100%;
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  align-items: center;
-  overflow-y: auto;
 `;
 
 const Box = styled.div`
-  ${(props) => props.width && `width : ${props.width}px;`}
+  ${(props) => props.width && `width : ${props.width};`}
+  ${(props) => props.col && `flex-direction : column;`}
   margin: ${(props) => props.margin};
   display: flex;
   justify-content: space-between;
@@ -134,20 +132,7 @@ const TextInputBox = styled.textarea`
   background: #f8f8fa;
   border-radius: 6px;
 
-  /* Chrome/Opera/Safari */
-  ::-webkit-input-placeholder {
-    color: #999999;
-  }
-  /* Firefox 19+ */
-  ::-moz-placeholder {
-    color: #999999;
-  }
-  /* IE 10+ */
-  :-ms-input-placeholder {
-    color: #999999;
-  }
-  /* Firefox 18- */
-  :-moz-placeholder {
+  &::placeholder {
     color: #999999;
   }
 `;
