@@ -7,6 +7,10 @@ import { history } from "../../redux/configureStore";
 import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 import Kakao from "../../assets/image/kakaologin.svg";
 
+//env 값을 불러오기 위해서 설치
+import dotenv from "dotenv";
+dotenv.config();
+
 const SocialLogin = () => {
   const kakaologin = () => {
     window.location.href = KAKAO_AUTH_URL;
