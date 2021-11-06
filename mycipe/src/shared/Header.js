@@ -33,7 +33,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "") {
+  if (location === "/main") {
     //메인페이지
     return (
       <HeaderInner flexBetween>
