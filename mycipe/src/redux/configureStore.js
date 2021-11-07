@@ -5,12 +5,15 @@ import { connectRouter } from "connected-react-router";
 
 // import slice module
 import userSlice from "./Modules/userSlice";
+import userPageSlice from "./Modules/userPageSlice";
+
 export const history = createBrowserHistory();
 
 // reducers
 const reducer = combineReducers({
   router: connectRouter(history),
   user: userSlice.reducer,
+  userPage: userPageSlice.reducer,
 });
 
 const middlewares = [];
