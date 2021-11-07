@@ -8,6 +8,7 @@ export const signupDB = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
     const response = await signupAPI(data);
+    console.log(response);
     history.push("/login");
     return response.data;
   }
@@ -25,6 +26,7 @@ export const loginDB = createAsyncThunk(
       profileImage: response.data.data.image,
     };
     history.replace("/main");
+    console.log(userInfo);
     return userInfo;
   }
 );
@@ -33,13 +35,12 @@ export const loginDB = createAsyncThunk(
 export const kakaoLogin = createAsyncThunk(
   "/user/kakao/callback",
   async (code) => {
-    console.log(code);
     const response = await KakaoAPI(code);
     const USER_TOKEN = response.data.data.token;
     window.localStorage.setItem("USER_TOKEN", USER_TOKEN);
     const userInfo = {
       nickname: response.data.data.nickname,
-      profileImage: response.data.data.Image,
+      profileImage: response.data.data.image,
     };
     history.replace("/main");
     return userInfo;
