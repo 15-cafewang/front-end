@@ -39,7 +39,7 @@ const userSlice = createSlice({
     // 로그인 성공시
     [loginDB.fulfilled]: (state, { payload }) => {
       state.userInfo = payload;
-      state.isLogin = true;
+      state.isLogin = false;
       window.alert("로그인 되셨습니다! 환영합니다!");
     },
     // 로그인 실패시
