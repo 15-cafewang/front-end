@@ -108,14 +108,6 @@ const Outter = styled.div`
 
   background-size: cover;
   background-repeat: no-repeat;
-
-  /* background-color: red; */
-  @media screen and (max-height: 100vh) {
-    height: 100vh;
-  }
-  @media screen and (min-height: 100vh) {
-    height: auto;
-  }
 `;
 
 const WebVer = styled.div`
@@ -125,6 +117,7 @@ const WebVer = styled.div`
   z-index: -100;
   background: #ffe899;
   opacity: 0.18;
+  
   @media only screen and (min-width: 1025px) {
     opacity: 1;
     background-size: cover;
