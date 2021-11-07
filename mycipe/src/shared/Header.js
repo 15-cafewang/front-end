@@ -8,9 +8,14 @@ import { ReactComponent as LogoIcon } from "../assets/icon/HeaderIcon/logo.svg";
 
 import { history } from "../redux/configureStore";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = (props) => {
   const location = useLocation().pathname;
+
+  const loginUserNickname = useSelector(
+    (state) => state.user.userInfo.nickname
+  );
 
   if (location === "/") {
     // 시작페이지
@@ -59,17 +64,39 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/userMain") {
-    // 유저메인페이지
-    return (
-      <HeaderInner>
-        <SettingIcon />
-        <PageName>로그인</PageName>
-      </HeaderInner>
-    );
+  if (location.includes("/usermain")) {
+    // 유저메인페이지 & 마이페이지
+    if (location.includes(loginUserNickname)) {
+      return (
+        <HeaderInner flexBetween>
+          <LeftInner>
+            <BackIcon
+              onClick={() => {
+                history.goBack();
+              }}
+            />
+            <PageName>마이페이지</PageName>
+          </LeftInner>
+
+          <SettingIcon />
+        </HeaderInner>
+      );
+    } else {
+      return (
+        <HeaderInner flexBetween>
+          <BackIcon
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+
+          <SettingIcon />
+        </HeaderInner>
+      );
+    }
   }
 
-  if (location === "/userpageProfileEdit") {
+  if (location === "/userpageprofileedit") {
     // 유저 프로필 수정페이지
     return (
       <HeaderInner>
@@ -83,20 +110,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/userPageFollowList") {
-    // 유저 팔로우 & 팔로잉 페이지
-    return (
-      <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
-      </HeaderInner>
-    );
-  }
-
-  if (location === "/SearchList") {
+  if (location.includes("/userpagefollowlist")) {
     // 유저 팔로우 & 팔로잉 페이지
     return (
       <HeaderInner>
@@ -116,14 +130,14 @@ const Header = (props) => {
         <PageName>레시피</PageName>
         <SearchIcon
           onClick={() => {
-            history.push("/searchMain");
+            history.push("/searchmain");
           }}
         />
       </HeaderInner>
     );
   }
 
-  if (location === "/recipeboard/detail") {
+  if (location.includes("/recipeboard/detail")) {
     //레시피 상세
     return (
       <HeaderInner>
@@ -162,14 +176,14 @@ const Header = (props) => {
         <PageName>게시판</PageName>
         <SearchIcon
           onClick={() => {
-            history.push("/SearchMain");
+            history.push("/Searchmain");
           }}
         />
       </HeaderInner>
     );
   }
 
-  if (location === "/bulletinboard/detail") {
+  if (location.includes("/bulletinboard/detail")) {
     //자유게시판 상세
     return (
       <HeaderInner>
@@ -189,7 +203,7 @@ const Header = (props) => {
       <HeaderInner flexBetween>
         <LeftInner>
           <BackIcon
-            onClick={() => {              
+            onClick={() => {
               history.push("/bulletinboard");
             }}
           />
@@ -206,8 +220,8 @@ const Header = (props) => {
       </HeaderInner>
     );
   }
-    //검색메인
-  if (location === "/searchMain") {
+
+  if (location.includes("/searchmain")) {
     //검색메인
     return (
       <HeaderInner flexBetween>
@@ -224,26 +238,8 @@ const Header = (props) => {
         <SearchButton>검색</SearchButton>
       </HeaderInner>
     );
-  }
-
-  if (location === "/searchMain" || location === "/SearchList") {
-    //검색리스트
-
-    return (
-      <HeaderInner flexBetween>
-        <LeftInner>
-          <BackIcon
-            onClick={() => {
-              history.goback();
-            }}
-          />
-        </LeftInner>
-
-        <SearchInput placeholder="검색어를 입력해 주세요." />
-
-        <SearchButton>검색</SearchButton>
-      </HeaderInner>
-    );
+  } else {
+    return null;
   }
 };
 

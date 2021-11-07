@@ -50,7 +50,7 @@ function App() {
               component={RecipeBoardWrite}
             />
             <Route
-              path="/recipeboard/detail"
+              path="/recipeboard/detail/:recipeid"
               exact
               component={RecipeBoardDetail}
             />
@@ -61,26 +61,26 @@ function App() {
               component={BulletinBoardWrite}
             />
             <Route
-              path="/bulletinboard/detail"
+              path="/bulletinboard/detail/:boardid"
               exact
               component={BulletinBoardDetail}
             />
             {/* 강표 */}
             <Route path="/main" exact component={Main} />
-            <Route path="/userMain" exact component={UserMain} />
+            <Route path="/usermain/:nickname" exact component={UserMain} />
             <Route
-              path="/UserpageProfileEdit"
+              path="/Userpageprofileedit"
               exact
               component={UserpageProfileEdit}
             />
             <Route
-              path="/userPageFollowList"
+              path="/userpagefollowlist"
               exact
               component={UserPageFollowList}
             />
-            SearchMain
-            <Route path="/searchMain" component={SearchMain} />
-            <Route path="/searchList" component={SearchList} />
+
+            <Route path="/searchmain" component={SearchMain} />
+            <Route path="/searchmain/searchlist" component={SearchList} />
           </Switch>
           <BottomNav />
         </Container>
