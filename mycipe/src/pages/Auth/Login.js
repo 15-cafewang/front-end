@@ -4,7 +4,7 @@ import { loginDB } from "../../redux/Async/user";
 
 import styled from "styled-components";
 import { Button } from "../../elements";
-
+import { emailCheck } from "../../shared/common";
 import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 import Kakao from "../../assets/image/kakaologin.svg";
 
@@ -23,6 +23,13 @@ const Login = () => {
       email: email,
       password: password,
     };
+    if (email === "" || password === "") {
+      window.alert("아이디 or 패스워드를 입력하세요.");
+    }
+
+    if (!emailCheck(email)) {
+      window.alert("이메일 형식이 맞지않습니다.");
+    }
     dispatch(loginDB(data));
   };
 
@@ -87,6 +94,7 @@ const KakaoBtn = styled.img`
   display: block;
   cursor: pointer;
   height: 48px;
+  color: #181604;
   &:active {
     opacity: 0.7;
   }
