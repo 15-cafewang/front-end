@@ -189,7 +189,7 @@ const Header = (props) => {
       <HeaderInner flexBetween>
         <LeftInner>
           <BackIcon
-            onClick={() => {              
+            onClick={() => {
               history.push("/bulletinboard");
             }}
           />
@@ -206,7 +206,7 @@ const Header = (props) => {
       </HeaderInner>
     );
   }
-    //검색메인
+  //검색메인
   if (location === "/searchMain") {
     //검색메인
     return (
@@ -226,7 +226,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/searchMain" || location === "/SearchList") {
+  if (location === "/searchMain" || location === "/searchList") {
     //검색리스트
 
     return (
