@@ -11,7 +11,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   //리덕스
-  reducer: {
+  reducers: {
     userReducer: (state, { payload }) => {
       state.isLogin = payload;
     },
