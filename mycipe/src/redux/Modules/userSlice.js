@@ -40,6 +40,7 @@ const userSlice = createSlice({
     [loginDB.fulfilled]: (state, { payload }) => {
       state.userInfo = payload;
       state.isLogin = false;
+      state.isFetching = false;
       window.alert("로그인 되셨습니다! 환영합니다!");
     },
     // 로그인 실패시
