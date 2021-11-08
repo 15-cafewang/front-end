@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
@@ -7,11 +8,16 @@ import {
   SmallFilterButton,
   ButtonInner,
 } from "../../elements";
+import ModalBackground from "../../shared/ModalBackground";
 
 const UserMain = (props) => {
+  const isActive = useSelector((state) => state.modal.isActive);
+
   return (
     <>
       <UserMainInner>
+        {isActive && <ModalBackground />}
+
         <UserProfileInner>
           <UserProfileImage />
 
@@ -43,12 +49,12 @@ const UserMain = (props) => {
         </ButtonInner>
 
         <CardList>
-          {/* <RecipeCard />
           <RecipeCard />
           <RecipeCard />
           <RecipeCard />
           <RecipeCard />
-          <RecipeCard /> */}
+          <RecipeCard />
+          <RecipeCard />
           <BoardCard />
           <BoardCard />
         </CardList>
@@ -58,9 +64,12 @@ const UserMain = (props) => {
 };
 
 const UserMainInner = styled.div`
-  height: 100%;
+  position: relative;
+  height: auto;
+  min-height: calc(100% - 60px);
   width: 100%;
 `;
+
 const UserProfileInner = styled.div`
   display: flex;
   padding: 25px 20px;

@@ -56,17 +56,30 @@ const SocialLogin = () => {
 export default SocialLogin;
 
 const SocialLoginContainer = styled.div`
-  height: 100%;
-  margin-bottom: 100px;
+  height: calc(100% - 60px);
+  margin-bottom: 50px;
 `;
 
 const Main = styled.div`
-  margin: 180px 152px 100px 32px;
+  /* margin : 180px 152px 100px 32px; */
+  position: relative;
+  top: 180px;
+  right: 152px;
+  bottom: 100px;
+  left: 32px;
 `;
-const ButtonGrid = styled.div``;
+const ButtonGrid = styled.div`
+  position: absolute;
+  top: 400px;
+  left: 20px;
+  right: 20px;
+  bottom: 220px;
+`;
 
-const Title = styled.div`
+const Title = styled.p`
   font-size: 28px;
+  font-weight: bold;
+  color: #767676;
 `;
 
 const KakaoBtn = styled.img`

@@ -62,8 +62,7 @@ const Login = () => {
 export default Login;
 
 const LoginContainer = styled.div`
-  height: 100%;
-  margin-bottom: 280px;
+  height: calc(100% - 60px);
 `;
 
 const Input = styled.input`

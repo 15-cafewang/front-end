@@ -17,15 +17,23 @@ import { ReactComponent as ActiveMyIcon } from "../assets/icon/BottomNavIcon/myA
 
 import { useLocation } from "react-router-dom";
 import { history } from "../redux/configureStore";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setActive } from "../redux/Modules/modalSlice";
+
 const BottomNav = (props) => {
-  const [isActive, setIsActive] = useState(false); // plus버튼 눌렀을떄 모달상태.
+  const isActive = useSelector((state) => state.modal.isActive);
   const location = useLocation().pathname; // URL이 변경될떄마다 새로운 URL리턴.
 
-  // const { history } = props.history;
-
+  const LoginUserNickname = useSelector(
+    (state) => state.user.userInfo.nickname
+  );
+  
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     const DetectOutsideClick = () => {
-      setIsActive(!isActive);
+      dispatch(setActive(!isActive));
     };
 
     if (isActive) window.addEventListener("click", DetectOutsideClick);
@@ -35,7 +43,7 @@ const BottomNav = (props) => {
   }, [isActive]);
 
   const ClickedModal = () => {
-    setIsActive(!isActive);
+    dispatch(setActive(!isActive));
   };
 
   if (
@@ -49,8 +57,6 @@ const BottomNav = (props) => {
 
   return (
     <>
-      {isActive ? <ModalBackground /> : ""}
-
       <BottomNavInner>
         {isActive ? (
           <PlusModal>
@@ -72,8 +78,8 @@ const BottomNav = (props) => {
             </ModalContentInner>
           </PlusModal>
         ) : (
-          ""
-        )}
+            ""
+          )}
 
         <NavButtonInner>
           <NavButton
@@ -92,8 +98,8 @@ const BottomNav = (props) => {
             {location === "/bulletinboard" ? (
               <ActiveBoardIcon />
             ) : (
-              <BoardIcon />
-            )}
+                <BoardIcon />
+              )}
           </NavButton>
 
           <NavButton onClick={ClickedModal}>
@@ -108,16 +114,20 @@ const BottomNav = (props) => {
             {location === "/recipeboard" ? (
               <ActiveRecipeIcon />
             ) : (
-              <RecipeIcon />
-            )}
+                <RecipeIcon />
+              )}
           </NavButton>
 
           <NavButton
             onClick={() => {
-              history.push("/userMain");
+              history.push(`/usermain/${LoginUserNickname}`);
             }}
           >
-            {location === "/userMain" ? <ActiveMyIcon /> : <MyIcon />}
+            {location === `/usermain/${LoginUserNickname}` ? (
+              <ActiveMyIcon />
+            ) : (
+              <MyIcon />
+            )}
           </NavButton>
         </NavButtonInner>
       </BottomNavInner>
@@ -125,7 +135,7 @@ const BottomNav = (props) => {
   );
 };
 
-const ModalBackground = styled.div`
+export const ModalBackground = styled.div`
   background-color: rgba(0, 0, 0, 0.25);
   width: 375px;
   height: 100%;
