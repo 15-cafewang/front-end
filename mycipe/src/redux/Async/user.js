@@ -1,7 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { history } from "../configureStore";
 
-import { signupAPI, loginAPI, KakaoAPI } from "../../shared/api/userApi";
+import {
+  signupAPI,
+  loginAPI,
+  KakaoAPI,
+  loginCheckAPI,
+} from "../../shared/api/userApi";
 
 // 회원가입
 export const signupDB = createAsyncThunk(
@@ -46,3 +51,14 @@ export const kakaoLogin = createAsyncThunk(
     return userInfo;
   }
 );
+
+// 로그인 체크
+export const loginCheck = createAsyncThunk("user/loginCheck", async () => {
+  const response = await loginCheckAPI();
+  const userInfo = {
+    nickname: response.data.data.nickname,
+    profileImage: response.data.data.image,
+  };
+  console.log("로그인체크", response);
+  return userInfo;
+});
