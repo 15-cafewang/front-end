@@ -13,7 +13,6 @@ export const signupDB = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
     const response = await signupAPI(data);
-    console.log(response);
     history.push("/login");
     return response.data;
   }
@@ -31,7 +30,6 @@ export const loginDB = createAsyncThunk(
       profileImage: response.data.data.image,
     };
     history.replace("/main");
-    console.log(userInfo);
     return userInfo;
   }
 );
@@ -59,6 +57,5 @@ export const loginCheck = createAsyncThunk("user/loginCheck", async () => {
     nickname: response.data.data.nickname,
     profileImage: response.data.data.image,
   };
-  console.log("로그인체크", response);
   return userInfo;
 });
