@@ -4,3 +4,9 @@ export const emailCheck = (email) => {
 
   return _reg.test(email);
 };
+export const pwCheck = (pwd) => {
+  let _reg =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
+
+  return _reg.test(pwd);
+};

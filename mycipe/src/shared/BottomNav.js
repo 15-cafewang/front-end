@@ -17,14 +17,20 @@ import { ReactComponent as ActiveMyIcon } from "../assets/icon/BottomNavIcon/myA
 
 import { useLocation } from "react-router-dom";
 import { history } from "../redux/configureStore";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setActive } from "../redux/Modules/modalSlice";
 
 const BottomNav = (props) => {
   const isActive = useSelector((state) => state.modal.isActive);
   const location = useLocation().pathname; // URL이 변경될떄마다 새로운 URL리턴.
-  const dispatch = useDispatch();
 
+  const LoginUserNickname = useSelector(
+    (state) => state.user.userInfo.nickname
+  );
+  
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     const DetectOutsideClick = () => {
       dispatch(setActive(!isActive));
@@ -39,6 +45,15 @@ const BottomNav = (props) => {
   const ClickedModal = () => {
     dispatch(setActive(!isActive));
   };
+
+  if (
+    location === "/user/kakao/callback" ||
+    location === "/" ||
+    location === "/login" ||
+    location === "/signup"
+  ) {
+    return null;
+  }
 
   return (
     <>
@@ -105,10 +120,14 @@ const BottomNav = (props) => {
 
           <NavButton
             onClick={() => {
-              history.push("/userMain");
+              history.push(`/usermain/${LoginUserNickname}`);
             }}
           >
-            {location === "/userMain" ? <ActiveMyIcon /> : <MyIcon />}
+            {location === `/usermain/${LoginUserNickname}` ? (
+              <ActiveMyIcon />
+            ) : (
+              <MyIcon />
+            )}
           </NavButton>
         </NavButtonInner>
       </BottomNavInner>

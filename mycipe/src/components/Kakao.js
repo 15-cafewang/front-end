@@ -1,20 +1,20 @@
-// import React from "react";
-// import { useDispatch } from "react-redux";
-// import { kakaoLogin } from "../redux/Async/user";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { kakaoLogin } from "../redux/Async/user";
 
-// const Kakao = () => {
-//   const dispatch = useDispatch();
+const Kakao = (props) => {
+  const dispatch = useDispatch();
 
-//   const code = new URL(window.location.href).searchParams.get("code");
+  const code = new URL(window.location.href).searchParams.get("code");
+  console.log(code);
+  React.useEffect(() => {
+    dispatch(kakaoLogin(code));
+  }, []);
+  return (
+    <>
+      <div>로딩중</div>;
+    </>
+  );
+};
 
-//   React.userEffect(async () => {
-//     await dispatch(kakaoLogin(code));
-//   }, []);
-//   return (
-//     <>
-//       <div>로딩중</div>;
-//     </>
-//   );
-// };
-
-// export default Kakao;
+export default Kakao;
