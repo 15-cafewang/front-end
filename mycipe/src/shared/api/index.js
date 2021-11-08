@@ -6,12 +6,19 @@ const api = axios.create({
 });
 
 // interceptors
-api.interceptors.request.use(async (config) => {
-  config.headers["content-type"] = "application/json; charset=utf-8";
-  config.headers.Accept = "*/*";
-  config.headers.authorization = await getToken();
-  return config;
-});
+api.interceptors.request.use(
+  async (config) => {
+    config.headers["content-type"] = "application/json; charset=utf-8";
+    config.headers["Accept"] = "*/*";
+    config.headers["authorization"] = await getToken();
+    console.log(config);
+    return config;
+  },
+  async (error) => {
+    console.log("에러발생", error);
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.response.use(
   async (response) => {
@@ -19,7 +26,7 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log("에러 ", error);
+    console.log("에러발생 ", error);
     return Promise.reject(error);
   }
 );
