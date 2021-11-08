@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
+import { useSelector } from "react-redux";
 
 import RecipeCard from "../../components/Card/RecipeCard";
+import ModalBackground from "../../shared/ModalBackground";
 
 const Main = (props) => {
+  const isActive = useSelector((state) => state.modal.isActive);
   const [category, setCategory] = useState({
     daily: false,
     weekly: false,
@@ -13,6 +16,7 @@ const Main = (props) => {
   console.log(category);
   return (
     <MainInner>
+      {isActive && <ModalBackground />}
       {/* 인기 레시피 */}
       <Banner>
         <BannerTitle>인기레시피</BannerTitle>
@@ -71,8 +75,10 @@ const Main = (props) => {
 };
 
 const MainInner = styled.div`
-  margin: 0px 20px;
-
+  height: auto;
+  min-height: calc(100% - 60px);
+  padding: 0px 20px;
+  position: relative;
   flex-direction: column;
   display: flex;
   justify-content: center;

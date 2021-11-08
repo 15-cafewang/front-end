@@ -1,14 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import HashTag from "../../shared/HashTag";
+import ModalBackground from "../../shared/ModalBackground";
 
 const SearchMain = (props) => {
+  const isActive = useSelector((state) => state.modal.isActive);
   const searchRecipe = true;
 
   return (
     <>
       <SearchMainInner>
+        {isActive && <ModalBackground />}
         <RecentSearchInner>
           <Grid>
             <Text grey>최근 검색어</Text>
@@ -49,7 +54,9 @@ const SearchMain = (props) => {
 };
 
 const SearchMainInner = styled.div`
-  margin: 20px;
+  height: auto;
+  min-height: calc(100% - 70px);
+  margin: 20px 20px 0px;
 `;
 
 const RecentSearchInner = styled.div``;

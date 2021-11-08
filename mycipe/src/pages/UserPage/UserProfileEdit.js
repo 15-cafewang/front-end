@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+
 import { Button } from "../../elements/";
+import ModalBackground from "../../shared/ModalBackground";
 
 const UserpageProfileEdit = (props) => {
+  const isActive = useSelector((state) => state.modal.isActive);
+
   return (
     <ProfileInfoInner>
+      {isActive && <ModalBackground />}
       <UserProfileImageInner>
         <UserProfileImage />
       </UserProfileImageInner>
@@ -18,6 +24,8 @@ const UserpageProfileEdit = (props) => {
 };
 
 const ProfileInfoInner = styled.div`
+  height: auto;
+  min-height: calc(100% - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;

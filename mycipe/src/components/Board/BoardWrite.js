@@ -1,15 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 // shard components
-import ImageUpload from "../../shared/ImageUpload";
 import ImageListUpload from "../../shared/ImageListUpload";
 import HashTag from "../../shared/HashTag";
+import ModalBackground from "../../shared/ModalBackground";
 
 const BoardWrite = ({ boardName }) => {
+  const isActive = useSelector((state) => state.modal.isActive);
   return (
     <>
       <BoardWriteWrapper>
+        {isActive && <ModalBackground />}
         <ImageListUpload />
 
         <TextInputBox
@@ -25,8 +28,8 @@ const BoardWrite = ({ boardName }) => {
         {boardName === "recipeBoard" ? (
           <TextInputBox height="48" marginBtm="8" placeholder="가격" />
         ) : (
-          ""
-        )}
+            ""
+          )}
         {/* ------------------------ */}
 
         <TextInputBox
@@ -54,9 +57,10 @@ const BoardWrite = ({ boardName }) => {
 };
 
 const BoardWriteWrapper = styled.div`
-  height: 100%;
-  margin: 0px 20px 350px;
-
+  padding: 20px 0px 20px;
+  height: auto;
+  min-height: calc(100% - 60px);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,7 +82,7 @@ const TextInputBox = styled.textarea`
 const HashTagTitle = styled.p`
   margin-bottom: 8px;
   position: relative;
-  right: 35%;
+  right: 30%;
   font-size: 14px;
   color: #999999;
 `;

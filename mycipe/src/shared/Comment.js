@@ -12,11 +12,11 @@ const Comment = () => {
   return (
     <>
       <Box directionCol>
-        <Box width="335">
+        <Box width="320">
           <CommentItem>
             <Image shape="circle" size="small" src="" />
 
-            <Box width="290" verCenter col margin="0px 0px 0px 12px">
+            <Box width="270" verCenter col margin="0px 0px 0px 12px">
               <Box margin="0px 0px 4px 0px" height="20">
                 <Nickname>레시피 화이팅</Nickname>
                 <Date>1시간 전</Date>
