@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useSelector } from "react-redux";
 // icon
 import { ReactComponent as MenuIcon } from "../../assets/menu.svg";
 import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
@@ -9,8 +9,10 @@ import Image from "../../elements/Image";
 // components
 import Comment from "../../shared/Comment";
 import ImageSlider from "../../shared/ImageSlider";
+import ModalBackground from "../../shared/ModalBackground";
 
 const BoardDetail = ({ boardName }) => {
+  const isActive = useSelector((state) => state.modal.isActive);
   // 임시 정적 데이터
   const src =
     "https://post-phinf.pstatic.net/MjAxOTA4MjZfNDEg/MDAxNTY2ODExNTY1Nzkw.-BwndCmYDw-hO4Iy8u1Ur1IepIiFV33a1OGCJs3qsLog.ZQwcf3pHihVe1oSGBPyFs8Dtrz3bLr1N_Xkf2ZKWlT4g.JPEG/0.jpg?type=w1200";
@@ -21,67 +23,65 @@ const BoardDetail = ({ boardName }) => {
     "초코 드리즐 + 휘핑크림 + 자바칩과 함께 갈기 + 딸기시럽 6펌프 + 두유 딸기 프라푸치노";
 
   return (
-    <>
-      <BoardDetailContainer>
-        <Box margin="0px 0px 16px 0px">
-          <Image shape="circle" size="small" src="" />
-          <Nickname>내시피 화이팅</Nickname>
-          <MenuIcon />
+    <BoardDetailContainer>
+      {isActive && <ModalBackground />}
+      <Box margin="0px 0px 16px 0px">
+        <Image shape="circle" size="small" src="" />
+        <Nickname>내시피 화이팅</Nickname>
+        <MenuIcon />
+      </Box>
+
+      <ImageSlider src={src} />
+
+      <Box col margin="12px 0px 0px">
+        {/* ----------------------------------- */}
+        {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
+        {boardName === "recipeBoard" && (
+          <HashTagBox>
+            {userHashTagList.map((tag) => {
+              return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
+            })}
+          </HashTagBox>
+        )}
+
+        <TextInputBox width="320" height="48" marginBtm="8" value={title} />
+
+        {/* ------------------------------------ */}
+        {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
+        {boardName === "recipeBoard" && (
+          <TextInputBox width="320" height="48" marginBtm="8" value={price} />
+        )}
+
+        <TextInputBox width="320" height="240" value={content} />
+
+        <Box width="320px" margin="12px 0px 56px 0px">
+          <ActiveSmallLikeIcon />
+          <LikeCount>111개</LikeCount>
+          <Date>2021. 11. 05</Date>
         </Box>
 
-        <ImageSlider src={src} />
-
-        <Box col>
-          {/* ----------------------------------- */}
-          {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
-          {boardName === "recipeBoard" && (
-            <HashTagBox>
-              {userHashTagList.map((tag) => {
-                return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
-              })}
-            </HashTagBox>
-          )}
-
-          <TextInputBox width="335" height="48" marginBtm="8" value={title} />
-
-          {/* ------------------------------------ */}
-          {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
-          {boardName === "recipeBoard" && (
-            <TextInputBox width="335" height="48" marginBtm="8" value={price} />
-          )}
-
-          <TextInputBox width="335" height="240" value={content} />
-
-          <Box width="335px" margin="12px 0px 56px 0px">
-            <ActiveSmallLikeIcon />
-            <LikeCount>111개</LikeCount>
-            <Date>2021. 11. 05</Date>
-          </Box>
-
-          <Box width="100%" margin="0px 0px 20px 0px">
-            <TextInputBox
-              width="270"
-              height="50"
-              placeholder="댓글을 입력해 주세요."
-            />
-            <Button>등록</Button>
-          </Box>
-
-          <Comment />
-          <Comment />
-          <Comment />
+        <Box width="320px" margin="0px 0px 20px 0px">
+          <TextInputBox
+            width="262"
+            height="50"
+            placeholder="댓글을 입력해 주세요."
+          />
+          <Button>등록</Button>
         </Box>
-      </BoardDetailContainer>
-    </>
+
+        <Comment />
+        <Comment />
+        <Comment />
+      </Box>
+    </BoardDetailContainer>
   );
 };
 
 const BoardDetailContainer = styled.div`
-  margin: 0px 20px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  padding: 0px 20px;
+  height: auto;
+  min-height: calc(100% - 60px);
+  position: relative;
 `;
 
 const Box = styled.div`
@@ -105,6 +105,7 @@ const HashTagBox = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 320px;
+  margin-bottom : 12px;
 `;
 
 const UserHashTagItem = styled.div`

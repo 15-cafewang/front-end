@@ -1,43 +1,60 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 import { ButtonInner, SmallFilterButton } from "../../elements/index";
 import RecipeCard from "../../components/Card/RecipeCard";
+import ModalBackground from "../../shared/ModalBackground";
+
 const SearchList = (props) => {
+  const isActive = useSelector((state) => state.modal.isActive);
+
   return (
     <>
-      <SelectedHashTagInner>
-        <HashTagItem active>#청량한</HashTagItem>
-        <HashTagItem active>#고소한</HashTagItem>
-        <HashTagItem active>#고소한</HashTagItem>
-        <HashTagItem active>#고소한</HashTagItem>
-        <HashTagItem active>#고소한</HashTagItem>
-        <HashTagItem active>#고소한</HashTagItem>
-        <HashTagItem active>#고소한</HashTagItem>
-      </SelectedHashTagInner>
+      <Container>
+        {isActive && <ModalBackground />}
 
-      <ButtonInner small>
-        <SmallFilterButton active>최신순</SmallFilterButton>
-        <SmallFilterButton>인기순</SmallFilterButton>
-      </ButtonInner>
+        <SelectedHashTagInner>
+          <HashTagItem active>#청량한</HashTagItem>
+          <HashTagItem active>#고소한</HashTagItem>
+          <HashTagItem active>#고소한</HashTagItem>
+          <HashTagItem active>#고소한</HashTagItem>
+          <HashTagItem active>#고소한</HashTagItem>
+          <HashTagItem active>#고소한</HashTagItem>
+          <HashTagItem active>#고소한</HashTagItem>
+        </SelectedHashTagInner>
 
-      <SearchListInner>
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-      </SearchListInner>
+        <ButtonInner small>
+          <SmallFilterButton active>최신순</SmallFilterButton>
+          <SmallFilterButton>인기순</SmallFilterButton>
+        </ButtonInner>
+
+        <SearchListInner>
+          <RecipeCard />
+          <RecipeCard />
+          <RecipeCard />
+          <RecipeCard />
+        </SearchListInner>
+      </Container>
     </>
   );
 };
 
+const Container = styled.div`
+  height: auto;
+  min-height: calc(100% - 60px);
+`;
+
 const SearchListInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 20px;
 `;
 
 const SelectedHashTagInner = styled.div`
   display: flex;
-  margin: 12px 0px 20px 0px;
+  margin: 12px 0px 20px 20px;
   overflow: auto;
   white-space: nowrap;
 

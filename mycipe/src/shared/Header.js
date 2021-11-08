@@ -221,6 +221,7 @@ const Header = (props) => {
     );
   }
 
+
   if (location.includes("/searchmain")) {
     //검색메인
     return (

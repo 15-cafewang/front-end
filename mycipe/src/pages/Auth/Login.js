@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginDB } from "../../redux/Async/user";
 
 import styled from "styled-components";
 import { Button } from "../../elements";
@@ -7,15 +9,37 @@ import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 import Kakao from "../../assets/image/kakaologin.svg";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const kakaologin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
+
+  const emailLogin = () => {
+    const data = {
+      email: email,
+      password: password,
+    };
+    dispatch(loginDB(data));
+  };
+
   return (
     <React.Fragment>
       <LoginContainer>
-        <InputId type="text" placeholder="이메일" />
-        <InputPwd type="password" placeholder="비밀번호" />
-        <Button margin="42px 20px 8px 20px">
+        <InputId
+          type="text"
+          placeholder="이메일"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <InputPwd
+          type="password"
+          placeholder="비밀번호"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button margin="42px 20px 8px 20px" _onClick={emailLogin}>
           <LoginText>로그인</LoginText>
         </Button>
         <KakaoBtn
@@ -31,8 +55,7 @@ const Login = () => {
 export default Login;
 
 const LoginContainer = styled.div`
-  height: 100%;
-  margin-bottom: 280px;
+  height: calc(100% - 60px);
 `;
 
 const Input = styled.input`

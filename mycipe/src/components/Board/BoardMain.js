@@ -1,16 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 import RecipeCard from "../../components/Card/RecipeCard";
 import BoardCard from "../Card/BoardCard";
+import ModalBackground from "../../shared/ModalBackground";
 
 const RecipeBoardMain = ({ boardName }) => {
+  const isActive = useSelector((state) => state.modal.isActive);
   const src =
     "https://blog.kakaocdn.net/dn/GxTdx/btqPdTdEFKR/s1TX9oAjx6PErwJb13pKl0/img.jpg";
 
   return (
     <>
       <BoardMainContainer>
+        {isActive && <ModalBackground />}
         {/* 정렬 박스 */}
         <SortingBox>
           <SortingItem>최신순</SortingItem>
@@ -30,10 +34,15 @@ const RecipeBoardMain = ({ boardName }) => {
         {boardName === "bulletinBoard" && (
           <CardList>
             <BoardCard />
+            {/* <BoardCard src={src} />
+            <BoardCard />
+            <BoardCard />
+            <BoardCard />
+            <BoardCard />
             <BoardCard src={src} />
             <BoardCard />
             <BoardCard />
-            <BoardCard />
+            <BoardCard /> */}
           </CardList>
         )}
       </BoardMainContainer>
@@ -42,8 +51,12 @@ const RecipeBoardMain = ({ boardName }) => {
 };
 
 const BoardMainContainer = styled.div`
-  height: 100%;
-  margin: 12px 20px 80px;
+  height: auto;
+  min-height: calc(100% - 60px);
+  /* height: 100%; */
+  /* overflow-y: auto; */
+  padding: 12px 20px 10px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
