@@ -7,9 +7,9 @@ const initialState = {
   userInfo: {
     image: null,
     nickname: "test1",
-    followCount: 0,
-    followingCount: 0,
-    followStatus: "N",
+    followCount: null,
+    followingCount: null,
+    followStatus: false,
   },
 };
 
@@ -26,10 +26,12 @@ const userPageSlice = createSlice({
     // 유저페이지 정보 성공시
     [getUserInfoDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
+      state.userInfo = payload;
     },
     // 유저페이지 정보 실패시
     [getUserInfoDB.rejected]: (state, action) => {
       state.isFetching = false;
+      console.log(action.error);
     },
   },
 });
