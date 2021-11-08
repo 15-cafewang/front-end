@@ -204,7 +204,7 @@ const Header = (props) => {
         <LeftInner>
           <BackIcon
             onClick={() => {
-              history.push("/bulletinboard");
+              history.goBack();
             }}
           />
           <PageName>게시글 작성하기</PageName>
@@ -220,7 +220,6 @@ const Header = (props) => {
       </HeaderInner>
     );
   }
-
 
   if (location.includes("/searchmain")) {
     //검색메인

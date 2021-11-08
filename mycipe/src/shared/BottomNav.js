@@ -46,6 +46,15 @@ const BottomNav = (props) => {
     dispatch(setActive(!isActive));
   };
 
+  if (
+    location === "/user/kakao/callback" ||
+    location === "/" ||
+    location === "/login" ||
+    location === "/signup"
+  ) {
+    return null;
+  }
+
   return (
     <>
       <BottomNavInner>

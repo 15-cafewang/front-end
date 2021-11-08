@@ -6,6 +6,8 @@ import { Button } from "../../elements";
 import { useDispatch } from "react-redux";
 import { signupDB } from "../../redux/Async/user";
 
+import { emailCheck, pwCheck } from "../../shared/common";
+
 const Signup = () => {
   const dispatch = useDispatch();
 
@@ -21,10 +23,29 @@ const Signup = () => {
       passwordCheck: passwordCheck,
       nickname: nickname,
     };
-    console.log(data);
+
+    if (email === "" || nickname === "" || password === "") {
+      window.alert("아이디,패스워드,닉네임 모두 작성해주세요.");
+      return;
+    }
+
+    if (!emailCheck(email)) {
+      window.alert("이메일 형식이 맞지않습니다. ");
+      return;
+    }
+
+    if (password !== passwordCheck) {
+      window.alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if (!pwCheck(password)) {
+      window.alert("비밀번호 형식을 확인해주세요!");
+      return;
+    }
+
     dispatch(signupDB(data));
-    console.log(data);
   };
+
   return (
     <React.Fragment>
       <SignupContainer>
@@ -35,12 +56,12 @@ const Signup = () => {
         />
         <InputNick
           type="text"
-          placeholder="닉네임"
+          placeholder="닉네임(2~10자이내)"
           onChange={(e) => setNickname(e.target.value)}
         />
         <InputPwd
           type="password"
-          placeholder="비밀번호"
+          placeholder="비밀번호(특수문자,영어,숫자포함 8~20자이내)"
           onChange={(e) => setPassword(e.target.value)}
         />
         <InputPwdChk
