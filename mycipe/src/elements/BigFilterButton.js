@@ -2,16 +2,21 @@ import React from "react";
 import styled from "styled-components";
 
 const BigFilterButton = (props) => {
-  const { children, active, noneBorderTop } = props;
+  const { children, active, noneBorderTop, _onClick } = props;
 
   const styles = { active, noneBorderTop };
 
-  return <Button {...styles}>{children}</Button>;
+  return (
+    <Button {...styles} onClick={_onClick}>
+      {children}
+    </Button>
+  );
 };
 
 BigFilterButton.defalutProps = {
   active: false,
   noneBorderTop: false,
+  _onClick: () => {},
 };
 
 const Button = styled.button`
