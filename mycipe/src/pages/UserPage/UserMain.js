@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
+import { useHistory, useParams } from "react-router";
+
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
+
 import {
   BigFilterButton,
   SmallFilterButton,
   ButtonInner,
 } from "../../elements";
+
 import ModalBackground from "../../shared/ModalBackground";
 
-import { getUserInfoDB } from "../../redux/Async/userPage";
-import { useHistory, useParams } from "react-router";
+//thunkAsync
+import {
+  getUserInfoDB,
+  getUserWrittenRecipesDB,
+  getUserWrittenBoardsDB,
+  getUserLikedRecipesDB,
+  getUserLikedBoardsDB,
+} from "../../redux/Async/userPage";
+
+//sliceAction
+import { resetPost } from "../../redux/Modules/userPageSlice";
 
 const UserMain = (props) => {
   const history = useHistory();
@@ -21,8 +33,11 @@ const UserMain = (props) => {
 
   //모달
   const isActive = useSelector((state) => state.modal.isActive);
+
+  //로그인 유저정보, 페이지 정보 불러오기
   const loginUserInfo = useSelector((state) => state.user);
-  const userInfo = useSelector((state) => state.userPage.userInfo);
+  const pageInfo = useSelector((state) => state.userPage);
+  const userInfo = pageInfo.userInfo;
 
   //로그인안하면 로그인페이지로 보내기
   if (!loginUserInfo.isLogin) {
@@ -38,17 +53,28 @@ const UserMain = (props) => {
 
   useEffect(() => {
     dispatch(getUserInfoDB(userNickname));
+    dispatch(getUserWrittenRecipesDB(userNickname));
   }, [dispatch, userNickname]);
 
-  const [BigFilterButtons, setBigFilterButtons] = useState({
+  const [filterButtons, setFilterButtons] = useState({
     writtenBoard: false,
-    likedBoard: false,
-  });
-
-  const [smallFilterButtons, setSmallFilterButtons] = useState({
+    likedBoard: true,
     recipe: false,
-    bulletinBoard: false,
+    bulletinBoard: true,
   });
+  const [likeStatus, setLikeStatus] = useState(false);
+
+  //보여줄 게시물 선정하기
+  let currentList = [];
+
+  if (filterButtons.writtenBoard) {
+    if (filterButtons.recipe)
+      currentList = pageInfo.postList.userWrittenRecipes;
+    else currentList = pageInfo.postList.userWrittenBoards;
+  } else {
+    if (filterButtons.recipe) currentList = pageInfo.postList.userLikedRecipes;
+    else currentList = pageInfo.postList.userLikedBoards;
+  }
 
   return (
     <>
@@ -72,7 +98,13 @@ const UserMain = (props) => {
               </Button>
             </Grid>
             {isMe ? (
-              <ProfileEditButton>프로필편집</ProfileEditButton>
+              <ProfileEditButton
+                onClick={() => {
+                  history.push("/userpageprofileedit");
+                }}
+              >
+                프로필편집
+              </ProfileEditButton>
             ) : userInfo.followStatus ? (
               <FollowBtn>팔로우취소</FollowBtn>
             ) : (
@@ -83,17 +115,41 @@ const UserMain = (props) => {
 
         <ButtonInner height="48px">
           <BigFilterButton
-            active={BigFilterButtons.writtenBoard}
+            active={filterButtons.writtenBoard}
             _onClick={() => {
-              setBigFilterButtons({ writtenBoard: true, likedBoard: false });
+              setFilterButtons({
+                writtenBoard: true,
+                recipe: true,
+
+                likedBoard: false,
+                bulletinBoard: false,
+              });
+
+              setLikeStatus(false);
+
+              dispatch(getUserWrittenRecipesDB(userInfo.nickname));
+
+              dispatch(resetPost());
             }}
           >
             게시글
           </BigFilterButton>
           <BigFilterButton
-            active={BigFilterButtons.likedBoard}
+            active={filterButtons.likedBoard}
             _onClick={() => {
-              setBigFilterButtons({ writtenBoard: false, likedBoard: true });
+              setFilterButtons({
+                likedBoard: true,
+                recipe: true,
+
+                writtenBoard: false,
+                bulletinBoard: false,
+              });
+
+              setLikeStatus(true);
+
+              dispatch(getUserLikedRecipesDB(userInfo.nickname));
+
+              dispatch(resetPost());
             }}
           >
             좋아요
@@ -102,34 +158,60 @@ const UserMain = (props) => {
 
         <ButtonInner height="32px" small>
           <SmallFilterButton
-            active={smallFilterButtons.recipe}
+            active={filterButtons.recipe}
             _onClick={() => {
-              setSmallFilterButtons({ recipe: true, bulletinBoard: false });
+              setFilterButtons({
+                ...filterButtons,
+                bulletinBoard: false,
+                recipe: true,
+              });
+              if (filterButtons.writtenBoard) {
+                dispatch(getUserWrittenRecipesDB(userInfo.nickname));
+              } else {
+                dispatch(getUserLikedRecipesDB(userInfo.nickname));
+              }
+
+              dispatch(resetPost());
             }}
           >
             레시피
           </SmallFilterButton>
 
           <SmallFilterButton
-            active={smallFilterButtons.bulletinBoard}
+            active={filterButtons.bulletinBoard}
             _onClick={() => {
-              setSmallFilterButtons({ recipe: false, bulletinBoard: true });
+              setFilterButtons({
+                ...filterButtons,
+                bulletinBoard: true,
+
+                recipe: false,
+              });
+              if (filterButtons.writtenBoard) {
+                dispatch(getUserWrittenBoardsDB(userInfo.nickname));
+              } else {
+                dispatch(getUserLikedBoardsDB(userInfo.nickname));
+              }
+
+              dispatch(resetPost());
             }}
           >
             게시판
           </SmallFilterButton>
         </ButtonInner>
 
-        <CardList>
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
-          <BoardCard />
-          <BoardCard />
-        </CardList>
+        {filterButtons.recipe ? (
+          <CardList>
+            {currentList.map((item, idx) => {
+              return <RecipeCard key={item.recipeId} likeStatus={likeStatus} />;
+            })}
+          </CardList>
+        ) : (
+          <CardList>
+            {currentList.map((item, idx) => {
+              return <BoardCard key={item.boardId} likeStatus={likeStatus} />;
+            })}
+          </CardList>
+        )}
       </UserMainInner>
     </>
   );
