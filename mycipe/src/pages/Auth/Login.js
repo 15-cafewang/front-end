@@ -1,18 +1,30 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginDB } from "../../redux/Async/user";
+import { useDispatch, useSelector } from "react-redux";
+import { history } from "../../redux/configureStore";
 
 import styled from "styled-components";
 import { Button } from "../../elements";
+
+import { loginDB } from "../../redux/Async/user";
+import { loginCheck } from "../../redux/Async/user";
 import { emailCheck } from "../../shared/common";
+
 import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 import Kakao from "../../assets/image/kakaologin.svg";
 
 const Login = () => {
   const dispatch = useDispatch();
-
+  const isLogin = useSelector((state) => state.user.isLogin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  React.useEffect(() => {
+    dispatch(loginCheck());
+    if (isLogin) {
+      window.alert("로그인중입니다!메인화면으로 이동할게요. ");
+      history.push("/main");
+    }
+  }, [isLogin]);
 
   const kakaologin = () => {
     window.location.href = KAKAO_AUTH_URL;
