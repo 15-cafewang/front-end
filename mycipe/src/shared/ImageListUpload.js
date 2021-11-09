@@ -1,6 +1,5 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-
 // icon
 import { ReactComponent as PlusImageBefore } from "../assets/plusImageBefore.svg";
 import { ReactComponent as Remove } from "../assets/remove.svg";
@@ -8,7 +7,7 @@ import { ReactComponent as Remove } from "../assets/remove.svg";
 // elements
 import Image from "../elements/Image";
 
-const ImageListUpload = () => {
+const ImageListUpload = ({ getFileFromImageList }) => {
   const [fileList, setFileList] = useState({
     fileList: [],
     previewURLList: [],
@@ -36,7 +35,6 @@ const ImageListUpload = () => {
         previewURLList: [...newFileList],
       });
     }
-    console.log(imageFileList);
   };
 
   const handleRemoveImageFile = (idx) => {
@@ -50,16 +48,14 @@ const ImageListUpload = () => {
     });
   };
 
-  console.log(fileList);
+  useEffect(() => {
+    getFileFromImageList(fileList.fileList);
+  }, [fileList.fileList]);
 
   return (
     <>
       <Grid>
-        <Image
-          shape="rectangle"
-          size="small"
-          src={fileList.previewURL ? fileList.previewURL : null}
-        >
+        <Image shape="rectangle" size="small">
           <label>
             <IconWrapper>
               <PlusImageBefore width="20px" height="20px" />
@@ -80,8 +76,8 @@ const ImageListUpload = () => {
               <Image key={url} src={url} shape="rectangle" size="small">
                 <RemoveIconWrapper
                   onClick={() => {
-                    console.log(idx);
                     handleRemoveImageFile(idx);
+                    getFileFromImageList(fileList.fileList);
                   }}
                 >
                   <Remove />

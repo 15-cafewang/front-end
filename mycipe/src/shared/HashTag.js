@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 const hashTagStrList = [
   "#청량한",
@@ -13,13 +13,26 @@ const hashTagStrList = [
   "#당충전",
 ];
 
-const HashTag = () => {
+const HashTag = ({ getTagFromHashTag }) => {
   const [hashTagList, setHashTagList] = useState(
     // initialValue는 모두 false로 만들어준다.
     hashTagStrList.map((val) => {
       return { name: val, active: false };
     })
   );
+
+  useEffect(() => {
+    const clickedHashTagList = [];
+
+    // 현재 선택된 해시태그만 골라서 배열에 넣어준다.
+    hashTagList.forEach((tag) => {
+      if (tag.active === true) {
+        clickedHashTagList.push(tag.name);
+      }
+    });
+
+    getTagFromHashTag(clickedHashTagList);
+  }, [hashTagList]);
 
   const toggleHashTag = (currentTag) => {
     // 현재 클릭한 태그의 상태가 true이면 나머지는 그대로 두고, 클릭한 태그의 상태만 false로 다시 뱌꿔준다.
