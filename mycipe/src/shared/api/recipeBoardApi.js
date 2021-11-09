@@ -2,9 +2,11 @@ import api from "./index";
 
 export const recipeBoardApi = {
   // 레시피 목록 조회
-  getList: () => {
-    return api.get("/recipes/list/");
+  getPostList: () => {
+    return api.get("/recipes/list?page=1&size=7&isAsc=false&sortBy=regDate");
   },
+
+  // /recipes/list?page=2&size=5&isAsc=false&sortBy=regDate
 
   // 레시피 작성
   addPost: (post) => {
