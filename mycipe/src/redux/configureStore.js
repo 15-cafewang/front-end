@@ -5,22 +5,20 @@ import { connectRouter } from "connected-react-router";
 
 // import slice module
 import userSlice from "./Modules/userSlice";
-
 import userPageSlice from "./Modules/userPageSlice";
-
-
 import modalSlice from "./Modules/modalSlice";
+import bulletinBoardSlice from "./Modules/bulletinBoardSlice";
+import recipeBoardSlice from "./Modules/recipeBoardSlice";
 export const history = createBrowserHistory();
 
 // reducers
 const reducer = combineReducers({
   router: connectRouter(history),
   user: userSlice.reducer,
-
   userPage: userPageSlice.reducer,
-
   modal: modalSlice.reducer,
-
+  bulletinBoard: bulletinBoardSlice.reducer,
+  recipeBoard: recipeBoardSlice.reducer,
 });
 
 const middlewares = [];
