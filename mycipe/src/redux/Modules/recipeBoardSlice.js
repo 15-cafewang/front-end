@@ -19,7 +19,7 @@ const recipeBoardSlice = createSlice({
     [addRecipePostDB.fulfilled]: (state, action) => {
       state.isfetching = false;
     },
-    [addRecipePostDB.fulfilled]: (state, action) => {
+    [addRecipePostDB.rejected]: (state, action) => {
       state.isfetching = true;
     },
   },

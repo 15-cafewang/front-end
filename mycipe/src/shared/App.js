@@ -27,6 +27,7 @@ import UserPageFollowList from "../pages/UserPage/UserFollowList";
 import SearchMain from "../pages/SearchPage/SearchMain";
 import SearchList from "../pages/SearchPage/SearchList";
 
+import Setting from "../pages/SettingPage/Setting";
 import background from "../assets/image/Background.png";
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
               exact
               component={BulletinBoardDetail}
             />
-            {/* 강표 */}
+
             <Route path="/main" exact component={Main} />
             <Route path="/usermain/:nickname" exact component={UserMain} />
             <Route
@@ -80,6 +81,7 @@ function App() {
             <Route path="/user/kakao/callback" exact component={Kakao} />
             <Route path="/searchmain" component={SearchMain} />
             <Route path="/searchmain/searchlist" component={SearchList} />
+            <Route path="/setting" component={Setting} />
           </Switch>
           <BottomNav />
         </Container>
@@ -116,7 +118,7 @@ const WebVer = styled.div`
   z-index: -100;
   background: #ffe899;
   opacity: 0.18;
-  
+
   @media only screen and (min-width: 1025px) {
     opacity: 1;
     background-size: cover;

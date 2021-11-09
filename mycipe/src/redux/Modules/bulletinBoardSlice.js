@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
   addBulletinPostDB,
-  getBulletinBoardListDB,
+  getBulletinPostListDB,
+  getBulletinPostDetailDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
-  isfetching: false,
+  isFetching: false,
   boardList: [],
+  currentBoardPost: {},
 };
 
 const bulletinBoardSlice = createSlice({
@@ -16,25 +18,36 @@ const bulletinBoardSlice = createSlice({
   reducers: {},
   extraReducers: {
     // 게시글 목록 불러오기
-    [getBulletinBoardListDB.pending]: (state, action) => {
-      state.isfetching = true;
+    [getBulletinPostListDB.pending]: (state, action) => {
+      state.isFetching = true;
     },
-    [getBulletinBoardListDB.fulfilled]: (state, action) => {
-      state.isfetching = false;
-      state.boardList = action.payload;
+    [getBulletinPostListDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.boardList = payload;
     },
-    [getBulletinBoardListDB.rejected]: (state, action) => {
-      state.isfetching = false;
+    [getBulletinPostListDB.rejected]: (state, action) => {
+      state.isFetching = false;
     },
     // 게시글 작성
     [addBulletinPostDB.pending]: (state, action) => {
-      state.isfetching = true;
+      state.isFetching = true;
     },
-    [addBulletinPostDB.fulfilled]: (state, action) => {
-      state.isfetching = false;
+    [addBulletinPostDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
     },
     [addBulletinPostDB.rejected]: (state, action) => {
-      state.isfetching = false;
+      state.isFetching = false;
+    },
+    // 게시글 상세 조회
+    [getBulletinPostDetailDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getBulletinPostDetailDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.currentBoardPost = payload;
+    },
+    [getBulletinPostDetailDB.rejected]: (state, action) => {
+      state.isFetching = false;
     },
   },
 });

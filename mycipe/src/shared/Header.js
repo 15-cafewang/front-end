@@ -13,11 +13,15 @@ import { useSelector } from "react-redux";
 const Header = (props) => {
   const location = useLocation().pathname;
 
-  const loginUserNickname = useSelector(
-    (state) => state.user.userInfo.nickname
-  );
+  const LoginUserInfo = useSelector((state) => state.user);
+  const loginUserNickname = LoginUserInfo.userInfo.nickname;
+  if (!LoginUserInfo.isLogin) return null;
 
-  if (location === "/") {
+  if (
+    location === "/" ||
+    location === "/recipeboard/write" ||
+    location === "/bulletinboard/write"
+  ) {
     // 시작페이지
     return null;
   }
@@ -78,7 +82,11 @@ const Header = (props) => {
             <PageName>마이페이지</PageName>
           </LeftInner>
 
-          <SettingIcon />
+          <SettingIcon
+            onClick={() => {
+              history.push("/setting");
+            }}
+          />
         </HeaderInner>
       );
     } else {
@@ -90,7 +98,11 @@ const Header = (props) => {
             }}
           />
 
-          <SettingIcon />
+          <SettingIcon
+            onClick={() => {
+              history.push("/setting");
+            }}
+          />
         </HeaderInner>
       );
     }
@@ -196,8 +208,20 @@ const Header = (props) => {
         <SearchButton>검색</SearchButton>
       </HeaderInner>
     );
-  } else {
-    return null;
+  }
+
+  if (location === "/setting") {
+    //설정페이지
+    return (
+      <HeaderInner>
+        <BackIcon
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+        <PageName>설정페이지</PageName>
+      </HeaderInner>
+    );
   }
 };
 
