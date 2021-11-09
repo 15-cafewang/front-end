@@ -2,15 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 const SmallFilterButton = (props) => {
-  const { children, active } = props;
+  const { children, active, _onClick } = props;
 
   const styles = { active };
 
-  return <Button {...styles}>{children}</Button>;
+  return (
+    <Button {...styles} onClick={_onClick}>
+      {children}
+    </Button>
+  );
 };
 
 SmallFilterButton.defalutProps = {
   active: false,
+  _onClick: () => {},
 };
 
 const Button = styled.button`

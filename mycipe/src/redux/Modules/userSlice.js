@@ -6,17 +6,24 @@ const initialState = {
   isLogin: false,
   isFetching: false,
   userInfo: {
-    nickname: "",
-    profileImage: "image",
+    nickname: null,
+    profileImage: null,
   },
 };
 
 const userSlice = createSlice({
   name: "user",
-  isFetching: false,
+  // isFetching: false,
   initialState: initialState,
   //리덕스
-  reducers: {},
+  reducers: {
+    logout: (state, action) => {
+      localStorage.removeItem("USER_TOKEN");
+      state.isLogin = false;
+      state.userInfo = {};
+      window.alert("로그아웃이 완료되었습니다.");
+    },
+  },
   extraReducers: {
     // 회원가입
     [signupDB.pending]: (state, ation) => {
@@ -39,8 +46,7 @@ const userSlice = createSlice({
     // 로그인 성공시
     [loginDB.fulfilled]: (state, { payload }) => {
       state.userInfo = payload;
-      state.isLogin = false;
-      state.isFetching = false;
+      state.isLogin = true;
       window.alert("로그인 되셨습니다! 환영합니다!");
     },
     // 로그인 실패시
@@ -58,6 +64,7 @@ const userSlice = createSlice({
       state.isLogin = true;
       window.alert("로그인 되셨습니다! 환영합니다!");
     },
+    // 카카오 로그인 실패시
     [kakaoLogin.rejected]: (state, action) => {
       state.isFetching = false;
       window.alert("로그인 실패");
@@ -79,6 +86,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { userReducer } = userSlice.actions;
+export const { logout } = userSlice.actions;
 
 export default userSlice;
