@@ -18,7 +18,7 @@ const bulletinBoardSlice = createSlice({
     [addBulletinPostDB.fulfilled]: (state, action) => {
       state.isfetching = false;
     },
-    [addBulletinPostDB.fulfilled]: (state, action) => {
+    [addBulletinPostDB.rejected]: (state, action) => {
       state.isfetching = true;
     },
   },
