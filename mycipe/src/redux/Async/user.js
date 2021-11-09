@@ -6,15 +6,18 @@ import {
   loginAPI,
   KakaoAPI,
   loginCheckAPI,
+  emailCheckAPI,
+  nicknameCheckAPI,
 } from "../../shared/api/userApi";
 
 // 회원가입
 export const signupDB = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
+    console.log(data);
     const response = await signupAPI(data);
     history.push("/login");
-    return response.data;
+    return response;
   }
 );
 
@@ -59,3 +62,29 @@ export const loginCheck = createAsyncThunk("user/loginCheck", async () => {
   };
   return userInfo;
 });
+
+// 이메일 중복체크
+export const emailCheckDB = createAsyncThunk(
+  "user/emailCheck",
+  async (email) => {
+    const response = await emailCheckAPI(email);
+    if (response.data.code === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+);
+
+// 닉네임 중복체크
+export const nickCheckDB = createAsyncThunk(
+  "user/nickCheck",
+  async (nickname) => {
+    const response = await nicknameCheckAPI(nickname);
+    if (response.data.code === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+);
