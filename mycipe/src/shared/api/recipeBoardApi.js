@@ -8,7 +8,10 @@ export const recipeBoardApi = {
 
   // 레시피 작성
   addPost: (post) => {
-    return api.post("/recipes", post);
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    return api.post("/recipes", post, config);
   },
 
   // 레시피 수정
@@ -49,5 +52,10 @@ export const recipeBoardApi = {
   // 좋아요 토글
   likeToggle: (postId) => {
     return api.post(`/recipes/likes/${postId}`);
+  },
+
+  // 게시물 댓글 좋아요 토글
+  commentLikeToggle: (commentId) => {
+    return api.post(`/boards/comments/likes/${commentId}`);
   },
 };
