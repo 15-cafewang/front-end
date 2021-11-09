@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { addBulletinPostDB } from "../Async/bulletinBoard";
+import {
+  addBulletinPostDB,
+  getBulletinBoardListDB,
+} from "../Async/bulletinBoard";
 
 const initialstate = {
   isfetching: false,
+  boardList: [],
 };
 
 const bulletinBoardSlice = createSlice({
@@ -11,15 +15,26 @@ const bulletinBoardSlice = createSlice({
   initialState: initialstate,
   reducers: {},
   extraReducers: {
-    // 레시피 작성
+    // 게시글 목록 불러오기
+    [getBulletinBoardListDB.pending]: (state, action) => {
+      state.isfetching = true;
+    },
+    [getBulletinBoardListDB.fulfilled]: (state, action) => {
+      state.isfetching = false;
+      state.boardList = action.payload;
+    },
+    [getBulletinBoardListDB.rejected]: (state, action) => {
+      state.isfetching = false;
+    },
+    // 게시글 작성
     [addBulletinPostDB.pending]: (state, action) => {
       state.isfetching = true;
     },
     [addBulletinPostDB.fulfilled]: (state, action) => {
       state.isfetching = false;
     },
-    [addBulletinPostDB.fulfilled]: (state, action) => {
-      state.isfetching = true;
+    [addBulletinPostDB.rejected]: (state, action) => {
+      state.isfetching = false;
     },
   },
 });

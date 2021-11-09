@@ -3,8 +3,10 @@ import api from "./index";
 export const bulletinBoardApi = {
   // 레시피 목록 조회
   getList: () => {
-    return api.get("/boards");
+    return api.get("/boards?page=1&size=1&isAsc=false&sortBy=regDate");
   },
+  // /boards?page=0&size=10&isAsc=false&sortBy=regDate
+  //  ex /recipes(boards)/list?page=2&size=5&isAsc=false&sortBy=regDate
 
   // 레시피 작성
   addPost: (post) => {

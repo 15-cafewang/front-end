@@ -18,3 +18,12 @@ export const addBulletinPostDB = createAsyncThunk(
     return response.data.message;
   }
 );
+
+export const getBulletinBoardListDB = createAsyncThunk(
+  "bulletinBoard/getPostList",
+  async (thunkAPI) => {
+    const response = await bulletinBoardApi.getList();
+    window.alert(response.data.message);
+    return response.data.content;
+  }
+);

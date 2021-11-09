@@ -1,15 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import RecipeCard from "../../components/Card/RecipeCard";
-import BoardCard from "../Card/BoardCard";
+import BoardCard from "../components/Card/BoardCard";
 import ModalBackground from "../../shared/ModalBackground";
 
-const RecipeBoardMain = ({ boardName }) => {
+const BoardMain = ({ boardName }) => {
   const isActive = useSelector((state) => state.modal.isActive);
-  const src =
-    "https://blog.kakaocdn.net/dn/GxTdx/btqPdTdEFKR/s1TX9oAjx6PErwJb13pKl0/img.jpg";
+  const src = "";
 
   return (
     <>
@@ -21,20 +19,9 @@ const RecipeBoardMain = ({ boardName }) => {
           <SortingItem>인기순</SortingItem>
         </SortingBox>
 
-        {boardName === "recipeBoard" && (
-          <CardList>
-            <RecipeCard src={src} />
-            <RecipeCard src={src} />
-            <RecipeCard src={src} />
-            <RecipeCard src={src} />
-            <RecipeCard src={src} />
-          </CardList>
-        )}
-
-        {boardName === "bulletinBoard" && (
-          <CardList>
-            <BoardCard />
-            {/* <BoardCard src={src} />
+        <CardList>
+          <BoardCard />
+          {/* <BoardCard src={src} />
             <BoardCard />
             <BoardCard />
             <BoardCard />
@@ -43,8 +30,7 @@ const RecipeBoardMain = ({ boardName }) => {
             <BoardCard />
             <BoardCard />
             <BoardCard /> */}
-          </CardList>
-        )}
+        </CardList>
       </BoardMainContainer>
     </>
   );
