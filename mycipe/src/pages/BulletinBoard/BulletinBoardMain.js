@@ -1,21 +1,24 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-
+import { history } from "../../redux/configureStore";
 // components
 import BoardCard from "../../components/Card/BoardCard";
 import ModalBackground from "../../shared/ModalBackground";
 // async
-import { getBulletinBoardListDB } from "../../redux/Async/bulletinBoard";
+import { getBulletinPostListDB } from "../../redux/Async/bulletinBoard";
 
 const BulletinBoardMain = () => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
-  const src = "";
+  const boardList = useSelector(
+    (state) => state.bulletinBoard && state.bulletinBoard.boardList
+  );
 
   useEffect(() => {
-    dispatch(getBulletinBoardListDB());
-  });
+    dispatch(getBulletinPostListDB());
+  }, []);
+
   return (
     <>
       <BoardMainContainer>
@@ -25,18 +28,32 @@ const BulletinBoardMain = () => {
           <SortingItem>최신순</SortingItem>
           <SortingItem>인기순</SortingItem>
         </SortingBox>
-
+        {/* boardId: 20 commentCount: 0 content: "ㅇㅇㅇ" image: null likeCount: 0
+        likeStatus: false nickname: "박하린" regDate:
+        "2021-11-09T11:09:14.40108" title: "ㅇㅇㅇ" */}
         <CardList>
-          <BoardCard />
-          {/* <BoardCard src={src} />
-            <BoardCard />
-            <BoardCard />
-            <BoardCard />
-            <BoardCard />
-            <BoardCard src={src} />
-            <BoardCard />
-            <BoardCard />
-            <BoardCard /> */}
+          {boardList &&
+            boardList.map((b, idx) => {
+              return (
+                <BoardCard
+                  _onClick={() => {
+                    history.push(`/bulletinboard/detail/${b.boardId}`);
+                  }}
+                  key={b.boardId}
+                  commentCount={b.commentCount}
+                  content={b.content}
+                  image={b.image}
+                  likeCount={b.likeCount}
+                  likeStatus={b.likeStatus}
+                  nickname={b.nickname}
+                  regDate={b.regDate
+                    .split("T")[0]
+                    .replace("-", ". ")
+                    .replace("-", ". ")}
+                  title={b.title}
+                />
+              );
+            })}
         </CardList>
       </BoardMainContainer>
     </>
