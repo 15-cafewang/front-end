@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signupDB, loginDB, kakaoLogin } from "../Async/user";
+import { signupDB, loginDB, kakaoLogin, loginCheck } from "../Async/user";
 
 // inititalState
 const initialState = {
@@ -64,9 +64,24 @@ const userSlice = createSlice({
       state.isLogin = true;
       window.alert("로그인 되셨습니다! 환영합니다!");
     },
+    // 카카오 로그인 실패시
     [kakaoLogin.rejected]: (state, action) => {
       state.isFetching = false;
       window.alert("로그인 실패");
+    },
+    // 로그인체크
+    [loginCheck.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    // 로그인체크 성공시
+    [loginCheck.fulfilled]: (state, { payload }) => {
+      state.isLogin = true;
+      state.isFetching = false;
+      state.userInfo = payload;
+    },
+    // 로그인체크 실패시
+    [loginCheck.rejected]: (state, action) => {
+      state.isFetching = false;
     },
   },
 });
