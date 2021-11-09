@@ -2,11 +2,12 @@ import api from "./index";
 
 // 회원가입
 const signupAPI = (data) => {
+  console.log(data);
   return api.post("/user/signup", {
-    email: data,
-    nickname: data,
-    password: data,
-    passwordCheck: data,
+    email: data.email,
+    nickname: data.nickname,
+    password: data.password,
+    passwordCheck: data.passwordCheck,
   });
 };
 
