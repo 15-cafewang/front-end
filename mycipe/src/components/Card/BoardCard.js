@@ -8,46 +8,50 @@ import { ReactComponent as ActiveLikeIcon } from "../../assets/icon/LikeIcon/act
 // elements
 import Image from "../../elements/Image";
 
-const BoardCard = (props) => {
-  const { src } = props;
-
-  const date = "2021.06.16";
-  const isThumbnail = src ? true : false;
+const BoardCard = ({
+  commentCount,
+  content,
+  image,
+  likeCount,
+  likeStatus,
+  nickname,
+  regDate,
+  title,
+  _onClick,
+}) => {
+  const isThumbnail = image ? true : false;
 
   return (
-    <BoardCardInner>
+    <BoardCardInner onClick={_onClick}>
       <TitleInner>
-        <Title>
-          제목이 들어감제목이 들어감제목이 들어감제목이 들어감제목이 들어감
-          제목이 들어감제목이 들어감제목이 들어감제목이 들어감제목이 들어감
-        </Title>
-        <Date>{date}</Date>
+        <Title>{title}</Title>
+        <Date>{regDate}</Date>
       </TitleInner>
 
-      <Content>
-        텍스트가들어갑니다
-        텍스트가들어갑니다텍스트가들어갑니다텍스트가들어갑니다텍스트가들어갑니다
-        텍스트가들어갑니다텍스트가들어갑니다텍스트가들어갑니다텍스트가들어갑니다
-      </Content>
+      <Content>{content}</Content>
 
       {/* ------------------------------------------------------------ */}
       {/* 사진 있을 경우 렌더링 */}
-      {isThumbnail && <Image shape="rectangle" size="medium2" src={src} />}
+      {isThumbnail && <Image shape="rectangle" size="medium2" src={image} />}
 
       <IconsInner>
         <LikeInner>
           {/* <LikeIcon />/ */}
           <ActiveLikeIcon />
-          <Count>10개</Count>
+          <Count>{likeCount}개</Count>
         </LikeInner>
 
         <CommentInner>
           <CommentMiniIcon />
-          <Count>10개</Count>
+          <Count>{commentCount}개</Count>
         </CommentInner>
       </IconsInner>
     </BoardCardInner>
   );
+};
+
+BoardCard.defaultProps = {
+  _onClick: () => {},
 };
 
 const BoardCardInner = styled.div`
