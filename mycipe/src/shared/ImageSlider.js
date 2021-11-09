@@ -6,9 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 // elements
 import Image from "../elements/Image";
 
-const ImageSlider = (props) => {
-  const { src } = props;
-
+const ImageSlider = ({ imageList }) => {
   const settings = {
     dots: true,
     lazyLoad: true,
@@ -21,18 +19,14 @@ const ImageSlider = (props) => {
   return (
     <>
       <StyledSlider {...settings}>
-        <Container>
-          <Image shape="rectangle" size="large" src={src} />
-        </Container>
-        <Container>
-          <Image shape="rectangle" size="large" src={src} />
-        </Container>
-        <Container>
-          <Image shape="rectangle" size="large" src={src} />
-        </Container>
-        <Container>
-          <Image shape="rectangle" size="large" src={src} />
-        </Container>
+        {imageList &&
+          imageList.map((image) => {
+            return (
+              <Container>
+                <Image shape="rectangle" size="large" src={image} />
+              </Container>
+            );
+          })}
       </StyledSlider>
     </>
   );
