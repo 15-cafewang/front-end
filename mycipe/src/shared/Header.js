@@ -151,24 +151,6 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/recipeboard/write") {
-    //레시피 작성
-    return (
-      <HeaderInner flexBetween>
-        <LeftInner>
-          <BackIcon
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-          <PageName>레시피 작성하기</PageName>
-        </LeftInner>
-
-        <Button>완료</Button>
-      </HeaderInner>
-    );
-  }
-
   if (location === "/bulletinboard") {
     //자유게시판
     return (
@@ -193,30 +175,6 @@ const Header = (props) => {
           }}
         />
         <PageName>게시글 보기</PageName>
-      </HeaderInner>
-    );
-  }
-
-  if (location === "/bulletinboard/write") {
-    //자유게시판 작성
-    return (
-      <HeaderInner flexBetween>
-        <LeftInner>
-          <BackIcon
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-          <PageName>게시글 작성하기</PageName>
-        </LeftInner>
-
-        <Button
-          onClick={() => {
-            history.goBack();
-          }}
-        >
-          완료
-        </Button>
       </HeaderInner>
     );
   }
