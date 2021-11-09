@@ -13,9 +13,9 @@ import { useSelector } from "react-redux";
 const Header = (props) => {
   const location = useLocation().pathname;
 
-  const loginUserNickname = useSelector(
-    (state) => state.user.userInfo.nickname
-  );
+  const LoginUserInfo = useSelector((state) => state.user);
+  const loginUserNickname = LoginUserInfo.userInfo.nickname;
+  if (!LoginUserInfo.isLogin) return null;
 
   if (location === "/") {
     // 시작페이지
@@ -78,7 +78,11 @@ const Header = (props) => {
             <PageName>마이페이지</PageName>
           </LeftInner>
 
-          <SettingIcon />
+          <SettingIcon
+            onClick={() => {
+              history.push("/setting");
+            }}
+          />
         </HeaderInner>
       );
     } else {
@@ -90,7 +94,11 @@ const Header = (props) => {
             }}
           />
 
-          <SettingIcon />
+          <SettingIcon
+            onClick={() => {
+              history.push("/setting");
+            }}
+          />
         </HeaderInner>
       );
     }
@@ -151,24 +159,6 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/recipeboard/write") {
-    //레시피 작성
-    return (
-      <HeaderInner flexBetween>
-        <LeftInner>
-          <BackIcon
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-          <PageName>레시피 작성하기</PageName>
-        </LeftInner>
-
-        <Button>완료</Button>
-      </HeaderInner>
-    );
-  }
-
   if (location === "/bulletinboard") {
     //자유게시판
     return (
@@ -197,30 +187,6 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/bulletinboard/write") {
-    //자유게시판 작성
-    return (
-      <HeaderInner flexBetween>
-        <LeftInner>
-          <BackIcon
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-          <PageName>게시글 작성하기</PageName>
-        </LeftInner>
-
-        <Button
-          onClick={() => {
-            history.goBack();
-          }}
-        >
-          완료
-        </Button>
-      </HeaderInner>
-    );
-  }
-
   if (location.includes("/searchmain")) {
     //검색메인
     return (
@@ -238,8 +204,20 @@ const Header = (props) => {
         <SearchButton>검색</SearchButton>
       </HeaderInner>
     );
-  } else {
-    return null;
+  }
+
+  if (location === "/setting") {
+    //설정페이지
+    return (
+      <HeaderInner>
+        <BackIcon
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+        <PageName>설정페이지</PageName>
+      </HeaderInner>
+    );
   }
 };
 

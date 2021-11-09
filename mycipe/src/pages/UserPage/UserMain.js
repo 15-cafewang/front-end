@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import BoardCard from "../../components/Card/BoardCard";
@@ -10,8 +11,44 @@ import {
 } from "../../elements";
 import ModalBackground from "../../shared/ModalBackground";
 
+import { getUserInfoDB } from "../../redux/Async/userPage";
+import { useHistory, useParams } from "react-router";
+
 const UserMain = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const userNickname = useParams().nickname;
+
+  //모달
   const isActive = useSelector((state) => state.modal.isActive);
+  const loginUserInfo = useSelector((state) => state.user);
+  const userInfo = useSelector((state) => state.userPage.userInfo);
+
+  //로그인안하면 로그인페이지로 보내기
+  if (!loginUserInfo.isLogin) {
+    history.replace("/");
+  }
+
+  // 마이페이지인지 판단.
+  const loginUserNickname = loginUserInfo.userInfo.nickname;
+  let isMe = false;
+  if (loginUserNickname === userNickname) {
+    isMe = true;
+  }
+
+  useEffect(() => {
+    dispatch(getUserInfoDB(userNickname));
+  }, [dispatch, userNickname]);
+
+  const [BigFilterButtons, setBigFilterButtons] = useState({
+    writtenBoard: false,
+    likedBoard: false,
+  });
+
+  const [smallFilterButtons, setSmallFilterButtons] = useState({
+    recipe: false,
+    bulletinBoard: false,
+  });
 
   return (
     <>
@@ -22,30 +59,65 @@ const UserMain = (props) => {
           <UserProfileImage />
 
           <UserProfileContent>
-            <Text>닉네임</Text>
+            <Text>{userInfo.nickname}</Text>
             <Grid flexBetween>
               <Button>
-                <Count>1K</Count>
+                <Count>{userInfo.followCount}</Count>
                 팔로워
               </Button>
 
               <Button>
-                <Count>400</Count>
+                <Count>{userInfo.followingCount}</Count>
                 팔로잉
               </Button>
             </Grid>
-            <ProfileEditButton>프로필편집</ProfileEditButton>
+            {isMe ? (
+              <ProfileEditButton>프로필편집</ProfileEditButton>
+            ) : userInfo.followStatus ? (
+              <FollowBtn>팔로우취소</FollowBtn>
+            ) : (
+              <FollowBtn>팔로우하기</FollowBtn>
+            )}
           </UserProfileContent>
         </UserProfileInner>
 
         <ButtonInner height="48px">
-          <BigFilterButton active>게시글</BigFilterButton>
-          <BigFilterButton>좋아요</BigFilterButton>
+          <BigFilterButton
+            active={BigFilterButtons.writtenBoard}
+            _onClick={() => {
+              setBigFilterButtons({ writtenBoard: true, likedBoard: false });
+            }}
+          >
+            게시글
+          </BigFilterButton>
+          <BigFilterButton
+            active={BigFilterButtons.likedBoard}
+            _onClick={() => {
+              setBigFilterButtons({ writtenBoard: false, likedBoard: true });
+            }}
+          >
+            좋아요
+          </BigFilterButton>
         </ButtonInner>
 
         <ButtonInner height="32px" small>
-          <SmallFilterButton active>레시피</SmallFilterButton>
-          <SmallFilterButton>게시판</SmallFilterButton>
+          <SmallFilterButton
+            active={smallFilterButtons.recipe}
+            _onClick={() => {
+              setSmallFilterButtons({ recipe: true, bulletinBoard: false });
+            }}
+          >
+            레시피
+          </SmallFilterButton>
+
+          <SmallFilterButton
+            active={smallFilterButtons.bulletinBoard}
+            _onClick={() => {
+              setSmallFilterButtons({ recipe: false, bulletinBoard: true });
+            }}
+          >
+            게시판
+          </SmallFilterButton>
         </ButtonInner>
 
         <CardList>
@@ -123,5 +195,7 @@ const Text = styled.span`
 const Count = styled.span`
   margin-right: 4px;
 `;
+
+const FollowBtn = styled(ProfileEditButton)``;
 
 export default UserMain;

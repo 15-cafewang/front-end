@@ -22,15 +22,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActive } from "../redux/Modules/modalSlice";
 
 const BottomNav = (props) => {
+  const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
   const location = useLocation().pathname; // URL이 변경될떄마다 새로운 URL리턴.
 
-  const LoginUserNickname = useSelector(
-    (state) => state.user.userInfo.nickname
-  );
-  
-  const dispatch = useDispatch();
-  
+  const loginUserInfo = useSelector((state) => state.user);
+
+  const loginUserNickname = loginUserInfo.userInfo.nickname;
+
   useEffect(() => {
     const DetectOutsideClick = () => {
       dispatch(setActive(!isActive));
@@ -40,20 +39,13 @@ const BottomNav = (props) => {
     return () => {
       window.removeEventListener("click", DetectOutsideClick);
     };
-  }, [isActive]);
+  }, [dispatch, isActive]);
 
   const ClickedModal = () => {
     dispatch(setActive(!isActive));
   };
 
-  if (
-    location === "/user/kakao/callback" ||
-    location === "/" ||
-    location === "/login" ||
-    location === "/signup"
-  ) {
-    return null;
-  }
+  if (!loginUserInfo.isLogin) return null;
 
   return (
     <>
@@ -78,8 +70,8 @@ const BottomNav = (props) => {
             </ModalContentInner>
           </PlusModal>
         ) : (
-            ""
-          )}
+          ""
+        )}
 
         <NavButtonInner>
           <NavButton
@@ -98,8 +90,8 @@ const BottomNav = (props) => {
             {location === "/bulletinboard" ? (
               <ActiveBoardIcon />
             ) : (
-                <BoardIcon />
-              )}
+              <BoardIcon />
+            )}
           </NavButton>
 
           <NavButton onClick={ClickedModal}>
@@ -114,16 +106,16 @@ const BottomNav = (props) => {
             {location === "/recipeboard" ? (
               <ActiveRecipeIcon />
             ) : (
-                <RecipeIcon />
-              )}
+              <RecipeIcon />
+            )}
           </NavButton>
 
           <NavButton
             onClick={() => {
-              history.push(`/usermain/${LoginUserNickname}`);
+              history.push(`/usermain/${loginUserNickname}`);
             }}
           >
-            {location === `/usermain/${LoginUserNickname}` ? (
+            {location === `/usermain/${loginUserNickname}` ? (
               <ActiveMyIcon />
             ) : (
               <MyIcon />
