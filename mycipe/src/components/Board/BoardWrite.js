@@ -25,6 +25,7 @@ const BoardWrite = ({ boardName }) => {
   const getFileFromImageList = (fileList) => {
     setFileList([...fileList]);
   };
+  console.log(fileList);
 
   // tagList를 받아와서 setTag 해줍니다.
   const getTagFromHashTag = (tagList) => {

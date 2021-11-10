@@ -17,7 +17,11 @@ const Header = (props) => {
   const loginUserNickname = LoginUserInfo.userInfo.nickname;
   if (!LoginUserInfo.isLogin) return null;
 
-  if (location === "/") {
+  if (
+    location === "/" ||
+    location === "/recipeboard/write" ||
+    location === "/bulletinboard/write"
+  ) {
     // 시작페이지
     return null;
   }

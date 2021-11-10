@@ -5,34 +5,42 @@ import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLik
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 import Image from "../../elements/Image";
 
-const RecipeCard = (props) => {
-  const { src } = props;
+const RecipeCard = ({
+  commentCount,
+  content,
+  image,
+  likeCount,
+  likeStatus,
+  nickname,
+  price,
+  regDate,
+  title,
+  _onClick,
+}) => {
+  const isImage = image ? `${image}` : "";
 
   return (
-    <RecipeCardInner>
-      {/* 기본 테두리 해결못함.. */}
-      {/* <CardTumbnail src="" /> */}
-
-      <Image shape="rectangle" src={src} size="medium" />
-
+    <RecipeCardInner onClick={_onClick}>
+      <Image shape="rectangle" src={isImage} size="medium" />
       <CardContent>
         <TextInner>
-          <Title>
-            제목이 들어갈 자리 제목이들어갈자리제목이 들어갈 자리
-            제목이들어갈자리
-          </Title>
-          <Text>작성자</Text>
-          <Text>1,500원</Text>
+          <Title>{title}</Title>
+          <Text>{nickname}</Text>
+          <Text>{price}</Text>
         </TextInner>
 
         <LikeInner>
           <ActiveSmallLike />
           {/* <SmallLike /> */}
-          <Count>10개</Count>
+          <Count>{likeCount}개</Count>
         </LikeInner>
       </CardContent>
     </RecipeCardInner>
   );
+};
+
+RecipeCard.defaultProps = {
+  _onClick: () => {},
 };
 
 const RecipeCardInner = styled.li`

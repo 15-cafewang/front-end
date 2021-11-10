@@ -1,12 +1,13 @@
 import api from "./index";
 
 export const bulletinBoardApi = {
-  // 레시피 목록 조회
+  // 게시판 목록 조회
   getList: () => {
-    return api.get("/boards");
+    return api.get("/boards?page=1&size=5&isAsc=false&sortBy=regDate");
   },
+  // boards/?page=2&size=5&isAsc=false&sortBy=regDate
 
-  // 레시피 작성
+  // 게시판 작성
   addPost: (post) => {
     const config = {
       headers: { "content-type": "multipart/form-data" },
@@ -14,17 +15,17 @@ export const bulletinBoardApi = {
     return api.post("/boards", post, config);
   },
 
-  // 레시피 수정
+  // 게시판 수정
   editPost: (boardId, post) => {
     return api.put(`/boards/${boardId}`, post);
   },
 
-  // 레시피 삭제
+  // 게시판 삭제
   deletePost: (boardId) => {
     return api.delete(`/boards/${boardId}`);
   },
 
-  // 레시피 상세 조회
+  // 게시판 상세 조회
   getPostDetail: (boardId) => {
     return api.get(`/boards/${boardId}`);
   },

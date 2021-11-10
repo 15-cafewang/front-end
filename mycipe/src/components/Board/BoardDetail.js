@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 // icon
 import { ReactComponent as MenuIcon } from "../../assets/menu.svg";
 import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
@@ -10,54 +11,112 @@ import Image from "../../elements/Image";
 import Comment from "../../shared/Comment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";
+import { getRecipePostDetailDB } from "../../redux/Async/recipeBoard";
+import { getBulletinPostDetailDB } from "../../redux/Async/bulletinBoard";
 
 const BoardDetail = ({ boardName }) => {
+  const dispatch = useDispatch();
+  const params = useParams();
+  const boardId = params.boardid;
+  const recipeId = params.recipeid;
+
+  useEffect(() => {
+    if (boardName === "recipeBoard") {
+      dispatch(getRecipePostDetailDB(recipeId));
+      return;
+    }
+    if (boardName === "bulletinBoard") {
+      dispatch(getBulletinPostDetailDB(boardId));
+      return;
+    }
+  }, []);
+
   const isActive = useSelector((state) => state.modal.isActive);
-  // 임시 정적 데이터
-  const src =
-    "https://post-phinf.pstatic.net/MjAxOTA4MjZfNDEg/MDAxNTY2ODExNTY1Nzkw.-BwndCmYDw-hO4Iy8u1Ur1IepIiFV33a1OGCJs3qsLog.ZQwcf3pHihVe1oSGBPyFs8Dtrz3bLr1N_Xkf2ZKWlT4g.JPEG/0.jpg?type=w1200";
-  const userHashTagList = ["#달달한", "#당충전", "#아이스", "#시험기간에 필수"];
-  const title = "스타벅스 돼지바 프라푸치노";
-  const price = "얼마니??";
-  const content =
-    "초코 드리즐 + 휘핑크림 + 자바칩과 함께 갈기 + 딸기시럽 6펌프 + 두유 딸기 프라푸치노";
+  const postDetail = useSelector((state) =>
+    boardName === "recipeBoard"
+      ? state.recipeBoard.currentRecipePost
+      : state.bulletinBoard.currentBoardPost
+  );
+
+  // 레시피
+  // content: "test";
+  // images: (2)[
+  //   ("https://99final.s3.ap-northeast-2.amazonaws.com/re…E1%85%A1%E1%86%AB%E1%84%91%E1%85%AE%E1%86%BC.jpeg",
+  //   "https://99final.s3.ap-northeast-2.amazonaws.com/re…a59-45dd-836a-65661ef28b13%E3%85%8B%E3%85%8B.jpeg")
+  // ];
+  // likeCount: 0;
+  // likeStatus: false;
+  // nickname: "박하린";
+  // recipeId: 49;
+  // regdate: "2021-11-09T20:23:05.499772";
+  // tags: (2)[("#고소한", "#단짠")];
+  // title: "test";
+
+  // 게시판
+  // boardId: 21;
+  // content: "test2";
+  // images: (2)[
+  //   ("https://99final.s3.ap-northeast-2.amazonaws.com/bo…E1%85%A1%E1%86%AB%E1%84%91%E1%85%AE%E1%86%BC.jpeg",
+  //   "https://99final.s3.ap-northeast-2.amazonaws.com/bo…59c-46f7-8d6f-0605b3825507%E3%85%8B%E3%85%8B.jpeg")
+  // ];
+  // likeCount: 0;
+  // likeStatus: false;
+  // nickname: "박하린";
+  // profile: "https://user-images.githubusercontent.com/76515226/140890775-30641b72-226a-4068-8a0a-9a306e8c68b4.png";
+  // regDate: "2021-11-09T20:17:05.050432";
+  // title: "test2";
 
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
       <Box margin="0px 0px 16px 0px">
-        <Image shape="circle" size="small" src="" />
-        <Nickname>내시피 화이팅</Nickname>
+        <Image shape="circle" size="small" src={postDetail.profile} />
+        <Nickname>{postDetail.nickname}</Nickname>
         <MenuIcon />
       </Box>
 
-      <ImageSlider src={src} />
+      <ImageSlider imageList={postDetail.images} />
 
       <Box col margin="12px 0px 0px">
-        {/* ----------------------------------- */}
         {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
         {boardName === "recipeBoard" && (
           <HashTagBox>
-            {userHashTagList.map((tag) => {
-              return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
-            })}
+            {postDetail.tags &&
+              postDetail.tags.map((tag) => {
+                return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
+              })}
           </HashTagBox>
         )}
 
-        <TextInputBox width="320" height="48" marginBtm="8" value={title} />
+        <TextInputBox
+          width="320"
+          height="48"
+          marginBtm="8"
+          value={postDetail.title}
+        />
 
-        {/* ------------------------------------ */}
         {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
         {boardName === "recipeBoard" && (
-          <TextInputBox width="320" height="48" marginBtm="8" value={price} />
+          <TextInputBox
+            width="320"
+            height="48"
+            marginBtm="8"
+            value={postDetail.price}
+          />
         )}
 
-        <TextInputBox width="320" height="240" value={content} />
+        <TextInputBox width="320" height="240" value={postDetail.content} />
 
         <Box width="320px" margin="12px 0px 56px 0px">
           <ActiveSmallLikeIcon />
-          <LikeCount>111개</LikeCount>
-          <Date>2021. 11. 05</Date>
+          <LikeCount>{postDetail.likeCount}개</LikeCount>
+          <Date>
+            {postDetail.regDate &&
+              postDetail.regDate
+                .split("T")[0]
+                .replace("-", ". ")
+                .replace("-", ". ")}
+          </Date>
         </Box>
 
         <Box width="320px" margin="0px 0px 20px 0px">
@@ -105,7 +164,7 @@ const HashTagBox = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 320px;
-  margin-bottom : 12px;
+  margin-bottom: 12px;
 `;
 
 const UserHashTagItem = styled.div`
