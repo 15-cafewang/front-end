@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-import { Button } from "../../elements/";
+import { Button, Image } from "../../elements/";
+import { ReactComponent as ProfileEditIcon } from "../../assets/icon/profileedit.svg";
+
 import ModalBackground from "../../shared/ModalBackground";
 
 const UserpageProfileEdit = (props) => {
   const isActive = useSelector((state) => state.modal.isActive);
+  const LoginUserInfo = useSelector((state) => state.user.userInfo);
+
+  const inputRef = useRef();
 
   return (
     <ProfileInfoInner>
       {isActive && <ModalBackground />}
-      <UserProfileImageInner>
-        <UserProfileImage />
+      <UserProfileImageInner onClick={() => {}}>
+        <EditButtonInner>
+          <ProfileEditIcon />
+        </EditButtonInner>
+
+        <Image shape="circle" size="large" />
       </UserProfileImageInner>
       <NickNameInputInner>
-        <NickNameInputBox placeholder="닉네임" />
+        <NickNameInputBox ref={inputRef} placeholder="닉네임" />
         <CheckButton>중복확인</CheckButton>
       </NickNameInputInner>
       <Button color="#fff">변경하기</Button>
@@ -23,6 +32,12 @@ const UserpageProfileEdit = (props) => {
   );
 };
 
+const EditButtonInner = styled.div`
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+`;
 const ProfileInfoInner = styled.div`
   height: auto;
   min-height: calc(100% - 60px);
@@ -31,8 +46,9 @@ const ProfileInfoInner = styled.div`
   align-items: center;
 `;
 
-const UserProfileImageInner = styled.div`
+const UserProfileImageInner = styled.button`
   margin: 56px;
+  position: relative;
 `;
 
 const NickNameInputInner = styled.div`
@@ -53,13 +69,6 @@ const CheckButton = styled.button`
 
 const NickNameInputBox = styled.input`
   width: 225px;
-`;
-
-const UserProfileImage = styled.img`
-  background-color: red;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
 `;
 
 export default UserpageProfileEdit;

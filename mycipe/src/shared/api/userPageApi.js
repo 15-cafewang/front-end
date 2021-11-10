@@ -2,19 +2,30 @@ import api from "./index";
 
 const getUserInfo = (nickname) => api.get(`/userinfo/${nickname}`);
 
-const getMyRecipes = (nickname) => api.get(`/userinfo/recipes/${nickname}`);
+const getUserWrittenRecipes = (nickname) =>
+  api.get(
+    `/userinfo/recipes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+  );
 
-const getMyBoardes = (nickname) => api.get(`/userinfo/boards/${nickname}`);
+const getUserWrittenBoardes = (nickname) =>
+  api.get(
+    `/userinfo/boards/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+  );
 
-const getMyLikeRecipes = (nickname) =>
-  api.get(`/userinfo/recipes/likes/${nickname}`);
+const getUserLikeRecipes = (nickname) =>
+  api.get(
+    `/userinfo/recipes/likes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+  );
 
-const getMyLikeBoards = (nickname) =>
-  api.get(`/userinfo/boards/likes/${nickname}`);
+const getUserLikeBoards = (nickname) =>
+  api.get(
+    `/userinfo/boards/likes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+  );
+
 export {
   getUserInfo,
-  getMyRecipes,
-  getMyBoardes,
-  getMyLikeRecipes,
-  getMyLikeBoards,
+  getUserWrittenRecipes,
+  getUserWrittenBoardes,
+  getUserLikeRecipes,
+  getUserLikeBoards,
 };

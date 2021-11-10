@@ -69,7 +69,7 @@ function App() {
             <Route path="/main" exact component={Main} />
             <Route path="/usermain/:nickname" exact component={UserMain} />
             <Route
-              path="/Userpageprofileedit"
+              path="/userpageprofileedit"
               exact
               component={UserpageProfileEdit}
             />
