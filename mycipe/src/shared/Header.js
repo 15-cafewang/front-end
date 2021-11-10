@@ -19,39 +19,13 @@ const Header = (props) => {
 
   if (
     location === "/" ||
+    location === "/signup" ||
+    location === "/login" ||
     location === "/recipeboard/write" ||
     location === "/bulletinboard/write"
   ) {
     // 시작페이지
     return null;
-  }
-
-  if (location === "/signup") {
-    // 회원가입페이지
-    return (
-      <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
-        <PageName>회원가입</PageName>
-      </HeaderInner>
-    );
-  }
-
-  if (location === "/login") {
-    // 로그인페이지
-    return (
-      <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
-        <PageName>로그인</PageName>
-      </HeaderInner>
-    );
   }
 
   if (location === "/main") {
