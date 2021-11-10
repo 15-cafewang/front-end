@@ -35,6 +35,15 @@ const nicknameCheckAPI = (nickname) => {
   return api.post("/user/signup/nickname", { nickname });
 };
 
+// 회원정보변경
+const updateUserInfoAPI = (userInfo) => {
+  const config = {
+    headers: { "content-type": "multipart/form-data" },
+  };
+
+  return api.put("/user/info", userInfo, config);
+};
+
 // 카카오 로그인
 const KakaoAPI = (code) => api.get(`/user/kakao/callback?code=${code}`);
 
@@ -45,4 +54,5 @@ export {
   loginCheckAPI,
   emailCheckAPI,
   nicknameCheckAPI,
+  updateUserInfoAPI,
 };
