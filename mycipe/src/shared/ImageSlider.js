@@ -8,6 +8,7 @@ import Image from "../elements/Image";
 
 const ImageSlider = (props) => {
   const { src } = props;
+
   const settings = {
     dots: true,
     lazyLoad: true,
@@ -44,16 +45,16 @@ const StyledSlider = styled(Slider)`
   }
 
   .slick-list {
-    width : 320px;
-    margin : 0 auto;
+    width: 320px;
+    margin: 0 auto;
   }
 
   .slick-dots {
-    bottom : 10px;
+    bottom: 10px;
 
-    & li.slick-active button::before{
-      color : #ffffff;
-    } 
+    & li.slick-active button::before {
+      color: #ffffff;
+    }
   }
 `;
 

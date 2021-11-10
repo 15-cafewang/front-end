@@ -3,5 +3,7 @@ import BigFilterButton from "./BigFilterButton";
 import SmallFilterButton from "./SmallFilterButton";
 import ButtonInner from "./ButtonInner";
 import Image from "./Image";
+import Text from "./Text";
 
-export { Button, BigFilterButton, ButtonInner, SmallFilterButton, Image };
+export { Button, BigFilterButton, ButtonInner, SmallFilterButton, Image, Text};
+

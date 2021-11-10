@@ -1,11 +1,16 @@
+// mycipe첫페이지
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { history } from "../../redux/configureStore";
+import { loginCheck } from "../../redux/Async/user";
 
+// style
 import styled from "styled-components";
 import { Button } from "../../elements";
-
-import { history } from "../../redux/configureStore";
-import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 import Kakao from "../../assets/image/kakaologin.svg";
+
+// 카카오 로그인
+import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 
 //env 값을 불러오기 위해서 설치
 import dotenv from "dotenv";
@@ -15,6 +20,15 @@ const SocialLogin = () => {
   const kakaologin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.user.isLogin);
+  React.useEffect(() => {
+    dispatch(loginCheck());
+    if (isLogin) {
+      window.alert("로그인중입니다!메인화면으로 이동할게요. ");
+      history.push("/main");
+    }
+  }, [isLogin]);
   return (
     <React.Fragment>
       <SocialLoginContainer>

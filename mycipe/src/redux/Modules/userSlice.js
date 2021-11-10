@@ -1,10 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signupDB, loginDB, kakaoLogin } from "../Async/user";
+import {
+  signupDB,
+  loginDB,
+  kakaoLogin,
+  loginCheck,
+  emailCheckDB,
+  nickCheckDB,
+} from "../Async/user";
 
 // inititalState
 const initialState = {
   isLogin: false,
   isFetching: false,
+  emailConfirm: false,
+  nickConfirm: false,
   userInfo: {
     nickname: null,
     profileImage: null,
@@ -31,6 +40,7 @@ const userSlice = createSlice({
     },
     // 회원가입 성공시
     [signupDB.fulfilled]: (state, { payload }) => {
+      console.log(payload);
       state.isFetching = false;
       window.alert("회원가입이 완료 되었습니다!");
     },
@@ -64,9 +74,54 @@ const userSlice = createSlice({
       state.isLogin = true;
       window.alert("로그인 되셨습니다! 환영합니다!");
     },
+    // 카카오 로그인 실패시
     [kakaoLogin.rejected]: (state, action) => {
       state.isFetching = false;
       window.alert("로그인 실패");
+    },
+    // 로그인체크
+    [loginCheck.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    // 로그인체크 성공시
+    [loginCheck.fulfilled]: (state, { payload }) => {
+      state.isLogin = true;
+      state.isFetching = false;
+      state.userInfo = payload;
+    },
+    // 로그인체크 실패시
+    [loginCheck.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 이메일 인증체크
+    [emailCheckDB.pending]: (state, action) => {
+      state.isFetching = true;
+      state.emailConfirm = false;
+    },
+    // 이메일 인증체크 성공
+    [emailCheckDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.emailConfirm = payload;
+    },
+    // 이메일 인증체크 실패
+    [emailCheckDB.rejected]: (state, action) => {
+      state.isFetching = false;
+      state.emailConfirm = false;
+    },
+    // 닉네임 인증체크
+    [nickCheckDB.pending]: (state, action) => {
+      state.isFetching = true;
+      state.nickConfirm = false;
+    },
+    // 닉네임 인증체크 성공
+    [nickCheckDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.nickConfirm = payload;
+    },
+    // 닉네임 인증체크 실패
+    [nickCheckDB.rejected]: (state, action) => {
+      state.isFetching = false;
+      state.nickConfirm = false;
     },
   },
 });
