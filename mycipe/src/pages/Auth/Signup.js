@@ -1,11 +1,15 @@
 // 회원가입 페이지
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { history } from "../../redux/configureStore";
 import { signupDB, emailCheckDB, nickCheckDB } from "../../redux/Async/user";
 
 // style
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Button, Text } from "../../elements";
+
+// icon
+import { ReactComponent as BackIcon } from "../../assets/icon/HeaderIcon/back.svg";
 
 // 유효성 검사
 import {
@@ -22,34 +26,42 @@ const Signup = () => {
   const dispatch = useDispatch();
   const checkEmail = useSelector((state) => state.user.emailConfirm);
   const checkNick = useSelector((state) => state.user.nickConfirm);
-  const [userinfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
-    if (userinfo.email) {
+    if (userInfo.email) {
+      dispatch(emailCheckDB(userInfo.email));
     }
-    dispatch(emailCheckDB(userinfo.email));
-  }, [dispatch, userinfo.email]);
+  }, [dispatch, userInfo.email]);
 
   useEffect(() => {
-    if (userinfo.nickname) {
+    if (userInfo.nickname) {
+      dispatch(nickCheckDB(userInfo.nickname));
     }
-    dispatch(nickCheckDB(userinfo.nickname));
-  }, [dispatch, userinfo.nickname]);
-  console.log(userinfo);
+  }, [dispatch, userInfo.nickname]);
+  console.log(userInfo);
   const signup = () => {
-    dispatch(signupDB(userinfo));
+    dispatch(signupDB(userInfo));
   };
 
   const debounceEmail = _.debounce((e) => {
-    setUserInfo({ ...userinfo, email: e.target.value });
-  }, 1000);
+    setUserInfo({ ...userInfo, email: e.target.value });
+  }, 500);
 
   const debounceNick = _.debounce((e) => {
-    setUserInfo({ ...userinfo, nickname: e.target.value });
+    setUserInfo({ ...userInfo, nickname: e.target.value });
   }, 500);
 
   return (
     <React.Fragment>
+      <HeaderInner>
+        <BackIcon
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+        <PageName>로그인</PageName>
+      </HeaderInner>
       <SignupContainer>
         <Grid>
           <Text size="14px" margin="48px 0 0 0" lineheight="22px">
@@ -65,8 +77,8 @@ const Signup = () => {
               }}
             />
           </InputBox>
-          {userinfo.email ? (
-            emailCheck(userinfo.email) ? (
+          {userInfo.email ? (
+            emailCheck(userInfo.email) ? (
               checkEmail ? (
                 <Text color="#E4E4E4" size="12px">
                   사용가능한 이메일입니다.
@@ -100,8 +112,8 @@ const Signup = () => {
               }}
             />
           </InputBox>
-          {userinfo.nickname ? (
-            nickCheck(userinfo.nickname) ? (
+          {userInfo.nickname ? (
+            nickCheck(userInfo.nickname) ? (
               checkNick ? (
                 <Text color="#E4E4E4" size="12px">
                   사용가능한 닉네임입니다.
@@ -130,14 +142,14 @@ const Signup = () => {
             <InputPwd
               type="password"
               placeholder="영문,숫자,특수문자 포함하여 8자 이내"
-              value={userinfo.password || ""}
+              value={userInfo.password || ""}
               onChange={(e) => {
-                setUserInfo({ ...userinfo, password: e.target.value });
+                setUserInfo({ ...userInfo, password: e.target.value });
               }}
             />
           </InputBox>
-          {userinfo.password ? (
-            pwCheck(userinfo.password) ? (
+          {userInfo.password ? (
+            pwCheck(userInfo.password) ? (
               <Text color="#E4E4E4" size="12px">
                 사용가능한 비밀번호입니다.
               </Text>
@@ -162,14 +174,14 @@ const Signup = () => {
             <InputPwdChk
               type="password"
               placeholder="비밀번호를 다시 입력해주세요."
-              value={userinfo.passwordCheck || ""}
+              value={userInfo.passwordCheck || ""}
               onChange={(e) => {
-                setUserInfo({ ...userinfo, passwordCheck: e.target.value });
+                setUserInfo({ ...userInfo, passwordCheck: e.target.value });
               }}
             />
           </InputBox>
-          {userinfo.passwordCheck ? (
-            pwdConfirm(userinfo.password, userinfo.passwordCheck) ? (
+          {userInfo.passwordCheck ? (
+            pwdConfirm(userInfo.password, userInfo.passwordCheck) ? (
               <Text color="#E4E4E4" size="12px">
                 비밀번호가 일치합니다.
               </Text>
@@ -186,8 +198,8 @@ const Signup = () => {
         </Grid>
         {checkEmail &&
         checkNick &&
-        pwCheck(userinfo.password) &&
-        pwdConfirm(userinfo.password, userinfo.passwordCheck) ? (
+        pwCheck(userInfo.password) &&
+        pwdConfirm(userInfo.password, userInfo.passwordCheck) ? (
           <Button margin="32px 20px 8px 20px" _onClick={signup}>
             <Text color="#FFFFFF">계속하기</Text>
           </Button>
@@ -202,6 +214,29 @@ const Signup = () => {
 };
 
 export default Signup;
+
+const HeaderInner = styled.div`
+  width: 100%;
+  height: 48px;
+  z-index: 1;
+  padding: 0px 20px;
+  position: sticky;
+  top: 0;
+
+  background: #fff;
+  display: flex;
+  align-items: center;
+  ${(props) =>
+    props.flexBetween &&
+    css`
+      justify-content: space-between;
+    `}
+`;
+
+const PageName = styled.span`
+  font-size: 16px;
+  margin-left: 8px;
+`;
 
 const SignupContainer = styled.div`
   height: 100%;
