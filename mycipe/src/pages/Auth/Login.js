@@ -19,11 +19,11 @@ import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 const Login = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
-  const [userinfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({});
 
   React.useEffect(() => {
+    dispatch(loginCheck());
     if (isLogin) {
-      dispatch(loginCheck());
       window.alert("로그인중입니다!메인화면으로 이동할게요. ");
       history.push("/main");
     }
@@ -47,13 +47,13 @@ const Login = () => {
           <InputId
             type="text"
             placeholder="이메일을 입력해주세요"
-            value={userinfo.email || ""}
+            value={userInfo.email || ""}
             onChange={(e) => {
-              setUserInfo({ ...userinfo, email: e.target.value });
+              setUserInfo({ ...userInfo, email: e.target.value });
             }}
           />
-          {userinfo.email ? (
-            emailCheck(userinfo.email) ? (
+          {userInfo.email ? (
+            emailCheck(userInfo.email) ? (
               <Text color="#FFFFFF" size="12px">
                 *
               </Text>
@@ -75,13 +75,13 @@ const Login = () => {
           <InputPwd
             type="password"
             placeholder="비밀번호"
-            value={userinfo.password || ""}
+            value={userInfo.password || ""}
             onChange={(e) => {
-              setUserInfo({ ...userinfo, password: e.target.value });
+              setUserInfo({ ...userInfo, password: e.target.value });
             }}
           />
-          {userinfo.password ? (
-            pwCheck(userinfo.password) ? (
+          {userInfo.password ? (
+            pwCheck(userInfo.password) ? (
               <Text color="#FFFFFF" size="12px">
                 *
               </Text>
@@ -96,10 +96,9 @@ const Login = () => {
             </Text>
           )}
         </Grid>
-        {userinfo.email &&
-        userinfo.password &&
-        emailCheck(userinfo.email) &&
-        pwCheck(userinfo.password) ? (
+        {
+        emailCheck(userInfo.email) &&
+        pwCheck(userInfo.password) ? (
           <Button margin="36px 20px 8px 20px" _onClick={login}>
             <Text color="#fff">로그인</Text>
           </Button>
