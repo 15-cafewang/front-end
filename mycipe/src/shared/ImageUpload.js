@@ -34,8 +34,8 @@ const ImageUpload = ({ file, setFile, profileImage }) => {
         </EditButtonInner>
         <InputFile
           type="file"
-          // accept="image/jpg, impge/png, image/jpeg, image/gif"
-          accept="image/*"
+          // accept="image/*"
+          accept="image/jpg, impge/png, image/jpeg, image/gif"
           onChange={handleChangeImageFile}
         />
       </LabelBox>
