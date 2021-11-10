@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import { Button, Image } from "../../elements/";
-import { ReactComponent as ProfileEditIcon } from "../../assets/icon/profileedit.svg";
 
 import ModalBackground from "../../shared/ModalBackground";
 
@@ -17,9 +16,7 @@ const UserpageProfileEdit = (props) => {
     <ProfileInfoInner>
       {isActive && <ModalBackground />}
       <UserProfileImageInner onClick={() => {}}>
-        <EditButtonInner>
-          <ProfileEditIcon />
-        </EditButtonInner>
+        <EditButtonInner></EditButtonInner>
 
         <Image shape="circle" size="large" />
       </UserProfileImageInner>
