@@ -60,7 +60,7 @@ const Signup = () => {
             history.goBack();
           }}
         />
-        <PageName>로그인</PageName>
+        <PageName>회원가입</PageName>
       </HeaderInner>
       <SignupContainer>
         <Grid>

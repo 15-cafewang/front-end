@@ -2,16 +2,18 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
-import { loginDB } from "../../redux/Async/user";
-import { loginCheck } from "../../redux/Async/user";
+import { loginDB, loginCheck } from "../../redux/Async/user";
 
 // style
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Button, Text } from "../../elements";
 import Kakao from "../../assets/image/kakaologin.svg";
 
 // 유효성 검사
 import { emailCheck, pwCheck } from "../../shared/common";
+
+// icon
+import { ReactComponent as BackIcon } from "../../assets/icon/HeaderIcon/back.svg";
 
 // 카카오 로그인
 import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
@@ -34,11 +36,19 @@ const Login = () => {
   };
 
   const login = () => {
-    dispatch(loginDB(userinfo));
+    dispatch(loginDB(userInfo));
   };
 
   return (
     <React.Fragment>
+      <HeaderInner>
+        <BackIcon
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+        <PageName>로그인</PageName>
+      </HeaderInner>
       <LoginContainer>
         <Grid>
           <Text size="14px" margin="48px 0 0 0" lineheight="22px">
@@ -96,9 +106,7 @@ const Login = () => {
             </Text>
           )}
         </Grid>
-        {
-        emailCheck(userInfo.email) &&
-        pwCheck(userInfo.password) ? (
+        {emailCheck(userInfo.email) && pwCheck(userInfo.password) ? (
           <Button margin="36px 20px 8px 20px" _onClick={login}>
             <Text color="#fff">로그인</Text>
           </Button>
@@ -136,6 +144,28 @@ const LoginContainer = styled.div`
   height: calc(100% - 60px);
 `;
 
+const HeaderInner = styled.div`
+  width: 100%;
+  height: 48px;
+  z-index: 1;
+  padding: 0px 20px;
+  position: sticky;
+  top: 0;
+
+  background: #fff;
+  display: flex;
+  align-items: center;
+  ${(props) =>
+    props.flexBetween &&
+    css`
+      justify-content: space-between;
+    `}
+`;
+
+const PageName = styled.span`
+  font-size: 16px;
+  margin-left: 8px;
+`;
 const Input = styled.input`
   padding: 10px;
 `;
