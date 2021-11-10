@@ -7,7 +7,7 @@ export const emailCheck = (email) => {
 };
 
 // 비밀번호 정규식
-export const pwCheck = (pwd = "") => {
+export const pwCheck = (pwd) => {
   let _reg =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/;
 
@@ -24,7 +24,7 @@ export const pwdConfirm = (pwd, pwdcheck) => {
 };
 
 // 닉네임 정규식
-export const nickCheck = (nick = "") => {
+export const nickCheck = (nick) => {
   let _reg = /^[가-힣a-zA-Z0-9]/;
   if (nick.length < 2 || nick.length > 10) {
     return false;
