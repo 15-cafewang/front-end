@@ -37,6 +37,7 @@ import { loginCheck } from "../redux/Async/user";
 
 function App() {
   const dispatch = useDispatch();
+  // 로컬 스토리지 토큰 확인
   const isToken = localStorage.getItem("USER_TOKEN") ? true : false;
   const isLogin = useSelector((state) => state.user.isLogin);
 
