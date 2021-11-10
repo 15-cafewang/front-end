@@ -8,6 +8,7 @@ import {
   loginCheckAPI,
   emailCheckAPI,
   nicknameCheckAPI,
+  updateUserInfoAPI,
 } from "../../shared/api/userApi";
 
 // 회원가입
@@ -86,5 +87,17 @@ export const nickCheckDB = createAsyncThunk(
     } else {
       return false;
     }
+  }
+);
+
+// 회원정보 수정
+export const updateUserInfoDB = createAsyncThunk(
+  "user/updateUserInfo",
+  async (formData) => {
+    const response = await updateUserInfoAPI(formData);
+
+    window.alert(response.data.message);
+
+    return response.data;
   }
 );
