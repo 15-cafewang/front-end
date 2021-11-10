@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 // icon
 import { ReactComponent as MenuIcon } from "../../assets/menu.svg";
 import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
+import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
 // elements
 import Image from "../../elements/Image";
 // components
@@ -19,6 +20,7 @@ const BoardDetail = ({ boardName }) => {
   const params = useParams();
   const boardId = params.boardid;
   const recipeId = params.recipeid;
+  const [likeStatus, setLikeStatus] = useState(false);
 
   useEffect(() => {
     if (boardName === "recipeBoard") {
@@ -38,6 +40,7 @@ const BoardDetail = ({ boardName }) => {
       : state.bulletinBoard.currentBoardPost
   );
 
+  console.log(likeStatus);
   // 레시피
   // content: "test";
   // images: (2)[
@@ -108,7 +111,19 @@ const BoardDetail = ({ boardName }) => {
         <TextInputBox width="320" height="240" value={postDetail.content} />
 
         <Box width="320px" margin="12px 0px 56px 0px">
-          <ActiveSmallLikeIcon />
+          {postDetail.likeStatus ? (
+            <ActiveSmallLikeIcon
+              onClick={() => {
+                setLikeStatus(false);
+              }}
+            />
+          ) : (
+            <SmallLikeIcon
+              onClick={() => {
+                setLikeStatus(true);
+              }}
+            />
+          )}
           <LikeCount>{postDetail.likeCount}개</LikeCount>
           <Date>
             {postDetail.regDate &&

@@ -48,18 +48,7 @@ const RecipeCardInner = styled.li`
   display: flex;
   margin: 6px 0px;
   width: 320px;
-  border-top: 1px solod black;
 `;
-
-// const CardTumbnail = styled.img`
-/* background-image: url(""); */
-/* background-position: center;
-  background-size: cover;
-
-  border-radius: 6px 0px 0px 6px;
-  width: 112px;
-  background: red;
-`; */
 
 const CardContent = styled.div`
   background: #f8f8fa;

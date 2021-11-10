@@ -28,7 +28,7 @@ export const getRecipePostListDB = createAsyncThunk(
 // 레시피 상세 조회
 export const getRecipePostDetailDB = createAsyncThunk(
   "recipeBoard/getPostDetail",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await recipeBoardApi.getPostDetail(data);
     // window.alert(response.data.message);
     return response.data.data;

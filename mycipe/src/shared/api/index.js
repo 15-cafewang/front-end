@@ -12,7 +12,6 @@ api.interceptors.request.use(
     config.headers["content-type"] = "application/json; charset=utf-8";
     config.headers["Accept"] = "*/*";
     config.headers["authorization"] = await getToken();
-    console.log(config);
     return config;
   },
   async (error) => {
@@ -23,7 +22,6 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   async (response) => {
-    console.log(response);
     return response;
   },
   async (error) => {

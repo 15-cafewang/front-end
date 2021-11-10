@@ -22,7 +22,7 @@ const ImageSlider = ({ imageList }) => {
         {imageList &&
           imageList.map((image) => {
             return (
-              <Container>
+              <Container key={image}>
                 <Image shape="rectangle" size="large" src={image} />
               </Container>
             );
