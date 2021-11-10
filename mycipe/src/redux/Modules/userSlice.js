@@ -6,6 +6,7 @@ import {
   loginCheck,
   emailCheckDB,
   nickCheckDB,
+  updateUserInfoDB,
 } from "../Async/user";
 
 // inititalState
@@ -122,6 +123,20 @@ const userSlice = createSlice({
     [nickCheckDB.rejected]: (state, action) => {
       state.isFetching = false;
       state.nickConfirm = false;
+    },
+
+    // 유저정보 변경
+    [updateUserInfoDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    // 유저정보 변경 성공
+    [updateUserInfoDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+    },
+    // 유저정보 변경 실패
+    [updateUserInfoDB.rejected]: (state, action) => {
+      state.isFetching = false;
+      window.alert(action.error);
     },
   },
 });
