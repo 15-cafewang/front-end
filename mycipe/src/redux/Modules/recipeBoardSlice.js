@@ -31,7 +31,7 @@ const recipeBoardSlice = createSlice({
     },
     // 레시피 작성
     [addRecipePostDB.pending]: (state, action) => {
-      state.isfrecipeng = true;
+      state.isFetching = true;
     },
     [addRecipePostDB.fulfilled]: (state, action) => {
       state.isfetching = false;
