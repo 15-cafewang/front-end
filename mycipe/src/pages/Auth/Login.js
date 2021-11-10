@@ -1,8 +1,8 @@
 // 로그인 페이지
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { history } from "../../redux/configureStore";
-import { loginDB, loginCheck } from "../../redux/Async/user";
+import { loginDB } from "../../redux/Async/user";
 
 // style
 import styled, { css } from "styled-components";
@@ -20,16 +20,7 @@ import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.user.isLogin);
   const [userInfo, setUserInfo] = useState({});
-
-  React.useEffect(() => {
-    dispatch(loginCheck());
-    if (isLogin) {
-      window.alert("로그인중입니다!메인화면으로 이동할게요. ");
-      history.push("/main");
-    }
-  }, [dispatch, isLogin]);
 
   const kakaologin = () => {
     window.location.href = KAKAO_AUTH_URL;
