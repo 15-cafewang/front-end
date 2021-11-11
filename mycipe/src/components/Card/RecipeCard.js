@@ -13,10 +13,10 @@ const RecipeCard = ({
   likeStatus,
   nickname,
   price,
-  regDate,
   title,
   _onClick,
 }) => {
+  console.log(likeStatus);
   const isImage = image ? `${image}` : "";
 
   return (
@@ -26,12 +26,11 @@ const RecipeCard = ({
         <TextInner>
           <Title>{title}</Title>
           <Text>{nickname}</Text>
-          <Text>{price}</Text>
+          <Text>{price}원</Text>
         </TextInner>
 
         <LikeInner>
-          <ActiveSmallLike />
-          {/* <SmallLike /> */}
+          {likeStatus ? <ActiveSmallLike /> : <SmallLike />}
           <Count>{likeCount}개</Count>
         </LikeInner>
       </CardContent>
