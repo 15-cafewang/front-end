@@ -1,12 +1,10 @@
 import api from "./index";
 
 export const recipeBoardApi = {
-  // 레시피 목록 조회
-  getPostList: () => {
-    return api.get("/recipes/list?page=1&size=7&isAsc=false&sortBy=regDate");
+  // 레시피 목록 조회 (최신순, 인기순)
+  getPostList: (sortedBy) => {
+    return api.get(`/recipes/list?page=1&size=7&isAsc=false&${sortedBy}`);
   },
-
-  // /recipes/list?page=2&size=5&isAsc=false&sortBy=regDate
 
   // 레시피 작성
   addPost: (post) => {
@@ -18,7 +16,10 @@ export const recipeBoardApi = {
 
   // 레시피 수정
   editPost: (recipeId, post) => {
-    return api.put(`/recipes/${recipeId}`, post);
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    return api.put(`/recipes/${recipeId}`, post, config);
   },
 
   // 레시피 삭제
@@ -53,7 +54,7 @@ export const recipeBoardApi = {
 
   // 좋아요 토글
   likeToggle: (postId) => {
-    return api.post(`/recipes/likes/${postId}`);
+    return api.get(`/recipes/likes/${postId}`);
   },
 
   // 게시물 댓글 좋아요 토글

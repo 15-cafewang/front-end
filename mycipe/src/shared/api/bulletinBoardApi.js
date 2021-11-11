@@ -2,10 +2,9 @@ import api from "./index";
 
 export const bulletinBoardApi = {
   // 게시판 목록 조회
-  getList: () => {
-    return api.get("/boards?page=1&size=5&isAsc=false&sortBy=regDate");
+  getList: (sortBy) => {
+    return api.get(`/boards?page=1&size=20&isAsc=false&${sortBy}`);
   },
-  // boards/?page=2&size=5&isAsc=false&sortBy=regDate
 
   // 게시판 작성
   addPost: (post) => {
@@ -17,7 +16,10 @@ export const bulletinBoardApi = {
 
   // 게시판 수정
   editPost: (boardId, post) => {
-    return api.put(`/boards/${boardId}`, post);
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    return api.put(`/boards/${boardId}`, post, config);
   },
 
   // 게시판 삭제
