@@ -20,10 +20,9 @@ const BulletinBoardMain = () => {
     (state) => state.bulletinBoard && state.bulletinBoard.boardList
   );
 
-  // /boards?page=1&size=10&isAsc=false&sortBy=likeCount
   useEffect(() => {
     if (currentSorting.sortedByDate) {
-      dispatch(getBulletinPostListDB("sortBy=regDate&sortByLike=false"));
+      dispatch(getBulletinPostListDB("sortBy=regDate"));
     } else {
       dispatch(getBulletinPostListDB("sortBy=likeCount"));
     }
