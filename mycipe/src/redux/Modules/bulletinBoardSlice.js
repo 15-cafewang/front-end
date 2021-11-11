@@ -4,12 +4,15 @@ import {
   addBulletinPostDB,
   getBulletinPostListDB,
   getBulletinPostDetailDB,
+  bulletinLikeToggleDB,
+  editBulletinPostDB,
+  deleteBulletinPostDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
   isFetching: false,
   boardList: [],
-  currentBoardPost: {},
+  currentBoardPost: null,
 };
 
 const bulletinBoardSlice = createSlice({
@@ -49,7 +52,39 @@ const bulletinBoardSlice = createSlice({
     [getBulletinPostDetailDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+    // 게시글 좋아요 토글
+    [bulletinLikeToggleDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [bulletinLikeToggleDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [bulletinLikeToggleDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 게시글 수정
+    [editBulletinPostDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [editBulletinPostDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [editBulletinPostDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 게시글 삭제
+    [deleteBulletinPostDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [deleteBulletinPostDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [deleteBulletinPostDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
   },
 });
+
+export const { bulletinLikeToggle } = bulletinBoardSlice.actions;
 
 export default bulletinBoardSlice;
