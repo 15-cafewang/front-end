@@ -1,7 +1,8 @@
 /* eslint-disable array-callback-return */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 // icon
 import { ReactComponent as BackIcon } from "../../assets/icon/HeaderIcon/back.svg";
@@ -10,52 +11,120 @@ import ImageListUpload from "../../shared/ImageListUpload";
 import HashTag from "../../shared/HashTag";
 import ModalBackground from "../../shared/ModalBackground";
 // async function
-import { addRecipePostDB } from "../../redux/Async/recipeBoard";
-import { addBulletinPostDB } from "../../redux/Async/bulletinBoard";
+import {
+  addRecipePostDB,
+  editRecipePostDB,
+} from "../../redux/Async/recipeBoard";
+import {
+  addBulletinPostDB,
+  editBulletinPostDB,
+} from "../../redux/Async/bulletinBoard";
+// api
+import { recipeBoardApi } from "../../shared/api/recipeBoardApi";
+import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
+
 const BoardWrite = ({ boardName }) => {
   const dispatch = useDispatch();
+  const params = useParams();
   const isActive = useSelector((state) => state.modal.isActive);
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [content, setContent] = useState("");
-  const [fileList, setFileList] = useState([]);
-  const [tagList, setTagList] = useState([]);
+  const isEdit = params.id ? true : false;
 
-  // fileList를 받아와서 setFile 해줍니다.
-  const getFileFromImageList = (fileList) => {
-    setFileList([...fileList]);
-  };
-  console.log(fileList);
+  // 입력 값 state
+  const [post, setPost] = useState(null);
 
-  // tagList를 받아와서 setTag 해줍니다.
-  const getTagFromHashTag = (tagList) => {
-    setTagList(tagList);
-  };
+  const currentPost = useSelector((state) =>
+    boardName === "recipeBoard"
+      ? state.recipeBoard.currentRecipePost
+      : state.bulletinBoard.currentBoardPost
+  );
+
+  console.log(post);
+  useEffect(() => {
+    if (isEdit && currentPost) {
+      setPost(currentPost);
+      return;
+    }
+
+    // 수정모드인데 현재 게시물에 대한 정보가 없을 때 (리덕스 초기화 되었을 때)
+    if (isEdit && !currentPost) {
+      console.log(boardName);
+      if (boardName === "recipeBoard") {
+        console.log("aa");
+        recipeBoardApi.getPostDetail(params.id).then((res) => {
+          setPost(res.data.data);
+        });
+      }
+      if (boardName === "bulletinBoard") {
+        console.log("aa");
+        bulletinBoardApi.getPostDetail(params.id).then((res) => {
+          setPost(res.data.data);
+        });
+      }
+    }
+  }, [boardName, currentPost, isEdit, params.id]);
 
   const addPost = () => {
-    // 레시피 폼데이터
-    const recipeFormData = new FormData();
-    recipeFormData.append("title", title);
-    recipeFormData.append("content", content);
-    recipeFormData.append("price", price);
-    recipeFormData.append("tag", tagList);
-    for (const f of fileList) {
-      recipeFormData.append("image", f);
+    // 수정모드
+    if (isEdit) {
+      if (boardName === "recipeBoard") {
+        const recipeFormData1 = new FormData();
+        recipeFormData1.append("title", post.title);
+        recipeFormData1.append("content", post.content);
+        recipeFormData1.append("price", post.price);
+        recipeFormData1.append("tag", post.tags);
+        if (post.fileList) {
+          for (const f of post.fileList) {
+            recipeFormData1.append("image", f);
+          }
+        }
+        console.log(post.title);
+        console.log(post.content);
+        console.log(post.price);
+        console.log(post.tags);
+        console.log(post.fileList);
+        dispatch(editRecipePostDB(params.id, recipeFormData1));
+      }
+
+      if (boardName === "bulletinBoard") {
+        const bulletinFormData = new FormData();
+        bulletinFormData.append("title", post.title);
+        bulletinFormData.append("content", post.content);
+        for (const f of post.fileList) {
+          bulletinFormData.append("image", f);
+        }
+
+        console.log(post.title);
+        console.log(post.content);
+        dispatch(editBulletinPostDB(params.id, bulletinFormData));
+      }
     }
 
-    // 게시판 폼데이터
-    const bulletinFormData = new FormData();
-    bulletinFormData.append("title", title);
-    bulletinFormData.append("content", content);
-    for (const f of fileList) {
-      bulletinFormData.append("image", f);
-    }
+    // 작성모드
+    if (!isEdit) {
+      if (boardName === "recipeBoard") {
+        const recipeFormData = new FormData();
+        recipeFormData.append("title", post.title);
+        recipeFormData.append("content", post.content);
+        recipeFormData.append("price", post.price);
+        recipeFormData.append("tag", post.tags);
+        if (post.fileList) {
+          for (const f of post.fileList) {
+            recipeFormData.append("image", f);
+          }
+        }
+        console.log(post.tagList);
+        dispatch(addRecipePostDB(recipeFormData));
+      }
 
-    if (boardName === "recipeBoard") {
-      dispatch(addRecipePostDB(recipeFormData));
-    }
-    if (boardName === "bulletinBoard") {
-      dispatch(addBulletinPostDB(bulletinFormData));
+      if (boardName === "bulletinBoard") {
+        const bulletinFormData = new FormData();
+        bulletinFormData.append("title", post.title);
+        bulletinFormData.append("content", post.content);
+        for (const f of post.fileList) {
+          bulletinFormData.append("image", f);
+        }
+        dispatch(addBulletinPostDB(bulletinFormData));
+      }
     }
   };
 
@@ -69,7 +138,11 @@ const BoardWrite = ({ boardName }) => {
             }}
           />
           <PageName>
-            {boardName === "recipeBoard"
+            {isEdit
+              ? boardName === "recipeBoard"
+                ? "레시피 수정하기"
+                : "게시글 수정하기"
+              : boardName === "recipeBoard"
               ? "레시피 작성하기"
               : "게시글 작성하기"}
           </PageName>
@@ -85,31 +158,36 @@ const BoardWrite = ({ boardName }) => {
       </HeaderInner>
       <BoardWriteWrapper>
         {isActive && <ModalBackground />}
-        <ImageListUpload getFileFromImageList={getFileFromImageList} />
+        {isEdit && post && (
+          <ImageListUpload images={post.images} post={post} setPost={setPost} />
+        )}
+        {!isEdit && <ImageListUpload post={post} setPost={setPost} />}
 
         <TextInputBox
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setPost({ ...post, title: e.target.value })}
           height="48"
           marginBtm="8"
           placeholder={
             boardName === "recipeBoard" ? "레시피 이름" : "게시글 제목"
           }
+          value={post ? post.title : ""}
         />
 
         {/* 레시피 작성시에만 렌더링 해줌 */}
         {boardName === "recipeBoard" ? (
           <TextInputBox
-            onChange={(e) => setPrice(1 * e.target.value)}
+            onChange={(e) => setPost({ ...post, price: 1 * e.target.value })}
             height="48"
             marginBtm="8"
             placeholder="가격"
+            value={post ? post.price : ""}
           />
         ) : (
           ""
         )}
 
         <TextInputBox
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => setPost({ ...post, content: e.target.value })}
           height="240"
           marginBtm="16"
           placeholder={
@@ -117,13 +195,17 @@ const BoardWrite = ({ boardName }) => {
               ? "레시피 설명을 입력해주세요"
               : "게시글 내용을 작성해주세요"
           }
+          value={post ? post.content : ""}
         />
 
         {/* 레시피 작성시에만 렌더링 해줌 */}
         {boardName === "recipeBoard" && (
           <>
             <HashTagTitle>해시태그 선택</HashTagTitle>
-            <HashTag getTagFromHashTag={getTagFromHashTag} />
+            {isEdit && post && (
+              <HashTag tags={post.tags} post={post} setPost={setPost} />
+            )}
+            {!isEdit && <HashTag post={post} setPost={setPost} />}
           </>
         )}
       </BoardWriteWrapper>
