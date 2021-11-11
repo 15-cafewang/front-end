@@ -50,6 +50,11 @@ function App() {
               component={RecipeBoardWrite}
             />
             <Route
+              path="/recipeboard/write/:id"
+              exact
+              component={RecipeBoardWrite}
+            />
+            <Route
               path="/recipeboard/detail/:recipeid"
               exact
               component={RecipeBoardDetail}
@@ -57,6 +62,11 @@ function App() {
             <Route path="/bulletinboard" exact component={BulletinBoardMain} />
             <Route
               path="/bulletinboard/write"
+              exact
+              component={BulletinBoardWrite}
+            />
+            <Route
+              path="/bulletinboard/write/:id"
               exact
               component={BulletinBoardWrite}
             />
