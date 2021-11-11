@@ -48,7 +48,11 @@ export const bulletinLikeToggleDB = createAsyncThunk(
 export const editBulletinPostDB = createAsyncThunk(
   "bulletinBoard/editPost",
   async (data) => {
-    const response = await bulletinBoardApi.editPost(data);
+    console.log(data);
+    const response = await bulletinBoardApi.editPost(
+      data.boardId,
+      data.formData
+    );
     window.alert(response.data.message);
     history.push("/bulletinBoard");
     return response.data.data;
