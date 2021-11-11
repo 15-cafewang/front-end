@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { history } from "../../redux/configureStore";
 // icon
 import { ReactComponent as MenuIcon } from "../../assets/menu.svg";
 import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
@@ -12,16 +13,47 @@ import Image from "../../elements/Image";
 import Comment from "../../shared/Comment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";
-import { getRecipePostDetailDB } from "../../redux/Async/recipeBoard";
-import { getBulletinPostDetailDB } from "../../redux/Async/bulletinBoard";
+// async
+import {
+  recipeLikeToggleDB,
+  getRecipePostDetailDB,
+  deleteRecipePostDB,
+} from "../../redux/Async/recipeBoard";
+import {
+  bulletinLikeToggleDB,
+  getBulletinPostDetailDB,
+  deleteBulletinPostDB,
+} from "../../redux/Async/bulletinBoard";
 
 const BoardDetail = ({ boardName }) => {
   const dispatch = useDispatch();
   const params = useParams();
   const boardId = params.boardid;
   const recipeId = params.recipeid;
-  const [likeStatus, setLikeStatus] = useState(false);
 
+  console.log(boardId);
+  const isActive = useSelector((state) => state.modal.isActive);
+  const postDetail = useSelector((state) =>
+    boardName === "recipeBoard"
+      ? state.recipeBoard.currentRecipePost
+      : state.bulletinBoard.currentBoardPost
+  );
+
+  const [menuActive, setMenuActive] = useState(false);
+  const [likeStatus, setLikeStatus] = useState(
+    postDetail && postDetail.likeStatus
+  );
+  const [likeCount, setLikeCount] = useState(
+    postDetail && postDetail.likeCount
+  );
+
+  // 새로 고침 시 like 반영
+  useEffect(() => {
+    setLikeStatus(postDetail && postDetail.likeStatus);
+    setLikeCount(postDetail && postDetail.likeCount);
+  }, [postDetail]);
+
+  // 게시물 상세 불러오기
   useEffect(() => {
     if (boardName === "recipeBoard") {
       dispatch(getRecipePostDetailDB(recipeId));
@@ -31,106 +63,122 @@ const BoardDetail = ({ boardName }) => {
       dispatch(getBulletinPostDetailDB(boardId));
       return;
     }
-  }, []);
+  }, [boardId, boardName, dispatch, recipeId]);
 
-  const isActive = useSelector((state) => state.modal.isActive);
-  const postDetail = useSelector((state) =>
-    boardName === "recipeBoard"
-      ? state.recipeBoard.currentRecipePost
-      : state.bulletinBoard.currentBoardPost
-  );
+  // 좋아요 누를 때 마다 DB 반영
+  const handleLikeToggle = () => {
+    if (boardName === "recipeBoard") {
+      dispatch(recipeLikeToggleDB(recipeId));
+    }
+    if (boardName === "bulletinBoard") {
+      dispatch(bulletinLikeToggleDB(boardId));
+    }
 
-  console.log(likeStatus);
-  // 레시피
-  // content: "test";
-  // images: (2)[
-  //   ("https://99final.s3.ap-northeast-2.amazonaws.com/re…E1%85%A1%E1%86%AB%E1%84%91%E1%85%AE%E1%86%BC.jpeg",
-  //   "https://99final.s3.ap-northeast-2.amazonaws.com/re…a59-45dd-836a-65661ef28b13%E3%85%8B%E3%85%8B.jpeg")
-  // ];
-  // likeCount: 0;
-  // likeStatus: false;
-  // nickname: "박하린";
-  // recipeId: 49;
-  // regdate: "2021-11-09T20:23:05.499772";
-  // tags: (2)[("#고소한", "#단짠")];
-  // title: "test";
+    // 리액트 좋아요 상태도 바꿔준다. (화면에 바로 보여주기 위함)
+    setLikeStatus(!likeStatus);
+  };
 
-  // 게시판
-  // boardId: 21;
-  // content: "test2";
-  // images: (2)[
-  //   ("https://99final.s3.ap-northeast-2.amazonaws.com/bo…E1%85%A1%E1%86%AB%E1%84%91%E1%85%AE%E1%86%BC.jpeg",
-  //   "https://99final.s3.ap-northeast-2.amazonaws.com/bo…59c-46f7-8d6f-0605b3825507%E3%85%8B%E3%85%8B.jpeg")
-  // ];
-  // likeCount: 0;
-  // likeStatus: false;
-  // nickname: "박하린";
-  // profile: "https://user-images.githubusercontent.com/76515226/140890775-30641b72-226a-4068-8a0a-9a306e8c68b4.png";
-  // regDate: "2021-11-09T20:17:05.050432";
-  // title: "test2";
-
+  console.log(postDetail);
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
       <Box margin="0px 0px 16px 0px">
-        <Image shape="circle" size="small" src={postDetail.profile} />
-        <Nickname>{postDetail.nickname}</Nickname>
-        <MenuIcon />
+        <Image
+          shape="circle"
+          size="small"
+          src={postDetail && postDetail.profile}
+        />
+        <Nickname>{postDetail && postDetail.nickname}</Nickname>
+        <button
+          onClick={() => {
+            setMenuActive(!menuActive);
+          }}
+        >
+          <MenuIcon />
+        </button>
       </Box>
-
-      <ImageSlider imageList={postDetail.images} />
+      {menuActive && (
+        <Menu>
+          <button
+            onClick={() => {
+              if (boardName === "recipeBoard") {
+                history.push(`/recipeboard/write/${recipeId}`);
+              } else {
+                history.push(`/bulletinboard/write/${boardId}`);
+              }
+            }}
+          >
+            수정하기
+          </button>
+          <button
+            onClick={() => {
+              if (boardName === "recipeBoard") {
+                dispatch(deleteRecipePostDB(recipeId));
+              } else {
+                dispatch(deleteBulletinPostDB(boardId));
+              }
+            }}
+          >
+            삭제하기
+          </button>
+        </Menu>
+      )}
+      <ImageSlider imageList={postDetail && postDetail.images} />
 
       <Box col margin="12px 0px 0px">
         {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
         {boardName === "recipeBoard" && (
           <HashTagBox>
-            {postDetail.tags &&
+            {postDetail &&
               postDetail.tags.map((tag) => {
                 return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
               })}
           </HashTagBox>
         )}
 
-        <TextInputBox
-          width="320"
-          height="48"
-          marginBtm="8"
-          value={postDetail.title}
-        />
+        <TextBox width="320" height="48" marginBtm="8">
+          {postDetail && postDetail.title}
+        </TextBox>
 
         {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
         {boardName === "recipeBoard" && (
-          <TextInputBox
-            width="320"
-            height="48"
-            marginBtm="8"
-            value={postDetail.price}
-          />
+          <TextBox width="320" height="48" marginBtm="8">
+            {postDetail && postDetail.price}원
+          </TextBox>
         )}
 
-        <TextInputBox width="320" height="240" value={postDetail.content} />
+        <TextBox width="320" height="240">
+          {postDetail && postDetail.content}
+        </TextBox>
 
         <Box width="320px" margin="12px 0px 56px 0px">
-          {postDetail.likeStatus ? (
-            <ActiveSmallLikeIcon
-              onClick={() => {
-                setLikeStatus(false);
-              }}
-            />
+          {likeStatus ? (
+            <Box cursor="true">
+              <ActiveSmallLikeIcon
+                onClick={() => {
+                  handleLikeToggle();
+                  setLikeCount(likeCount - 1);
+                }}
+              />
+            </Box>
           ) : (
-            <SmallLikeIcon
-              onClick={() => {
-                setLikeStatus(true);
-              }}
-            />
+            <Box cursor="true">
+              <SmallLikeIcon
+                onClick={() => {
+                  handleLikeToggle();
+                  setLikeCount(likeCount + 1);
+                }}
+              />
+            </Box>
           )}
-          <LikeCount>{postDetail.likeCount}개</LikeCount>
+          <LikeCount>{likeCount}개</LikeCount>
           <Date>
-            {postDetail.regDate &&
-              postDetail.regDate
-                .split("T")[0]
-                .replace("-", ". ")
-                .replace("-", ". ")}
+            {postDetail && postDetail.regDate
+              ? postDetail.regDate
+                  .split("T")[0]
+                  .replace("-", ". ")
+                  .replace("-", ". ")
+              : ""}
           </Date>
         </Box>
 
@@ -162,6 +210,7 @@ const Box = styled.div`
   ${(props) => props.width && `width : ${props.width};`}
   ${(props) => props.col && `flex-direction : column;`}
   margin: ${(props) => props.margin};
+  ${(props) => props.cursor === "true" && `cursor : pointer`};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -171,6 +220,21 @@ const Nickname = styled.div`
   margin-left: 8px;
   width: 250px;
   font-size: 14px;
+`;
+
+const Menu = styled.div`
+  width: 120px;
+  height: 81px;
+  background: pink;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 8px;
+  right: 35px;
+  top: 10px;
+  z-index: 20;
+  position: absolute;
 `;
 
 const HashTagBox = styled.div`
@@ -199,13 +263,30 @@ const UserHashTagItem = styled.div`
   cursor: pointer;
 `;
 
-const TextInputBox = styled.textarea`
+const TextBox = styled.div`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
   margin-bottom: ${(props) => props.marginBtm}px;
   padding: 15px 16px;
   background: #f8f8fa;
   border-radius: 6px;
+  font-size: 14px;
+  color: #191919;
+
+  &::placeholder {
+    color: #999999;
+  }
+`;
+
+const TextInputBox = styled.input`
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
+  margin-bottom: ${(props) => props.marginBtm}px;
+  padding: 15px 16px;
+  background: #f8f8fa;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #191919;
 
   &::placeholder {
     color: #999999;
