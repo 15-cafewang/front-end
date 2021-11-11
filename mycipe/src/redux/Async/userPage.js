@@ -7,6 +7,8 @@ import {
   getUserWrittenBoardes,
   getUserLikeRecipes,
   getUserLikeBoards,
+  follow,
+  unFollow,
 } from "../../shared/api/userPageApi";
 
 //user페이지 정보 불러오기
@@ -14,7 +16,7 @@ const getUserInfoDB = createAsyncThunk(
   "userpage/userinfo",
   async (data, thunkAPI) => {
     const response = await getUserInfo(data);
-
+    console.log(response.data.data);
     return response.data.data;
   }
 );
@@ -59,10 +61,33 @@ const getUserLikedBoardsDB = createAsyncThunk(
   }
 );
 
+//유저 팔로우 하기
+const userFollowDB = createAsyncThunk(
+  "userpage/follow",
+  async (data, thunkAPI) => {
+    console.log(data);
+    const response = await follow(data);
+
+    return response.data.message;
+  }
+);
+
+//유저 팔로우 취소
+const userUnFollowDB = createAsyncThunk(
+  "userpage/unfollow",
+  async (data, thunkAPI) => {
+    const response = await unFollow(data);
+
+    return response.data.message;
+  }
+);
+
 export {
   getUserInfoDB,
   getUserWrittenRecipesDB,
   getUserWrittenBoardsDB,
   getUserLikedRecipesDB,
   getUserLikedBoardsDB,
+  userFollowDB,
+  userUnFollowDB,
 };
