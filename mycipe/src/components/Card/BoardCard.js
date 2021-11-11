@@ -36,8 +36,7 @@ const BoardCard = ({
 
       <IconsInner>
         <LikeInner>
-          {/* <LikeIcon />/ */}
-          <ActiveLikeIcon />
+          {likeStatus ? <ActiveLikeIcon /> : <LikeIcon />}
           <Count>{likeCount}개</Count>
         </LikeInner>
 
