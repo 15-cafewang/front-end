@@ -82,7 +82,9 @@ const BoardWrite = ({ boardName }) => {
         console.log(post.price);
         console.log(post.tags);
         console.log(post.fileList);
-        dispatch(editRecipePostDB(params.id, recipeFormData1));
+        dispatch(
+          editRecipePostDB({ boardId: params.id, formData: recipeFormData1 })
+        );
       }
 
       if (boardName === "bulletinBoard") {
@@ -95,7 +97,9 @@ const BoardWrite = ({ boardName }) => {
 
         console.log(post.title);
         console.log(post.content);
-        dispatch(editBulletinPostDB(params.id, bulletinFormData));
+        dispatch(
+          editBulletinPostDB({ boardId: params.id, formData: bulletinFormData })
+        );
       }
     }
 
