@@ -66,7 +66,7 @@ const ImageListUpload = ({ post, images, setPost }) => {
             <InputFile
               type="file"
               multiple="multiple"
-              accept="image/jpg, impge/png, image/jpeg, image/gif"
+              accept="image/jpg, image/png, image/jpeg, image/gif"
               onChange={handleChangeImageFile}
             ></InputFile>
           </label>
