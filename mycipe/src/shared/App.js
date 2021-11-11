@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import "../index.css";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Header from "./Header";
@@ -29,7 +29,6 @@ import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
 import SearchMain from "../pages/SearchPage/SearchMain";
 import SearchList from "../pages/SearchPage/SearchList";
-
 import Setting from "../pages/SettingPage/Setting";
 import background from "../assets/image/Background.png";
 
@@ -116,6 +115,7 @@ function App() {
               <BottomNav />
             </PrivateRoute>
           </Switch>
+          <Redirect from="*" to="/" />
         </Container>
       </Outter>
     </ConnectedRouter>
