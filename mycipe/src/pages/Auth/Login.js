@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   const login = () => {
-    dispatch(loginDB(userinfo));
+    dispatch(loginDB(userInfo));
   };
 
   return (
@@ -96,9 +96,7 @@ const Login = () => {
             </Text>
           )}
         </Grid>
-        {
-        emailCheck(userInfo.email) &&
-        pwCheck(userInfo.password) ? (
+        {emailCheck(userInfo.email) && pwCheck(userInfo.password) ? (
           <Button margin="36px 20px 8px 20px" _onClick={login}>
             <Text color="#fff">로그인</Text>
           </Button>
