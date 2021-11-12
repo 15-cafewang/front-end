@@ -6,6 +6,7 @@ import {
   loginCheck,
   emailCheckDB,
   nickCheckDB,
+  updateUserWithImageInfoDB,
   updateUserInfoDB,
 } from "../Async/user";
 
@@ -32,6 +33,13 @@ const userSlice = createSlice({
       state.isLogin = false;
       state.userInfo = {};
       window.alert("로그아웃이 완료되었습니다.");
+    },
+
+    updateUserInfo: (state, action) => {
+      console.log(action.payload);
+
+      state.userInfo = action.payload;
+      // state.userInfo.profileImage = action.payload.profileImage;
     },
   },
   extraReducers: {
@@ -125,15 +133,35 @@ const userSlice = createSlice({
       state.nickConfirm = false;
     },
 
-    // 유저정보 변경
+    // 유저정보 변경 ( 프로필이미지  + 닉네임)
+    [updateUserWithImageInfoDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+
+    // 유저정보 변경 성공 ( 프로필이미지  + 닉네임)
+    [updateUserWithImageInfoDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      window.alert(payload.message);
+    },
+
+    // 유저정보 변경 실패 ( 프로필이미지  + 닉네임)
+    [updateUserWithImageInfoDB.rejected]: (state, action) => {
+      state.isFetching = false;
+      window.alert(action.error);
+    },
+
+    // 유저정보 변경 (닉네임)
     [updateUserInfoDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    // 유저정보 변경 성공
+
+    // 유저정보 변경 성공 (닉네임)
     [updateUserInfoDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
+      window.alert(payload.message);
     },
-    // 유저정보 변경 실패
+
+    // 유저정보 변경 실패 (닉네임)
     [updateUserInfoDB.rejected]: (state, action) => {
       state.isFetching = false;
       window.alert(action.error);
@@ -141,6 +169,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, updateUserInfo } = userSlice.actions;
 
 export default userSlice;
