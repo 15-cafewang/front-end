@@ -96,16 +96,15 @@ function App() {
                 component={UserMain}
               />
               <PrivateRoute
-                path="/main/userpageprofileedit"
+                path="/userpageprofileedit"
                 exact
                 component={UserpageProfileEdit}
               />
               <PrivateRoute
-                path="/userpagefollowlist"
+                path="/userpagefollowlist/:nickname"
                 exact
                 component={UserPageFollowList}
               />
-
               <PrivateRoute path="/searchmain" component={SearchMain} />
               <PrivateRoute
                 path="/searchmain/searchlist"

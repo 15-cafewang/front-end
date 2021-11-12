@@ -22,10 +22,16 @@ const getUserLikeBoards = (nickname) =>
     `/userinfo/boards/likes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
   );
 
+const follow = (nickname) => api.post(`/follows/${nickname}`);
+
+const unFollow = (nickname) => api.delete(`/follows/${nickname}`);
+
 export {
   getUserInfo,
   getUserWrittenRecipes,
   getUserWrittenBoardes,
   getUserLikeRecipes,
   getUserLikeBoards,
+  follow,
+  unFollow,
 };

@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-const Image = ({ size, shape, src, slide, children }) => {
+const Image = ({ size, shape, src, slide, children, _onClick }) => {
   const styles = { size: size, shape: shape, src: src };
 
   if (shape === "circle") {
     return (
       <>
-        <ImageCircle {...styles} />
+        <ImageCircle {...styles} onClick={_onClick} />
       </>
     );
   }
@@ -25,6 +25,7 @@ Image.defaultProps = {
   size: "",
   shape: "",
   src: "",
+  _onClick: () => {},
 };
 
 const ImageCircle = styled.div`
@@ -46,6 +47,7 @@ const ImageCircle = styled.div`
   background-image: ${(props) => (props.src ? `url(${props.src})` : "")};
   background-size: cover;
   background-color: #ededed;
+  cursor: pointer;
 `;
 
 const ImageRectångle = styled.div`
