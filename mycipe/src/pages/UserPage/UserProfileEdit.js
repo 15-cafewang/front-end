@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
+
 import { useSelector, useDispatch } from "react-redux";
 import { history } from "../../redux/configureStore";
 import _ from "lodash";
+
+
 
 import ModalBackground from "../../shared/ModalBackground";
 import { nickCheck as validNickname } from "../../shared/common";
@@ -99,11 +102,13 @@ const UserpageProfileEdit = (props) => {
     <ProfileInfoInner>
       {isActive && <ModalBackground />}
       <UserProfileImageInner onClick={() => {}}>
+
         <ImageUpload
           profileImage={file.previewURL}
           file={file}
           setFile={setFile}
         />
+
       </UserProfileImageInner>
       <Grid>
         <NickNameInputInner>
