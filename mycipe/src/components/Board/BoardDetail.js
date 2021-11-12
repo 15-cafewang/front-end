@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 // icon
-import { ReactComponent as MenuIcon } from "../../assets/menu.svg";
 import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
 // elements
@@ -30,8 +29,7 @@ const BoardDetail = ({ boardName }) => {
   const params = useParams();
   const boardId = params.boardid;
   const recipeId = params.recipeid;
-
-  console.log(boardId);
+  const userNickname = useSelector((state) => state.user.userInfo.nickname);
   const isActive = useSelector((state) => state.modal.isActive);
   const postDetail = useSelector((state) =>
     boardName === "recipeBoard"
@@ -65,6 +63,8 @@ const BoardDetail = ({ boardName }) => {
     }
   }, [boardId, boardName, dispatch, recipeId]);
 
+  const isPostUser = (postDetail && postDetail.nickname) === userNickname;
+
   // 좋아요 누를 때 마다 DB 반영
   const handleLikeToggle = () => {
     if (boardName === "recipeBoard") {
@@ -78,7 +78,7 @@ const BoardDetail = ({ boardName }) => {
     setLikeStatus(!likeStatus);
   };
 
-  console.log(postDetail);
+
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
@@ -89,40 +89,26 @@ const BoardDetail = ({ boardName }) => {
           src={postDetail && postDetail.profile}
         />
         <Nickname>{postDetail && postDetail.nickname}</Nickname>
-        <button
-          onClick={() => {
-            setMenuActive(!menuActive);
-          }}
-        >
-          <MenuIcon />
-        </button>
-      </Box>
-      {menuActive && (
-        <Menu>
-          <button
-            onClick={() => {
+        {isPostUser &&
+          <Box between width="60px">
+            <EditBtn onClick={() => {
               if (boardName === "recipeBoard") {
                 history.push(`/recipeboard/write/${recipeId}`);
               } else {
                 history.push(`/bulletinboard/write/${boardId}`);
               }
-            }}
-          >
-            수정하기
-          </button>
-          <button
-            onClick={() => {
+            }}>수정</EditBtn>
+
+            <EditBtn onClick={() => {
               if (boardName === "recipeBoard") {
                 dispatch(deleteRecipePostDB(recipeId));
               } else {
                 dispatch(deleteBulletinPostDB(boardId));
               }
-            }}
-          >
-            삭제하기
-          </button>
-        </Menu>
-      )}
+            }}>삭제</EditBtn>
+          </Box>}
+      </Box>
+
       <ImageSlider imageList={postDetail && postDetail.images} />
 
       <Box col margin="12px 0px 0px">
@@ -151,7 +137,7 @@ const BoardDetail = ({ boardName }) => {
           {postDetail && postDetail.content}
         </TextBox>
 
-        <Box width="320px" margin="12px 0px 56px 0px">
+        <Box between width="320px" margin="12px 0px 56px 0px">
           {likeStatus ? (
             <Box cursor="true">
               <ActiveSmallLikeIcon
@@ -162,22 +148,22 @@ const BoardDetail = ({ boardName }) => {
               />
             </Box>
           ) : (
-            <Box cursor="true">
-              <SmallLikeIcon
-                onClick={() => {
-                  handleLikeToggle();
-                  setLikeCount(likeCount + 1);
-                }}
-              />
-            </Box>
-          )}
+              <Box cursor="true">
+                <SmallLikeIcon
+                  onClick={() => {
+                    handleLikeToggle();
+                    setLikeCount(likeCount + 1);
+                  }}
+                />
+              </Box>
+            )}
           <LikeCount>{likeCount}개</LikeCount>
           <Date>
             {postDetail && postDetail.regDate
               ? postDetail.regDate
-                  .split("T")[0]
-                  .replace("-", ". ")
-                  .replace("-", ". ")
+                .split("T")[0]
+                .replace("-", ". ")
+                .replace("-", ". ")
               : ""}
           </Date>
         </Box>
@@ -195,7 +181,7 @@ const BoardDetail = ({ boardName }) => {
         <Comment />
         <Comment />
       </Box>
-    </BoardDetailContainer>
+    </BoardDetailContainer >
   );
 };
 
@@ -212,30 +198,20 @@ const Box = styled.div`
   margin: ${(props) => props.margin};
   ${(props) => props.cursor === "true" && `cursor : pointer`};
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  ${(props) => props.between && `justify-content : space-between`};
 `;
 
 const Nickname = styled.div`
   margin-left: 8px;
-  width: 250px;
+  width: 214px;
   font-size: 14px;
 `;
 
-const Menu = styled.div`
-  width: 120px;
-  height: 81px;
-  background: pink;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 8px;
-  right: 35px;
-  top: 10px;
-  z-index: 20;
-  position: absolute;
-`;
+const EditBtn = styled.button`
+  font-size: 12px;
+  color: #767676;
+`
 
 const HashTagBox = styled.div`
   display: flex;
