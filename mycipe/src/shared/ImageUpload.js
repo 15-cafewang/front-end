@@ -35,7 +35,7 @@ const ImageUpload = ({ file, setFile, profileImage }) => {
         <InputFile
           type="file"
           // accept="image/*"
-          accept="image/jpg, impge/png, image/jpeg, image/gif"
+          accept="image/jpg, image/png, image/jpeg, image/gif"
           onChange={handleChangeImageFile}
         />
       </LabelBox>
