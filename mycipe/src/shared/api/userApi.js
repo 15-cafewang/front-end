@@ -35,13 +35,18 @@ const nicknameCheckAPI = (nickname) => {
   return api.post("/user/signup/nickname", { nickname });
 };
 
-// 회원정보변경
-const updateUserInfoAPI = (userInfo) => {
+// 회원정보변경 ( 프로필이미지 + 닉네임)
+const updateUserInfoWithImageAPI = (userInfo) => {
   const config = {
     headers: { "content-type": "multipart/form-data" },
   };
 
   return api.put("/user/info", userInfo, config);
+};
+
+// 회원정보변경 ( 닉네임)
+const updateUserInfoAPI = (newNickname) => {
+  return api.put(`/user/info/nickname`, newNickname);
 };
 
 // 카카오 로그인
@@ -54,5 +59,6 @@ export {
   loginCheckAPI,
   emailCheckAPI,
   nicknameCheckAPI,
+  updateUserInfoWithImageAPI,
   updateUserInfoAPI,
 };
