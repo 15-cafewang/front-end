@@ -16,18 +16,6 @@ const Header = (props) => {
   const LoginUserInfo = useSelector((state) => state.user);
   const loginUserNickname = LoginUserInfo.userInfo.nickname;
 
-  if (
-    location === "/" ||
-    location === "/signup" ||
-    location === "/login" ||
-    location === "/user/kakao/callback" ||
-    location === "/recipeboard/write" ||
-    location === "/bulletinboard/write"
-  ) {
-    // 시작페이지
-    return null;
-  }
-
   if (location === "/main") {
     //메인페이지
     return (
@@ -197,6 +185,7 @@ const Header = (props) => {
       </HeaderInner>
     );
   }
+  else return null;
 };
 
 const HeaderInner = styled.div`
