@@ -69,6 +69,11 @@ function App() {
                 exact
                 component={RecipeBoardWrite}
               />
+                   <PrivateRoute
+              path="/recipeboard/write/:id"
+              exact
+              component={RecipeBoardWrite}
+            />
               <PrivateRoute
                 path="/recipeboard/detail/:recipeid"
                 exact
@@ -89,7 +94,11 @@ function App() {
                 exact
                 component={BulletinBoardDetail}
               />
-
+            <PrivateRoute
+              path="/bulletinboard/write/:id"
+              exact
+              component={BulletinBoardWrite}
+            />
               <PrivateRoute
                 path="/usermain/:nickname"
                 exact

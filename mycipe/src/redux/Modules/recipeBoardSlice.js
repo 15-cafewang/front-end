@@ -4,13 +4,16 @@ import {
   addRecipePostDB,
   getRecipePostListDB,
   getRecipePostDetailDB,
+  recipeLikeToggleDB,
+  editRecipePostDB,
+  deleteRecipePostDB,
 } from "../Async/recipeBoard";
 
 // initialstate
 const initialstate = {
   isFetching: false,
   recipeList: [],
-  currentRecipePost: {},
+  currentRecipePost: null,
 };
 
 const recipeBoardSlice = createSlice({
@@ -48,6 +51,36 @@ const recipeBoardSlice = createSlice({
       state.currentRecipePost = payload;
     },
     [getRecipePostDetailDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 레시피 좋아요 토글
+    [recipeLikeToggleDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [recipeLikeToggleDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [recipeLikeToggleDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 레시피 수정
+    [editRecipePostDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [editRecipePostDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [editRecipePostDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 레시피 삭제
+    [deleteRecipePostDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [deleteRecipePostDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [deleteRecipePostDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

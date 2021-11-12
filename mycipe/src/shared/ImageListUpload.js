@@ -7,10 +7,11 @@ import { ReactComponent as Remove } from "../assets/remove.svg";
 // elements
 import Image from "../elements/Image";
 
-const ImageListUpload = ({ getFileFromImageList }) => {
+const ImageListUpload = ({ post, images, setPost }) => {
+  const isImage = images ? [...images] : [];
   const [fileList, setFileList] = useState({
     fileList: [],
-    previewURLList: [],
+    previewURLList: isImage,
   });
 
   const handleChangeImageFile = (e) => {
@@ -30,6 +31,7 @@ const ImageListUpload = ({ getFileFromImageList }) => {
         newFileList.push(previewURL);
       }
 
+      console.log(newFileList);
       setFileList({
         fileList: imageFileList,
         previewURLList: [...newFileList],
@@ -49,8 +51,8 @@ const ImageListUpload = ({ getFileFromImageList }) => {
   };
 
   useEffect(() => {
-    getFileFromImageList(fileList.fileList);
-  }, [fileList.fileList]);
+    setPost({ ...post, fileList: [...fileList.fileList] });
+  }, [fileList]);
 
   return (
     <>
@@ -64,7 +66,7 @@ const ImageListUpload = ({ getFileFromImageList }) => {
             <InputFile
               type="file"
               multiple="multiple"
-              accept="image/jpg, impge/png, image/jpeg, image/gif"
+              accept="image/jpg, image/png, image/jpeg, image/gif"
               onChange={handleChangeImageFile}
             ></InputFile>
           </label>
@@ -77,7 +79,6 @@ const ImageListUpload = ({ getFileFromImageList }) => {
                 <RemoveIconWrapper
                   onClick={() => {
                     handleRemoveImageFile(idx);
-                    getFileFromImageList(fileList.fileList);
                   }}
                 >
                   <Remove />

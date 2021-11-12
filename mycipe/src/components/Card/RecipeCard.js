@@ -13,10 +13,10 @@ const RecipeCard = ({
   likeStatus,
   nickname,
   price,
-  regDate,
   title,
   _onClick,
 }) => {
+  console.log(likeStatus);
   const isImage = image ? `${image}` : "";
 
   return (
@@ -26,12 +26,11 @@ const RecipeCard = ({
         <TextInner>
           <Title>{title}</Title>
           <Text>{nickname}</Text>
-          <Text>{price}</Text>
+          <Text>{price}원</Text>
         </TextInner>
 
         <LikeInner>
-          <ActiveSmallLike />
-          {/* <SmallLike /> */}
+          {likeStatus ? <ActiveSmallLike /> : <SmallLike />}
           <Count>{likeCount}개</Count>
         </LikeInner>
       </CardContent>
@@ -48,18 +47,7 @@ const RecipeCardInner = styled.li`
   display: flex;
   margin: 6px 0px;
   width: 320px;
-  border-top: 1px solod black;
 `;
-
-// const CardTumbnail = styled.img`
-/* background-image: url(""); */
-/* background-position: center;
-  background-size: cover;
-
-  border-radius: 6px 0px 0px 6px;
-  width: 112px;
-  background: red;
-`; */
 
 const CardContent = styled.div`
   background: #f8f8fa;
