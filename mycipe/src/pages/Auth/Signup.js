@@ -39,7 +39,6 @@ const Signup = () => {
       dispatch(nickCheckDB(userInfo.nickname));
     }
   }, [dispatch, userInfo.nickname]);
-  console.log(userInfo);
   const signup = () => {
     dispatch(signupDB(userInfo));
   };

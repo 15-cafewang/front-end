@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "../index.css";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Header from "./Header";
 import BottomNav from "./BottomNav";
+import PrivateRoute from "../auth/PrivateRoute";
+import PublickRoute from "../auth/PublickRoute";
 
 // pages
-import SocialLogin from "../pages/Auth/SocialLogin";
+import Intro from "../pages/Auth/Intro";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
 import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
@@ -26,64 +29,93 @@ import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
 import SearchMain from "../pages/SearchPage/SearchMain";
 import SearchList from "../pages/SearchPage/SearchList";
-
 import Setting from "../pages/SettingPage/Setting";
 import background from "../assets/image/Background.png";
 
+import { loginCheck } from "../redux/Async/user";
+
 function App() {
+  const dispatch = useDispatch();
+  // 로컬 스토리지 토큰 확인
+  const isToken = localStorage.getItem("USER_TOKEN") ? true : false;
+  const isLogin = useSelector((state) => state.user.isLogin);
+
+  useEffect(() => {
+    if (isToken) {
+      dispatch(loginCheck());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, isLogin]);
   return (
     <ConnectedRouter history={history}>
       <WebVer />
-
       <Outter>
         <Container>
           <Header />
           <Switch>
-            <Route path="/" exact component={SocialLogin} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/signup" exact component={Signup} />
-            <Route path="/main" exact component={Main} />
-            <Route path="/recipeboard" exact component={RecipeBoardMain} />
-            <Route
-              path="/recipeboard/write"
-              exact
-              component={RecipeBoardWrite}
-            />
-            <Route
-              path="/recipeboard/detail/:recipeid"
-              exact
-              component={RecipeBoardDetail}
-            />
-            <Route path="/bulletinboard" exact component={BulletinBoardMain} />
-            <Route
-              path="/bulletinboard/write"
-              exact
-              component={BulletinBoardWrite}
-            />
-            <Route
-              path="/bulletinboard/detail/:boardid"
-              exact
-              component={BulletinBoardDetail}
-            />
+            <PublickRoute path="/" exact component={Intro} />
+            <PublickRoute path="/login" exact component={Login} />
+            <PublickRoute path="/signup" exact component={Signup} />
+            <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
+            <PrivateRoute>
+              <PrivateRoute path="/main" exact component={Main} />
+              <PrivateRoute
+                path="/recipeboard"
+                exact
+                component={RecipeBoardMain}
+              />
+              <PrivateRoute
+                path="/recipeboard/write"
+                exact
+                component={RecipeBoardWrite}
+              />
+              <PrivateRoute
+                path="/recipeboard/detail/:recipeid"
+                exact
+                component={RecipeBoardDetail}
+              />
+              <PrivateRoute
+                path="/bulletinboard"
+                exact
+                component={BulletinBoardMain}
+              />
+              <PrivateRoute
+                path="/bulletinboard/write"
+                exact
+                component={BulletinBoardWrite}
+              />
+              <PrivateRoute
+                path="/bulletinboard/detail/:boardid"
+                exact
+                component={BulletinBoardDetail}
+              />
 
-            <Route path="/main" exact component={Main} />
-            <Route path="/usermain/:nickname" exact component={UserMain} />
-            <Route
-              path="/userpageprofileedit"
-              exact
-              component={UserpageProfileEdit}
-            />
-            <Route
-              path="/userpagefollowlist"
-              exact
-              component={UserPageFollowList}
-            />
-            <Route path="/user/kakao/callback" exact component={Kakao} />
-            <Route path="/searchmain" component={SearchMain} />
-            <Route path="/searchmain/searchlist" component={SearchList} />
-            <Route path="/setting" component={Setting} />
+              <PrivateRoute
+                path="/usermain/:nickname"
+                exact
+                component={UserMain}
+              />
+              <PrivateRoute
+                path="/main/userpageprofileedit"
+                exact
+                component={UserpageProfileEdit}
+              />
+              <PrivateRoute
+                path="/userpagefollowlist"
+                exact
+                component={UserPageFollowList}
+              />
+
+              <PrivateRoute path="/searchmain" component={SearchMain} />
+              <PrivateRoute
+                path="/searchmain/searchlist"
+                component={SearchList}
+              />
+              <PrivateRoute path="/setting" component={Setting} />
+              <BottomNav />
+            </PrivateRoute>
           </Switch>
-          <BottomNav />
+          <Redirect from="*" to="/" />
         </Container>
       </Outter>
     </ConnectedRouter>

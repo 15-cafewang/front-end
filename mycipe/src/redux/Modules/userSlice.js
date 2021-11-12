@@ -55,8 +55,9 @@ const userSlice = createSlice({
     },
     // 로그인 성공시
     [loginDB.fulfilled]: (state, { payload }) => {
-      state.userInfo = payload;
       state.isLogin = true;
+      state.isLogin = true;
+      state.userInfo = payload;
       window.alert("로그인 되셨습니다! 환영합니다!");
     },
     // 로그인 실패시
@@ -70,6 +71,7 @@ const userSlice = createSlice({
     },
     // 카카오 로그인 성공시
     [kakaoLogin.fulfilled]: (state, { payload }) => {
+      state.userInfo = payload;
       state.isFetching = false;
       state.isLogin = true;
       window.alert("로그인 되셨습니다! 환영합니다!");

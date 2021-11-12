@@ -15,12 +15,12 @@ const Header = (props) => {
 
   const LoginUserInfo = useSelector((state) => state.user);
   const loginUserNickname = LoginUserInfo.userInfo.nickname;
-  if (!LoginUserInfo.isLogin) return null;
 
   if (
     location === "/" ||
     location === "/signup" ||
     location === "/login" ||
+    location === "/user/kakao/callback" ||
     location === "/recipeboard/write" ||
     location === "/bulletinboard/write"
   ) {
