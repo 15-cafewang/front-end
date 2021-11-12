@@ -113,33 +113,32 @@ const Main = (props) => {
       </Banner>
 
       <RecipeCardList>
-        {recentList &&
-          recentList.map((m, idx) => {
-            return (
-              <RecipeCard
-                _onClick={() => {
-                  history.push(`/recipeboard/detail/${m.recipeId}`);
-                }}
-                key={m.recipeId}
-                commentCount={m.commentCount}
-                content={m.content}
-                image={m.images[0]}
-                likeCount={m.likeCount}
-                likeStatus={m.likeStatus}
-                nickname={m.nickname}
-                price={m.price}
-                regDate={
-                  m.regdate
-                    ? m.regdate
-                        .split("T")[0]
-                        .replace("-", ". ")
-                        .replace("-", ". ")
-                    : ""
-                }
-                title={m.title}
-              />
-            );
-          })}
+        {recentList.map((m, idx) => {
+          return (
+            <RecipeCard
+              _onClick={() => {
+                history.push(`/recipeboard/detail/${m.recipeId}`);
+              }}
+              key={m.recipeId}
+              commentCount={m.commentCount}
+              content={m.content}
+              image={m.images[0]}
+              likeCount={m.likeCount}
+              likeStatus={m.likeStatus}
+              nickname={m.nickname}
+              price={m.price}
+              regDate={
+                m.regdate
+                  ? m.regdate
+                      .split("T")[0]
+                      .replace("-", ". ")
+                      .replace("-", ". ")
+                  : ""
+              }
+              title={m.title}
+            />
+          );
+        })}
         {/* <RecipeCard />
         <RecipeCard />
         <RecipeCard /> */}
