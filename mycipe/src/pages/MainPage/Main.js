@@ -24,12 +24,9 @@ const Main = (props) => {
   });
   useEffect(() => {
     dispatch(getPopularDayListDB());
-  }, []);
-
-  useEffect(() => {
     dispatch(getRecentListDB());
   }, []);
-
+  
   return (
     <MainInner>
       {isActive && <ModalBackground />}
