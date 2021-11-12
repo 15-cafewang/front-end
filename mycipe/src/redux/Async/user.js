@@ -8,35 +8,30 @@ import {
   loginCheckAPI,
   emailCheckAPI,
   nicknameCheckAPI,
+  updateUserInfoWithImageAPI,
   updateUserInfoAPI,
 } from "../../shared/api/userApi";
 
 // 회원가입
-export const signupDB = createAsyncThunk(
-  "user/signUp",
-  async (data, thunkAPI) => {
-    console.log(data);
-    const response = await signupAPI(data);
-    history.push("/login");
-    return response;
-  }
-);
+export const signupDB = createAsyncThunk("user/signUp", async (data) => {
+  console.log(data);
+  const response = await signupAPI(data);
+  history.push("/login");
+  return response;
+});
 
 // 로그인
-export const loginDB = createAsyncThunk(
-  "user/logIn",
-  async (data, thunkAPI) => {
-    const response = await loginAPI(data);
-    const USER_TOKEN = response.data.data.token;
-    window.localStorage.setItem("USER_TOKEN", USER_TOKEN);
-    const userInfo = {
-      nickname: response.data.data.nickname,
-      profileImage: response.data.data.image,
-    };
-    history.replace("/main");
-    return userInfo;
-  }
-);
+export const loginDB = createAsyncThunk("user/logIn", async (data) => {
+  const response = await loginAPI(data);
+  const USER_TOKEN = response.data.data.token;
+  window.localStorage.setItem("USER_TOKEN", USER_TOKEN);
+  const userInfo = {
+    nickname: response.data.data.nickname,
+    profileImage: response.data.data.image,
+  };
+  history.replace("/main");
+  return userInfo;
+});
 
 //카카오 로그인
 export const kakaoLogin = createAsyncThunk(
@@ -90,13 +85,22 @@ export const nickCheckDB = createAsyncThunk(
   }
 );
 
-// 회원정보 수정
-export const updateUserInfoDB = createAsyncThunk(
-  "user/updateUserInfo",
+// 회원정보 수정 ( 프로필이미지 + 닉네임)
+export const updateUserWithImageInfoDB = createAsyncThunk(
+  "user/updateUserInfoWithImage",
   async (formData) => {
-    const response = await updateUserInfoAPI(formData);
+    const response = await updateUserInfoWithImageAPI(formData);
 
-    window.alert(response.data.message);
+    return response.data;
+  }
+);
+
+// 회원정보 수정 ( 닉네임)
+export const updateUserInfoDB = createAsyncThunk(
+  "user/updateUserInfoOnlyNickname",
+  async (data) => {
+    console.log(data);
+    const response = await updateUserInfoAPI(data);
 
     return response.data;
   }
