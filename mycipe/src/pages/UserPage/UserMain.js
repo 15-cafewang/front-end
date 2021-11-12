@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { useHistory, useParams } from "react-router";
-
+import { history } from "../../redux/configureStore";
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
 
@@ -21,6 +21,10 @@ import {
   getUserWrittenBoardsDB,
   getUserLikedRecipesDB,
   getUserLikedBoardsDB,
+  userFollowDB,
+  userUnFollowDB,
+  userFollowListDB,
+  userFollowingListDB,
 } from "../../redux/Async/userPage";
 
 //sliceAction
@@ -39,14 +43,9 @@ const UserMain = (props) => {
   const pageInfo = useSelector((state) => state.userPage);
   const userInfo = pageInfo.userInfo;
 
-  //로그인안하면 로그인페이지로 보내기
-  if (!loginUserInfo.isLogin) {
-    history.replace("/");
-  }
-
   // 마이페이지인지 판단.
-  const loginUserNickname = loginUserInfo.userInfo.nickname;
   let isMe = false;
+  const loginUserNickname = loginUserInfo.userInfo.nickname;
   if (loginUserNickname === userNickname) {
     isMe = true;
   }
@@ -62,6 +61,7 @@ const UserMain = (props) => {
     recipe: false,
     bulletinBoard: true,
   });
+
   const [likeStatus, setLikeStatus] = useState(false);
 
   //보여줄 게시물 선정하기
@@ -82,18 +82,28 @@ const UserMain = (props) => {
         {isActive && <ModalBackground />}
 
         <UserProfileInner>
-          <UserProfileImage />
+          <UserProfileImage src={userInfo.image} />
 
           <UserProfileContent>
             <Text>{userInfo.nickname}</Text>
             <Grid flexBetween>
-              <Button>
-                <Count>{userInfo.followCount}</Count>
+              <Button
+                onClick={() => {
+                  dispatch(userFollowListDB(userInfo.nickname));
+                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                }}
+              >
+                <Count>{userInfo.followingCount}</Count>
                 팔로워
               </Button>
 
-              <Button>
-                <Count>{userInfo.followingCount}</Count>
+              <Button
+                onClick={() => {
+                  dispatch(userFollowingListDB(userInfo.nickname));
+                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                }}
+              >
+                <Count>{userInfo.followCount}</Count>
                 팔로잉
               </Button>
             </Grid>
@@ -106,9 +116,26 @@ const UserMain = (props) => {
                 프로필편집
               </ProfileEditButton>
             ) : userInfo.followStatus ? (
-              <FollowBtn>팔로우취소</FollowBtn>
+              <FollowBtn
+                onClick={() => {
+                  dispatch(userUnFollowDB(userInfo.nickname));
+                }}
+              >
+                팔로우취소
+              </FollowBtn>
             ) : (
-              <FollowBtn>팔로우하기</FollowBtn>
+              <FollowBtn
+                onClick={() => {
+                  dispatch(
+                    userFollowDB({
+                      nickname: userInfo.nickname,
+                      image: userInfo.image,
+                    })
+                  );
+                }}
+              >
+                팔로우하기
+              </FollowBtn>
             )}
           </UserProfileContent>
         </UserProfileInner>
