@@ -1,19 +1,32 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { history } from "../../redux/configureStore";
+import {
+  getPopularDayListDB,
+  getPopularWeekListDB,
+  getPopularMonthListDB,
+  getRecentListDB,
+} from "../../redux/Async/mainPage";
 
 import RecipeCard from "../../components/Card/RecipeCard";
 import ModalBackground from "../../shared/ModalBackground";
 
 const Main = (props) => {
+  const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
+  const popularList = useSelector((state) => state.mainPage.popularList);
+  const recentList = useSelector((state) => state.mainPage.recentList);
   const [category, setCategory] = useState({
-    daily: false,
+    daily: true,
     weekly: false,
     monthly: false,
   });
-
-  console.log(category);
+  useEffect(() => {
+    dispatch(getPopularDayListDB());
+    dispatch(getRecentListDB());
+  }, []);
+  
   return (
     <MainInner>
       {isActive && <ModalBackground />}
@@ -27,6 +40,7 @@ const Main = (props) => {
             backgroundColor={category.daily ? true : false}
             onClick={() => {
               setCategory({ daily: true, weekly: false, monthly: false });
+              dispatch(getPopularDayListDB());
             }}
           >
             일간
@@ -36,6 +50,7 @@ const Main = (props) => {
             backgroundColor={category.weekly ? true : false}
             onClick={() => {
               setCategory({ daily: false, weekly: true, monthly: false });
+              dispatch(getPopularWeekListDB());
             }}
           >
             주간
@@ -45,6 +60,7 @@ const Main = (props) => {
             backgroundColor={category.monthly ? true : false}
             onClick={() => {
               setCategory({ daily: false, weekly: false, monthly: true });
+              dispatch(getPopularMonthListDB());
             }}
           >
             월간
@@ -53,22 +69,76 @@ const Main = (props) => {
       </Banner>
 
       <RecipeCardList marginBottom>
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
+        {popularList.map((m, idx) => {
+          return (
+            <RecipeCard
+              _onClick={() => {
+                history.push(`/recipeboard/detail/${m.recipeId}`);
+              }}
+              key={m.recipeId}
+              commentCount={m.commentCount}
+              content={m.content}
+              image={m.images[0]}
+              likeCount={m.likeCount}
+              likeStatus={m.likeStatus}
+              nickname={m.nickname}
+              price={m.price}
+              regDate={
+                m.regdate
+                  ? m.regdate
+                      .split("T")[0]
+                      .replace("-", ". ")
+                      .replace("-", ". ")
+                  : ""
+              }
+              title={m.title}
+            />
+          );
+        })}
       </RecipeCardList>
 
       {/* 최근 레시피 */}
       <Banner>
         <BannerTitle>최근 레시피</BannerTitle>
-        <BannerMoreButton onClick={() => {}}>더보기</BannerMoreButton>
+        <BannerMoreButton
+          onClick={() => {
+            history.push("/recipeboard");
+          }}
+        >
+          더보기
+        </BannerMoreButton>
       </Banner>
 
       <RecipeCardList>
+        {recentList.map((m, idx) => {
+          return (
+            <RecipeCard
+              _onClick={() => {
+                history.push(`/recipeboard/detail/${m.recipeId}`);
+              }}
+              key={m.recipeId}
+              commentCount={m.commentCount}
+              content={m.content}
+              image={m.images[0]}
+              likeCount={m.likeCount}
+              likeStatus={m.likeStatus}
+              nickname={m.nickname}
+              price={m.price}
+              regDate={
+                m.regdate
+                  ? m.regdate
+                      .split("T")[0]
+                      .replace("-", ". ")
+                      .replace("-", ". ")
+                  : ""
+              }
+              title={m.title}
+            />
+          );
+        })}
+        {/* <RecipeCard />
         <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
+        <RecipeCard /> */}
       </RecipeCardList>
     </MainInner>
   );

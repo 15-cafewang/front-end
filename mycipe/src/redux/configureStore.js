@@ -9,6 +9,7 @@ import userPageSlice from "./Modules/userPageSlice";
 import modalSlice from "./Modules/modalSlice";
 import bulletinBoardSlice from "./Modules/bulletinBoardSlice";
 import recipeBoardSlice from "./Modules/recipeBoardSlice";
+import mainPageSlice from "./Modules/mainPageSlice";
 export const history = createBrowserHistory();
 
 // reducers
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   modal: modalSlice.reducer,
   bulletinBoard: bulletinBoardSlice.reducer,
   recipeBoard: recipeBoardSlice.reducer,
+  mainPage: mainPageSlice.reducer,
 });
 
 const middlewares = [];
