@@ -39,7 +39,6 @@ const Signup = () => {
       dispatch(nickCheckDB(userInfo.nickname));
     }
   }, [dispatch, userInfo.nickname]);
-  console.log(userInfo);
   const signup = () => {
     dispatch(signupDB(userInfo));
   };
@@ -60,7 +59,7 @@ const Signup = () => {
             history.goBack();
           }}
         />
-        <PageName>로그인</PageName>
+        <PageName>회원가입</PageName>
       </HeaderInner>
       <SignupContainer>
         <Grid>
