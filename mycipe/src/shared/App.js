@@ -74,7 +74,7 @@ function App() {
               component={UserpageProfileEdit}
             />
             <Route
-              path="/userpagefollowlist"
+              path="/userpagefollowlist/:nickname"
               exact
               component={UserPageFollowList}
             />
