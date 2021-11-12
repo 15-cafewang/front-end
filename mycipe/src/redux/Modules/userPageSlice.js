@@ -6,6 +6,10 @@ import {
   getUserWrittenBoardsDB,
   getUserLikedRecipesDB,
   getUserLikedBoardsDB,
+  userFollowDB,
+  userUnFollowDB,
+  userFollowListDB,
+  userFollowingListDB,
 } from "../Async/userPage";
 
 // inititalState
@@ -68,6 +72,10 @@ const initialState = {
       },
     ],
   },
+
+  userList: [],
+
+  isFollower: false,
 };
 
 const userPageSlice = createSlice({
@@ -81,6 +89,10 @@ const userPageSlice = createSlice({
       for (let item in state.postList) {
         state.postList[item] = [];
       }
+    },
+
+    updateUserList: (state, action) => {
+      state.userList = action.payload;
     },
   },
 
@@ -142,17 +154,80 @@ const userPageSlice = createSlice({
     [getUserLikedBoardsDB.pending]: (state, action) => {
       state.isFetching = true;
     },
+
     [getUserLikedBoardsDB.fulfilled]: (state, action) => {
       state.isFetching = false;
 
       state.postList.userLikedBoards = action.payload;
     },
     [getUserLikedBoardsDB.rejected]: (state, action) => {
-      console.log(action.error);
+      console.log("에러발생", action.error);
+    },
+
+    //유저 팔로우 하기
+    [userFollowDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+
+    [userFollowDB.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      state.isFetching = false;
+      state.userInfo.followingCount++;
+      state.userInfo.followStatus = true;
+      // window.alert(action.payload);
+    },
+
+    [userFollowDB.rejected]: (state, action) => {
+      console.log("팔로우 하기 에러발생", action.error);
+    },
+
+    //유저 팔로우 취소
+    [userUnFollowDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+
+    [userUnFollowDB.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      state.isFetching = false;
+      state.userInfo.followingCount--;
+
+      state.userInfo.followStatus = false;
+    },
+
+    [userUnFollowDB.rejected]: (state, action) => {
+      console.log("팔로우 취소하기 에러발생", action.error);
+    },
+
+    //유저 팔로워 리스트 불러오기
+    [userFollowListDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [userFollowListDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+
+      state.isFollower = true;
+      state.userList = action.payload;
+    },
+    [userFollowListDB.rejected]: (state, action) => {
+      console.log("팔로우리스트 불러오기 에러발생", action.error);
+    },
+
+    //유저 팔로잉리스트 불러오기
+    [userFollowingListDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [userFollowingListDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+
+      state.isFollower = false;
+      state.userList = action.payload;
+    },
+    [userFollowingListDB.rejected]: (state, action) => {
+      console.log("팔로잉리스트 불러오기 에러발생", action.error);
     },
   },
 });
 
-export const { resetPost } = userPageSlice.actions;
+export const { resetPost, updateUserList } = userPageSlice.actions;
 
 export default userPageSlice;

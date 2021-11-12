@@ -1,28 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import { Image } from "../../elements/index.js";
 
-const UserCard = (props) => {
-  const following = true;
+import { history } from "../../redux/configureStore";
 
-  if (following) {
-    return (
-      <>
-        <UserCardInner between>
-          <Grid>
-            <UserProfileImage />
-            <Text>닉네임</Text>
-          </Grid>
-          <FollowingButton>팔로잉</FollowingButton>
-        </UserCardInner>
-      </>
-    );
-  }
-
+const UserCard = ({ nickname, image }) => {
   return (
     <>
-      <UserCardInner>
-        <UserProfileImage />
-        <Text>닉네임</Text>
+      <UserCardInner between>
+        <Grid>
+          <Image
+            shape="circle"
+            size="medium"
+            src={image}
+            _onClick={() => {
+              history.push(`/usermain/${nickname}`);
+            }}
+          />
+          <Text>{nickname}</Text>
+        </Grid>
       </UserCardInner>
     </>
   );
@@ -45,19 +41,24 @@ const Text = styled.span`
   margin-left: 20px;
 `;
 
-const FollowingButton = styled.button`
-  border: 1px solid #dbdbdb;
-  border-radius: 4px;
-  padding: 4px 12px;
-  font-size: 14px;
-  color: #767676;
-`;
+// const FollowingButton = styled.button`
+//   border: 1px solid #dbdbdb;
+//   border-radius: 4px;
+//   padding: 4px 12px;
+//   font-size: 14px;
+//   color: #767676;
+// `;
 
-const UserProfileImage = styled.img`
-  background-color: red;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-`;
+// const FollowButton = styled(FollowingButton)`
+//   color: #fff;
+//   background: #7692e4;
+// `;
+
+// const UserProfileImage = styled.img`
+//   background-color: red;
+//   border-radius: 50%;
+//   width: 56px;
+//   height: 56px;
+// `;
 
 export default UserCard;
