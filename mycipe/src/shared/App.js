@@ -69,6 +69,11 @@ function App() {
                 exact
                 component={RecipeBoardWrite}
               />
+                   <PrivateRoute
+              path="/recipeboard/write/:id"
+              exact
+              component={RecipeBoardWrite}
+            />
               <PrivateRoute
                 path="/recipeboard/detail/:recipeid"
                 exact
@@ -89,32 +94,26 @@ function App() {
                 exact
                 component={BulletinBoardDetail}
               />
-
+            <PrivateRoute
+              path="/bulletinboard/write/:id"
+              exact
+              component={BulletinBoardWrite}
+            />
               <PrivateRoute
                 path="/usermain/:nickname"
                 exact
                 component={UserMain}
               />
               <PrivateRoute
-                path="/main/userpageprofileedit"
+                path="/userpageprofileedit"
                 exact
                 component={UserpageProfileEdit}
               />
               <PrivateRoute
-                path="/userpagefollowlist"
+                path="/userpagefollowlist/:nickname"
                 exact
                 component={UserPageFollowList}
               />
-                  <PrivateRoute
-              path="/recipeboard/write/:id"
-              exact
-              component={RecipeBoardWrite}
-            />
-                <PrivateRoute
-              path="/bulletinboard/write/:id"
-              exact
-              component={BulletinBoardWrite}
-            />
               <PrivateRoute path="/searchmain" component={SearchMain} />
               <PrivateRoute
                 path="/searchmain/searchlist"
