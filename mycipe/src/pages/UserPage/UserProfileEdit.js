@@ -1,43 +1,150 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-
-import { Button, Image } from "../../elements/";
-import { ReactComponent as ProfileEditIcon } from "../../assets/icon/profileedit.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { history } from "../../redux/configureStore";
+import _ from "lodash";
 
 import ModalBackground from "../../shared/ModalBackground";
+import { nickCheck as validNickname } from "../../shared/common";
+import { Button, Text } from "../../elements/";
+
+import ImageUpload from "../../shared/ImageUpload";
+
+import {
+  updateUserInfoDB,
+  updateUserWithImageInfoDB,
+} from "../../redux/Async/user";
+
+import { nicknameCheckAPI as confirmNicknameAPI } from "../../shared/api/userApi";
+import { updateUserInfo } from "../../redux/Modules/userSlice";
 
 const UserpageProfileEdit = (props) => {
+  const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
   const LoginUserInfo = useSelector((state) => state.user.userInfo);
 
+  const [file, setFile] = useState({
+    file: "",
+    previewURL: LoginUserInfo.profileImage,
+  });
   const inputRef = useRef();
+
+  //이미지 or 이미지 + 닉네임 바꿨을떄.
+  const withImage = async () => {
+    try {
+      const newNickname = inputRef.current.value;
+      const profileFofmData = new FormData();
+
+      profileFofmData.append("nickname", newNickname);
+      profileFofmData.append("image", file.file);
+
+      const response = await dispatch(
+        updateUserWithImageInfoDB(profileFofmData)
+      ).unwrap();
+
+      if (response.code === 1) {
+        dispatch(
+          updateUserInfo({
+            nickname: newNickname,
+            profileImage: file.previewURL,
+          })
+        );
+      }
+
+      history.push(`/usermain/${newNickname}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 닉네임만 바꿨을때.
+  const onlyNickname = async () => {
+    try {
+      const newNickname = inputRef.current.value;
+      console.log(newNickname);
+      const response = await dispatch(
+        updateUserInfoDB({ nickname: newNickname })
+      ).unwrap();
+
+      if (response.code === 1) {
+        dispatch(
+          updateUserInfo({
+            nickname: newNickname,
+            profileImage: file.previewURL,
+          })
+        );
+      }
+
+      history.push(`/usermain/${newNickname}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [validStatus, setValidStatus] = useState(true);
+  //유효성검사
+  const validDebounce = _.debounce((e) => {
+    setValidStatus(validNickname(inputRef.current.value));
+  }, 300);
+
+  //중복확인
+  const confirmNickname = async () => {
+    const response = await confirmNicknameAPI(inputRef.current.value);
+
+    if (response.data.code === 1) window.alert(response.data.message);
+    else window.alert(response.data.message);
+  };
 
   return (
     <ProfileInfoInner>
       {isActive && <ModalBackground />}
       <UserProfileImageInner onClick={() => {}}>
-        <EditButtonInner>
-          <ProfileEditIcon />
-        </EditButtonInner>
-
-        <Image shape="circle" size="large" />
+        <ImageUpload
+          profileImage={file.previewURL}
+          file={file}
+          setFile={setFile}
+        />
       </UserProfileImageInner>
-      <NickNameInputInner>
-        <NickNameInputBox ref={inputRef} placeholder="닉네임" />
-        <CheckButton>중복확인</CheckButton>
-      </NickNameInputInner>
-      <Button color="#fff">변경하기</Button>
+      <Grid>
+        <NickNameInputInner>
+          <NickNameInputBox
+            ref={inputRef}
+            type="text"
+            placeholder="닉네임을 입력해주세요"
+            defaultValue={LoginUserInfo.nickname}
+            onChange={(e) => {
+              validDebounce(e);
+            }}
+          />
+
+          <CheckButton onClick={confirmNickname}>중복확인</CheckButton>
+        </NickNameInputInner>
+        {validStatus ? (
+          <Text color="#7692E4" size="12px">
+            중복확인을 해주세요.
+          </Text>
+        ) : (
+          <Text color="#F05C5C" size="12px">
+            닉네임은 2-10자 이내로 입력해주세요.
+          </Text>
+        )}
+      </Grid>
+
+      {file.file ? (
+        <Button color="#fff" _onClick={withImage}>
+          변경하기
+        </Button>
+      ) : (
+        <Button color="#fff" _onClick={onlyNickname}>
+          변경하기
+        </Button>
+      )}
     </ProfileInfoInner>
   );
 };
 
-const EditButtonInner = styled.div`
-  position: absolute;
+const Grid = styled.div``;
 
-  right: 0;
-  bottom: 0;
-`;
 const ProfileInfoInner = styled.div`
   height: auto;
   min-height: calc(100% - 60px);
@@ -55,7 +162,7 @@ const NickNameInputInner = styled.div`
   width: 320px;
   height: 48px;
   background: #f8f8fa;
-  margin-bottom: 32px;
+  margin-bottom: 10px;
   border-radius: 6px;
   display: flex;
   justify-content: space-between;
