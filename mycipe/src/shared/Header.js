@@ -196,7 +196,7 @@ const Header = (props) => {
         <PageName>설정페이지</PageName>
       </HeaderInner>
     );
-  }
+  } else return null;
 };
 
 const HeaderInner = styled.div`
