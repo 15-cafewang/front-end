@@ -62,14 +62,14 @@ const initialState = {
     ],
 
     userLikedRecipes: [
-      {
-        recipeId: 8,
-        title: "123",
-        nickname: "tester2",
-        price: 1,
-        imageList: [],
-        likecount: 0,
-      },
+      // {
+      //   recipeId: 8,
+      //   title: "123",
+      //   nickname: "tester2",
+      //   price: 1,
+      //   imageList: [],
+      //   likecount: 0,
+      // },
     ],
   },
 

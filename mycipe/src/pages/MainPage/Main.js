@@ -23,10 +23,14 @@ const Main = (props) => {
     monthly: false,
   });
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     dispatch(getPopularDayListDB());
     dispatch(getRecentListDB());
   }, []);
-  
+
   return (
     <MainInner>
       {isActive && <ModalBackground />}
