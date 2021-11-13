@@ -4,7 +4,7 @@ import "../index.css";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Header from "./Header";
 import BottomNav from "./BottomNav";
@@ -38,14 +38,12 @@ function App() {
   const dispatch = useDispatch();
   // 로컬 스토리지 토큰 확인
   const isToken = localStorage.getItem("USER_TOKEN") ? true : false;
-  const isLogin = useSelector((state) => state.user.isLogin);
 
   useEffect(() => {
     if (isToken) {
       dispatch(loginCheck());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, isLogin]);
+  }, []);
   return (
     <ConnectedRouter history={history}>
       <WebVer />
@@ -69,11 +67,11 @@ function App() {
                 exact
                 component={RecipeBoardWrite}
               />
-                   <PrivateRoute
-              path="/recipeboard/write/:id"
-              exact
-              component={RecipeBoardWrite}
-            />
+              <PrivateRoute
+                path="/recipeboard/write/:id"
+                exact
+                component={RecipeBoardWrite}
+              />
               <PrivateRoute
                 path="/recipeboard/detail/:recipeid"
                 exact
@@ -94,11 +92,11 @@ function App() {
                 exact
                 component={BulletinBoardDetail}
               />
-            <PrivateRoute
-              path="/bulletinboard/write/:id"
-              exact
-              component={BulletinBoardWrite}
-            />
+              <PrivateRoute
+                path="/bulletinboard/write/:id"
+                exact
+                component={BulletinBoardWrite}
+              />
               <PrivateRoute
                 path="/usermain/:nickname"
                 exact
@@ -123,7 +121,6 @@ function App() {
               <BottomNav />
             </PrivateRoute>
           </Switch>
-          <Redirect from="*" to="/" />
         </Container>
       </Outter>
     </ConnectedRouter>
