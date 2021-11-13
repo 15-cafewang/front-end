@@ -116,7 +116,8 @@ const BoardWrite = ({ boardName }) => {
             recipeFormData.append("image", f);
           }
         }
-        console.log(post.tagList);
+
+        console.log(recipeFormData);
         dispatch(addRecipePostDB(recipeFormData));
       }
 
