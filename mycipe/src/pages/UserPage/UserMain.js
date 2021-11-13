@@ -56,13 +56,11 @@ const UserMain = (props) => {
   }, [dispatch, userNickname]);
 
   const [filterButtons, setFilterButtons] = useState({
-    writtenBoard: false,
-    likedBoard: true,
-    recipe: false,
-    bulletinBoard: true,
+    writtenBoard: true,
+    likedBoard: false,
+    recipe: true,
+    bulletinBoard: false,
   });
-
-  const [likeStatus, setLikeStatus] = useState(false);
 
   //보여줄 게시물 선정하기
   let currentList = [];
@@ -152,8 +150,6 @@ const UserMain = (props) => {
                 bulletinBoard: false,
               });
 
-              setLikeStatus(false);
-
               dispatch(getUserWrittenRecipesDB(userInfo.nickname));
 
               dispatch(resetPost());
@@ -171,8 +167,6 @@ const UserMain = (props) => {
                 writtenBoard: false,
                 bulletinBoard: false,
               });
-
-              setLikeStatus(true);
 
               dispatch(getUserLikedRecipesDB(userInfo.nickname));
 
@@ -210,7 +204,6 @@ const UserMain = (props) => {
               setFilterButtons({
                 ...filterButtons,
                 bulletinBoard: true,
-
                 recipe: false,
               });
               if (filterButtons.writtenBoard) {
@@ -229,13 +222,39 @@ const UserMain = (props) => {
         {filterButtons.recipe ? (
           <CardList>
             {currentList.map((item, idx) => {
-              return <RecipeCard key={item.recipeId} likeStatus={likeStatus} />;
+              return (
+                <RecipeCard
+                  key={item.recipeId}
+                  image={item.imageList[0]}
+                  nickname={item.nickname}
+                  title={item.title}
+                  likeStatus={item.likeStatus}
+                  likeCount={item.likeCount}
+                  price={item.price}
+                  _onClick={() => {
+                    history.push(`/recipeboard/write/${item.recipeId}`);
+                  }}
+                />
+              );
             })}
           </CardList>
         ) : (
           <CardList>
             {currentList.map((item, idx) => {
-              return <BoardCard key={item.boardId} likeStatus={likeStatus} />;
+              return (
+                <BoardCard
+                  key={item.boardId}
+                  image={item.imageList[0]}
+                  title={item.title}
+                  likeStatus={item.likeStatus}
+                  likeCount={item.likeCount}
+                  content={item.content}
+                  regDate={item.regDate}
+                  _onClick={() => {
+                    history.push(`/recipeboard/write/${item.boardId}`);
+                  }}
+                />
+              );
             })}
           </CardList>
         )}
@@ -269,7 +288,7 @@ const Grid = styled.div`
 `;
 
 const UserProfileImage = styled.img`
-  background-color: red;
+  /* background-color: red; */
   border-radius: 50%;
   width: 56px;
   height: 56px;
