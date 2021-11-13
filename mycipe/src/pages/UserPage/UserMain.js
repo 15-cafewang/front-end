@@ -232,7 +232,7 @@ const UserMain = (props) => {
                   likeCount={item.likeCount}
                   price={item.price}
                   _onClick={() => {
-                    history.push(`/recipeboard/write/${item.recipeId}`);
+                    history.push(`/recipeboard/detail/${item.recipeId}`);
                   }}
                 />
               );
@@ -251,7 +251,7 @@ const UserMain = (props) => {
                   content={item.content}
                   regDate={item.regDate}
                   _onClick={() => {
-                    history.push(`/recipeboard/write/${item.boardId}`);
+                    history.push(`/bulletinboard/detail/${item.boardId}`);
                   }}
                 />
               );
