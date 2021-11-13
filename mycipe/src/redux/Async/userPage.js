@@ -5,7 +5,7 @@ import {
   getUserInfo,
   getUserWrittenRecipes,
   getUserWrittenBoardes,
-  getUserLikeRecipes,
+  getUserLikedRecipes,
   getUserLikeBoards,
   follow,
   unFollow,
@@ -49,7 +49,8 @@ const getUserWrittenBoardsDB = createAsyncThunk(
 const getUserLikedRecipesDB = createAsyncThunk(
   "userpage/recipes/like",
   async (data, thunkAPI) => {
-    const response = await getUserLikeRecipes(data);
+    console.log(data);
+    const response = await getUserLikedRecipes(data);
 
     return response.data.data.content;
   }

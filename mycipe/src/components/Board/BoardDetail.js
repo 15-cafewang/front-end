@@ -78,7 +78,6 @@ const BoardDetail = ({ boardName }) => {
     setLikeStatus(!likeStatus);
   };
 
-
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
@@ -87,6 +86,9 @@ const BoardDetail = ({ boardName }) => {
           shape="circle"
           size="small"
           src={postDetail && postDetail.profile}
+          _onClick={() => {
+            history.push(`/usermain/${postDetail.nickname}`);
+          }}
         />
         <Nickname>{postDetail && postDetail.nickname}</Nickname>
         {isPostUser &&
