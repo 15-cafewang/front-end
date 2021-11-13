@@ -12,8 +12,10 @@ const getUserWrittenBoardes = (nickname) =>
     `/userinfo/boards/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
   );
 
-const getUserLikeRecipes = (nickname) =>
-  `/userinfo/recipes/likes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`;
+const getUserLikedRecipes = (nickname) =>
+  api.get(
+    `/userinfo/recipes/likes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+  );
 
 const getUserLikeBoards = (nickname) =>
   api.get(
@@ -38,7 +40,7 @@ export {
   getUserInfo,
   getUserWrittenRecipes,
   getUserWrittenBoardes,
-  getUserLikeRecipes,
+  getUserLikedRecipes,
   getUserLikeBoards,
   follow,
   unFollow,
