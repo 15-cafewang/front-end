@@ -16,7 +16,6 @@ const RecipeCard = ({
   title,
   _onClick,
 }) => {
-  console.log(likeStatus);
   const isImage = image ? `${image}` : "";
 
   return (
