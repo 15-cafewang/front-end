@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { find } from "lodash";
 
 import {
   getUserInfoDB,
@@ -90,10 +91,6 @@ const userPageSlice = createSlice({
         state.postList[item] = [];
       }
     },
-
-    updateUserList: (state, action) => {
-      state.userList = action.payload;
-    },
   },
 
   extraReducers: {
@@ -170,15 +167,19 @@ const userPageSlice = createSlice({
     },
 
     [userFollowDB.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      const userInfo = action.payload.userInfo;
+
+      if (!state.userList.some((user) => user.nick === userInfo.nickname)) {
+        state.userList.push(userInfo);
+      }
+
       state.isFetching = false;
       state.userInfo.followingCount++;
       state.userInfo.followStatus = true;
-      // window.alert(action.payload);
     },
 
     [userFollowDB.rejected]: (state, action) => {
-      console.log("팔로우 하기 에러발생", action.error);
+      alert("팔로우 하기 에러발생", action.error);
     },
 
     //유저 팔로우 취소
@@ -187,7 +188,16 @@ const userPageSlice = createSlice({
     },
 
     [userUnFollowDB.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      const nickname = action.payload.nickname;
+
+      if (!state.userList.length === 0) {
+        const newUserList = state.userList.filter(
+          (user) => user.nickname !== nickname
+        );
+
+        state.userList = newUserList;
+      }
+
       state.isFetching = false;
       state.userInfo.followingCount--;
 
@@ -195,7 +205,7 @@ const userPageSlice = createSlice({
     },
 
     [userUnFollowDB.rejected]: (state, action) => {
-      console.log("팔로우 취소하기 에러발생", action.error);
+      alert("팔로우 취소하기 에러발생", action.error);
     },
 
     //유저 팔로워 리스트 불러오기
