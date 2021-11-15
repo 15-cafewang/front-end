@@ -76,6 +76,8 @@ const BoardWrite = ({ boardName }) => {
           for (const f of post.fileList) {
             recipeFormData1.append("image", f);
           }
+        } else {
+          recipeFormData1.append("image", []);
         }
         console.log(post.title);
         console.log(post.content);
@@ -94,7 +96,7 @@ const BoardWrite = ({ boardName }) => {
         for (const f of post.fileList) {
           bulletinFormData.append("image", f);
         }
-
+        console.log(post.fileList);
         console.log(post.title);
         console.log(post.content);
         dispatch(
