@@ -11,6 +11,7 @@ import {
 
 // initialstate
 const initialstate = {
+  isLoading: false,
   isFetching: false,
   recipeList: [],
   currentRecipePost: null,
@@ -24,9 +25,12 @@ const recipeBoardSlice = createSlice({
     // 레시피 목록 불러오기
     [getRecipePostListDB.pending]: (state, action) => {
       state.isFetching = true;
+      state.isLoading = true;
     },
     [getRecipePostListDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
+      state.isLoading = false;
+
       state.recipeList = payload;
     },
     [getRecipePostListDB.rejected]: (state, action) => {

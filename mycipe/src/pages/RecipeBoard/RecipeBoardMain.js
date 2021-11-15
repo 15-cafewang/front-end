@@ -10,6 +10,10 @@ import ModalBackground from "../../shared/ModalBackground";
 import { getRecipePostListDB } from "../../redux/Async/recipeBoard";
 
 const RecipeBoardMain = () => {
+  const isLoading = useSelector((state) => state.recipeBoard.isFetching);
+  // 무한스크롤
+  const observer = IntersectionObserver();
+
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
   const [currentSorting, setCurrentSorting] = useState({
