@@ -57,6 +57,7 @@ function App() {
             <PublickRoute path="/login" exact component={Login} />
             <PublickRoute path="/signup" exact component={Signup} />
             <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
+
             <PrivateRoute>
               <PrivateRoute path="/main" exact component={Main} />
               <PrivateRoute
