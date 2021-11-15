@@ -13,7 +13,7 @@ const hashTagStrList = [
   "#당충전",
 ];
 
-const HashTag = ({ tags, post, setPost }) => {
+const HashTag = ({ tags, post = null, setPost = () => {} }) => {
   const [hashTagList, setHashTagList] = useState(
     // initialValue는 모두 false로 만들어준다.
     hashTagStrList.map((hashTagName) => {
@@ -32,7 +32,6 @@ const HashTag = ({ tags, post, setPost }) => {
     setPost({ ...post, tags: clickedHashTagList });
   }, [hashTagList]);
 
-  console.log(post);
   const toggleHashTag = (currentTag) => {
     // 현재 클릭한 태그의 상태가 true이면 나머지는 그대로 두고, 클릭한 태그의 상태만 false로 다시 뱌꿔준다.
     if (currentTag.active === true) {

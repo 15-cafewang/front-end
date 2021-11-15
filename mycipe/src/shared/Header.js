@@ -25,7 +25,11 @@ const Header = (props) => {
             history.push("/main");
           }}
         />
-        <SearchIcon />
+        <SearchIcon
+          onClick={() => {
+            history.push("/searchmain");
+          }}
+        />
       </HeaderInner>
     );
   }
@@ -153,24 +157,24 @@ const Header = (props) => {
     );
   }
 
-  if (location.includes("/searchmain")) {
-    //검색메인
-    return (
-      <HeaderInner flexBetween>
-        <LeftInner>
-          <BackIcon
-            onClick={() => {
-              history.goback();
-            }}
-          />
-        </LeftInner>
+  // if (location.includes("/searchmain")) {
+  //   //검색메인
+  //   return (
+  //     <HeaderInner flexBetween>
+  //       <LeftInner>
+  //         <BackIcon
+  //           onClick={() => {
+  //             history.goback();
+  //           }}
+  //         />
+  //       </LeftInner>
 
-        <SearchInput placeholder="검색어를 입력해 주세요." />
+  //       <SearchInput placeholder="검색어를 입력해 주세요." />
 
-        <SearchButton>검색</SearchButton>
-      </HeaderInner>
-    );
-  }
+  //       <SearchButton>검색</SearchButton>
+  //     </HeaderInner>
+  //   );
+  // }
 
   if (location === "/setting") {
     //설정페이지
@@ -185,14 +189,13 @@ const Header = (props) => {
       </HeaderInner>
     );
   } else return null;
-
 };
 
 const HeaderInner = styled.div`
   width: 100%;
   height: 48px;
-  z-index: 1;
   padding: 0px 20px;
+  z-index: 1;
   position: sticky;
   top: 0;
 

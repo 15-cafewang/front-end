@@ -39,6 +39,8 @@ function App() {
   // 로컬 스토리지 토큰 확인
   const isToken = localStorage.getItem("USER_TOKEN") ? true : false;
 
+  const AppRef = React.useRef();
+
   useEffect(() => {
     if (isToken) {
       dispatch(loginCheck());
@@ -113,7 +115,11 @@ function App() {
                 component={UserPageFollowList}
               />
               {/* <PrivateRoute path="/searchmain" component={SearchMain} /> */}
-              <PrivateRoute path="/searchmain" component={SearchMain} />
+              <PrivateRoute
+                path="/searchmain"
+                component={SearchMain}
+                ref={AppRef}
+              />
               <PrivateRoute path="/setting" component={Setting} />
               <BottomNav />
             </PrivateRoute>
