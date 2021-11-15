@@ -87,8 +87,12 @@ const UserMain = (props) => {
             <Grid flexBetween>
               <Button
                 onClick={() => {
-                  dispatch(userFollowListDB(userInfo.nickname));
-                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                  dispatch(userFollowListDB(userInfo.nickname))
+                    .unwrap()
+                    .then(() => {
+                      history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                    })
+                    .catch((err) => console.log(err));
                 }}
               >
                 <Count>{userInfo.followingCount}</Count>
@@ -97,8 +101,12 @@ const UserMain = (props) => {
 
               <Button
                 onClick={() => {
-                  dispatch(userFollowingListDB(userInfo.nickname));
-                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                  dispatch(userFollowingListDB(userInfo.nickname))
+                    .unwrap()
+                    .then(() => {
+                      history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                    })
+                    .catch((err) => console.log(err));
                 }}
               >
                 <Count>{userInfo.followCount}</Count>
