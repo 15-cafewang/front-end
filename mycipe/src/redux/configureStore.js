@@ -10,18 +10,31 @@ import modalSlice from "./Modules/modalSlice";
 import bulletinBoardSlice from "./Modules/bulletinBoardSlice";
 import recipeBoardSlice from "./Modules/recipeBoardSlice";
 import mainPageSlice from "./Modules/mainPageSlice";
+
+import { persistReducer } from "redux-persist";
+import { persistStore } from "redux-persist";
+import storageSession from "redux-persist/lib/storage/session";
 export const history = createBrowserHistory();
 
 // reducers
+
+const userPagePersistConfig = {
+  key: "userPage",
+  storage: storageSession,
+  blacklist: ["isFetching", "userInfo", "postList", "userList"],
+};
+
 const reducer = combineReducers({
   router: connectRouter(history),
   user: userSlice.reducer,
-  userPage: userPageSlice.reducer,
+  userPage: persistReducer(userPagePersistConfig, userPageSlice.reducer),
   modal: modalSlice.reducer,
   bulletinBoard: bulletinBoardSlice.reducer,
   recipeBoard: recipeBoardSlice.reducer,
   mainPage: mainPageSlice.reducer,
 });
+
+// const rootReducer = persistReducer(persistConfig, reducer);
 
 const middlewares = [];
 
@@ -33,9 +46,12 @@ if (env === "development") {
 }
 
 const store = configureStore({
-  reducer,
+  reducer: reducer,
   middleware: [...middlewares, ...getDefaultMiddleware()],
   devTools: env !== "production",
 });
 
-export default store;
+const persistor = persistStore(store);
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export { store, persistor };
