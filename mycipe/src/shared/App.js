@@ -28,8 +28,8 @@ import Main from "../pages/MainPage/Main";
 import UserMain from "../pages/UserPage/UserMain";
 import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
+// import SearchMain from "../pages/SearchPage/SearchModal";
 import SearchMain from "../pages/SearchPage/SearchMain";
-import SearchList from "../pages/SearchPage/SearchList";
 import Setting from "../pages/SettingPage/Setting";
 import background from "../assets/image/Background.png";
 
