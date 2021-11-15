@@ -72,16 +72,12 @@ const userFollowDB = createAsyncThunk(
   async (userInfo, thunkAPI) => {
     const response = await follow(userInfo.nickname);
 
-    const state = thunkAPI.getState();
+    const data = {
+      userInfo: userInfo,
+      message: response.data.message,
+    };
 
-    const userList = state.userPage.userList;
-    if (userList.length !== 0) {
-      const newUserList = userList.push(userInfo);
-
-      thunkAPI.dispatch(updateUserList(newUserList));
-    }
-
-    return response.data.message;
+    return data;
   }
 );
 
@@ -92,17 +88,12 @@ const userUnFollowDB = createAsyncThunk(
     console.log(nickname);
     const response = await unFollow(nickname);
 
-    const state = thunkAPI.getState();
+    const data = {
+      nickname: nickname,
+      message: response.data.messgae,
+    };
 
-    const userList = state.userPage.userList;
-
-    if (userList.length !== 0) {
-      const newUserList = userList.filter((user) => user.nickname !== nickname);
-
-      thunkAPI.dispatch(updateUserList(newUserList));
-    }
-
-    return response.data.message;
+    return data;
   }
 );
 
