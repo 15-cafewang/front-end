@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { BigFilterButton } from "../../elements";
@@ -21,6 +21,16 @@ const UserPageFollowList = (props) => {
   const isActive = useSelector((state) => state.modal.isActive);
   const userList = useSelector((state) => state.userPage.userList);
   const isFollower = useSelector((state) => state.userPage.isFollower);
+
+  useEffect(() => {
+    if (userList.length === 0 && isFollower === true) {
+      dispatch(userFollowListDB(nickname));
+    }
+
+    if (userList.length === 0 && isFollower === false) {
+      dispatch(userFollowingListDB(nickname));
+    }
+  }, [dispatch, isFollower, nickname, userList.length]);
 
   return (
     <>
