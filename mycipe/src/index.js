@@ -10,7 +10,6 @@ import { Provider } from "react-redux";
 
 ReactDOM.render(
   <Provider store={store}>
-    ️
     <PersistGate persistor={persistor}>
       <App />
     </PersistGate>
