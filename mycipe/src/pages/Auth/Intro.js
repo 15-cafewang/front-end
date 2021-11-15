@@ -32,6 +32,7 @@ const Intro = () => {
         </Main>
         <ButtonGrid>
           <Button
+            margin="0 0 0 28px"
             _onClick={() => {
               history.push("/login");
             }}
@@ -44,6 +45,7 @@ const Intro = () => {
             onClick={() => kakaologin()}
           />
           <Button
+            margin="0 0 0 28px"
             bg="#DBDBDB"
             _onClick={() => {
               history.push("/signup");
@@ -65,19 +67,13 @@ const SocialLoginContainer = styled.div`
 `;
 
 const Main = styled.div`
-  /* margin : 180px 152px 100px 32px; */
-  position: relative;
-  top: 180px;
-  right: 152px;
-  bottom: 100px;
-  left: 32px;
+  position: absolute;
+  margin: 180px 0 480px 32px;
 `;
 const ButtonGrid = styled.div`
   position: absolute;
-  top: 400px;
-  left: 20px;
-  right: 20px;
-  bottom: 220px;
+  margin: 400px 0 220px 0;
+  align-items: center;
 `;
 
 const Title = styled.p`
@@ -87,7 +83,7 @@ const Title = styled.p`
 `;
 
 const KakaoBtn = styled.img`
-  margin: 8px auto;
+  margin: 8px 0 8px 28px;
   display: block;
   cursor: pointer;
   height: 48px;
