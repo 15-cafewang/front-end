@@ -27,7 +27,7 @@ import Main from "../pages/MainPage/Main";
 import UserMain from "../pages/UserPage/UserMain";
 import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
-// import SearchMain from "../pages/SearchPage/SearchModal";
+
 import SearchMain from "../pages/SearchPage/SearchMain";
 import Setting from "../pages/SettingPage/Setting";
 import background from "../assets/image/Background.png";
@@ -45,7 +45,7 @@ function App() {
     if (isToken) {
       dispatch(loginCheck());
     }
-  }, []);
+  }, [dispatch, isToken]);
   return (
     <ConnectedRouter history={history}>
       <WebVer />
@@ -114,7 +114,6 @@ function App() {
                 exact
                 component={UserPageFollowList}
               />
-              {/* <PrivateRoute path="/searchmain" component={SearchMain} /> */}
               <PrivateRoute
                 path="/searchmain"
                 component={SearchMain}
