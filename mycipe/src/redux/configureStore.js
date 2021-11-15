@@ -16,12 +16,11 @@ import { persistStore } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
 export const history = createBrowserHistory();
 
-// reducers
-
 const userPagePersistConfig = {
   key: "userPage",
   storage: storageSession,
-  blacklist: ["isFetching", "userInfo", "postList", "userList"],
+  // blacklist: ["isFetching", "userInfo", "postList", "userList"],
+  whitelist: ["isFollower"],
 };
 
 const reducer = combineReducers({
@@ -33,8 +32,6 @@ const reducer = combineReducers({
   recipeBoard: recipeBoardSlice.reducer,
   mainPage: mainPageSlice.reducer,
 });
-
-// const rootReducer = persistReducer(persistConfig, reducer);
 
 const middlewares = [];
 
