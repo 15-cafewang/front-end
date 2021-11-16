@@ -8,7 +8,6 @@ import {
   loginCheckAPI,
   emailCheckAPI,
   nicknameCheckAPI,
-  updateUserInfoWithImageAPI,
   updateUserInfoAPI,
 } from "../../shared/api/userApi";
 
@@ -86,21 +85,10 @@ export const nickCheckDB = createAsyncThunk(
 );
 
 // 회원정보 수정 ( 프로필이미지 + 닉네임)
-export const updateUserWithImageInfoDB = createAsyncThunk(
+export const updateUserInfoDB = createAsyncThunk(
   "user/updateUserInfoWithImage",
   async (formData) => {
-    const response = await updateUserInfoWithImageAPI(formData);
-
-    return response.data;
-  }
-);
-
-// 회원정보 수정 ( 닉네임)
-export const updateUserInfoDB = createAsyncThunk(
-  "user/updateUserInfoOnlyNickname",
-  async (data) => {
-    console.log(data);
-    const response = await updateUserInfoAPI(data);
+    const response = await updateUserInfoAPI(formData);
 
     return response.data;
   }
