@@ -16,8 +16,9 @@ const NotFound = () => {
         찾을 수 없습니다.
       </TextBox>
       <Button
-        height="1.75rem"
-        width="5.5rem"
+        margin="18px 100px 100px 125px"
+        height="28px"
+        width="129px"
         _onClick={() => {
           history.push("/main");
         }}
