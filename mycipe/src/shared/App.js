@@ -113,10 +113,10 @@ function App() {
               component={UserPageFollowList}
             />
             <PrivateRoute path="/searchmain" component={SearchMain} />
-            <PrivateRoute
+            {/* <PrivateRoute
               path="/searchmain/searchlist"
               component={SearchList}
-            />
+            /> */}
             <PrivateRoute path="/setting" component={Setting} />
             <NotFound />
           </Switch>
