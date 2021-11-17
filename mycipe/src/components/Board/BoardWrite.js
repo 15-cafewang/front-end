@@ -40,6 +40,7 @@ const BoardWrite = ({ boardName }) => {
 
   console.log(post);
   useEffect(() => {
+    // 수정모드인데 리덕스에 현재 게시물 정보가 남아있다.
     if (isEdit && currentPost) {
       setPost(currentPost);
       return;
@@ -47,15 +48,12 @@ const BoardWrite = ({ boardName }) => {
 
     // 수정모드인데 현재 게시물에 대한 정보가 없을 때 (리덕스 초기화 되었을 때)
     if (isEdit && !currentPost) {
-      console.log(boardName);
       if (boardName === "recipeBoard") {
-        console.log("aa");
         recipeBoardApi.getPostDetail(params.id).then((res) => {
           setPost(res.data.data);
         });
       }
       if (boardName === "bulletinBoard") {
-        console.log("aa");
         bulletinBoardApi.getPostDetail(params.id).then((res) => {
           setPost(res.data.data);
         });
@@ -67,25 +65,27 @@ const BoardWrite = ({ boardName }) => {
     // 수정모드
     if (isEdit) {
       if (boardName === "recipeBoard") {
-        const recipeFormData1 = new FormData();
-        recipeFormData1.append("title", post.title);
-        recipeFormData1.append("content", post.content);
-        recipeFormData1.append("price", post.price);
-        recipeFormData1.append("tag", post.tags);
+        const recipeFormData = new FormData();
+        recipeFormData.append("title", post.title);
+        recipeFormData.append("content", post.content);
+        recipeFormData.append("price", post.price);
+        recipeFormData.append("tag", post.tags);
+
+        // 삭제한 이미지가 있을 때
+        if (post.deleteImage) {
+          for (const d of post.deleteImage) {
+            recipeFormData.append("deleteImage", d);
+          }
+        }
+
+        // 추가한 이미지가 있을 때
         if (post.fileList) {
           for (const f of post.fileList) {
-            recipeFormData1.append("image", f);
+            recipeFormData.append("image", f);
           }
-        } else {
-          recipeFormData1.append("image", []);
         }
-        console.log(post.title);
-        console.log(post.content);
-        console.log(post.price);
-        console.log(post.tags);
-        console.log(post.fileList);
         dispatch(
-          editRecipePostDB({ boardId: params.id, formData: recipeFormData1 })
+          editRecipePostDB({ boardId: params.id, formData: recipeFormData })
         );
       }
 
@@ -93,12 +93,11 @@ const BoardWrite = ({ boardName }) => {
         const bulletinFormData = new FormData();
         bulletinFormData.append("title", post.title);
         bulletinFormData.append("content", post.content);
-        for (const f of post.fileList) {
-          bulletinFormData.append("image", f);
+        if (post.fileList) {
+          for (const f of post.fileList) {
+            bulletinFormData.append("image", f);
+          }
         }
-        console.log(post.fileList);
-        console.log(post.title);
-        console.log(post.content);
         dispatch(
           editBulletinPostDB({ boardId: params.id, formData: bulletinFormData })
         );
@@ -111,14 +110,11 @@ const BoardWrite = ({ boardName }) => {
         const recipeFormData = new FormData();
         recipeFormData.append("title", post.title);
         recipeFormData.append("content", post.content);
-        recipeFormData.append("price", post.price);
+        recipeFormData.append("price", post.price * 1);
         recipeFormData.append("tag", post.tags);
-        if (post.fileList) {
-          for (const f of post.fileList) {
-            recipeFormData.append("image", f);
-          }
+        for (const f of post.fileList) {
+          recipeFormData.append("image", f);
         }
-        console.log(post.tagList);
         dispatch(addRecipePostDB(recipeFormData));
       }
 
@@ -165,7 +161,12 @@ const BoardWrite = ({ boardName }) => {
       <BoardWriteWrapper>
         {isActive && <ModalBackground />}
         {isEdit && post && (
-          <ImageListUpload images={post.images} post={post} setPost={setPost} />
+          <ImageListUpload
+            isEdit={isEdit}
+            images={post.images}
+            post={post}
+            setPost={setPost}
+          />
         )}
         {!isEdit && <ImageListUpload post={post} setPost={setPost} />}
 
@@ -182,7 +183,7 @@ const BoardWrite = ({ boardName }) => {
         {/* 레시피 작성시에만 렌더링 해줌 */}
         {boardName === "recipeBoard" ? (
           <TextInputBox
-            onChange={(e) => setPost({ ...post, price: 1 * e.target.value })}
+            onChange={(e) => setPost({ ...post, price: e.target.value })}
             height="48"
             marginBtm="8"
             placeholder="가격"
