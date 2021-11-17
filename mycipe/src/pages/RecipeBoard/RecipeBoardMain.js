@@ -126,7 +126,8 @@ const RecipeBoardMain = () => {
                 })}
             </CardList>
             {isLoading && <div>loading...</div>}
-            {recipeList.length > 0 && <div ref={setTarget}></div>}
+            <div ref={setTarget}></div>
+            {/* {recipeList.length > 0 && <div ref={setTarget}></div>} */}
           </>
         )}
 
