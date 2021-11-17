@@ -8,7 +8,6 @@ export const addRecipePostDB = createAsyncThunk(
   "recipeBoard/addPost",
   async (data, thunkAPI) => {
     const response = await recipeBoardApi.addPost(data);
-    // window.alert(response.data.message);
     history.push("/recipeboard");
     return response.data.message;
   }
@@ -18,9 +17,17 @@ export const addRecipePostDB = createAsyncThunk(
 export const getRecipePostListDB = createAsyncThunk(
   "recipeBoard/getPostList",
   async (data, thunkAPI) => {
-    const response = await recipeBoardApi.getPostList(data);
-    // window.alert(response.data.message);
+    const response = await recipeBoardApi.getPostList(data.page, data.sortBy);
     history.push("/recipeboard");
+    return response.data.data.content;
+  }
+);
+
+// 무한 스크롤 가져오기
+export const getInfinityScrollDB = createAsyncThunk(
+  "recipeBoard/getInfinityScroll",
+  async (data) => {
+    const response = await recipeBoardApi.getPostList(data.page, data.sortBy);
     return response.data.data.content;
   }
 );
@@ -30,7 +37,6 @@ export const getRecipePostDetailDB = createAsyncThunk(
   "recipeBoard/getPostDetail",
   async (data) => {
     const response = await recipeBoardApi.getPostDetail(data);
-    // window.alert(response.data.message);
     return response.data.data;
   }
 );
@@ -40,7 +46,6 @@ export const recipeLikeToggleDB = createAsyncThunk(
   "recipeBoard/likeToggle",
   async (data) => {
     const response = await recipeBoardApi.likeToggle(data);
-    // window.alert(response.data.message);
     return response.data.data;
   }
 );
@@ -51,7 +56,6 @@ export const editRecipePostDB = createAsyncThunk(
   async (data) => {
     console.log(data);
     const response = await recipeBoardApi.editPost(data.boardId, data.formData);
-    window.alert(response.data.message);
     history.push("/recipeBoard");
     return response.data.data;
   }
@@ -62,7 +66,6 @@ export const deleteRecipePostDB = createAsyncThunk(
   "recipeBoard/deletePost",
   async (data) => {
     const response = await recipeBoardApi.deletePost(data);
-    window.alert(response.data.message);
     history.push("/recipeBoard");
     return response.data.data;
   }

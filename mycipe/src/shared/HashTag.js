@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 const hashTagStrList = [
-  "#청량한",
-  "#고소한",
-  "#단짠",
-  "#디카페인",
-  "#달달한",
-  "#아이스",
-  "#따뜻한",
-  "#새콤달콤한",
-  "#시험기간에 필수",
-  "#당충전",
+  "청량한",
+  "고소한",
+  "단짠",
+  "디카페인",
+  "달달한",
+  "아이스",
+  "따뜻한",
+  "새콤달콤한",
+  "시험기간에 필수",
+  "당충전",
 ];
 
 const HashTag = ({ tags, post, setPost }) => {
@@ -32,7 +32,6 @@ const HashTag = ({ tags, post, setPost }) => {
     setPost({ ...post, tags: clickedHashTagList });
   }, [hashTagList]);
 
-  console.log(post);
   const toggleHashTag = (currentTag) => {
     // 현재 클릭한 태그의 상태가 true이면 나머지는 그대로 두고, 클릭한 태그의 상태만 false로 다시 뱌꿔준다.
     if (currentTag.active === true) {
@@ -63,7 +62,7 @@ const HashTag = ({ tags, post, setPost }) => {
               }}
               active={tag.active}
             >
-              {tag.name}
+              #{tag.name}
             </HashTagItem>
           );
         })}

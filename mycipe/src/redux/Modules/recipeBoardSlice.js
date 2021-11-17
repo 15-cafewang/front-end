@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addRecipePostDB,
   getRecipePostListDB,
+  getInfinityScrollDB,
   getRecipePostDetailDB,
   recipeLikeToggleDB,
   editRecipePostDB,
@@ -27,9 +28,22 @@ const recipeBoardSlice = createSlice({
     },
     [getRecipePostListDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
+
       state.recipeList = payload;
     },
     [getRecipePostListDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 무한스크롤
+    [getInfinityScrollDB.pending]: (state, acton) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+
+      state.recipeList = [...state.recipeList, ...payload];
+    },
+    [getInfinityScrollDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
     // 레시피 작성
@@ -40,7 +54,7 @@ const recipeBoardSlice = createSlice({
       state.isfetching = false;
     },
     [addRecipePostDB.rejected]: (state, action) => {
-      state.isfetching = true;
+      state.isfetching = false;
     },
     // 레시피 상세 조회
     [getRecipePostDetailDB.pending]: (state, action) => {

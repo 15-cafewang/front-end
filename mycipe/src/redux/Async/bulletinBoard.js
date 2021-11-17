@@ -8,7 +8,6 @@ export const addBulletinPostDB = createAsyncThunk(
   "bulletinBoard/addPost",
   async (data, thunkAPI) => {
     const response = await bulletinBoardApi.addPost(data);
-    // window.alert(response.data.message);
     history.push("/bulletinboard");
     return response.data.message;
   }
@@ -18,8 +17,16 @@ export const addBulletinPostDB = createAsyncThunk(
 export const getBulletinPostListDB = createAsyncThunk(
   "bulletinBoard/getPostList",
   async (data, thunkAPI) => {
-    const response = await bulletinBoardApi.getList(data);
-    // window.alert(response.data.message);
+    const response = await bulletinBoardApi.getList(data.page, data.sortBy);
+    return response.data.data.content;
+  }
+);
+
+// 무한 스크롤 가져오기
+export const getInfinityScrollDB = createAsyncThunk(
+  "bulletinBoard/getInfinityScroll",
+  async (data) => {
+    const response = await bulletinBoardApi.getList(data.page, data.sortBy);
     return response.data.data.content;
   }
 );
@@ -29,7 +36,6 @@ export const getBulletinPostDetailDB = createAsyncThunk(
   "bulletinBoard/getPostDetail",
   async (data, thunkAPI) => {
     const response = await bulletinBoardApi.getPostDetail(data);
-    // window.alert(response.data.message);
     return response.data.data;
   }
 );
@@ -39,7 +45,6 @@ export const bulletinLikeToggleDB = createAsyncThunk(
   "bulletinBoard/likeToggle",
   async (data) => {
     const response = await bulletinBoardApi.likeToggle(data);
-    // window.alert(response.data.message);
     return response.data.data;
   }
 );
@@ -53,7 +58,6 @@ export const editBulletinPostDB = createAsyncThunk(
       data.boardId,
       data.formData
     );
-    window.alert(response.data.message);
     history.push("/bulletinBoard");
     return response.data.data;
   }
@@ -64,7 +68,6 @@ export const deleteBulletinPostDB = createAsyncThunk(
   "bulletinBoard/deletePost",
   async (data) => {
     const response = await bulletinBoardApi.deletePost(data);
-    window.alert(response.data.message);
     history.push("/bulletinBoard");
     return response.data.data;
   }

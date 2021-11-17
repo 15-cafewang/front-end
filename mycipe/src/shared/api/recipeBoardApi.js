@@ -2,8 +2,8 @@ import api from "./index";
 
 export const recipeBoardApi = {
   // 레시피 목록 조회 (최신순, 인기순)
-  getPostList: (sortedBy) => {
-    return api.get(`/recipes/list?page=1&size=7&isAsc=false&${sortedBy}`);
+  getPostList: (page, sortBy) => {
+    return api.get(`/recipes/list?page=${page}&size=7&isAsc=false&${sortBy}`);
   },
 
   // 레시피 작성

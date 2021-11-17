@@ -7,39 +7,62 @@ import { ReactComponent as Remove } from "../assets/remove.svg";
 // elements
 import Image from "../elements/Image";
 
-const ImageListUpload = ({ post, images, setPost }) => {
+const ImageListUpload = ({ isEdit, post, images, setPost }) => {
   const isImage = images ? [...images] : [];
   const [fileList, setFileList] = useState({
     fileList: [],
     previewURLList: isImage,
+    deleteImage: [],
   });
 
+  // 이미시 선택시 실행되는 함수
   const handleChangeImageFile = (e) => {
-    const imageFileList = Array.from(e.target.files);
+    // onChange 함수로 새로 받아온 file 배열
+    const selectedFile = Array.from(e.target.files);
+
+    let imageFileList = [];
+
+    // 수정모드일 때는 지금 선택한 파일만
+    // 미리보기 url을 생성하는 과정에서 수정모드일 때는 선택한 사진만 만들어줘야하기 때문에 따로 빼주었습니다.
+    if (isEdit) imageFileList = selectedFile;
+
+    // 작성모드일 때 선택했던 파일 + 지금 선택한 파일
+    if (!isEdit) imageFileList = [...fileList.fileList, ...selectedFile];
 
     // 6장 이상이면 return
     if (imageFileList.length >= 6) {
-      window.alert("5장밖에 안됨~~~~~~~~!");
+      window.alert("사진은 최대 5장까지 업로드 가능합니다");
       return;
     }
 
     if (imageFileList.length <= 5) {
-      const newFileList = [];
+      const previewFileList = [];
 
       for (let i = 0; i < imageFileList.length; i++) {
         const previewURL = URL.createObjectURL(imageFileList[i]);
-        newFileList.push(previewURL);
+        previewFileList.push(previewURL);
       }
 
-      console.log(newFileList);
       setFileList({
-        fileList: imageFileList,
-        previewURLList: [...newFileList],
+        fileList: isEdit
+          ? [...fileList.fileList, ...imageFileList]
+          : imageFileList,
+
+        // 수정모드일 때는 previewURLList를 props로 받아온 images + 새로 선택한 파일 미리보기
+        previewURLList: isEdit
+          ? [...fileList.previewURLList, ...previewFileList]
+          : previewFileList,
+        deleteImage: fileList.deleteImage,
       });
     }
   };
 
+  // 이미지 삭제시 실행되는 함수
   const handleRemoveImageFile = (idx) => {
+    // 수정모드일 때 삭제한 이미지만 담아놓는 배열
+    if (images && images.includes(fileList.previewURLList[idx]))
+      fileList.deleteImage.push(fileList.previewURLList[idx]);
+
     // 선택한 index의 배열 요소를 자른다.
     fileList.fileList.splice(idx, 1);
     fileList.previewURLList.splice(idx, 1);
@@ -47,11 +70,17 @@ const ImageListUpload = ({ post, images, setPost }) => {
     setFileList({
       fileList: fileList.fileList,
       previewURLList: fileList.previewURLList,
+      deleteImage: fileList.deleteImage,
     });
   };
 
   useEffect(() => {
-    setPost({ ...post, fileList: [...fileList.fileList] });
+    // request data
+    setPost({
+      ...post,
+      fileList: fileList.fileList,
+      deleteImage: fileList.deleteImage,
+    });
   }, [fileList]);
 
   return (
