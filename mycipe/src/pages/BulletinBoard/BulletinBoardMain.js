@@ -128,8 +128,7 @@ const BulletinBoardMain = () => {
                   );
                 })}
             </CardList>
-            {isLoading && <div>loading...</div>}
-            {boardList.length > 0 && <div ref={setTarget}></div>}
+            <div ref={setTarget}>{isLoading && "loading..."}</div>
           </>
         )}
 
@@ -163,8 +162,7 @@ const BulletinBoardMain = () => {
                   );
                 })}
             </CardList>
-            {isLoading && <div>loading...</div>}
-            {boardList.length > 0 && <div ref={setTarget}></div>}
+            <div ref={setTarget}>{isLoading && "loading..."}</div>
           </>
         )}
       </BoardMainContainer>
@@ -180,23 +178,6 @@ const BoardMainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const SortingBox = styled.div`
-  height: 32px;
-  display: flex;
-  position: relative;
-  left: 120px;
-`;
-
-const SortingItem = styled.div`
-  margin: 0px 8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-  color: #767676;
 `;
 
 const CardList = styled.div`

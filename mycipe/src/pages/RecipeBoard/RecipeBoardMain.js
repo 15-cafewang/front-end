@@ -33,6 +33,7 @@ const RecipeBoardMain = () => {
 
   // 처음 페이지 진입했을 때 page=1인 data을 받아온다.
   useEffect(() => {
+    console.log(1);
     dispatch(
       getRecipePostListDB({
         page: 1,
@@ -125,9 +126,7 @@ const RecipeBoardMain = () => {
                   );
                 })}
             </CardList>
-            {isLoading && <div>loading...</div>}
-            <div ref={setTarget}></div>
-            {/* {recipeList.length > 0 && <div ref={setTarget}></div>} */}
+            <div ref={setTarget}>{isLoading && "loading..."}</div>
           </>
         )}
 
@@ -155,8 +154,7 @@ const RecipeBoardMain = () => {
                   );
                 })}
             </CardList>
-            {isLoading && <div>loading...</div>}
-            {recipeList.length > 0 && <div ref={setTarget}></div>}
+            <div ref={setTarget}>{isLoading && "loading..."}</div>
           </>
         )}
       </BoardMainContainer>
