@@ -29,5 +29,5 @@ export const useInterSectionObserver = (callback, pageRef, target, list) => {
     return () => {
       if (target) observer.unobserve(target);
     };
-  }, [target, list.length]);
+  }, [target, list]);
 };
