@@ -4,7 +4,8 @@ import { getToken } from "../utils";
 const api = axios.create({
   // baseURL: "http://3.34.143.150:8080/",
   // baseURL: "http://jhhong0930.shop",
-  baseURL: "http://3.36.78.242:8080/",
+  // baseURL: "http://3.36.78.242:8080/",
+  baseURL: "http://54.180.68.116:8080/",
 });
 
 // interceptors
