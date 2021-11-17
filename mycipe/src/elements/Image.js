@@ -15,7 +15,9 @@ const Image = ({ size, shape, src, slide, children, _onClick }) => {
   if (shape === "rectangle") {
     return (
       <Outter size={styles.size}>
-        <ImageRectångle src={styles.src}>{children}</ImageRectångle>
+        <ImageRectångle size={styles.size} src={styles.src}>
+          {children}
+        </ImageRectångle>
       </Outter>
     );
   }
@@ -53,13 +55,13 @@ const ImageCircle = styled.div`
 const Outter = styled.div`
   // 게시판 작성페이지
   ${(props) =>
-    props.size === "medium" &&
-    `width : 112px; height : 112px; border-radius : 6px 0px 0px 6px;`}
-
-  // 메인 페이지, 마이(유저) 페이지, 검색 페이지
-  ${(props) =>
     props.size === "small" &&
     `width : 100px; height : 100px; border-radius : 6px; flex: 0 0 auto; margin : 0px 16px 16px 0px;`}
+
+  // 메인 페이지, 마이(유저) 페이지, 검색 페이지
+    ${(props) =>
+    props.size === "medium" &&
+    `width : 112px; height : 112px; border-radius : 6px 0px 0px 6px;`}
     
   // 게사판 메인 페이지
   ${(props) =>
@@ -73,6 +75,18 @@ const Outter = styled.div`
 `;
 
 const ImageRectångle = styled.div`
+  // 게시판 작성페이지
+  ${(props) => props.size === "small" && `border-radius : 6px;`}
+
+  // 메인 페이지, 마이(유저) 페이지, 검색 페이지
+    ${(props) => props.size === "medium" && `border-radius : 6px 0px 0px 6px;`}
+    
+  // 게사판 메인 페이지
+  ${(props) => props.size === "medium2" && `border-radius : 6px;`}
+
+  // 레시피 작성 페이지
+  ${(props) => props.size === "large" && `border-radius : 6px;`}
+
   width: 100%;
   height: 100%;
   background-color: #ededed;
