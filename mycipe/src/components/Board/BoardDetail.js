@@ -37,7 +37,6 @@ const BoardDetail = ({ boardName }) => {
       : state.bulletinBoard.currentBoardPost
   );
 
-  const [menuActive, setMenuActive] = useState(false);
   const [likeStatus, setLikeStatus] = useState(
     postDetail && postDetail.likeStatus
   );
