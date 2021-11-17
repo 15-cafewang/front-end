@@ -24,7 +24,7 @@ export const getBulletinPostListDB = createAsyncThunk(
 
 // 무한 스크롤 가져오기
 export const getInfinityScrollDB = createAsyncThunk(
-  "recipeBoard/getInfinityScroll",
+  "bulletinBoard/getInfinityScroll",
   async (data) => {
     const response = await bulletinBoardApi.getList(data.page, data.sortBy);
     return response.data.data.content;
