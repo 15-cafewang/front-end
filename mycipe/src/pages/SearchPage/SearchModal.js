@@ -1,29 +1,28 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
-import HashTag from "../../shared/HashTag";
-import ModalBackground from "../../shared/ModalBackground";
-// import { ReactComponent as BackIcon } from "../../assets/back.svg";
-// import { history } from "../../redux/configureStore";
 
-const SearchModal = ({ isSearch, hashRef }) => {
-  // const isActive = useSelector((state) => state.modal.isActive);
-  const searchRecipe = true;
+import HashTag from "../../shared/HashTag";
+import { getSearchRecipeDB } from "../../redux/Async/Search";
+
+const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
+  const dispatch = useDispatch();
+
+  const whereFrom = useSelector((state) => state.search.whereFrom);
+
+  const hashTagRef = useRef();
 
   return (
     <>
+      <SearchMidalBackground ref={SearchModalRef} isSearch={isSearch} />
       <SearchModalInner isSearch={isSearch}>
-        {/* 바텀모달 */}
-        {/* {isActive && <ModalBackground />} */}
-
         <RecentSearchInner>
-          <Grid>
+          <Grid margin="32px 0px 0px 0px">
             <Text grey>최근 검색어</Text>
             <DeleteAllButton>모두 지우기</DeleteAllButton>
           </Grid>
-
           <SearchWordList>
             <SearchWordInner>
               <Text>무언가 검색한 기록</Text>
@@ -39,27 +38,59 @@ const SearchModal = ({ isSearch, hashRef }) => {
             </SearchWordInner>
           </SearchWordList>
 
-          {searchRecipe ? (
-            <>
-              <Grid margin="16px 0px">
-                <Text grey>추천 키워드</Text>
-              </Grid>
-              <Grid center>
-                <HashTag ref={hashRef} />
-              </Grid>
-            </>
-          ) : (
-            ""
-          )}
+          <>
+            {whereFrom === "recipe" ? (
+              <>
+                <Grid margin="16px 0px">
+                  <Text grey>추천 키워드</Text>
+                </Grid>
+                <Grid center>
+                  <HashTag
+                    ref={hashTagRef}
+                    isSearch={isSearch}
+                    _onClick={(e) => {
+                      if (e.target.nodeName === "LI") {
+                        const hashTag = e.target.innerHTML.substr(1);
+
+                        dispatch(
+                          getSearchRecipeDB({
+                            keyword: hashTag,
+                            withTag: true,
+                            sortBy: "regDate",
+                          })
+                        );
+
+                        setIsSearch(!isSearch);
+                      }
+                    }}
+                  />
+                </Grid>
+              </>
+            ) : (
+              ""
+            )}
+          </>
         </RecentSearchInner>
       </SearchModalInner>
     </>
   );
 };
 
+const SearchMidalBackground = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0;
+  top: 0px;
+  left: 0px;
+
+  display: ${(props) => (props.isSearch ? "block" : "none")};
+`;
+
 const SearchModalInner = styled.div`
   height: auto;
-  /* min-height: calc(100% - 60px); */
+
   background: #ffffff;
   position: absolute;
 
@@ -71,57 +102,6 @@ const SearchModalInner = styled.div`
 `;
 
 const RecentSearchInner = styled.div``;
-
-// const HeaderInner = styled.div`
-//   width: 100%;
-//   height: 48px;
-//   z-index: 1;
-//   position: sticky;
-//   top: 0;
-
-//   background: #fff;
-//   display: flex;
-//   align-items: center;
-//   ${(props) =>
-//     props.flexBetween &&
-//     css`
-//       justify-content: space-between;
-//     `}
-// `;
-
-// const LeftInner = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
-
-// const Button = styled.button`
-//   display: flex;
-//   align-items: center;
-//   font-size: 16px;
-//   color: #7692e4;
-//   justify-content: center;
-// `;
-
-// const SearchButton = styled(Button)`
-//   width: 50px;
-//   height: 28px;
-//   background: #7692e4;
-//   border-radius: 6px;
-//   color: #fff;
-// `;
-
-// const SearchInput = styled.input`
-//   background-color: #f8f8fa;
-//   border-radius: 6px;
-//   width: 250px;
-//   height: 28px;
-//   padding: 14px;
-
-//   &::placeholder {
-//     color: #999999;
-//     font-size: 14px;
-//   }
-// `;
 
 const Text = styled.span`
   font-size: 14px;
