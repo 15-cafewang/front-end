@@ -1,46 +1,130 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-
-import { ButtonInner, SmallFilterButton } from "../../elements/index";
-import RecipeCard from "../../components/Card/RecipeCard";
-import ModalBackground from "../../shared/ModalBackground";
-import { ReactComponent as BackIcon } from "../../assets/back.svg";
 import { history } from "../../redux/configureStore";
 
+import { ReactComponent as BackIcon } from "../../assets/back.svg";
+import { ButtonInner, SmallFilterButton } from "../../elements/index";
+
+import ModalBackground from "../../shared/ModalBackground";
 import SearchModal from "./SearchModal";
+
+import RecipeCard from "../../components/Card/RecipeCard";
+import BoardCard from "../../components/Card/BoardCard";
+
+import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
+
+import { setSorting } from "../../redux/Modules/searchSlice";
 
 const SearchMain = (props) => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
 
-  const [isSearch, setIsSearch] = useState(false);
-  const [isList, setIsList] = useState(true);
+  const recipeList = useSelector((state) => state.search.recipeList);
+  const boardList = useSelector((state) => state.search.boardList);
 
+  //현재 게시물이 존재하는지(레시피 or 자유게시물 아무거나뭐든)
+  const isList = useSelector((state) => state.search.isList);
+
+  // 검색페이지를올떄 자유게시판에서 왔는지, 레시피게시판에서왔는지를 판단하기위함.
+  const whereFrom = useSelector((state) => state.search.whereFrom);
+
+  const hashTag = useSelector((state) => state.search.hashTag);
+  const preKeyword = useSelector((state) => state.search.keyword);
+  const currentSorting = useSelector((state) => state.search.currentSorting);
+
+  //모달 제어변수.
+  const [isSearch, setIsSearch] = useState(isList ? false : true);
+
+  //검색어 받는변수
   const inputRef = useRef();
-  const hashRef = useRef();
+
+  //모달제어
+  const SearchModalRef = useRef();
 
   // 검색모달창 외부클릭시 닫음.
   useEffect(() => {
     const DetectOutsideClick = (e) => {
-      e.stopPropagation();
-      console.log(e);
-      //좌표로 잡는다.
-
       setIsSearch(false);
       inputRef.current.value = "";
     };
 
-    if (isSearch && isList === true)
-      window.addEventListener("click", DetectOutsideClick);
+    if (isSearch && isList)
+      SearchModalRef.current.addEventListener("click", DetectOutsideClick);
 
     return () => {
-      window.removeEventListener("click", DetectOutsideClick);
+      // 위에 이벤트가 부여됬을떄만 remove시키기위해 옵셔널 체이닝사용.
+      SearchModalRef.current?.removeEventListener("click", DetectOutsideClick);
     };
-  }, [isList, isSearch]);
+  }, [isSearch]);
 
+  //처음접속시 인풋창 포커스
   useEffect(() => {
     inputRef.current.focus();
+  }, []);
+
+  //게시물 불러오기(게시물을 클릭하여 상세페이지로 이동후 뭔가 동작(좋아요,댓글)을 하고 다시 뒤로돌아왔을떄 변경된내용을 반영시키기위해 다시 불러옴)
+  // 최초에 검색하고 게시물을 불러올떈 동작하지않는다.
+  useEffect(() => {
+    if (recipeList.length !== 0) {
+      if (currentSorting === "byDate") {
+        if (hashTag) {
+          dispatch(
+            getSearchRecipeDB({
+              keyword: hashTag,
+              withTag: true,
+              sortBy: "regDate",
+            })
+          );
+        } else {
+          dispatch(
+            getSearchRecipeDB({
+              keyword: preKeyword,
+              withTag: false,
+              sortBy: "regDate",
+            })
+          );
+        }
+      } else {
+        if (hashTag) {
+          dispatch(
+            getSearchRecipeDB({
+              keyword: hashTag,
+              withTag: true,
+              sortBy: "likeCount",
+            })
+          );
+        } else {
+          dispatch(
+            getSearchRecipeDB({
+              keyword: preKeyword,
+              withTag: false,
+              sortBy: "likeCount",
+            })
+          );
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (boardList.length !== 0) {
+      if (currentSorting === "byDate") {
+        dispatch(
+          getSearchBoardDB({
+            keyword: preKeyword,
+            sortBy: "regDate",
+          })
+        );
+      } else {
+        dispatch(
+          getSearchBoardDB({
+            keyword: preKeyword,
+            sortBy: "likeCount",
+          })
+        );
+      }
+    }
   }, []);
 
   return (
@@ -62,67 +146,187 @@ const SearchMain = (props) => {
           <SearchInput
             ref={inputRef}
             placeholder="검색어를 입력해 주세요."
-            onClick={(e) => {
+            onClick={() => {
+              // 검색된 게시물이없으면 인풋창 클릭해도 모달이 닫히지않음.
               if (isList) {
                 setIsSearch(!isSearch);
               }
-              // e.stopPropagation();
-              // ClickedModal();
-              // if (inputRef.current.value) {
-              //   setIsList(!isList);
-              // }
-
-              // if (isList) {
-              //   setIsSearch(true);
-              //   setIsList(false);
-              // }
             }}
           />
 
-          <SearchButton>검색</SearchButton>
+          <SearchButton
+            onClick={() => {
+              const keyword = inputRef.current.value;
+
+              if (!keyword) {
+                window.alert("검색어를 입력해주세요");
+              } else {
+                if (whereFrom === "recipe") {
+                  dispatch(
+                    getSearchRecipeDB({
+                      keyword,
+                      withTag: false,
+                      sortBy: "regDate",
+                    })
+                  );
+                } else {
+                  dispatch(
+                    getSearchBoardDB({
+                      keyword,
+                      sortBy: "regDate",
+                    })
+                  );
+                }
+
+                dispatch(setSorting("byDate"));
+                setIsSearch(!isSearch);
+              }
+            }}
+          >
+            검색
+          </SearchButton>
 
           {/* 검색모달 */}
           {isActive ? (
             ""
           ) : (
-            <SearchModal isSearch={isSearch} hashRef={hashRef} />
+            <SearchModal
+              isSearch={isSearch}
+              setIsSearch={setIsSearch}
+              SearchModalRef={SearchModalRef}
+            />
           )}
         </HeaderInner>
 
-        <ListContainer isList={isList}>
-          <SelectedHashTagInner>
-            <HashTagItem active>#청량한</HashTagItem>
-            <HashTagItem active>#고소한</HashTagItem>
-            <HashTagItem active>#고소한</HashTagItem>
-            <HashTagItem active>#고소한</HashTagItem>
-            <HashTagItem active>#고소한</HashTagItem>
-            <HashTagItem active>#고소한</HashTagItem>
-            <HashTagItem active>#고소한</HashTagItem>
-            <HashTagItem active>#고소한</HashTagItem>
+        <ListContainer>
+          {/* 레시피를 검색했을때만 해쉬태그를 보여줌. */}
+          <SelectedHashTagInner
+            recipeList={recipeList.length !== 0 ? true : false}
+          >
+            {/* 선택된 해쉬태그가있으면 보여줌 */}
+            {hashTag ? <HashTagItem active>{hashTag}</HashTagItem> : ""}
           </SelectedHashTagInner>
 
+          {/* 인기순 & 최신순 버튼 */}
           <ButtonInner small>
-            <SmallFilterButton active>최신순</SmallFilterButton>
-            <SmallFilterButton>인기순</SmallFilterButton>
-          </ButtonInner>
+            <SmallFilterButton
+              active={currentSorting === "byDate" ? true : false}
+              _onClick={(e) => {
+                //최신순으로 정렬.
+                dispatch(setSorting("byDate"));
 
-          <SearchListInner>
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-            <RecipeCard />
-          </SearchListInner>
+                // 검색어 받는다.
+                let keyword = null;
+
+                // 레시피검색일경우 해쉬태그도 생각해야한다.
+                if (whereFrom === "recipe") {
+                  if (hashTag) {
+                    keyword = hashTag;
+                  } else {
+                    keyword = inputRef.current.value
+                      ? inputRef.current.value
+                      : preKeyword;
+                  }
+
+                  dispatch(
+                    getSearchRecipeDB({
+                      keyword,
+                      withTag: hashTag ? true : false,
+                      sortBy: "regDate",
+                    })
+                  );
+                } else {
+                  keyword = inputRef.current.value
+                    ? inputRef.current.value
+                    : preKeyword;
+                  dispatch(
+                    getSearchBoardDB({
+                      keyword,
+                      sortBy: "regDate",
+                    })
+                  );
+                }
+              }}
+            >
+              최신순
+            </SmallFilterButton>
+
+            <SmallFilterButton
+              active={currentSorting === "byLikes" ? true : false}
+              _onClick={(e) => {
+                dispatch(setSorting("byLikes"));
+
+                let keyword = null;
+
+                if (whereFrom === "recipe") {
+                  if (hashTag) {
+                    keyword = hashTag;
+                  } else {
+                    keyword = inputRef.current.value
+                      ? inputRef.current.value
+                      : preKeyword;
+                  }
+
+                  dispatch(
+                    getSearchRecipeDB({
+                      keyword,
+                      withTag: hashTag ? true : false,
+                      sortBy: "likeCount",
+                    })
+                  );
+                } else {
+                  keyword = inputRef.current.value
+                    ? inputRef.current.value
+                    : preKeyword;
+                  dispatch(
+                    getSearchBoardDB({
+                      keyword,
+                      sortBy: "likeCount",
+                    })
+                  );
+                }
+              }}
+            >
+              인기순
+            </SmallFilterButton>
+          </ButtonInner>
+          {/* 목록 뿌려주기 */}
+          {whereFrom === "recipe" ? (
+            <SearchListInner>
+              {recipeList.length !== 0 ? ( // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
+                recipeList.map((recipe) => (
+                  <RecipeCard
+                    key={recipe.recipeId}
+                    {...recipe}
+                    image={recipe.images[0]}
+                    _onClick={() => {
+                      history.push(`/recipeboard/detail/${recipe.recipeId}`);
+                    }}
+                  />
+                ))
+              ) : (
+                <div>게시물이 없습니다.</div>
+              )}
+            </SearchListInner>
+          ) : (
+            <SearchListInner>
+              <SearchListInner>
+                {boardList.length !== 0 ? (
+                  boardList.map((board) => (
+                    <BoardCard
+                      key={board.boardId}
+                      {...board}
+                      _onClick={() => {
+                        history.push(`/bulletinboard/detail/${board.boardId}`);
+                      }}
+                    />
+                  ))
+                ) : (
+                  <div>게시물이 없습니다.</div>
+                )}
+              </SearchListInner>
+            </SearchListInner>
+          )}
         </ListContainer>
       </Container>
     </>
@@ -135,16 +339,14 @@ const Container = styled.div`
   margin: 0px 20px;
 `;
 
-const ListContainer = styled.div`
-  display: ${(props) => (props.isList ? "block" : "none")};
-`;
+const ListContainer = styled.div``;
 
 const HeaderInner = styled.div`
   width: 100%;
   height: 48px;
 
   position: sticky;
-  z-index: 1;
+  z-index: 0;
   top: 0;
 
   background: #fff;
@@ -199,7 +401,7 @@ const SearchListInner = styled.div`
 `;
 
 const SelectedHashTagInner = styled.div`
-  display: flex;
+  display: ${(props) => (props.recipeList ? "flex" : "none")};
   /* margin: 12px 0px 20px 20px; */
   overflow: auto;
   white-space: nowrap;
