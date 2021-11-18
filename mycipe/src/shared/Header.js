@@ -8,12 +8,15 @@ import { ReactComponent as LogoIcon } from "../assets/icon/HeaderIcon/logo.svg";
 
 import { history } from "../redux/configureStore";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { whereFrom, resetList } from "./../redux/Modules/searchSlice";
 
 const Header = (props) => {
+  const dispatch = useDispatch();
   const location = useLocation().pathname;
 
   const LoginUserInfo = useSelector((state) => state.user);
+
   const loginUserNickname = LoginUserInfo.userInfo.nickname;
 
   if (location === "/main") {
@@ -23,11 +26,6 @@ const Header = (props) => {
         <LogoIcon
           onClick={() => {
             history.push("/main");
-          }}
-        />
-        <SearchIcon
-          onClick={() => {
-            history.push("/searchmain");
           }}
         />
       </HeaderInner>
@@ -109,6 +107,8 @@ const Header = (props) => {
         <SearchIcon
           onClick={() => {
             history.push("/searchmain");
+            dispatch(resetList());
+            dispatch(whereFrom("recipe"));
           }}
         />
       </HeaderInner>
@@ -137,6 +137,8 @@ const Header = (props) => {
         <SearchIcon
           onClick={() => {
             history.push("/Searchmain");
+            dispatch(resetList());
+            dispatch(whereFrom("Board"));
           }}
         />
       </HeaderInner>
@@ -157,24 +159,6 @@ const Header = (props) => {
     );
   }
 
-  // if (location.includes("/searchmain")) {
-  //   //검색메인
-  //   return (
-  //     <HeaderInner flexBetween>
-  //       <LeftInner>
-  //         <BackIcon
-  //           onClick={() => {
-  //             history.goback();
-  //           }}
-  //         />
-  //       </LeftInner>
-
-  //       <SearchInput placeholder="검색어를 입력해 주세요." />
-
-  //       <SearchButton>검색</SearchButton>
-  //     </HeaderInner>
-  //   );
-  // }
 
   if (location === "/setting") {
     //설정페이지
@@ -227,20 +211,7 @@ const Button = styled.button`
   justify-content: center;
 `;
 
-const SearchButton = styled(Button)`
-  width: 50px;
-  height: 28px;
-  background: #7692e4;
-  border-radius: 6px;
-  color: #fff;
-`;
 
-const SearchInput = styled.input`
-  background-color: #f8f8fa;
-  border-radius: 6px;
-  width: 250px;
-  height: 28px;
-  padding: 14px;
 
   &::placeholder {
     color: #999999;
