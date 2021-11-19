@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import "../index.css";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Header from "./Header";
@@ -39,16 +39,16 @@ function App() {
   // 로컬 스토리지 토큰 확인
   const isToken = localStorage.getItem("USER_TOKEN") ? true : false;
 
-  const AppRef = React.useRef();
-
   useEffect(() => {
     if (isToken) {
       dispatch(loginCheck());
     }
   }, [dispatch, isToken]);
+
   return (
     <ConnectedRouter history={history}>
       <WebVer />
+
       <Outter>
         <Container>
           <Header />
@@ -115,11 +115,8 @@ function App() {
                 exact
                 component={UserPageFollowList}
               />
-              <PrivateRoute
-                path="/searchmain"
-                component={SearchMain}
-                ref={AppRef}
-              />
+              <PrivateRoute path="/searchmain" component={SearchMain} />
+
               <PrivateRoute path="/setting" component={Setting} />
               <BottomNav />
             </PrivateRoute>
@@ -167,5 +164,22 @@ const WebVer = styled.div`
     background-image: url(${background});
   }
 `;
+
+// const SearchModalBg = styled.div`
+//   position: fixed;
+//   width: 100vw;
+//   height: 100%;
+//   z-index: 1;
+//   background: red;
+//   opacity: 0;
+
+//   /* @media only screen and (min-width: 1025px) {
+//     opacity: 1;
+//     background-size: cover;
+//     background-position: 50% 90%;
+//     background-repeat: no-repeat;
+//     background-image: url(${background});
+//   } */
+// `;
 
 export default App;
