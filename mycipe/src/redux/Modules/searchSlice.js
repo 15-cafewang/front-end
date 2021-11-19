@@ -199,7 +199,6 @@ export const {
   setHashTag,
   setSorting,
 
-  // getKeyword,
   addRecipeKeyword,
   deleteAllRecipeKeyword,
   deleteRecipeKeyword,
