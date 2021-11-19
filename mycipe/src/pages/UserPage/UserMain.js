@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
@@ -38,7 +38,6 @@ import { resetPost } from "../../redux/Modules/userPageSlice";
 import { useInterSectionObserver } from "../../hooks";
 
 const UserMain = (props) => {
-  // const history = useHistory();
   const dispatch = useDispatch();
   const userNickname = useParams().nickname;
 
@@ -57,9 +56,8 @@ const UserMain = (props) => {
     isMe = true;
   }
 
-  const [target, setTarget] = useState(null);
+  const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const prevListLengthRef = useRef(0);
   const pageRef = useRef(1);
 
   const [filterButtons, setFilterButtons] = useState({
@@ -83,11 +81,7 @@ const UserMain = (props) => {
 
   useEffect(() => {
     dispatch(getUserInfoDB(userNickname));
-    dispatch(getUserWrittenRecipesDB({ page: 1, nickname: userNickname }))
-      .unwrap()
-      .then((res) => {
-        prevListLengthRef.current += res.length;
-      });
+    dispatch(getUserWrittenRecipesDB({ page: 1, nickname: userNickname }));
   }, [dispatch, userNickname]);
 
   // 관찰이 시작될 때 실행될 콜백 함수
@@ -103,9 +97,8 @@ const UserMain = (props) => {
           })
         )
           .unwrap()
-          .then((res) => {
+          .then(() => {
             setIsLoading(false);
-            prevListLengthRef.current += res.length;
           });
       }
       // 유저가 작성한 게시글 보여줄때
@@ -117,9 +110,8 @@ const UserMain = (props) => {
           })
         )
           .unwrap()
-          .then((res) => {
+          .then(() => {
             setIsLoading(false);
-            prevListLengthRef.current += res.length;
           });
       }
     } else {
@@ -132,9 +124,8 @@ const UserMain = (props) => {
           })
         )
           .unwrap()
-          .then((res) => {
+          .then(() => {
             setIsLoading(false);
-            prevListLengthRef.current += res.length;
           });
       }
       //유저가 좋아요한 게시글 보여줄때
@@ -146,15 +137,14 @@ const UserMain = (props) => {
           })
         )
           .unwrap()
-          .then((res) => {
+          .then(() => {
             setIsLoading(false);
-            prevListLengthRef.current += res.length;
           });
       }
     }
   };
 
-  useInterSectionObserver(fetchMoreData, pageRef, target, currentList);
+  useInterSectionObserver(fetchMoreData, pageRef, target.current, currentList);
 
   return (
     <>
@@ -241,19 +231,13 @@ const UserMain = (props) => {
               });
 
               pageRef.current = 1;
-              prevListLengthRef.current = 0;
 
               dispatch(
                 getUserWrittenRecipesDB({
                   page: 1,
                   nickname: userInfo.nickname,
                 })
-              )
-                .unwrap()
-                .then((res) => {
-                  prevListLengthRef.current += res.length;
-                });
-
+              );
               dispatch(resetPost());
             }}
           >
@@ -271,19 +255,13 @@ const UserMain = (props) => {
               });
 
               pageRef.current = 1;
-              prevListLengthRef.current = 0;
 
               dispatch(
                 getUserLikedRecipesDB({
                   page: 1,
                   nickname: userInfo.nickname,
                 })
-              )
-                .unwrap()
-                .then((res) => {
-                  prevListLengthRef.current += res.length;
-                });
-
+              );
               dispatch(resetPost());
             }}
           >
@@ -302,7 +280,6 @@ const UserMain = (props) => {
               });
 
               pageRef.current = 1;
-              prevListLengthRef.current = 0;
 
               if (filterButtons.writtenBoard) {
                 dispatch(
@@ -310,22 +287,14 @@ const UserMain = (props) => {
                     page: 1,
                     nickname: userInfo.nickname,
                   })
-                )
-                  .unwrap()
-                  .then((res) => {
-                    prevListLengthRef.current += res.length;
-                  });
+                );
               } else {
                 dispatch(
                   getUserLikedRecipesDB({
                     page: 1,
                     nickname: userInfo.nickname,
                   })
-                )
-                  .unwrap()
-                  .then((res) => {
-                    prevListLengthRef.current += res.length;
-                  });
+                );
               }
 
               dispatch(resetPost());
@@ -344,7 +313,6 @@ const UserMain = (props) => {
               });
 
               pageRef.current = 1;
-              prevListLengthRef.current = 0;
 
               if (filterButtons.writtenBoard) {
                 dispatch(
@@ -352,24 +320,15 @@ const UserMain = (props) => {
                     page: 1,
                     nickname: userInfo.nickname,
                   })
-                )
-                  .unwrap()
-                  .then((res) => {
-                    prevListLengthRef.current += res.length;
-                  });
+                );
               } else {
                 dispatch(
                   getUserLikedBoardsDB({
                     page: 1,
                     nickname: userInfo.nickname,
                   })
-                )
-                  .unwrap()
-                  .then((res) => {
-                    prevListLengthRef.current += res.length;
-                  });
+                );
               }
-
               dispatch(resetPost());
             }}
           >
@@ -398,7 +357,7 @@ const UserMain = (props) => {
                 );
               })}
             </CardList>
-            <div ref={setTarget}>{isLoading && "loading..."}</div>
+            <div ref={target}>{isLoading && "loading..."}</div>
           </>
         ) : (
           <>
@@ -421,7 +380,7 @@ const UserMain = (props) => {
                 );
               })}
             </CardList>
-            <div ref={setTarget}>{isLoading && "loading..."}</div>
+            <div ref={target}>{isLoading && "loading..."}</div>
           </>
         )}
       </UserMainInner>

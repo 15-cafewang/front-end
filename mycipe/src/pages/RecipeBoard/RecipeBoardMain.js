@@ -26,14 +26,12 @@ const RecipeBoardMain = () => {
     sortedByLikes: false,
   });
 
-  const [target, setTarget] = useState(null);
+  const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const prevRecipeListLengthRef = useRef(0);
   const pageRef = useRef(1);
 
   // 처음 페이지 진입했을 때 page=1인 data을 받아온다.
   useEffect(() => {
-    console.log(1);
     dispatch(
       getRecipePostListDB({
         page: 1,
@@ -41,11 +39,7 @@ const RecipeBoardMain = () => {
           ? "sortBy=regDate&sortByLike=false"
           : "sortBy=regDate&sortByLike=true",
       })
-    )
-      .unwrap()
-      .then((res) => {
-        prevRecipeListLengthRef.current += res.length;
-      });
+    );
   }, [dispatch, currentSorting.sortedByDate]);
 
   // 관찰이 시작될 때 실행될 콜백 함수
@@ -60,13 +54,12 @@ const RecipeBoardMain = () => {
       })
     )
       .unwrap()
-      .then((res) => {
+      .then(() => {
         setIsLoading(false);
-        prevRecipeListLengthRef.current += res.length;
       });
   };
 
-  useInterSectionObserver(fetchMoreRecipe, pageRef, target, recipeList);
+  useInterSectionObserver(fetchMoreRecipe, pageRef, target.current, recipeList);
 
   return (
     <>
@@ -82,7 +75,6 @@ const RecipeBoardMain = () => {
                 sortedByLikes: false,
               });
               pageRef.current = 1;
-              prevRecipeListLengthRef.current = 0;
             }}
           >
             최신순
@@ -95,7 +87,6 @@ const RecipeBoardMain = () => {
                 sortedByLikes: true,
               });
               pageRef.current = 1;
-              prevRecipeListLengthRef.current = 0;
             }}
           >
             인기순
@@ -127,7 +118,7 @@ const RecipeBoardMain = () => {
                   );
                 })}
             </CardList>
-            <div ref={setTarget}>{isLoading && "loading..."}</div>
+            <div ref={target}>{isLoading && "loading..."}</div>
           </>
         )}
 
@@ -155,7 +146,7 @@ const RecipeBoardMain = () => {
                   );
                 })}
             </CardList>
-            <div ref={setTarget}>{isLoading && "loading..."}</div>
+            <div ref={target}>{isLoading && "loading..."}</div>
           </>
         )}
       </BoardMainContainer>
