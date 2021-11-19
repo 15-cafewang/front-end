@@ -2,8 +2,8 @@ import api from "./index";
 
 export const bulletinBoardApi = {
   // 게시판 목록 조회
-  getList: (sortBy) => {
-    return api.get(`/boards?page=1&size=20&isAsc=false&${sortBy}`);
+  getList: (page, sortBy) => {
+    return api.get(`/boards?page=${page}&size=7&isAsc=false&${sortBy}`);
   },
 
   // 게시판 작성

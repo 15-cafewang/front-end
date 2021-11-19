@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const hashTagStrList = [
-  "#청량한",
-  "#고소한",
-  "#단짠",
-  "#디카페인",
-  "#달달한",
-  "#아이스",
-  "#따뜻한",
-  "#새콤달콤한",
-  "#시험기간에 필수",
-  "#당충전",
+  "청량한",
+  "고소한",
+  "단짠",
+  "디카페인",
+  "달달한",
+  "아이스",
+  "따뜻한",
+  "새콤달콤한",
+  "시험기간에 필수",
+  "당충전",
 ];
 
 const HashTag = ({
@@ -83,7 +83,7 @@ const HashTag = ({
               }}
               active={tag.active}
             >
-              {tag.name}
+              #{tag.name}
             </HashTagItem>
           );
         })}

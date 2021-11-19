@@ -37,7 +37,6 @@ const BoardDetail = ({ boardName }) => {
       : state.bulletinBoard.currentBoardPost
   );
 
-  const [menuActive, setMenuActive] = useState(false);
   const [likeStatus, setLikeStatus] = useState(
     postDetail && postDetail.likeStatus
   );
@@ -91,24 +90,33 @@ const BoardDetail = ({ boardName }) => {
           }}
         />
         <Nickname>{postDetail && postDetail.nickname}</Nickname>
-        {isPostUser &&
+        {isPostUser && (
           <Box between width="60px">
-            <EditBtn onClick={() => {
-              if (boardName === "recipeBoard") {
-                history.push(`/recipeboard/write/${recipeId}`);
-              } else {
-                history.push(`/bulletinboard/write/${boardId}`);
-              }
-            }}>수정</EditBtn>
+            <EditBtn
+              onClick={() => {
+                if (boardName === "recipeBoard") {
+                  history.push(`/recipeboard/write/${recipeId}`);
+                } else {
+                  history.push(`/bulletinboard/write/${boardId}`);
+                }
+              }}
+            >
+              수정
+            </EditBtn>
 
-            <EditBtn onClick={() => {
-              if (boardName === "recipeBoard") {
-                dispatch(deleteRecipePostDB(recipeId));
-              } else {
-                dispatch(deleteBulletinPostDB(boardId));
-              }
-            }}>삭제</EditBtn>
-          </Box>}
+            <EditBtn
+              onClick={() => {
+                if (boardName === "recipeBoard") {
+                  dispatch(deleteRecipePostDB(recipeId));
+                } else {
+                  dispatch(deleteBulletinPostDB(boardId));
+                }
+              }}
+            >
+              삭제
+            </EditBtn>
+          </Box>
+        )}
       </Box>
 
       <ImageSlider imageList={postDetail && postDetail.images} />
@@ -150,22 +158,22 @@ const BoardDetail = ({ boardName }) => {
               />
             </Box>
           ) : (
-              <Box cursor="true">
-                <SmallLikeIcon
-                  onClick={() => {
-                    handleLikeToggle();
-                    setLikeCount(likeCount + 1);
-                  }}
-                />
-              </Box>
-            )}
+            <Box cursor="true">
+              <SmallLikeIcon
+                onClick={() => {
+                  handleLikeToggle();
+                  setLikeCount(likeCount + 1);
+                }}
+              />
+            </Box>
+          )}
           <LikeCount>{likeCount}개</LikeCount>
           <Date>
             {postDetail && postDetail.regDate
               ? postDetail.regDate
-                .split("T")[0]
-                .replace("-", ". ")
-                .replace("-", ". ")
+                  .split("T")[0]
+                  .replace("-", ". ")
+                  .replace("-", ". ")
               : ""}
           </Date>
         </Box>
@@ -183,7 +191,7 @@ const BoardDetail = ({ boardName }) => {
         <Comment />
         <Comment />
       </Box>
-    </BoardDetailContainer >
+    </BoardDetailContainer>
   );
 };
 
@@ -213,7 +221,7 @@ const Nickname = styled.div`
 const EditBtn = styled.button`
   font-size: 12px;
   color: #767676;
-`
+`;
 
 const HashTagBox = styled.div`
   display: flex;
@@ -241,7 +249,7 @@ const UserHashTagItem = styled.div`
   cursor: pointer;
 `;
 
-const TextBox = styled.div`
+const TextBox = styled.pre`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
   margin-bottom: ${(props) => props.marginBtm}px;
@@ -250,6 +258,7 @@ const TextBox = styled.div`
   border-radius: 6px;
   font-size: 14px;
   color: #191919;
+  white-space: pre-wrap;
 
   &::placeholder {
     color: #999999;
