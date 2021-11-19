@@ -38,7 +38,7 @@ const reducer = combineReducers({
   bulletinBoard: bulletinBoardSlice.reducer,
   recipeBoard: recipeBoardSlice.reducer,
   mainPage: mainPageSlice.reducer,
-  search: persistReducer(searchPersistConfig, searchSlice),
+  search: persistReducer(searchPersistConfig, searchSlice.reducer),
 });
 
 const middlewares = [];
