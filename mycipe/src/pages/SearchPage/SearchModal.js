@@ -1,18 +1,32 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 
 import HashTag from "../../shared/HashTag";
-import { getSearchRecipeDB } from "../../redux/Async/Search";
+import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
+
+import {
+  deleteAllRecipeKeyword,
+  deleteRecipeKeyword,
+  deleteAllBoardKeyword,
+  deleteBoardKeyword,
+} from "../../redux/Modules/searchSlice";
 
 const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
   const dispatch = useDispatch();
 
+  // 레시피게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
   const whereFrom = useSelector((state) => state.search.whereFrom);
 
-  const hashTagRef = useRef();
+  //레시피 최근검색목록 리스트
+  const recipeSearchList = useSelector(
+    (state) => state.search.recipeSearchList
+  );
+
+  //자유게시판 최근검색목록 리스트
+  const boardSearchList = useSelector((state) => state.search.boardSearchList);
 
   return (
     <>
@@ -21,32 +35,97 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
         <RecentSearchInner>
           <Grid margin="32px 0px 0px 0px">
             <Text grey>최근 검색어</Text>
-            <DeleteAllButton>모두 지우기</DeleteAllButton>
+
+            {/* 전체삭제 버튼 */}
+            <DeleteAllButton
+              onClick={() => {
+                if (whereFrom === "recipe") {
+                  if (recipeSearchList.length === 0) {
+                    window.alert("삭제할 검색기록이 없습니다.");
+                  } else dispatch(deleteAllRecipeKeyword());
+                } else {
+                  if (boardSearchList.length === 0) {
+                    window.alert("삭제할 검색기록이 없습니다.");
+                  } else dispatch(deleteAllBoardKeyword());
+                }
+              }}
+            >
+              모두 지우기
+            </DeleteAllButton>
           </Grid>
+
           <SearchWordList>
-            <SearchWordInner>
-              <Text>무언가 검색한 기록</Text>
-              <DeleteIcon />
-            </SearchWordInner>
-            <SearchWordInner>
-              <Text>무언가 검색한 기록</Text>
-              <DeleteIcon />
-            </SearchWordInner>
-            <SearchWordInner>
-              <Text>무언가 검색한 기록</Text>
-              <DeleteIcon />
-            </SearchWordInner>
+            {/* 레시피에서 왔으면 레시피 최근검색목록  아니면 자유게시판 최근검색목록 보여주기 */}
+            {whereFrom === "recipe"
+              ? recipeSearchList.map((keyword) => {
+                  return (
+                    <SearchWordInner key={keyword}>
+                      {/* 최근검색어 누르면 그 검색어를 키워드로 검색 */}
+                      <Text
+                        onClick={(e) => {
+                          dispatch(
+                            getSearchRecipeDB({
+                              keyword,
+                              withTag: false,
+                              sortBy: "regDate",
+                            })
+                          );
+
+                          setIsSearch(!isSearch);
+                        }}
+                      >
+                        {keyword}
+                      </Text>
+                      {/* persist로 설정하게되면 기본값으로  \"\" 값이 배열의 요소로 들어가있어 키워드가 없어도 취소버튼만 보여진다.(왜그러는진 찾아보는중) 그래서 키워드가 없으면 취소버튼도 안보여주기위해 &&연산자 사용.   */}
+                      {keyword && (
+                        <DeleteIcon
+                          cursor="pointer"
+                          onClick={() => {
+                            dispatch(deleteRecipeKeyword(keyword));
+                          }}
+                        />
+                      )}
+                    </SearchWordInner>
+                  );
+                })
+              : boardSearchList.map((keyword) => {
+                  return (
+                    <SearchWordInner key={keyword}>
+                      <Text
+                        onClick={(e) => {
+                          dispatch(
+                            getSearchBoardDB({
+                              keyword,
+                              sortBy: "regDate",
+                            })
+                          );
+
+                          setIsSearch(!isSearch);
+                        }}
+                      >
+                        {keyword}
+                      </Text>
+                      {keyword && (
+                        <DeleteIcon
+                          onClick={() => {
+                            dispatch(deleteBoardKeyword(keyword));
+                          }}
+                        />
+                      )}
+                    </SearchWordInner>
+                  );
+                })}
           </SearchWordList>
 
           <>
-            {whereFrom === "recipe" ? (
+            {/* 해쉬태그검색은 레시피검색에만 있는 기능이니 레시피게시판에서 이동했는지 확인 */}
+            {whereFrom === "recipe" && (
               <>
                 <Grid margin="16px 0px">
                   <Text grey>추천 키워드</Text>
                 </Grid>
                 <Grid center>
                   <HashTag
-                    ref={hashTagRef}
                     isSearch={isSearch}
                     _onClick={(e) => {
                       if (e.target.nodeName === "LI") {
@@ -66,8 +145,6 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
                   />
                 </Grid>
               </>
-            ) : (
-              ""
             )}
           </>
         </RecentSearchInner>
@@ -106,10 +183,12 @@ const RecentSearchInner = styled.div``;
 const Text = styled.span`
   font-size: 14px;
   ${(props) => props.grey && "color : #999"};
+  cursor: pointer;
 `;
 
 const DeleteAllButton = styled.button`
   color: #999;
+  cursor: pointer;
 `;
 
 const Grid = styled.div`
