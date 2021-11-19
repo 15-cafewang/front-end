@@ -159,7 +159,6 @@ const Header = (props) => {
     );
   }
 
-
   if (location === "/setting") {
     //설정페이지
     return (
@@ -209,14 +208,6 @@ const Button = styled.button`
   font-size: 16px;
   color: #7692e4;
   justify-content: center;
-`;
-
-
-
-  &::placeholder {
-    color: #999999;
-    font-size: 14px;
-  }
 `;
 
 export default Header;
