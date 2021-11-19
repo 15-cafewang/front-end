@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
-import { history } from "../../redux/configureStore";
-
 // icon
 import { ReactComponent as CommentMiniIcon } from "../../assets/icon/CommmentIcon/commentMini.svg";
 import { ReactComponent as LikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
@@ -14,6 +12,7 @@ import Image from "../../elements/Image";
 import { bulletinLikeToggleDB } from "../../redux/Async/bulletinBoard";
 
 const BoardCard = ({
+  _onClick,
   commentCount,
   content,
   image,
@@ -39,7 +38,7 @@ const BoardCard = ({
   };
 
   return (
-    <BoardCardInner>
+    <BoardCardInner onClick={_onClick}>
       <TitleInner>
         <Title>{title}</Title>
         <Date>{regDate}</Date>
@@ -48,16 +47,7 @@ const BoardCard = ({
       <Content>{content}</Content>
 
       {/* 사진 있을 경우 렌더링 */}
-      {isThumbnail && (
-        <Image
-          shape="rectangle"
-          size="medium2"
-          src={image}
-          _onClick={() => {
-            history.push(`/bulletinboard/detail/${boardId}`);
-          }}
-        />
-      )}
+      {isThumbnail && <Image shape="rectangle" size="medium2" src={image} />}
 
       <IconsInner>
         {componentLikeStatus ? (

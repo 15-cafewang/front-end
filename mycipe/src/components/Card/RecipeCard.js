@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
-import { history } from "../../redux/configureStore";
 // icons
 import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
@@ -12,6 +11,7 @@ import Image from "../../elements/Image";
 import { recipeLikeToggleDB } from "../../redux/Async/recipeBoard";
 
 const RecipeCard = ({
+  _onClick,
   commentCount,
   content,
   recipeId,
@@ -37,11 +37,7 @@ const RecipeCard = ({
   };
 
   return (
-    <RecipeCardInner
-      onClick={(e) => {
-        history.push(`/recipeboard/detail/${recipeId}`);
-      }}
-    >
+    <RecipeCardInner onClick={_onClick}>
       <Image shape="rectangle" src={isImage} size="medium" />
       <CardContent>
         <TextInner>
