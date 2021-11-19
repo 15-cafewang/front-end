@@ -65,7 +65,6 @@ const BulletinBoardMain = () => {
   useInterSectionObserver(fetchMoreBoard, pageRef, target, boardList);
 
   return (
-    <>
       <BoardMainContainer>
         {isActive && <ModalBackground />}
         {/* 정렬 박스 */}
@@ -109,6 +108,7 @@ const BulletinBoardMain = () => {
                         history.push(`/bulletinboard/detail/${b.boardId}`);
                       }}
                       key={b.boardId}
+                      boardId={b.boardId}
                       commentCount={b.commentCount}
                       content={b.content}
                       image={b.image}
@@ -143,6 +143,7 @@ const BulletinBoardMain = () => {
                         history.push(`/bulletinboard/detail/${r.boardId}`);
                       }}
                       key={r.boardId}
+                      boardId={r.boardId}
                       commentCount={r.commentCount}
                       content={r.content}
                       image={r.image}
@@ -166,7 +167,6 @@ const BulletinBoardMain = () => {
           </>
         )}
       </BoardMainContainer>
-    </>
   );
 };
 

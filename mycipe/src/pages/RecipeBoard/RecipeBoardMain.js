@@ -110,10 +110,11 @@ const RecipeBoardMain = () => {
                 recipeList.map((r, idx) => {
                   return (
                     <RecipeCard
-                      _onClick={() => {
+                      _onClick={(e) => {
                         history.push(`/recipeboard/detail/${r.recipeId}`);
                       }}
                       key={r.recipeId}
+                      recipeId={r.recipeId}
                       commentCount={r.commentCount}
                       content={r.content}
                       image={r.images[0]}
