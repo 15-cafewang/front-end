@@ -14,6 +14,8 @@ import {
   userFollowListDB,
 } from "../../redux/Async/userPage";
 
+import { setIsFollower } from "../../redux/Modules/userPageSlice";
+
 const UserPageFollowList = (props) => {
   const dispatch = useDispatch();
   const nickname = useParams().nickname;
@@ -23,11 +25,9 @@ const UserPageFollowList = (props) => {
   const isFollower = useSelector((state) => state.userPage.isFollower);
 
   useEffect(() => {
-    if (userList.length === 0 && isFollower === true) {
+    if (isFollower) {
       dispatch(userFollowListDB(nickname));
-    }
-
-    if (userList.length === 0 && isFollower === false) {
+    } else {
       dispatch(userFollowingListDB(nickname));
     }
   }, [dispatch, isFollower, nickname, userList.length]);
@@ -40,7 +40,7 @@ const UserPageFollowList = (props) => {
           active={isFollower}
           noneBorderTop
           _onClick={() => {
-            dispatch(userFollowListDB(nickname));
+            dispatch(setIsFollower(true));
           }}
         >
           팔로워
@@ -49,7 +49,7 @@ const UserPageFollowList = (props) => {
           active={!isFollower}
           noneBorderTop
           _onClick={() => {
-            dispatch(userFollowingListDB(nickname));
+            dispatch(setIsFollower(false));
           }}
         >
           팔로잉

@@ -28,7 +28,7 @@ import {
 } from "../../redux/Async/userPage";
 
 //sliceAction
-import { resetPost } from "../../redux/Modules/userPageSlice";
+import { resetPost, setIsFollower } from "../../redux/Modules/userPageSlice";
 
 const UserMain = (props) => {
   const history = useHistory();
@@ -87,12 +87,8 @@ const UserMain = (props) => {
             <Grid flexBetween>
               <Button
                 onClick={() => {
-                  dispatch(userFollowListDB(userInfo.nickname))
-                    .unwrap()
-                    .then(() => {
-                      history.push(`/userpagefollowlist/${userInfo.nickname}`);
-                    })
-                    .catch((err) => console.log(err));
+                  dispatch(setIsFollower(true));
+                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
                 }}
               >
                 <Count>{userInfo.followingCount}</Count>
@@ -101,12 +97,8 @@ const UserMain = (props) => {
 
               <Button
                 onClick={() => {
-                  dispatch(userFollowingListDB(userInfo.nickname))
-                    .unwrap()
-                    .then(() => {
-                      history.push(`/userpagefollowlist/${userInfo.nickname}`);
-                    })
-                    .catch((err) => console.log(err));
+                  dispatch(setIsFollower(false));
+                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
                 }}
               >
                 <Count>{userInfo.followCount}</Count>
