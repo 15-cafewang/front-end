@@ -5,18 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { history } from "../../redux/configureStore";
 import _ from "lodash";
 
-
-
 import ModalBackground from "../../shared/ModalBackground";
 import { nickCheck as validNickname } from "../../shared/common";
 import { Button, Text } from "../../elements/";
 
 import ImageUpload from "../../shared/ImageUpload";
 
-import {
-  updateUserInfoDB,
-  updateUserWithImageInfoDB,
-} from "../../redux/Async/user";
+import { updateUserInfoDB } from "../../redux/Async/user";
 
 import { nicknameCheckAPI as confirmNicknameAPI } from "../../shared/api/userApi";
 import { updateUserInfo } from "../../redux/Modules/userSlice";
@@ -32,41 +27,20 @@ const UserpageProfileEdit = (props) => {
   });
   const inputRef = useRef();
 
-  //이미지 or 이미지 + 닉네임 바꿨을떄.
-  const withImage = async () => {
+  //유저정보 변경
+  const updateInfo = async () => {
     try {
       const newNickname = inputRef.current.value;
       const profileFofmData = new FormData();
 
       profileFofmData.append("nickname", newNickname);
-      profileFofmData.append("image", file.file);
 
-      const response = await dispatch(
-        updateUserWithImageInfoDB(profileFofmData)
-      ).unwrap();
-
-      if (response.code === 1) {
-        dispatch(
-          updateUserInfo({
-            nickname: newNickname,
-            profileImage: file.previewURL,
-          })
-        );
+      if (file.file) {
+        profileFofmData.append("image", file.file);
       }
 
-      history.push(`/usermain/${newNickname}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // 닉네임만 바꿨을때.
-  const onlyNickname = async () => {
-    try {
-      const newNickname = inputRef.current.value;
-      console.log(newNickname);
       const response = await dispatch(
-        updateUserInfoDB({ nickname: newNickname })
+        updateUserInfoDB(profileFofmData)
       ).unwrap();
 
       if (response.code === 1) {
@@ -102,13 +76,11 @@ const UserpageProfileEdit = (props) => {
     <ProfileInfoInner>
       {isActive && <ModalBackground />}
       <UserProfileImageInner onClick={() => {}}>
-
         <ImageUpload
           profileImage={file.previewURL}
           file={file}
           setFile={setFile}
         />
-
       </UserProfileImageInner>
       <Grid>
         <NickNameInputInner>
@@ -134,16 +106,9 @@ const UserpageProfileEdit = (props) => {
           </Text>
         )}
       </Grid>
-
-      {file.file ? (
-        <Button color="#fff" _onClick={withImage}>
-          변경하기
-        </Button>
-      ) : (
-        <Button color="#fff" _onClick={onlyNickname}>
-          변경하기
-        </Button>
-      )}
+      <Button color="#fff" _onClick={updateInfo}>
+        변경하기
+      </Button>
     </ProfileInfoInner>
   );
 };

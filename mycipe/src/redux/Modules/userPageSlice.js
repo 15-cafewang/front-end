@@ -193,13 +193,11 @@ const userPageSlice = createSlice({
     [userUnFollowDB.fulfilled]: (state, action) => {
       const nickname = action.payload.nickname;
 
-      if (!state.userList.length === 0) {
-        const newUserList = state.userList.filter(
-          (user) => user.nickname !== nickname
-        );
+      const newUserList = state.userList.filter(
+        (user) => user.nickname !== nickname
+      );
 
-        state.userList = newUserList;
-      }
+      state.userList = newUserList;
 
       state.isFetching = false;
       state.userInfo.followingCount--;
@@ -214,11 +212,11 @@ const userPageSlice = createSlice({
     //유저 팔로워 리스트 불러오기
     [userFollowListDB.pending]: (state, action) => {
       state.isFetching = true;
+      state.isFollower = true;
     },
     [userFollowListDB.fulfilled]: (state, action) => {
       state.isFetching = false;
 
-      state.isFollower = true;
       state.userList = action.payload;
     },
     [userFollowListDB.rejected]: (state, action) => {
@@ -241,6 +239,7 @@ const userPageSlice = createSlice({
   },
 });
 
-export const { resetPost, updateUserList } = userPageSlice.actions;
+export const { resetPost, updateUserList, updateIsFollowing } =
+  userPageSlice.actions;
 
 export default userPageSlice;

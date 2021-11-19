@@ -131,6 +131,7 @@ export const ModalBackground = styled.div`
   background-color: rgba(0, 0, 0, 0.25);
   width: 375px;
   height: 100%;
+
   position: absolute;
   top: 0;
   left: 0;
@@ -140,7 +141,7 @@ const BottomNavInner = styled.div`
   width: 375px;
   position: fixed;
   bottom: 0;
-
+  z-index: 4;
   left: 50%;
   transform: translate(-50%, 0);
 `;

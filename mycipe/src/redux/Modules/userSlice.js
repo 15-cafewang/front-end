@@ -6,7 +6,6 @@ import {
   loginCheck,
   emailCheckDB,
   nickCheckDB,
-  updateUserWithImageInfoDB,
   updateUserInfoDB,
 } from "../Async/user";
 
@@ -24,7 +23,7 @@ const initialState = {
 
 const userSlice = createSlice({
   name: "user",
-  // isFetching: false,
+
   initialState: initialState,
   //리덕스
   reducers: {
@@ -39,7 +38,6 @@ const userSlice = createSlice({
       console.log(action.payload);
 
       state.userInfo = action.payload;
-      // state.userInfo.profileImage = action.payload.profileImage;
     },
   },
   extraReducers: {
@@ -135,35 +133,18 @@ const userSlice = createSlice({
       state.nickConfirm = false;
     },
 
-    // 유저정보 변경 ( 프로필이미지  + 닉네임)
-    [updateUserWithImageInfoDB.pending]: (state, action) => {
-      state.isFetching = true;
-    },
-
-    // 유저정보 변경 성공 ( 프로필이미지  + 닉네임)
-    [updateUserWithImageInfoDB.fulfilled]: (state, { payload }) => {
-      state.isFetching = false;
-      window.alert(payload.message);
-    },
-
-    // 유저정보 변경 실패 ( 프로필이미지  + 닉네임)
-    [updateUserWithImageInfoDB.rejected]: (state, action) => {
-      state.isFetching = false;
-      window.alert(action.error);
-    },
-
-    // 유저정보 변경 (닉네임)
+    // 유저정보 변경
     [updateUserInfoDB.pending]: (state, action) => {
       state.isFetching = true;
     },
 
-    // 유저정보 변경 성공 (닉네임)
+    // 유저정보 변경 성공
     [updateUserInfoDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       window.alert(payload.message);
     },
 
-    // 유저정보 변경 실패 (닉네임)
+    // 유저정보 변경 실패
     [updateUserInfoDB.rejected]: (state, action) => {
       state.isFetching = false;
       window.alert(action.error);

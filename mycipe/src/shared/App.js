@@ -28,7 +28,7 @@ import Main from "../pages/MainPage/Main";
 import UserMain from "../pages/UserPage/UserMain";
 import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
-// import SearchMain from "../pages/SearchPage/SearchModal";
+
 import SearchMain from "../pages/SearchPage/SearchMain";
 import Setting from "../pages/SettingPage/Setting";
 import background from "../assets/image/Background.png";
@@ -40,11 +40,13 @@ function App() {
   // 로컬 스토리지 토큰 확인
   const isToken = localStorage.getItem("USER_TOKEN") ? true : false;
 
+  const AppRef = React.useRef();
+
   useEffect(() => {
     if (isToken) {
       dispatch(loginCheck());
     }
-  }, []);
+  }, [dispatch, isToken]);
   return (
     <ConnectedRouter history={history}>
       <WebVer />
@@ -112,11 +114,11 @@ function App() {
               exact
               component={UserPageFollowList}
             />
-            <PrivateRoute path="/searchmain" component={SearchMain} />
-            {/* <PrivateRoute
-              path="/searchmain/searchlist"
-              component={SearchList}
-            /> */}
+            <PrivateRoute
+              path="/searchmain"
+              component={SearchMain}
+              ref={AppRef}
+            />
             <PrivateRoute path="/setting" component={Setting} />
             <NotFound />
           </Switch>
