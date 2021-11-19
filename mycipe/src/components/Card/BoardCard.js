@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
@@ -36,6 +36,11 @@ const BoardCard = ({
 
     setLikeStatus(!componentLikeStatus);
   };
+
+  useEffect(() => {
+    setLikeStatus(likeStatus);
+    setLikeCount(likeCount);
+  }, [likeCount, likeStatus]);
 
   return (
     <BoardCardInner onClick={_onClick}>

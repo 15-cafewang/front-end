@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
@@ -35,6 +35,11 @@ const RecipeCard = ({
 
     setLikeStatus(!componentLikeStatus);
   };
+
+  useEffect(() => {
+    setLikeStatus(likeStatus);
+    setLikeCount(likeCount);
+  }, [likeCount, likeStatus]);
 
   return (
     <RecipeCardInner onClick={_onClick}>
