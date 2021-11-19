@@ -16,6 +16,7 @@ import Intro from "../pages/Auth/Intro";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
 import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
+import NotFound from "../pages/NotFound";
 
 import Kakao from "../components/Kakao";
 import RecipeBoardMain from "../pages/RecipeBoard/RecipeBoardMain";
@@ -57,8 +58,6 @@ function App() {
             <PublickRoute path="/login" exact component={Login} />
             <PublickRoute path="/signup" exact component={Signup} />
             <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
-
-            <PrivateRoute>
               <PrivateRoute path="/main" exact component={Main} />
               <PrivateRoute
                 path="/recipeboard"
@@ -118,9 +117,9 @@ function App() {
               <PrivateRoute path="/searchmain" component={SearchMain} />
 
               <PrivateRoute path="/setting" component={Setting} />
-              <BottomNav />
-            </PrivateRoute>
+                <NotFound />
           </Switch>
+          <BottomNav />
         </Container>
       </Outter>
     </ConnectedRouter>

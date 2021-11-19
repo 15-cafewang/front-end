@@ -50,9 +50,13 @@ if (env === "development") {
   middlewares.push(logger);
 }
 
+const customizedMiddleware = getDefaultMiddleware({
+  serializableCheck: false,
+});
+
 const store = configureStore({
   reducer: reducer,
-  middleware: [...middlewares, ...getDefaultMiddleware()],
+  middleware: [...middlewares, ...customizedMiddleware],
   devTools: env !== "production",
 });
 

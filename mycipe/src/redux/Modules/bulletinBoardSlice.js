@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addBulletinPostDB,
   getBulletinPostListDB,
+  getInfinityScrollDB,
   getBulletinPostDetailDB,
   bulletinLikeToggleDB,
   editBulletinPostDB,
@@ -29,6 +30,18 @@ const bulletinBoardSlice = createSlice({
       state.boardList = payload;
     },
     [getBulletinPostListDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 무한 스크롤
+    [getInfinityScrollDB.pending]: (state, acton) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+
+      state.boardList = [...state.boardList, ...payload];
+    },
+    [getInfinityScrollDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
     // 게시글 작성
