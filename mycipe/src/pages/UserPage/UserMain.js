@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { useHistory, useParams } from "react-router";
-import { history } from "../../redux/configureStore";
+
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
 
@@ -23,8 +23,6 @@ import {
   getUserLikedBoardsDB,
   userFollowDB,
   userUnFollowDB,
-  userFollowListDB,
-  userFollowingListDB,
 } from "../../redux/Async/userPage";
 
 //sliceAction
