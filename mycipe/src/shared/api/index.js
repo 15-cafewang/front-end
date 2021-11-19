@@ -15,6 +15,7 @@ api.interceptors.request.use(
     config.headers["authorization"] = await getToken();
     return config;
   },
+
   async (error) => {
     console.log("에러발생", error);
     return Promise.reject(error);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+
 const hashTagStrList = [
   "청량한",
   "고소한",
@@ -13,7 +14,13 @@ const hashTagStrList = [
   "당충전",
 ];
 
-const HashTag = ({ tags, post, setPost }) => {
+const HashTag = ({
+  tags,
+  post = null,
+  setPost = () => {},
+  isSearch = true,
+  _onClick = () => {},
+}) => {
   const [hashTagList, setHashTagList] = useState(
     // initialValue는 모두 false로 만들어준다.
     hashTagStrList.map((hashTagName) => {
@@ -23,14 +30,28 @@ const HashTag = ({ tags, post, setPost }) => {
       };
     })
   );
-
+  // 모달이 열려있을땐 누를수있게함 (기본값)
   useEffect(() => {
-    const clickedHashTagList = hashTagList
+    if (!isSearch) return;
+    let clickedHashTagList = hashTagList
       .filter(({ active }) => active)
       .map(({ name }) => name);
 
     setPost({ ...post, tags: clickedHashTagList });
-  }, [hashTagList]);
+  }, [hashTagList, isSearch]);
+
+  //모달닫을떄 초기화시킨다.
+  useEffect(() => {
+    if (isSearch) return;
+
+    let resetHashTagList = hashTagList.map((tag) => {
+      return {
+        name: tag.name,
+        active: false,
+      };
+    });
+    setHashTagList(resetHashTagList);
+  }, [isSearch]);
 
   const toggleHashTag = (currentTag) => {
     // 현재 클릭한 태그의 상태가 true이면 나머지는 그대로 두고, 클릭한 태그의 상태만 false로 다시 뱌꿔준다.
@@ -52,7 +73,7 @@ const HashTag = ({ tags, post, setPost }) => {
 
   return (
     <>
-      <HashTagBox>
+      <HashTagBox onClick={_onClick}>
         {hashTagList.map((tag, idx) => {
           return (
             <HashTagItem
@@ -71,7 +92,7 @@ const HashTag = ({ tags, post, setPost }) => {
   );
 };
 
-const HashTagBox = styled.div`
+const HashTagBox = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -88,7 +109,7 @@ const HashTagBox = styled.div`
   }
 `;
 
-const HashTagItem = styled.div`
+const HashTagItem = styled.li`
   height: 36px;
   display: flex;
   flex-direction: row;
