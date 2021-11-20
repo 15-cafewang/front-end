@@ -70,3 +70,12 @@ export const deleteRecipePostDB = createAsyncThunk(
     return response.data.data;
   }
 );
+
+// 댓글 추가
+export const addRecipeCommentDB = createAsyncThunk(
+  "recipeBoard/addComment",
+  async (data) => {
+    const response = await recipeBoardApi.addComment(data);
+    return response.data.data;
+  }
+);

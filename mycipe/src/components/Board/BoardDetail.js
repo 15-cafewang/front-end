@@ -17,11 +17,13 @@ import {
   recipeLikeToggleDB,
   getRecipePostDetailDB,
   deleteRecipePostDB,
+  addRecipeCommentDB,
 } from "../../redux/Async/recipeBoard";
 import {
   bulletinLikeToggleDB,
   getBulletinPostDetailDB,
   deleteBulletinPostDB,
+  addBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
 
 const BoardDetail = ({ boardName }) => {
@@ -36,6 +38,11 @@ const BoardDetail = ({ boardName }) => {
       ? state.recipeBoard.currentRecipePost
       : state.bulletinBoard.currentBoardPost
   );
+  const commentList = useSelector((state) =>
+    boardName === "recipeBoard"
+      ? state.recipeBoard.commentList
+      : state.bulletinBoard.commentList
+  );
 
   const [likeStatus, setLikeStatus] = useState(
     postDetail && postDetail.likeStatus
@@ -43,6 +50,8 @@ const BoardDetail = ({ boardName }) => {
   const [likeCount, setLikeCount] = useState(
     postDetail && postDetail.likeCount
   );
+
+  const [content, setContent] = useState("");
 
   // 새로 고침 시 like 반영
   useEffect(() => {
@@ -75,6 +84,27 @@ const BoardDetail = ({ boardName }) => {
 
     // 리액트 좋아요 상태도 바꿔준다. (화면에 바로 보여주기 위함)
     setLikeStatus(!likeStatus);
+  };
+
+  // 댓글 추가
+  const addComment = () => {
+    const data = {
+      recipeId: recipeId,
+      content: content,
+    };
+    const res = {
+      boardId: boardId,
+      content: content,
+    };
+
+    if (boardName === "recipeBoard") {
+      dispatch(addRecipeCommentDB(data));
+    }
+    if (boardName === "bulletinBoard") {
+      dispatch(addBulletinCommentDB(res));
+    }
+
+    setContent("");
   };
 
   return (
@@ -182,9 +212,12 @@ const BoardDetail = ({ boardName }) => {
           <TextInputBox
             width="262"
             height="50"
+            onChange={(e) => setContent(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && addComment()}
+            defaultvalue={content}
             placeholder="댓글을 입력해 주세요."
           />
-          <Button>등록</Button>
+          <Button onClick={addComment}>등록</Button>
         </Box>
 
         <BoardComment />

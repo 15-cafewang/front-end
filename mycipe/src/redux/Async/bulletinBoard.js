@@ -72,3 +72,12 @@ export const deleteBulletinPostDB = createAsyncThunk(
     return response.data.data;
   }
 );
+
+// 댓글 추가
+export const addBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/addComment",
+  async (data) => {
+    const response = await bulletinBoardApi.addComment(data);
+    return response.data.data;
+  }
+);

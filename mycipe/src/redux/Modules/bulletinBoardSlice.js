@@ -8,12 +8,14 @@ import {
   bulletinLikeToggleDB,
   editBulletinPostDB,
   deleteBulletinPostDB,
+  addBulletinCommentDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
   isFetching: false,
   boardList: [],
   currentBoardPost: null,
+  commentList: null,
 };
 
 const bulletinBoardSlice = createSlice({
@@ -93,6 +95,18 @@ const bulletinBoardSlice = createSlice({
       state.isFetching = false;
     },
     [deleteBulletinPostDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 게시판 댓글 추가
+    [addBulletinCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [addBulletinCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList = payload;
+      window.alert("댓글 작성 성공!");
+    },
+    [addBulletinCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },
