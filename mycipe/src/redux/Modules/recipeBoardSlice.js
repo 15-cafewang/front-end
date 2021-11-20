@@ -106,7 +106,7 @@ const recipeBoardSlice = createSlice({
     },
     [addRecipeCommentDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
-      state.commentList = payload;
+      state.commentList.unshift(payload);
       window.alert("댓글 작성 성공!");
     },
     [addRecipeCommentDB.rejected]: (state, action) => {
