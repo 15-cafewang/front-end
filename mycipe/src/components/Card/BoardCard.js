@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import { useDispatch } from "react-redux";
 // icon
 import { ReactComponent as CommentMiniIcon } from "../../assets/icon/CommmentIcon/commentMini.svg";
 import { ReactComponent as LikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as ActiveLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 // elements
 import Image from "../../elements/Image";
+// async
+import { bulletinLikeToggleDB } from "../../redux/Async/bulletinBoard";
 
 const BoardCard = ({
+  _onClick,
   commentCount,
   content,
   image,
@@ -17,9 +21,26 @@ const BoardCard = ({
   nickname,
   regDate,
   title,
-  _onClick,
+  boardId,
 }) => {
   const isThumbnail = image ? true : false;
+  const dispatch = useDispatch();
+
+  const [componentLikeStatus, setLikeStatus] = useState(likeStatus);
+  const [componentLikeCount, setLikeCount] = useState(likeCount);
+
+  const handleLikeToggle = (e) => {
+    // 부모 요소의 클릭 이벤트를 막아줌
+    e.stopPropagation();
+    dispatch(bulletinLikeToggleDB(boardId));
+
+    setLikeStatus(!componentLikeStatus);
+  };
+
+  useEffect(() => {
+    setLikeStatus(likeStatus);
+    setLikeCount(likeCount);
+  }, [likeCount, likeStatus]);
 
   return (
     <BoardCardInner onClick={_onClick}>
@@ -30,15 +51,31 @@ const BoardCard = ({
 
       <Content>{content}</Content>
 
-      {/* ------------------------------------------------------------ */}
       {/* 사진 있을 경우 렌더링 */}
       {isThumbnail && <Image shape="rectangle" size="medium2" src={image} />}
 
       <IconsInner>
-        <LikeInner>
-          {likeStatus ? <ActiveLikeIcon /> : <LikeIcon />}
-          <Count>{likeCount}개</Count>
-        </LikeInner>
+        {componentLikeStatus ? (
+          <LikeInner
+            onClick={(e) => {
+              handleLikeToggle(e);
+              setLikeCount(componentLikeCount - 1);
+            }}
+          >
+            <ActiveLikeIcon />
+            <Count>{componentLikeCount}개</Count>
+          </LikeInner>
+        ) : (
+          <LikeInner
+            onClick={(e) => {
+              handleLikeToggle(e);
+              setLikeCount(componentLikeCount + 1);
+            }}
+          >
+            <LikeIcon />
+            <Count>{componentLikeCount}개</Count>
+          </LikeInner>
+        )}
 
         <CommentInner>
           <CommentMiniIcon />
@@ -98,10 +135,11 @@ const IconsInner = styled.div`
   margin-top: 8px;
 `;
 
-const LikeInner = styled.div`
+const LikeInner = styled.button`
   display: flex;
   align-items: center;
   margin-right: 4px;
+  font-size: 10px;
 `;
 
 const CommentInner = styled.div`

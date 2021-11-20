@@ -2,24 +2,24 @@ import api from "./index";
 
 const getUserInfo = (nickname) => api.get(`/userinfo/${nickname}`);
 
-const getUserWrittenRecipes = (nickname) =>
+const getUserWrittenRecipes = (page, nickname) =>
   api.get(
-    `/userinfo/recipes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+    `/userinfo/recipes/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
   );
 
-const getUserWrittenBoardes = (nickname) =>
+const getUserWrittenBoards = (page, nickname) =>
   api.get(
-    `/userinfo/boards/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+    `/userinfo/boards/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
   );
 
-const getUserLikedRecipes = (nickname) =>
+const getUserLikedRecipes = (page, nickname) =>
   api.get(
-    `/userinfo/recipes/likes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+    `/userinfo/recipes/likes/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
   );
 
-const getUserLikeBoards = (nickname) =>
+const getUserLikedBoards = (page, nickname) =>
   api.get(
-    `/userinfo/boards/likes/${nickname}?page=1&size=10&isAsc=false&sortBy=regDate`
+    `/userinfo/boards/likes/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
   );
 
 const follow = (nickname) => api.post(`/follows/${nickname}`);
@@ -39,9 +39,9 @@ const followingList = (nickname) =>
 export {
   getUserInfo,
   getUserWrittenRecipes,
-  getUserWrittenBoardes,
+  getUserWrittenBoards,
   getUserLikedRecipes,
-  getUserLikeBoards,
+  getUserLikedBoards,
   follow,
   unFollow,
   followList,

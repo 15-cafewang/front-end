@@ -15,6 +15,7 @@ import searchSlice from "./Modules/searchSlice";
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
+import storage from "redux-persist/lib/storage";
 export const history = createBrowserHistory();
 
 const userPagePersistConfig = {
@@ -25,8 +26,8 @@ const userPagePersistConfig = {
 
 const searchPersistConfig = {
   key: "Search",
-  storage: storageSession,
-  whitelist: ["whereFrom"],
+  storage: storage,
+  whitelist: ["whereFrom", "recipeSearchList", "boardSearchList"],
 };
 
 const reducer = combineReducers({

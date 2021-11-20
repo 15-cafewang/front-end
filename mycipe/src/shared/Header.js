@@ -202,12 +202,5 @@ const LeftInner = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #7692e4;
-  justify-content: center;
-`;
 
 export default Header;
