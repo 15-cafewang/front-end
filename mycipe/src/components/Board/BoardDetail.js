@@ -149,25 +149,31 @@ const BoardDetail = ({ boardName }) => {
 
         <Box between width="320px" margin="12px 0px 56px 0px">
           {likeStatus ? (
-            <Box cursor="true">
-              <ActiveSmallLikeIcon
-                onClick={() => {
-                  handleLikeToggle();
-                  setLikeCount(likeCount - 1);
-                }}
-              />
-            </Box>
+            <LikeBox
+              onClick={() => {
+                handleLikeToggle();
+                setLikeCount(likeCount - 1);
+              }}
+            >
+              <div>
+                <ActiveSmallLikeIcon />
+              </div>
+              <LikeCount>{likeCount}개</LikeCount>
+            </LikeBox>
           ) : (
-            <Box cursor="true">
-              <SmallLikeIcon
-                onClick={() => {
-                  handleLikeToggle();
-                  setLikeCount(likeCount + 1);
-                }}
-              />
-            </Box>
+            <LikeBox
+              onClick={() => {
+                handleLikeToggle();
+                setLikeCount(likeCount + 1);
+              }}
+            >
+              <div>
+                <SmallLikeIcon />
+              </div>
+              <LikeCount>{likeCount}개</LikeCount>
+            </LikeBox>
           )}
-          <LikeCount>{likeCount}개</LikeCount>
+
           <Date>
             {postDetail && postDetail.regDate
               ? postDetail.regDate
@@ -200,6 +206,11 @@ const BoardDetailContainer = styled.div`
   height: auto;
   min-height: calc(100% - 60px);
   position: relative;
+`;
+
+const LikeBox = styled.button`
+  display: flex;
+  align-items: center;
 `;
 
 const Box = styled.div`
@@ -281,9 +292,10 @@ const TextInputBox = styled.input`
 `;
 
 const LikeCount = styled.div`
+  top: 4px;
   font-size: 12px;
   color: #767676;
-  width: 220px;
+  margin-left: 4px;
 `;
 
 const Date = styled.div`

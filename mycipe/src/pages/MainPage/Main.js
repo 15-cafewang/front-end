@@ -80,6 +80,7 @@ const Main = (props) => {
                 history.push(`/recipeboard/detail/${m.recipeId}`);
               }}
               key={m.recipeId}
+              recipeId={m.recipeId}
               commentCount={m.commentCount}
               content={m.content}
               image={m.images[0]}
@@ -121,6 +122,7 @@ const Main = (props) => {
                 history.push(`/recipeboard/detail/${m.recipeId}`);
               }}
               key={m.recipeId}
+              recipeId={m.recipeId}
               commentCount={m.commentCount}
               content={m.content}
               image={m.images[0]}
