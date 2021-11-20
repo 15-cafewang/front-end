@@ -33,7 +33,7 @@ const SearchMain = (props) => {
   const preKeyword = useSelector((state) => state.search.keyword);
   const currentSorting = useSelector((state) => state.search.currentSorting);
 
-  //모달 제어변수.
+  //검색모달 제어변수.
   const [isSearch, setIsSearch] = useState(isList ? false : true);
 
   //검색어 받는변수
@@ -63,9 +63,10 @@ const SearchMain = (props) => {
     inputRef.current.focus();
   }, []);
 
-  //게시물 불러오기(게시물을 클릭하여 상세페이지로 이동후 뭔가 동작(좋아요,댓글)을 하고 다시 뒤로돌아왔을떄 변경된내용을 반영시키기위해 다시 불러옴)
+  //게시물 불러오기(검색된 게시물을 클릭하여 상세페이지로 이동후 뭔가 동작(좋아요,댓글)을 하고 다시 뒤로돌아왔을떄 변경된내용을 반영시키기위해 다시 불러옴)
   // 최초에 검색하고 게시물을 불러올떈 동작하지않는다.
   useEffect(() => {
+    // (검색전엔 아무것도 불러오지않은상태니 배열의 길이로 실행여부를 판단함.)
     if (recipeList.length !== 0) {
       if (currentSorting === "byDate") {
         if (hashTag) {
@@ -305,7 +306,7 @@ const SearchMain = (props) => {
                   />
                 ))
               ) : (
-                <div>게시물이 없습니다.</div>
+                <div>해당하는 게시물이 없습니다.</div>
               )}
             </SearchListInner>
           ) : (
@@ -322,7 +323,7 @@ const SearchMain = (props) => {
                     />
                   ))
                 ) : (
-                  <div>게시물이 없습니다.</div>
+                  <div>해당하는 게시물이 없습니다.</div>
                 )}
               </SearchListInner>
             </SearchListInner>
