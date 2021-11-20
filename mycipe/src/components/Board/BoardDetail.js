@@ -18,12 +18,14 @@ import {
   getRecipePostDetailDB,
   deleteRecipePostDB,
   addRecipeCommentDB,
+  getRecipeCommentDB,
 } from "../../redux/Async/recipeBoard";
 import {
   bulletinLikeToggleDB,
   getBulletinPostDetailDB,
   deleteBulletinPostDB,
   addBulletinCommentDB,
+  getBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
 
 const BoardDetail = ({ boardName }) => {
@@ -71,6 +73,17 @@ const BoardDetail = ({ boardName }) => {
     }
   }, [boardId, boardName, dispatch, recipeId]);
 
+  // 댓글 조회
+  useEffect(() => {
+    if (boardName === "recipeBoard") {
+      dispatch(getRecipeCommentDB(recipeId));
+      return;
+    }
+    if (boardName === "bulletinBoard") {
+      dispatch(getBulletinCommentDB(boardId));
+      return;
+    }
+  }, [dispatch, recipeId, boardId, boardName]);
   const isPostUser = (postDetail && postDetail.nickname) === userNickname;
 
   // 좋아요 누를 때 마다 DB 반영
@@ -219,10 +232,42 @@ const BoardDetail = ({ boardName }) => {
           />
           <Button onClick={addComment}>등록</Button>
         </Box>
-
-        <BoardComment />
-        <BoardComment />
-        <BoardComment />
+        {commentList && (
+          <>
+            <CommentBox>
+              {commentList &&
+                boardName === "recipeBoard" &&
+                commentList.map((r, idx) => {
+                  return (
+                    <BoardComment
+                      key={r.recipeId}
+                      content={r.content}
+                      likeCount={r.likeCount}
+                      likeStatus={r.likeStatus}
+                      nickname={r.nickname}
+                      profileImage={r.profileImage}
+                      regDate={r.regDate}
+                    />
+                  );
+                })}
+              {commentList &&
+                boardName === "bulletinBoard" &&
+                commentList.map((b, idx) => {
+                  return (
+                    <BoardComment
+                      key={b.boardId}
+                      content={b.content}
+                      likeCount={b.likeCount}
+                      likeStatus={b.likeStatus}
+                      nickname={b.nickname}
+                      profileImage={b.profileImage}
+                      regDate={b.regDate}
+                    />
+                  );
+                })}
+            </CommentBox>
+          </>
+        )}
       </Box>
     </BoardDetailContainer>
   );
@@ -336,5 +381,7 @@ const Button = styled.div`
   color: #767676;
   background-color: #ffffff;
 `;
+
+const CommentBox = styled.div``;
 
 export default BoardDetail;

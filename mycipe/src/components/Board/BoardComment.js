@@ -1,35 +1,62 @@
 import React from "react";
 import styled from "styled-components";
+import { history } from "../../redux/configureStore";
 
 // elements
 import Image from "../../elements/Image";
 // icon
-import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
-import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
+import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
+import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 
-const BoardComment = () => {
+// 날짜 라이브러리
+import dayjs from "dayjs";
+// 작성일 표시 라이브러리
+import TimeCounting from "time-counting";
+
+const BoardComment = ({
+  content,
+  likeCount,
+  likeStatus,
+  nickname,
+  profileImage,
+  _onClick,
+  regDate,
+}) => {
+  const timeOption = {
+    lang: "ko",
+    objectTime: dayjs().format(`YYYY/MM/DD HH:mm:ss`),
+    calculate: {
+      justNow: 61,
+      //60 초전까지만 조금전 표시
+    },
+  };
   return (
     <>
       <Box directionCol>
         <Box width="320">
-          <CommentItem>
-            <Image shape="circle" size="small" src="" />
+          <CommentItem onClick={_onClick}>
+            <Image
+              shape="circle"
+              size="small"
+              src={profileImage}
+              _onClick={() => {
+                history.push(`/usermain/${nickname}`);
+              }}
+            />
 
             <Box width="270" verCenter col margin="0px 0px 0px 12px">
               <Box margin="0px 0px 4px 0px" height="20">
-                <Nickname>레시피 화이팅</Nickname>
-                <Date>1시간 전</Date>
+                <Nickname>{nickname}</Nickname>
+                <Date> {TimeCounting(regDate, timeOption)}</Date>
               </Box>
 
               <Box width="270" margin="0px 0px 8px 0px" cmtSize>
-                맛있어보입니다~~~~맛있어보입니다~~~~맛있어보입니다~~~~
-                맛있어보입니다~~~~맛있어보입니다~~~~맛있어보입니다~~~~맛있어보입니다~~~~
-                맛있어보입니다~~~~
+                {content}
               </Box>
 
               <Box width="270" horCenter>
-                <SmallLikeIcon />
-                <LikeCount>111개</LikeCount>
+                {likeStatus ? <ActiveSmallLike /> : <SmallLike />}
+                <LikeCount>{likeCount}개</LikeCount>
               </Box>
             </Box>
           </CommentItem>
