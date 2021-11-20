@@ -2,13 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 // elements
-import Image from "../elements/Image";
+import Image from "../../elements/Image";
 // icon
-import { ReactComponent as MenuIcon } from "../assets/menu.svg";
-import { ReactComponent as SmallLikeIcon } from "../assets/icon/LikeIcon/smallLike.svg";
-import { ReactComponent as ActiveSmallLikeIcon } from "../assets/icon/LikeIcon/activeSmallLike.svg";
+import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
+import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 
-const Comment = () => {
+const BoardComment = () => {
   return (
     <>
       <Box directionCol>
@@ -31,7 +30,6 @@ const Comment = () => {
               <Box width="270" horCenter>
                 <SmallLikeIcon />
                 <LikeCount>111개</LikeCount>
-                <MenuIcon />
               </Box>
             </Box>
           </CommentItem>
@@ -77,4 +75,4 @@ const LikeCount = styled.div`
   width: 220px;
 `;
 
-export default Comment;
+export default BoardComment;

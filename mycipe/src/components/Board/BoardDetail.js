@@ -9,7 +9,7 @@ import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smal
 // elements
 import Image from "../../elements/Image";
 // components
-import Comment from "../../shared/Comment";
+import BoardComment from "./BoardComment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";
 // async
@@ -187,9 +187,9 @@ const BoardDetail = ({ boardName }) => {
           <Button>등록</Button>
         </Box>
 
-        <Comment />
-        <Comment />
-        <Comment />
+        <BoardComment />
+        <BoardComment />
+        <BoardComment />
       </Box>
     </BoardDetailContainer>
   );
