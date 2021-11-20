@@ -9,6 +9,7 @@ import {
   editRecipePostDB,
   deleteRecipePostDB,
   addRecipeCommentDB,
+  getRecipeCommentDB,
 } from "../Async/recipeBoard";
 
 // initialstate
@@ -109,6 +110,18 @@ const recipeBoardSlice = createSlice({
       window.alert("댓글 작성 성공!");
     },
     [addRecipeCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 레시피 댓글 조회
+    [getRecipeCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getRecipeCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList = payload;
+    },
+    [getRecipeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

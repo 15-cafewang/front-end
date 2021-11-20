@@ -9,6 +9,7 @@ import {
   editBulletinPostDB,
   deleteBulletinPostDB,
   addBulletinCommentDB,
+  getBulletinCommentDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
@@ -107,6 +108,18 @@ const bulletinBoardSlice = createSlice({
       window.alert("댓글 작성 성공!");
     },
     [addBulletinCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시판 댓글 조회
+    [getBulletinCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getBulletinCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList = payload;
+    },
+    [getBulletinCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

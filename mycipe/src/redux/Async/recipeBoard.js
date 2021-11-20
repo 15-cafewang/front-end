@@ -79,3 +79,12 @@ export const addRecipeCommentDB = createAsyncThunk(
     return response.data.data;
   }
 );
+
+//댓글 조회
+export const getRecipeCommentDB = createAsyncThunk(
+  "recipeBoard/getComment",
+  async (data) => {
+    const response = await recipeBoardApi.getComment(data);
+    return response.data.data.content;
+  }
+);

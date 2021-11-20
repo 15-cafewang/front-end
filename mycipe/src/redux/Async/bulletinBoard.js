@@ -81,3 +81,11 @@ export const addBulletinCommentDB = createAsyncThunk(
     return response.data.data;
   }
 );
+
+export const getBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/getCommet",
+  async (data) => {
+    const response = await bulletinBoardApi.getComment(data);
+    return response.data.data.content;
+  }
+);
