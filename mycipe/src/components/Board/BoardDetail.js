@@ -101,20 +101,20 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
-    const data = {
+    const recipeComment = {
       recipeId: recipeId,
       content: content,
     };
-    const res = {
+    const boardComment = {
       boardId: boardId,
       content: content,
     };
 
     if (boardName === "recipeBoard") {
-      dispatch(addRecipeCommentDB(data));
+      dispatch(addRecipeCommentDB(recipeComment));
     }
     if (boardName === "bulletinBoard") {
-      dispatch(addBulletinCommentDB(res));
+      dispatch(addBulletinCommentDB(boardComment));
     }
 
     setContent("");
