@@ -237,36 +237,24 @@ const BoardDetail = ({ boardName }) => {
             <CommentBox>
               {commentList &&
                 boardName === "recipeBoard" &&
-                commentList.map((r, idx) => {
+                commentList.map((comment) => {
                   return (
                     <BoardComment
-                      key={r.commentId}
-                      content={r.content}
-                      likeCount={r.likeCount}
-                      likeStatus={r.likeStatus}
-                      nickname={r.nickname}
-                      profileImage={r.profileImage}
-                      regDate={r.regDate}
-                      commentId={r.commentId}
-                      recipeId={r.recipeId}
+                      key={comment.commentId}
+                      comment={comment}
+                      boardId={boardId}
                       boardName={boardName}
                     />
                   );
                 })}
               {commentList &&
                 boardName === "bulletinBoard" &&
-                commentList.map((b, idx) => {
+                commentList.map((comment) => {
                   return (
                     <BoardComment
-                      key={b.commentId}
-                      content={b.content}
-                      likeCount={b.likeCount}
-                      likeStatus={b.likeStatus}
-                      nickname={b.nickname}
-                      profileImage={b.profileImage}
-                      regDate={b.regDate}
-                      commentId={b.commentId}
-                      boardId={b.boardId}
+                      key={comment.commentId}
+                      comment={comment}
+                      boardId={boardId}
                       boardName={boardName}
                     />
                   );

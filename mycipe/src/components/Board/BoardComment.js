@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { history } from "../../redux/configureStore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // elements
 import Image from "../../elements/Image";
@@ -17,17 +17,9 @@ import dayjs from "dayjs";
 // 작성일 표시 라이브러리
 import TimeCounting from "time-counting";
 
-const BoardComment = ({
-  content,
-  likeCount,
-  likeStatus,
-  nickname,
-  profileImage,
-  _onClick,
-  regDate,
-  boardName,
-  commentId,
-}) => {
+const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
+  const userNickname = useSelector((state) => state.user.userInfo.nickname);
+  const isWriter = comment.nickname === userNickname ? true : false;
   const dispatch = useDispatch();
   const timeOption = {
     lang: "ko",
@@ -40,9 +32,10 @@ const BoardComment = ({
 
   const deleteComment = () => {
     if (boardName === "recipeBoard") {
-      dispatch(deleteRecipeCommentDB(commentId));
+      dispatch(deleteRecipeCommentDB(comment.commentId));
     } else {
-      dispatch(deleteBulletinCommentDB(commentId));
+      console.log(comment.commentId);
+      dispatch(deleteBulletinCommentDB(comment.commentId));
     }
   };
   return (
@@ -53,28 +46,33 @@ const BoardComment = ({
             <Image
               shape="circle"
               size="small"
-              src={profileImage}
+              src={comment.profileImage}
               _onClick={() => {
-                history.push(`/usermain/${nickname}`);
+                history.push(`/usermain/${comment.nickname}`);
               }}
             />
 
             <Box width="280" verCenter col margin="0px 0px 0px 12px">
               <Box margin="0px 0px 4px 0px" height="20">
-                <Nickname>{nickname}</Nickname>
-                <Date> {TimeCounting(regDate, timeOption)}</Date>
+                <Nickname>{comment.nickname}</Nickname>
+                <Date> {TimeCounting(comment.regDate, timeOption)}</Date>
               </Box>
 
               <Box width="270" margin="0px 0px 8px 0px" cmtSize>
-                {content}
+                {comment.content}
               </Box>
 
               <Box width="270" horCenter>
-                {likeStatus ? <ActiveSmallLike /> : <SmallLike />}
-                <LikeCount>{likeCount}개</LikeCount>
+                {comment.likeStatus ? <ActiveSmallLike /> : <SmallLike />}
+                <LikeCount>{comment.likeCount}개</LikeCount>
+
                 <Box>
-                  <EditBtn>수정</EditBtn>
-                  <EditBtn onClick={deleteComment}>삭제</EditBtn>
+                  {isWriter && (
+                    <>
+                      <EditBtn>수정</EditBtn>
+                      <EditBtn onClick={deleteComment}>삭제</EditBtn>
+                    </>
+                  )}
                 </Box>
               </Box>
             </Box>
