@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { history } from "../../redux/configureStore";
+import { useDispatch } from "react-redux";
 
 // elements
 import Image from "../../elements/Image";
 // icon
 import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
+
+import { deleteRecipeCommentDB } from "../../redux/Async/recipeBoard";
+import { deleteBulletinCommentDB } from "../../redux/Async/bulletinBoard";
 
 // 날짜 라이브러리
 import dayjs from "dayjs";
@@ -21,7 +25,10 @@ const BoardComment = ({
   profileImage,
   _onClick,
   regDate,
+  boardName,
+  commentId,
 }) => {
+  const dispatch = useDispatch();
   const timeOption = {
     lang: "ko",
     objectTime: dayjs().format(`YYYY/MM/DD HH:mm:ss`),
@@ -29,6 +36,14 @@ const BoardComment = ({
       justNow: 61,
       //60 초전까지만 조금전 표시
     },
+  };
+
+  const deleteComment = () => {
+    if (boardName === "recipeBoard") {
+      dispatch(deleteRecipeCommentDB(commentId));
+    } else {
+      dispatch(deleteBulletinCommentDB(commentId));
+    }
   };
   return (
     <>
@@ -44,7 +59,7 @@ const BoardComment = ({
               }}
             />
 
-            <Box width="270" verCenter col margin="0px 0px 0px 12px">
+            <Box width="280" verCenter col margin="0px 0px 0px 12px">
               <Box margin="0px 0px 4px 0px" height="20">
                 <Nickname>{nickname}</Nickname>
                 <Date> {TimeCounting(regDate, timeOption)}</Date>
@@ -57,6 +72,10 @@ const BoardComment = ({
               <Box width="270" horCenter>
                 {likeStatus ? <ActiveSmallLike /> : <SmallLike />}
                 <LikeCount>{likeCount}개</LikeCount>
+                <Box>
+                  <EditBtn>수정</EditBtn>
+                  <EditBtn onClick={deleteComment}>삭제</EditBtn>
+                </Box>
               </Box>
             </Box>
           </CommentItem>
@@ -102,4 +121,8 @@ const LikeCount = styled.div`
   width: 220px;
 `;
 
+const EditBtn = styled.button`
+  font-size: 10px;
+  color: #767676;
+`;
 export default BoardComment;

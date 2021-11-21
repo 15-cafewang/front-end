@@ -10,6 +10,7 @@ import {
   deleteRecipePostDB,
   addRecipeCommentDB,
   getRecipeCommentDB,
+  deleteRecipeCommentDB,
 } from "../Async/recipeBoard";
 
 // initialstate
@@ -17,6 +18,7 @@ const initialstate = {
   isFetching: false,
   recipeList: [],
   currentRecipePost: null,
+  commentList: null,
 };
 
 const recipeBoardSlice = createSlice({
@@ -122,6 +124,24 @@ const recipeBoardSlice = createSlice({
       state.commentList = payload;
     },
     [getRecipeCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 레시피 댓글 삭제
+    [deleteRecipeCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [deleteRecipeCommentDB.fulfilled]: (state, action) => {
+      const commentId = action.payload.commentId;
+      // 전체 state.list에서 commentId가 포함 된 것을 뺴고, state.list를 반환함.
+      const recipeCommentList = state.commentList.filter(
+        (comment) => comment.commentId !== commentId
+      );
+      state.commentList = recipeCommentList;
+      state.isFetching = false;
+      window.alert("댓글 삭제 성공!");
+    },
+    [deleteRecipeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

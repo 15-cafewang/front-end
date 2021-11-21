@@ -10,6 +10,7 @@ import {
   deleteBulletinPostDB,
   addBulletinCommentDB,
   getBulletinCommentDB,
+  deleteBulletinCommentDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
@@ -120,6 +121,24 @@ const bulletinBoardSlice = createSlice({
       state.commentList = payload;
     },
     [getBulletinCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시판 댓글 삭제
+    [deleteBulletinCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [deleteBulletinCommentDB.fulfilled]: (state, action) => {
+      const commentId = action.payload.commentId;
+      // 전체 state.list에서 commentId가 포함 된 것을 뺴고, state.list를 반환함.
+      const bulletinCommentList = state.commentList.filter(
+        (comment) => comment.commentId !== commentId
+      );
+      state.commentList = bulletinCommentList;
+      state.isFetching = false;
+      window.alert("댓글 삭제 성공!");
+    },
+    [deleteBulletinCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

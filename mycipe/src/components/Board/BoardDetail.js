@@ -249,6 +249,7 @@ const BoardDetail = ({ boardName }) => {
                       regDate={r.regDate}
                       commentId={r.commentId}
                       recipeId={r.recipeId}
+                      boardName={boardName}
                     />
                   );
                 })}
@@ -266,6 +267,7 @@ const BoardDetail = ({ boardName }) => {
                       regDate={b.regDate}
                       commentId={b.commentId}
                       boardId={b.boardId}
+                      boardName={boardName}
                     />
                   );
                 })}
