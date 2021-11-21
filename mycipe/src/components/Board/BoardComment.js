@@ -19,7 +19,7 @@ import TimeCounting from "time-counting";
 
 const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
   const userNickname = useSelector((state) => state.user.userInfo.nickname);
-  const isWriter = comment.nickname === userNickname ? true : false;
+  const isWriter = comment.nickname === userNickname ? true : false; // 댓글 작성자인지 아닌지 체크
   const dispatch = useDispatch();
   const timeOption = {
     lang: "ko",
@@ -30,6 +30,7 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
     },
   };
 
+  // 댓글 삭제
   const deleteComment = () => {
     if (boardName === "recipeBoard") {
       dispatch(deleteRecipeCommentDB(comment.commentId));
