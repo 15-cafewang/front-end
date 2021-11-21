@@ -101,20 +101,20 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
-    const data = {
+    const recipeComment = {
       recipeId: recipeId,
       content: content,
     };
-    const res = {
+    const boardComment = {
       boardId: boardId,
       content: content,
     };
 
     if (boardName === "recipeBoard") {
-      dispatch(addRecipeCommentDB(data));
+      dispatch(addRecipeCommentDB(recipeComment));
     }
     if (boardName === "bulletinBoard") {
-      dispatch(addBulletinCommentDB(res));
+      dispatch(addBulletinCommentDB(boardComment));
     }
 
     setContent("");
@@ -227,7 +227,7 @@ const BoardDetail = ({ boardName }) => {
             height="50"
             onChange={(e) => setContent(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && addComment()}
-            defaultvalue={content}
+            value={content}
             placeholder="댓글을 입력해 주세요."
           />
           <Button onClick={addComment}>등록</Button>
@@ -240,13 +240,15 @@ const BoardDetail = ({ boardName }) => {
                 commentList.map((r, idx) => {
                   return (
                     <BoardComment
-                      key={r.recipeId}
+                      key={r.commentId}
                       content={r.content}
                       likeCount={r.likeCount}
                       likeStatus={r.likeStatus}
                       nickname={r.nickname}
                       profileImage={r.profileImage}
                       regDate={r.regDate}
+                      commentId={r.commentId}
+                      recipeId={r.recipeId}
                     />
                   );
                 })}
@@ -255,13 +257,15 @@ const BoardDetail = ({ boardName }) => {
                 commentList.map((b, idx) => {
                   return (
                     <BoardComment
-                      key={b.boardId}
+                      key={b.commentId}
                       content={b.content}
                       likeCount={b.likeCount}
                       likeStatus={b.likeStatus}
                       nickname={b.nickname}
                       profileImage={b.profileImage}
                       regDate={b.regDate}
+                      commentId={b.commentId}
+                      boardId={b.boardId}
                     />
                   );
                 })}
