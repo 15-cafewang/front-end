@@ -161,14 +161,14 @@ const BannerTitle = styled.span`
 const BannerButtonInner = styled.div`
   width: 166px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 const BannerDateButton = styled.button`
-  width: 50px;
+  width: 70px;
   height: 24px;
   border-radius: 50px;
-
+  margin-left: 5px;
   font-size: 14px;
   padding: 0px 12px;
 
