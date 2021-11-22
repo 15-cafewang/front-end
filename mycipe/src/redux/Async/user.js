@@ -76,6 +76,7 @@ export const nickCheckDB = createAsyncThunk(
   "user/nickCheck",
   async (nickname) => {
     const response = await nicknameCheckAPI(nickname);
+    console.log(response);
     if (response.data.code === 1) {
       return true;
     } else {
@@ -87,9 +88,15 @@ export const nickCheckDB = createAsyncThunk(
 // 회원정보 수정 ( 프로필이미지 + 닉네임)
 export const updateUserInfoDB = createAsyncThunk(
   "user/updateUserInfoWithImage",
-  async (formData) => {
-    const response = await updateUserInfoAPI(formData);
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await updateUserInfoAPI(formData);
 
-    return response.data;
+      return response.data.message;
+    } catch (error) {
+      console.log(error);
+
+      return rejectWithValue(error.data.message);
+    }
   }
 );
