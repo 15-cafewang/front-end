@@ -88,3 +88,16 @@ export const getRecipeCommentDB = createAsyncThunk(
     return response.data.data.content;
   }
 );
+
+// 댓글 삭제
+export const deleteRecipeCommentDB = createAsyncThunk(
+  "recipeBoard/deleteComment",
+  async (commentId) => {
+    const response = await recipeBoardApi.deleteComment(commentId);
+    const data = {
+      commentId: commentId,
+      message: response.data.message,
+    };
+    return data;
+  }
+);

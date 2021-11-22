@@ -58,4 +58,9 @@ export const bulletinBoardApi = {
   likeToggle: (boardId) => {
     return api.post(`/boards/likes/${boardId}`);
   },
+
+  // 게시물 댓글 좋아요 토글
+  commentLikeToggle: (commentId) => {
+    return api.post(`/boards/comments/likes/${commentId}`);
+  },
 };

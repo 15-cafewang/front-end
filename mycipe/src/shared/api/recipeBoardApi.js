@@ -57,8 +57,8 @@ export const recipeBoardApi = {
     return api.get(`/recipes/likes/${postId}`);
   },
 
-  // 게시물 댓글 좋아요 토글
+  // 레시피 댓글 좋아요 토글
   commentLikeToggle: (commentId) => {
-    return api.post(`/boards/comments/likes/${commentId}`);
+    return api.post(`/recipes/comments/likes/${commentId}`);
   },
 };

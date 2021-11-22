@@ -82,10 +82,24 @@ export const addBulletinCommentDB = createAsyncThunk(
   }
 );
 
+// 댓글 조회
 export const getBulletinCommentDB = createAsyncThunk(
-  "bulletinBoard/getCommet",
+  "bulletinBoard/getComment",
   async (data) => {
     const response = await bulletinBoardApi.getComment(data);
     return response.data.data.content;
+  }
+);
+
+// 댓글 삭제
+export const deleteBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/deleteComment",
+  async (commentId) => {
+    const response = await bulletinBoardApi.deleteComment(commentId);
+    const data = {
+      commentId: commentId,
+      message: response.data.message,
+    };
+    return data;
   }
 );
