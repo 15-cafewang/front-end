@@ -1,13 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-<<<<<<< HEAD
-import { useHistory, useParams } from "react-router";
-
-=======
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
->>>>>>> dev
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
 
