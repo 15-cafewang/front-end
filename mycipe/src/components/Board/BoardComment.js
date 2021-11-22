@@ -47,7 +47,7 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
             <Image
               shape="circle"
               size="small"
-              src={comment.profileImage}
+              src={comment.profile}
               _onClick={() => {
                 history.push(`/usermain/${comment.nickname}`);
               }}
