@@ -18,8 +18,7 @@ const Main = (props) => {
   const popularList = useSelector((state) => state.mainPage.popularList);
   const recentList = useSelector((state) => state.mainPage.recentList);
   const [category, setCategory] = useState({
-    daily: true,
-    weekly: false,
+    weekly: true,
     monthly: false,
   });
   useEffect(() => {
@@ -34,26 +33,16 @@ const Main = (props) => {
   return (
     <MainInner>
       {isActive && <ModalBackground />}
-      {/* 인기 레시피 */}
+      {/* 인기 카페 */}
       <Banner>
-        <BannerTitle>인기레시피</BannerTitle>
+        <BannerTitle>인기 카페</BannerTitle>
 
         <BannerButtonInner>
-          <BannerDateButton
-            color={category.daily ? true : false}
-            backgroundColor={category.daily ? true : false}
-            onClick={() => {
-              setCategory({ daily: true, weekly: false, monthly: false });
-              dispatch(getPopularDayListDB());
-            }}
-          >
-            일간
-          </BannerDateButton>
           <BannerDateButton
             color={category.weekly ? true : false}
             backgroundColor={category.weekly ? true : false}
             onClick={() => {
-              setCategory({ daily: false, weekly: true, monthly: false });
+              setCategory({ weekly: true, monthly: false });
               dispatch(getPopularWeekListDB());
             }}
           >
@@ -63,7 +52,7 @@ const Main = (props) => {
             color={category.monthly ? true : false}
             backgroundColor={category.monthly ? true : false}
             onClick={() => {
-              setCategory({ daily: false, weekly: false, monthly: true });
+              setCategory({ weekly: false, monthly: true });
               dispatch(getPopularMonthListDB());
             }}
           >
@@ -101,9 +90,9 @@ const Main = (props) => {
         })}
       </RecipeCardList>
 
-      {/* 최근 레시피 */}
+      {/* 최근 카페 */}
       <Banner>
-        <BannerTitle>최근 레시피</BannerTitle>
+        <BannerTitle>최근 카페</BannerTitle>
         <BannerMoreButton
           onClick={() => {
             history.push("/recipeboard");
