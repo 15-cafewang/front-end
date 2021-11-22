@@ -11,6 +11,7 @@ import {
   addBulletinCommentDB,
   getBulletinCommentDB,
   deleteBulletinCommentDB,
+  bulletinCommentLikeDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
@@ -139,6 +140,17 @@ const bulletinBoardSlice = createSlice({
       window.alert("댓글 삭제 성공!");
     },
     [deleteBulletinCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시글 댓글 좋아요 토글
+    [bulletinCommentLikeDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [bulletinCommentLikeDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [bulletinCommentLikeDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

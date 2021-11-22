@@ -11,6 +11,7 @@ import {
   addRecipeCommentDB,
   getRecipeCommentDB,
   deleteRecipeCommentDB,
+  recipeCommentLikeDB,
 } from "../Async/recipeBoard";
 
 // initialstate
@@ -142,6 +143,17 @@ const recipeBoardSlice = createSlice({
       window.alert("댓글 삭제 성공!");
     },
     [deleteRecipeCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 레시피 댓글 좋아요
+    [recipeCommentLikeDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [recipeCommentLikeDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [recipeCommentLikeDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

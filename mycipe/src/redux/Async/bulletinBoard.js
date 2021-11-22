@@ -103,3 +103,12 @@ export const deleteBulletinCommentDB = createAsyncThunk(
     return data;
   }
 );
+
+// 게시글 댓글 좋아요
+export const bulletinCommentLikeDB = createAsyncThunk(
+  "bulletinBoardComment/likeToggle",
+  async (data) => {
+    const response = await bulletinBoardApi.commentLikeToggle(data);
+    return response.data.data;
+  }
+);
