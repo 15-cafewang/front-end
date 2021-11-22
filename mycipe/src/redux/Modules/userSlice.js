@@ -141,13 +141,11 @@ const userSlice = createSlice({
     // 유저정보 변경 성공
     [updateUserInfoDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
-      window.alert(payload.message);
     },
 
     // 유저정보 변경 실패
-    [updateUserInfoDB.rejected]: (state, action) => {
+    [updateUserInfoDB.rejected]: (state, { payload }) => {
       state.isFetching = false;
-      window.alert(action.error);
     },
   },
 });
