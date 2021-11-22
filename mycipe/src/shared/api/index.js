@@ -27,7 +27,15 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log("에러발생 ", error);
+    const {
+      response: { status },
+    } = error;
+    if (
+      status === 400 &&
+      error.response.data.message === "로그인된 유저만 사용가능한 기능입니다."
+    ) {
+      localStorage.removeItem("USER_TOKEN");
+    }
     return Promise.reject(error);
   }
 );
