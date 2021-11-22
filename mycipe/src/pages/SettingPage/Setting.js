@@ -8,16 +8,21 @@ const Setting = (props) => {
   const dispatch = useDispatch();
 
   return (
-    <LogoutButton
-      onClick={() => {
-        dispatch(logout());
-        history.replace("/");
-      }}
-    >
-      로그아웃
-    </LogoutButton>
+    <InnerSetting>
+      <LogoutButton
+        onClick={() => {
+          dispatch(logout());
+          history.replace("/");
+        }}
+      >
+        로그아웃
+      </LogoutButton>
+    </InnerSetting>
   );
 };
+const InnerSetting = styled.div`
+  margin: 0px 20px 0px;
+`;
 
 const LogoutButton = styled.button``;
 
