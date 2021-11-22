@@ -101,3 +101,12 @@ export const deleteRecipeCommentDB = createAsyncThunk(
     return data;
   }
 );
+
+// 댓글 좋아요
+export const recipeCommentLikeDB = createAsyncThunk(
+  "recipeBoardComment/likeToggle",
+  async (data) => {
+    const response = await recipeBoardApi.commentLikeToggle(data);
+    return response.data.data;
+  }
+);

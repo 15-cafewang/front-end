@@ -59,6 +59,6 @@ export const recipeBoardApi = {
 
   // 레시피 댓글 좋아요 토글
   commentLikeToggle: (commentId) => {
-    return api.post(`/recipes/comments/likes/${commentId}`);
+    return api.get(`/recipes/comment/likes/${commentId}`);
   },
 };

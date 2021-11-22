@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
 import {
-  getPopularDayListDB,
   getPopularWeekListDB,
   getPopularMonthListDB,
   getRecentListDB,
@@ -18,8 +17,7 @@ const Main = (props) => {
   const popularList = useSelector((state) => state.mainPage.popularList);
   const recentList = useSelector((state) => state.mainPage.recentList);
   const [category, setCategory] = useState({
-    daily: true,
-    weekly: false,
+    weekly: true,
     monthly: false,
   });
   useEffect(() => {
@@ -27,33 +25,23 @@ const Main = (props) => {
       top: 0,
       behavior: "smooth",
     });
-    dispatch(getPopularDayListDB());
+    dispatch(getPopularWeekListDB());
     dispatch(getRecentListDB());
   }, []);
 
   return (
     <MainInner>
       {isActive && <ModalBackground />}
-      {/* 인기 레시피 */}
+      {/* 인기 카페 */}
       <Banner>
-        <BannerTitle>인기레시피</BannerTitle>
+        <BannerTitle>인기 카페</BannerTitle>
 
         <BannerButtonInner>
-          <BannerDateButton
-            color={category.daily ? true : false}
-            backgroundColor={category.daily ? true : false}
-            onClick={() => {
-              setCategory({ daily: true, weekly: false, monthly: false });
-              dispatch(getPopularDayListDB());
-            }}
-          >
-            일간
-          </BannerDateButton>
           <BannerDateButton
             color={category.weekly ? true : false}
             backgroundColor={category.weekly ? true : false}
             onClick={() => {
-              setCategory({ daily: false, weekly: true, monthly: false });
+              setCategory({ weekly: true, monthly: false });
               dispatch(getPopularWeekListDB());
             }}
           >
@@ -63,7 +51,7 @@ const Main = (props) => {
             color={category.monthly ? true : false}
             backgroundColor={category.monthly ? true : false}
             onClick={() => {
-              setCategory({ daily: false, weekly: false, monthly: true });
+              setCategory({ weekly: false, monthly: true });
               dispatch(getPopularMonthListDB());
             }}
           >
@@ -102,9 +90,9 @@ const Main = (props) => {
         })}
       </RecipeCardList>
 
-      {/* 최근 레시피 */}
+      {/* 최근 카페 */}
       <Banner>
-        <BannerTitle>최근 레시피</BannerTitle>
+        <BannerTitle>최근 카페</BannerTitle>
         <BannerMoreButton
           onClick={() => {
             history.push("/recipeboard");
@@ -174,14 +162,14 @@ const BannerTitle = styled.span`
 const BannerButtonInner = styled.div`
   width: 166px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 const BannerDateButton = styled.button`
-  width: 50px;
+  width: 70px;
   height: 24px;
   border-radius: 50px;
-
+  margin-left: 5px;
   font-size: 14px;
   padding: 0px 12px;
 

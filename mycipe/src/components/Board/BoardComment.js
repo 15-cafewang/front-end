@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,14 @@ import Image from "../../elements/Image";
 import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 
-import { deleteRecipeCommentDB } from "../../redux/Async/recipeBoard";
-import { deleteBulletinCommentDB } from "../../redux/Async/bulletinBoard";
+import {
+  deleteRecipeCommentDB,
+  recipeCommentLikeDB,
+} from "../../redux/Async/recipeBoard";
+import {
+  deleteBulletinCommentDB,
+  bulletinCommentLikeDB,
+} from "../../redux/Async/bulletinBoard";
 
 // 날짜 라이브러리
 import dayjs from "dayjs";
@@ -18,9 +24,12 @@ import dayjs from "dayjs";
 import TimeCounting from "time-counting";
 
 const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
+  const dispatch = useDispatch();
   const userNickname = useSelector((state) => state.user.userInfo.nickname);
   const isWriter = comment.nickname === userNickname ? true : false; // 댓글 작성자인지 아닌지 체크
-  const dispatch = useDispatch();
+  const [likeStatus, setLikeStatus] = useState(comment.likeStatus);
+  const [likeCount, setLikeCount] = useState(comment.likeCount);
+
   const timeOption = {
     lang: "ko",
     objectTime: dayjs().format(`YYYY/MM/DD HH:mm:ss`),
@@ -29,15 +38,31 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
       //60 초전까지만 조금전 표시
     },
   };
+  // 새로 고침 시 like 반영
+  useEffect(() => {
+    setLikeStatus(likeStatus);
+    setLikeCount(likeCount);
+  }, []);
 
   // 댓글 삭제
   const deleteComment = () => {
     if (boardName === "recipeBoard") {
       dispatch(deleteRecipeCommentDB(comment.commentId));
     } else {
-      console.log(comment.commentId);
       dispatch(deleteBulletinCommentDB(comment.commentId));
     }
+  };
+
+  // 좋아요 누를 때 마다 DB 반영
+  const LikeToggle = () => {
+    if (boardName === "recipeBoard") {
+      dispatch(recipeCommentLikeDB(comment.commentId));
+    } else {
+      dispatch(bulletinCommentLikeDB(comment.commentId));
+    }
+
+    // 리액트 좋아요 상태도 바꿔준다. (화면에 바로 보여주기 위함)
+    setLikeStatus(!likeStatus);
   };
   return (
     <>
@@ -47,7 +72,7 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
             <Image
               shape="circle"
               size="small"
-              src={comment.profileImage}
+              src={comment.profile}
               _onClick={() => {
                 history.push(`/usermain/${comment.nickname}`);
               }}
@@ -64,8 +89,22 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
               </Box>
 
               <Box width="270" horCenter>
-                {comment.likeStatus ? <ActiveSmallLike /> : <SmallLike />}
-                <LikeCount>{comment.likeCount}개</LikeCount>
+                {likeStatus ? (
+                  <ActiveSmallLike
+                    onClick={() => {
+                      LikeToggle();
+                      setLikeCount(likeCount - 1);
+                    }}
+                  />
+                ) : (
+                  <SmallLike
+                    onClick={() => {
+                      LikeToggle();
+                      setLikeCount(likeCount + 1);
+                    }}
+                  />
+                )}
+                <LikeCount>{likeCount}개</LikeCount>
 
                 <Box>
                   {isWriter && (
