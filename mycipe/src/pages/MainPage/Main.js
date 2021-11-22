@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
 import {
-  getPopularDayListDB,
   getPopularWeekListDB,
   getPopularMonthListDB,
   getRecentListDB,
@@ -26,7 +25,7 @@ const Main = (props) => {
       top: 0,
       behavior: "smooth",
     });
-    dispatch(getPopularDayListDB());
+    dispatch(getPopularWeekListDB());
     dispatch(getRecentListDB());
   }, []);
 
