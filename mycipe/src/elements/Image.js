@@ -66,7 +66,7 @@ const Outter = styled.div`
   // 게사판 메인 페이지
   ${(props) =>
     props.size === "medium2" &&
-    `width : 320px; height : 230px; margin-top : 8px; border-radius : 6px;`}
+    `width : 100px; height : 80px; border-radius : 6px;`}
 
   // 레시피 작성 페이지
   ${(props) =>
