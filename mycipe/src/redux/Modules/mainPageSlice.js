@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
   getRecentListDB,
-  getPopularDayListDB,
   getPopularWeekListDB,
   getPopularMonthListDB,
 } from "../Async/mainPage";
@@ -19,17 +18,6 @@ const mainPageSlice = createSlice({
   initialState: initialstate,
   reducers: {},
   extraReducers: {
-    // 일간
-    [getPopularDayListDB.pending]: (state, action) => {
-      state.isFetching = true;
-    },
-    [getPopularDayListDB.fulfilled]: (state, { payload }) => {
-      state.isFetching = false;
-      state.popularList = payload;
-    },
-    [getPopularDayListDB.rejected]: (state, action) => {
-      state.isFetching = false;
-    },
     // 주간
     [getPopularWeekListDB.pending]: (state, action) => {
       state.isFetching = true;

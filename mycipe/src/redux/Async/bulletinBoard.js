@@ -72,3 +72,43 @@ export const deleteBulletinPostDB = createAsyncThunk(
     return response.data.data;
   }
 );
+
+// 댓글 추가
+export const addBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/addComment",
+  async (data) => {
+    const response = await bulletinBoardApi.addComment(data);
+    return response.data.data;
+  }
+);
+
+// 댓글 조회
+export const getBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/getComment",
+  async (data) => {
+    const response = await bulletinBoardApi.getComment(data);
+    return response.data.data.content;
+  }
+);
+
+// 댓글 삭제
+export const deleteBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/deleteComment",
+  async (commentId) => {
+    const response = await bulletinBoardApi.deleteComment(commentId);
+    const data = {
+      commentId: commentId,
+      message: response.data.message,
+    };
+    return data;
+  }
+);
+
+// 게시글 댓글 좋아요
+export const bulletinCommentLikeDB = createAsyncThunk(
+  "bulletinBoardComment/likeToggle",
+  async (data) => {
+    const response = await bulletinBoardApi.commentLikeToggle(data);
+    return response.data.data;
+  }
+);

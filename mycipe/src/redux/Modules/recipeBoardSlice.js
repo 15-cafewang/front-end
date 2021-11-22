@@ -8,6 +8,10 @@ import {
   recipeLikeToggleDB,
   editRecipePostDB,
   deleteRecipePostDB,
+  addRecipeCommentDB,
+  getRecipeCommentDB,
+  deleteRecipeCommentDB,
+  recipeCommentLikeDB,
 } from "../Async/recipeBoard";
 
 // initialstate
@@ -15,6 +19,7 @@ const initialstate = {
   isFetching: false,
   recipeList: [],
   currentRecipePost: null,
+  commentList: null,
 };
 
 const recipeBoardSlice = createSlice({
@@ -95,6 +100,60 @@ const recipeBoardSlice = createSlice({
       state.isFetching = false;
     },
     [deleteRecipePostDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 레시피 댓글 추가
+    [addRecipeCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [addRecipeCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList.unshift(payload);
+      window.alert("댓글 작성 성공!");
+    },
+    [addRecipeCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 레시피 댓글 조회
+    [getRecipeCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getRecipeCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList = payload;
+    },
+    [getRecipeCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 레시피 댓글 삭제
+    [deleteRecipeCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [deleteRecipeCommentDB.fulfilled]: (state, action) => {
+      const commentId = action.payload.commentId;
+      // 전체 state.list에서 commentId가 포함 된 것을 뺴고, state.list를 반환함.
+      const recipeCommentList = state.commentList.filter(
+        (comment) => comment.commentId !== commentId
+      );
+      state.commentList = recipeCommentList;
+      state.isFetching = false;
+      window.alert("댓글 삭제 성공!");
+    },
+    [deleteRecipeCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 레시피 댓글 좋아요
+    [recipeCommentLikeDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [recipeCommentLikeDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [recipeCommentLikeDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

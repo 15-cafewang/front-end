@@ -105,7 +105,7 @@ const Signup = () => {
           <InputBox>
             <InputNick
               type="text"
-              placeholder="2~10자이내로 입력해주세요"
+              placeholder="2~8자이내로 입력해주세요"
               onChange={(e) => {
                 debounceNick(e);
               }}

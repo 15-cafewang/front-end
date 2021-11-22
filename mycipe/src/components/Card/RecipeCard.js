@@ -1,22 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+import { useDispatch } from "react-redux";
+// icons
 import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
+// elements
 import Image from "../../elements/Image";
+// async
+import { recipeLikeToggleDB } from "../../redux/Async/recipeBoard";
 
 const RecipeCard = ({
+  _onClick,
   commentCount,
   content,
+  recipeId,
   image,
   likeCount,
   likeStatus,
   nickname,
   price,
   title,
-  _onClick,
 }) => {
   const isImage = image ? `${image}` : "";
+  const dispatch = useDispatch();
+
+  const [componentLikeStatus, setLikeStatus] = useState(likeStatus);
+  const [componentLikeCount, setLikeCount] = useState(likeCount);
+
+  const handleLikeToggle = (e) => {
+    // 부모 요소의 클릭 이벤트를 막아줌
+    e.stopPropagation();
+    dispatch(recipeLikeToggleDB(recipeId));
+
+    setLikeStatus(!componentLikeStatus);
+  };
+
+  useEffect(() => {
+    setLikeStatus(likeStatus);
+    setLikeCount(likeCount);
+  }, [likeCount, likeStatus]);
 
   return (
     <RecipeCardInner onClick={_onClick}>
@@ -27,11 +50,27 @@ const RecipeCard = ({
           <Text>{nickname}</Text>
           <Text>{price}원</Text>
         </TextInner>
-
-        <LikeInner>
-          {likeStatus ? <ActiveSmallLike /> : <SmallLike />}
-          <Count>{likeCount}개</Count>
-        </LikeInner>
+        {componentLikeStatus ? (
+          <LikeInner
+            onClick={(e) => {
+              handleLikeToggle(e);
+              setLikeCount(componentLikeCount - 1);
+            }}
+          >
+            <ActiveSmallLike />
+            <Count>{componentLikeCount}개</Count>
+          </LikeInner>
+        ) : (
+          <LikeInner
+            onClick={(e) => {
+              handleLikeToggle(e);
+              setLikeCount(componentLikeCount + 1);
+            }}
+          >
+            <SmallLike />
+            <Count>{componentLikeCount}개</Count>
+          </LikeInner>
+        )}
       </CardContent>
     </RecipeCardInner>
   );
@@ -74,7 +113,7 @@ const Title = styled(Text)`
   font-weight: 500;
 `;
 
-const LikeInner = styled.div`
+const LikeInner = styled.button`
   height: 16px;
   font-size: 16px;
   display: flex;

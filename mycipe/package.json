@@ -31,6 +31,7 @@
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.3",
+    "time-counting": "^2.0.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

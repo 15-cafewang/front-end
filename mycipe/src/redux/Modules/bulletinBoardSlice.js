@@ -8,12 +8,17 @@ import {
   bulletinLikeToggleDB,
   editBulletinPostDB,
   deleteBulletinPostDB,
+  addBulletinCommentDB,
+  getBulletinCommentDB,
+  deleteBulletinCommentDB,
+  bulletinCommentLikeDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
   isFetching: false,
   boardList: [],
   currentBoardPost: null,
+  commentList: null,
 };
 
 const bulletinBoardSlice = createSlice({
@@ -93,6 +98,59 @@ const bulletinBoardSlice = createSlice({
       state.isFetching = false;
     },
     [deleteBulletinPostDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+    // 게시판 댓글 추가
+    [addBulletinCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [addBulletinCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList.unshift(payload);
+      window.alert("댓글 작성 성공!");
+    },
+    [addBulletinCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시판 댓글 조회
+    [getBulletinCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getBulletinCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList = payload;
+    },
+    [getBulletinCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시판 댓글 삭제
+    [deleteBulletinCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [deleteBulletinCommentDB.fulfilled]: (state, action) => {
+      const commentId = action.payload.commentId;
+      // 전체 state.list에서 commentId가 포함 된 것을 뺴고, state.list를 반환함.
+      const bulletinCommentList = state.commentList.filter(
+        (comment) => comment.commentId !== commentId
+      );
+      state.commentList = bulletinCommentList;
+      state.isFetching = false;
+      window.alert("댓글 삭제 성공!");
+    },
+    [deleteBulletinCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시글 댓글 좋아요 토글
+    [bulletinCommentLikeDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [bulletinCommentLikeDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [bulletinCommentLikeDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

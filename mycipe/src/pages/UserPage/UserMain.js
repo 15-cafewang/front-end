@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
+<<<<<<< HEAD
 import { useHistory, useParams } from "react-router";
 
+=======
+import { useParams } from "react-router";
+import { history } from "../../redux/configureStore";
+>>>>>>> dev
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
 
@@ -18,9 +23,13 @@ import ModalBackground from "../../shared/ModalBackground";
 import {
   getUserInfoDB,
   getUserWrittenRecipesDB,
+  getInfinityScrollWrittenRecipesDB,
   getUserWrittenBoardsDB,
+  getInfinityScrollWrittenBoardsDB,
   getUserLikedRecipesDB,
+  getInfinityScrollLikedRecipesDB,
   getUserLikedBoardsDB,
+  getInfinityScrollLikeBoardsDB,
   userFollowDB,
   userUnFollowDB,
 } from "../../redux/Async/userPage";
@@ -28,8 +37,10 @@ import {
 //sliceAction
 import { resetPost, setIsFollower } from "../../redux/Modules/userPageSlice";
 
+//interSectionObserver
+import { useInterSectionObserver } from "../../hooks";
+
 const UserMain = (props) => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const userNickname = useParams().nickname;
 
@@ -48,10 +59,9 @@ const UserMain = (props) => {
     isMe = true;
   }
 
-  useEffect(() => {
-    dispatch(getUserInfoDB(userNickname));
-    dispatch(getUserWrittenRecipesDB(userNickname));
-  }, [dispatch, userNickname]);
+  const target = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const pageRef = useRef(1);
 
   const [filterButtons, setFilterButtons] = useState({
     writtenBoard: true,
@@ -71,6 +81,73 @@ const UserMain = (props) => {
     if (filterButtons.recipe) currentList = pageInfo.postList.userLikedRecipes;
     else currentList = pageInfo.postList.userLikedBoards;
   }
+
+  useEffect(() => {
+    dispatch(getUserInfoDB(userNickname));
+    dispatch(getUserWrittenRecipesDB({ page: 1, nickname: userNickname }));
+  }, [dispatch, userNickname]);
+
+  // 관찰이 시작될 때 실행될 콜백 함수
+  const fetchMoreData = (page) => {
+    setIsLoading(true);
+    if (filterButtons.writtenBoard) {
+      // 유저가 작성한 레시피 보여줄때
+      if (filterButtons.recipe) {
+        dispatch(
+          getInfinityScrollWrittenRecipesDB({
+            page: page,
+            nickname: userNickname,
+          })
+        )
+          .unwrap()
+          .then(() => {
+            setIsLoading(false);
+          });
+      }
+      // 유저가 작성한 게시글 보여줄때
+      else {
+        dispatch(
+          getInfinityScrollWrittenBoardsDB({
+            page: page,
+            nickname: userNickname,
+          })
+        )
+          .unwrap()
+          .then(() => {
+            setIsLoading(false);
+          });
+      }
+    } else {
+      // 유저가 좋아요한 레시피 보여줄때
+      if (filterButtons.recipe) {
+        dispatch(
+          getInfinityScrollLikedRecipesDB({
+            page: page,
+            nickname: userNickname,
+          })
+        )
+          .unwrap()
+          .then(() => {
+            setIsLoading(false);
+          });
+      }
+      //유저가 좋아요한 게시글 보여줄때
+      else {
+        dispatch(
+          getInfinityScrollLikeBoardsDB({
+            page: page,
+            nickname: userNickname,
+          })
+        )
+          .unwrap()
+          .then(() => {
+            setIsLoading(false);
+          });
+      }
+    }
+  };
+
+  useInterSectionObserver(fetchMoreData, pageRef, target.current, currentList);
 
   return (
     <>
@@ -148,8 +225,14 @@ const UserMain = (props) => {
                 bulletinBoard: false,
               });
 
-              dispatch(getUserWrittenRecipesDB(userInfo.nickname));
+              pageRef.current = 1;
 
+              dispatch(
+                getUserWrittenRecipesDB({
+                  page: 1,
+                  nickname: userInfo.nickname,
+                })
+              );
               dispatch(resetPost());
             }}
           >
@@ -166,8 +249,14 @@ const UserMain = (props) => {
                 bulletinBoard: false,
               });
 
-              dispatch(getUserLikedRecipesDB(userInfo.nickname));
+              pageRef.current = 1;
 
+              dispatch(
+                getUserLikedRecipesDB({
+                  page: 1,
+                  nickname: userInfo.nickname,
+                })
+              );
               dispatch(resetPost());
             }}
           >
@@ -184,10 +273,23 @@ const UserMain = (props) => {
                 bulletinBoard: false,
                 recipe: true,
               });
+
+              pageRef.current = 1;
+
               if (filterButtons.writtenBoard) {
-                dispatch(getUserWrittenRecipesDB(userInfo.nickname));
+                dispatch(
+                  getUserWrittenRecipesDB({
+                    page: 1,
+                    nickname: userInfo.nickname,
+                  })
+                );
               } else {
-                dispatch(getUserLikedRecipesDB(userInfo.nickname));
+                dispatch(
+                  getUserLikedRecipesDB({
+                    page: 1,
+                    nickname: userInfo.nickname,
+                  })
+                );
               }
 
               dispatch(resetPost());
@@ -204,12 +306,24 @@ const UserMain = (props) => {
                 bulletinBoard: true,
                 recipe: false,
               });
-              if (filterButtons.writtenBoard) {
-                dispatch(getUserWrittenBoardsDB(userInfo.nickname));
-              } else {
-                dispatch(getUserLikedBoardsDB(userInfo.nickname));
-              }
 
+              pageRef.current = 1;
+
+              if (filterButtons.writtenBoard) {
+                dispatch(
+                  getUserWrittenBoardsDB({
+                    page: 1,
+                    nickname: userInfo.nickname,
+                  })
+                );
+              } else {
+                dispatch(
+                  getUserLikedBoardsDB({
+                    page: 1,
+                    nickname: userInfo.nickname,
+                  })
+                );
+              }
               dispatch(resetPost());
             }}
           >
@@ -218,43 +332,51 @@ const UserMain = (props) => {
         </ButtonInner>
 
         {filterButtons.recipe ? (
-          <CardList>
-            {currentList.map((item, idx) => {
-              return (
-                <RecipeCard
-                  key={item.recipeId}
-                  image={item.imageList[0]}
-                  nickname={item.nickname}
-                  title={item.title}
-                  likeStatus={item.likeStatus}
-                  likeCount={item.likeCount}
-                  price={item.price}
-                  _onClick={() => {
-                    history.push(`/recipeboard/detail/${item.recipeId}`);
-                  }}
-                />
-              );
-            })}
-          </CardList>
+          <>
+            <CardList>
+              {currentList.map((item, idx) => {
+                return (
+                  <RecipeCard
+                    key={item.recipeId}
+                    recipeId={item.recipeId}
+                    image={item.imageList[0]}
+                    nickname={item.nickname}
+                    title={item.title}
+                    likeStatus={item.likeStatus}
+                    likeCount={item.likeCount}
+                    price={item.price}
+                    _onClick={() => {
+                      history.push(`/recipeboard/detail/${item.recipeId}`);
+                    }}
+                  />
+                );
+              })}
+            </CardList>
+            <div ref={target}>{isLoading && "loading..."}</div>
+          </>
         ) : (
-          <CardList>
-            {currentList.map((item, idx) => {
-              return (
-                <BoardCard
-                  key={item.boardId}
-                  image={item.imageList[0]}
-                  title={item.title}
-                  likeStatus={item.likeStatus}
-                  likeCount={item.likeCount}
-                  content={item.content}
-                  regDate={item.regDate}
-                  _onClick={() => {
-                    history.push(`/bulletinboard/detail/${item.boardId}`);
-                  }}
-                />
-              );
-            })}
-          </CardList>
+          <>
+            <CardList>
+              {currentList.map((item, idx) => {
+                return (
+                  <BoardCard
+                    key={item.boardId}
+                    boardId={item.boardId}
+                    image={item.imageList[0]}
+                    title={item.title}
+                    likeStatus={item.likeStatus}
+                    likeCount={item.likeCount}
+                    content={item.content}
+                    regDate={item.regDate}
+                    _onClick={() => {
+                      history.push(`/bulletinboard/detail/${item.boardId}`);
+                    }}
+                  />
+                );
+              })}
+            </CardList>
+            <div ref={target}>{isLoading && "loading..."}</div>
+          </>
         )}
       </UserMainInner>
     </>

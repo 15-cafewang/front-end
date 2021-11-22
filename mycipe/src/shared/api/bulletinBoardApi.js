@@ -34,7 +34,9 @@ export const bulletinBoardApi = {
 
   // 댓글 조회
   getComment: (boardId) => {
-    return api.get(`/boards/comments/${boardId}`);
+    return api.get(
+      `/boards/comments/${boardId}?page=1&size=10&isAsc=false&sortBy=regDate`
+    );
   },
 
   // 댓글 작성
@@ -55,5 +57,10 @@ export const bulletinBoardApi = {
   // 좋아요 토글
   likeToggle: (boardId) => {
     return api.post(`/boards/likes/${boardId}`);
+  },
+
+  // 게시물 댓글 좋아요 토글
+  commentLikeToggle: (commentId) => {
+    return api.post(`/boards/comments/likes/${commentId}`);
   },
 };

@@ -115,7 +115,6 @@ function App() {
                 component={UserPageFollowList}
               />
               <PrivateRoute path="/searchmain" component={SearchMain} />
-
               <PrivateRoute path="/setting" component={Setting} />
                 <NotFound />
           </Switch>
@@ -141,7 +140,7 @@ const Outter = styled.div`
   align-items: center;
   flex-direction: column;
 
-  height: 100vh;
+  height: 97vh;
 
   background-size: cover;
   background-repeat: no-repeat;

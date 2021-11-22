@@ -70,3 +70,43 @@ export const deleteRecipePostDB = createAsyncThunk(
     return response.data.data;
   }
 );
+
+// 댓글 추가
+export const addRecipeCommentDB = createAsyncThunk(
+  "recipeBoard/addComment",
+  async (data) => {
+    const response = await recipeBoardApi.addComment(data);
+    return response.data.data;
+  }
+);
+
+//댓글 조회
+export const getRecipeCommentDB = createAsyncThunk(
+  "recipeBoard/getComment",
+  async (data) => {
+    const response = await recipeBoardApi.getComment(data);
+    return response.data.data.content;
+  }
+);
+
+// 댓글 삭제
+export const deleteRecipeCommentDB = createAsyncThunk(
+  "recipeBoard/deleteComment",
+  async (commentId) => {
+    const response = await recipeBoardApi.deleteComment(commentId);
+    const data = {
+      commentId: commentId,
+      message: response.data.message,
+    };
+    return data;
+  }
+);
+
+// 댓글 좋아요
+export const recipeCommentLikeDB = createAsyncThunk(
+  "recipeBoardComment/likeToggle",
+  async (data) => {
+    const response = await recipeBoardApi.commentLikeToggle(data);
+    return response.data.data;
+  }
+);
