@@ -11,11 +11,13 @@ import bulletinBoardSlice from "./Modules/bulletinBoardSlice";
 import recipeBoardSlice from "./Modules/recipeBoardSlice";
 import mainPageSlice from "./Modules/mainPageSlice";
 import searchSlice from "./Modules/searchSlice";
+import popUpSlice from "./Modules/popupSlice";
 
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
 import storage from "redux-persist/lib/storage";
+
 export const history = createBrowserHistory();
 
 const userPagePersistConfig = {
@@ -39,6 +41,7 @@ const reducer = combineReducers({
   recipeBoard: recipeBoardSlice.reducer,
   mainPage: mainPageSlice.reducer,
   search: persistReducer(searchPersistConfig, searchSlice.reducer),
+  popUp: popUpSlice.reducer,
 });
 
 const middlewares = [];
