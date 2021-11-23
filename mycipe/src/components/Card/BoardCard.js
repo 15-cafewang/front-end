@@ -46,7 +46,9 @@ const BoardCard = ({
     <BoardCardInner onClick={_onClick}>
       <TitleInner>
         <Title>{title}</Title>
-        <Date>{regDate}</Date>
+        <Date>
+          {regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}
+        </Date>
       </TitleInner>
 
       <Content>{content}</Content>
