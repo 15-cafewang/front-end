@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
+  getRecommendCafeDB,
   getRecentListDB,
   getPopularWeekListDB,
   getPopularMonthListDB,
@@ -11,6 +12,7 @@ const initialstate = {
   isFetching: false,
   recentList: [],
   popularList: [],
+  commendList: [],
 };
 
 const mainPageSlice = createSlice({
@@ -18,6 +20,17 @@ const mainPageSlice = createSlice({
   initialState: initialstate,
   reducers: {},
   extraReducers: {
+    //추천
+    [getRecommendCafeDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getRecommendCafeDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commendList = payload;
+    },
+    [getRecommendCafeDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
     // 주간
     [getPopularWeekListDB.pending]: (state, action) => {
       state.isFetching = true;
