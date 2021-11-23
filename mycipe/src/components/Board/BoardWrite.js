@@ -142,10 +142,10 @@ const BoardWrite = ({ boardName }) => {
           <PageName>
             {isEdit
               ? boardName === "recipeBoard"
-                ? "레시피 수정하기"
+                ? "카페 수정하기"
                 : "게시글 수정하기"
               : boardName === "recipeBoard"
-              ? "레시피 작성하기"
+              ? "카페 작성하기"
               : "게시글 작성하기"}
           </PageName>
         </LeftInner>
