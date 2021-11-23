@@ -66,7 +66,7 @@ const RecipeBoardMain = () => {
       <BoardMainContainer>
         {isActive && <ModalBackground />}
         {/* 정렬 박스 */}
-        <ButtonInner height="32px" small>
+        <ButtonInner height="32px" margin="12px 0px 8px 0px" small>
           <SmallFilterButton
             active={currentSorting.sortedByDate}
             _onClick={() => {

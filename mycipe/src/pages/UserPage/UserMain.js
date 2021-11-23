@@ -218,7 +218,7 @@ const UserMain = (props) => {
           </UserProfileContent>
         </UserProfileInner>
 
-        <ButtonInner height="48px">
+        <ButtonInner height="48px" margin="12px -20px">
           <BigFilterButton
             active={filterButtons.writtenBoard}
             _onClick={() => {
@@ -269,7 +269,7 @@ const UserMain = (props) => {
           </BigFilterButton>
         </ButtonInner>
 
-        <ButtonInner height="32px" small>
+        <ButtonInner height="32px" small margin="12px -20px">
           <SmallFilterButton
             active={filterButtons.recipe}
             _onClick={() => {
