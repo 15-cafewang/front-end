@@ -62,19 +62,31 @@ const BoardWrite = ({ boardName }) => {
   }, [boardName, currentPost, isEdit, params.id]);
 
   const addPost = () => {
+    if (post && post.previewURLList && post.previewURLList.length >= 6) {
+      window.alert("사진은 최대 5장까지 업로드 가능합니다🥲");
+      return;
+    }
+
     // 수정모드
     if (isEdit) {
       if (boardName === "recipeBoard") {
         const recipeFormData = new FormData();
         recipeFormData.append("title", post.title);
         recipeFormData.append("content", post.content);
-        recipeFormData.append("price", post.price);
+        recipeFormData.append("location", post.location);
         recipeFormData.append("tag", post.tags);
 
         // 삭제한 이미지가 있을 때
         if (post.deleteImage) {
           for (const d of post.deleteImage) {
             recipeFormData.append("deleteImage", d);
+          }
+          if (
+            post.images.length === post.deleteImage.length &&
+            post.fileList.length === 0
+          ) {
+            window.alert("카페 사진은 최소 1장 첨부 부탁드립니다 🙏");
+            return;
           }
         }
 
@@ -110,11 +122,18 @@ const BoardWrite = ({ boardName }) => {
         const recipeFormData = new FormData();
         recipeFormData.append("title", post.title);
         recipeFormData.append("content", post.content);
-        recipeFormData.append("price", post.price * 1);
+        recipeFormData.append("location", post.location);
         recipeFormData.append("tag", post.tags);
+
+        if (!post.fileList) {
+          window.alert("카페 사진은 최소 1장 첨부 부탁드립니다 🙏");
+          return;
+        }
+
         for (const f of post.fileList) {
           recipeFormData.append("image", f);
         }
+
         dispatch(addRecipePostDB(recipeFormData));
       }
 
@@ -175,7 +194,7 @@ const BoardWrite = ({ boardName }) => {
           height="48"
           marginBtm="8"
           placeholder={
-            boardName === "recipeBoard" ? "레시피 이름" : "게시글 제목"
+            boardName === "recipeBoard" ? "카페 이름" : "게시글 제목"
           }
           value={post ? post.title : ""}
         />
@@ -183,11 +202,11 @@ const BoardWrite = ({ boardName }) => {
         {/* 레시피 작성시에만 렌더링 해줌 */}
         {boardName === "recipeBoard" ? (
           <TextInputBox
-            onChange={(e) => setPost({ ...post, price: e.target.value })}
+            onChange={(e) => setPost({ ...post, location: e.target.value })}
             height="48"
             marginBtm="8"
-            placeholder="가격"
-            value={post ? post.price : ""}
+            placeholder="카페 위치 (ex. 홍대 어딘가)"
+            value={post ? post.location : ""}
           />
         ) : (
           ""
@@ -199,8 +218,8 @@ const BoardWrite = ({ boardName }) => {
           marginBtm="16"
           placeholder={
             boardName === "recipeBoard"
-              ? "레시피 설명을 입력해주세요"
-              : "게시글 내용을 작성해주세요"
+              ? "카페 설명을 입력해주세요."
+              : "게시글 내용을 작성해주세요."
           }
           value={post ? post.content : ""}
         />
@@ -282,7 +301,7 @@ const TextInputBox = styled.textarea`
 const HashTagTitle = styled.p`
   margin-bottom: 8px;
   position: relative;
-  right: 30%;
+  right: 33%;
   font-size: 14px;
   color: #999999;
 `;

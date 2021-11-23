@@ -66,7 +66,7 @@ const RecipeBoardMain = () => {
       <BoardMainContainer>
         {isActive && <ModalBackground />}
         {/* 정렬 박스 */}
-        <ButtonInner height="32px" small>
+        <ButtonInner height="32px" margin="12px 0px 8px 0px" small>
           <SmallFilterButton
             active={currentSorting.sortedByDate}
             _onClick={() => {
@@ -105,15 +105,8 @@ const RecipeBoardMain = () => {
                         history.push(`/recipeboard/detail/${r.recipeId}`);
                       }}
                       key={r.recipeId}
-                      recipeId={r.recipeId}
-                      commentCount={r.commentCount}
-                      content={r.content}
                       image={r.images[0]}
-                      likeCount={r.likeCount}
-                      likeStatus={r.likeStatus}
-                      nickname={r.nickname}
-                      price={r.price}
-                      title={r.title}
+                      {...r}
                     />
                   );
                 })}
@@ -134,14 +127,8 @@ const RecipeBoardMain = () => {
                         history.push(`/recipeboard/detail/${r.recipeId}`);
                       }}
                       key={r.recipeId}
-                      commentCount={r.commentCount}
-                      content={r.content}
                       image={r.images[0]}
-                      likeCount={r.likeCount}
-                      likeStatus={r.likeStatus}
-                      nickname={r.nickname}
-                      price={r.price}
-                      title={r.title}
+                      {...r}
                     />
                   );
                 })}
@@ -166,9 +153,9 @@ const BoardMainContainer = styled.div`
 
 const CardList = styled.div`
   margin-top: px;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
 `;
 
 export default RecipeBoardMain;

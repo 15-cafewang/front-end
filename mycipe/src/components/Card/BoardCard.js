@@ -43,6 +43,7 @@ const BoardCard = ({
   }, [likeCount, likeStatus]);
 
   return (
+
     <BoardCardOuter>
       <BoardCardInner onClick={_onClick}>
         <InnerLeft>
@@ -52,7 +53,7 @@ const BoardCard = ({
           </Grid>
 
           <Grid flexRow>
-            <Date>{regDate}</Date>
+            <Date>{regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}</Date>
             <IconsInner>
               {componentLikeStatus ? (
                 <LikeInner
@@ -90,6 +91,7 @@ const BoardCard = ({
 
       <Line />
     </BoardCardOuter>
+
   );
 };
 
