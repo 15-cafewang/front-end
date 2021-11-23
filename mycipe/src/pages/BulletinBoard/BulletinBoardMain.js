@@ -29,7 +29,6 @@ const BulletinBoardMain = () => {
   const [isLoading, setIsLoading] = useState(false);
   const pageRef = useRef(1);
 
-  console.log(target.current);
   useEffect(() => {
     dispatch(
       getBulletinPostListDB({
@@ -101,22 +100,7 @@ const BulletinBoardMain = () => {
                       history.push(`/bulletinboard/detail/${b.boardId}`);
                     }}
                     key={b.boardId}
-                    boardId={b.boardId}
-                    commentCount={b.commentCount}
-                    content={b.content}
-                    image={b.image}
-                    likeCount={b.likeCount}
-                    likeStatus={b.likeStatus}
-                    nickname={b.nickname}
-                    regDate={
-                      b.regDate
-                        ? b.regDate
-                            .split("T")[0]
-                            .replace("-", ". ")
-                            .replace("-", ". ")
-                        : ""
-                    }
-                    title={b.title}
+                    {...b}
                   />
                 );
               })}
@@ -129,29 +113,14 @@ const BulletinBoardMain = () => {
         <>
           <CardList>
             {boardList &&
-              boardList.map((r, idx) => {
+              boardList.map((b, idx) => {
                 return (
                   <BoardCard
                     _onClick={() => {
-                      history.push(`/bulletinboard/detail/${r.boardId}`);
+                      history.push(`/bulletinboard/detail/${b.boardId}`);
                     }}
-                    key={r.boardId}
-                    boardId={r.boardId}
-                    commentCount={r.commentCount}
-                    content={r.content}
-                    image={r.image}
-                    likeCount={r.likeCount}
-                    likeStatus={r.likeStatus}
-                    nickname={r.nickname}
-                    price={r.price}
-                    title={r.title}
-                    regDate={
-                      r.regDate &&
-                      r.regDate
-                        .split("T")[0]
-                        .replace("-", ". ")
-                        .replace("-", ". ")
-                    }
+                    key={b.boardId}
+                    {...b}
                   />
                 );
               })}
@@ -175,9 +144,6 @@ const BoardMainContainer = styled.div`
 
 const CardList = styled.div`
   margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 export default BulletinBoardMain;
