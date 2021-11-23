@@ -31,8 +31,10 @@ import {
 const BoardDetail = ({ boardName }) => {
   const dispatch = useDispatch();
   const params = useParams();
+
   const boardId = params.boardid;
   const recipeId = params.recipeid;
+
   const userNickname = useSelector((state) => state.user.userInfo.nickname);
   const isActive = useSelector((state) => state.modal.isActive);
   const postDetail = useSelector((state) =>
@@ -170,7 +172,7 @@ const BoardDetail = ({ boardName }) => {
           <HashTagBox>
             {postDetail &&
               postDetail.tags.map((tag) => {
-                return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
+                return <UserHashTagItem key={tag}>#{tag}</UserHashTagItem>;
               })}
           </HashTagBox>
         )}
@@ -182,7 +184,7 @@ const BoardDetail = ({ boardName }) => {
         {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
         {boardName === "recipeBoard" && (
           <TextBox width="320" height="48" marginBtm="8">
-            {postDetail && postDetail.price}원
+            {postDetail && postDetail.location}
           </TextBox>
         )}
 
@@ -342,6 +344,7 @@ const TextBox = styled.pre`
   font-size: 14px;
   color: #191919;
   white-space: pre-wrap;
+  word-break: break-all;
 
   &::placeholder {
     color: #999999;

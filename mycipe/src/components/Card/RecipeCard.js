@@ -19,7 +19,7 @@ const RecipeCard = ({
   likeCount,
   likeStatus,
   nickname,
-  price,
+  location,
   title,
 }) => {
   const isImage = image ? `${image}` : "";
@@ -48,7 +48,7 @@ const RecipeCard = ({
         <TextInner>
           <Title>{title}</Title>
           <Text>{nickname}</Text>
-          <Text>{price}원</Text>
+          <Text>{location}</Text>
         </TextInner>
         {componentLikeStatus ? (
           <LikeInner
@@ -83,7 +83,7 @@ RecipeCard.defaultProps = {
 const RecipeCardInner = styled.li`
   height: 112px;
   display: flex;
-  margin: 6px 0px;
+  margin: 12px 0px;
   width: 320px;
 `;
 
