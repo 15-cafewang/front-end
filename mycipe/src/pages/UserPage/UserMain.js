@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
+
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
+
 import BoardCard from "../../components/Card/BoardCard";
 import RecipeCard from "../../components/Card/RecipeCard";
 
@@ -13,6 +15,8 @@ import {
 } from "../../elements";
 
 import ModalBackground from "../../shared/ModalBackground";
+import Spinner from "../../assets/image/Spinner.gif";
+import Blank from "../../shared/Blank";
 
 //thunkAsync
 import {
@@ -41,7 +45,10 @@ const UserMain = (props) => {
 
   //모달
   const isActive = useSelector((state) => state.modal.isActive);
+  //스피너
+  const isFetching = useSelector((state) => state.userPage.isFetching);
 
+  console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
   const loginUserInfo = useSelector((state) => state.user);
   const pageInfo = useSelector((state) => state.userPage);
@@ -68,13 +75,24 @@ const UserMain = (props) => {
   //보여줄 게시물 선정하기
   let currentList = [];
 
+  let message = null;
+
   if (filterButtons.writtenBoard) {
-    if (filterButtons.recipe)
+    if (filterButtons.recipe) {
       currentList = pageInfo.postList.userWrittenRecipes;
-    else currentList = pageInfo.postList.userWrittenBoards;
+      message = "공유한 카페가 없습니다.";
+    } else {
+      currentList = pageInfo.postList.userWrittenBoards;
+      message = "작성한 글이 없습니다.";
+    }
   } else {
-    if (filterButtons.recipe) currentList = pageInfo.postList.userLikedRecipes;
-    else currentList = pageInfo.postList.userLikedBoards;
+    if (filterButtons.recipe) {
+      currentList = pageInfo.postList.userLikedRecipes;
+      message = "좋아요한 카폐가 없습니다.";
+    } else {
+      currentList = pageInfo.postList.userLikedBoards;
+      message = "좋아요한 글이 없습니다.";
+    }
   }
 
   useEffect(() => {
@@ -290,7 +308,7 @@ const UserMain = (props) => {
               dispatch(resetPost());
             }}
           >
-            레시피
+            카페
           </SmallFilterButton>
 
           <SmallFilterButton
@@ -322,53 +340,60 @@ const UserMain = (props) => {
               dispatch(resetPost());
             }}
           >
-            게시판
+            자유게시판
           </SmallFilterButton>
         </ButtonInner>
 
+        {/* 게시물 보여주기 */}
         {filterButtons.recipe ? (
           <>
             <CardList>
-              {currentList.map((item, idx) => {
-                return (
-                  <RecipeCard
-                    key={item.recipeId}
-                    recipeId={item.recipeId}
-                    image={item.imageList[0]}
-                    nickname={item.nickname}
-                    title={item.title}
-                    likeStatus={item.likeStatus}
-                    likeCount={item.likeCount}
-                    price={item.price}
-                    _onClick={() => {
-                      history.push(`/recipeboard/detail/${item.recipeId}`);
-                    }}
-                  />
-                );
-              })}
+              {isFetching && <SpinnerImg src={Spinner} />}
+              {currentList.length !== 0
+                ? currentList.map((item, idx) => {
+                    return (
+                      <RecipeCard
+                        key={item.recipeId}
+                        recipeId={item.recipeId}
+                        image={item.imageList[0]}
+                        nickname={item.nickname}
+                        title={item.title}
+                        likeStatus={item.likeStatus}
+                        likeCount={item.likeCount}
+                        price={item.price}
+                        _onClick={() => {
+                          history.push(`/recipeboard/detail/${item.recipeId}`);
+                        }}
+                      />
+                    );
+                  })
+                : !isFetching && <Blank message={message} />}
             </CardList>
             <div ref={target}>{isLoading && "loading..."}</div>
           </>
         ) : (
           <>
             <CardList>
-              {currentList.map((item, idx) => {
-                return (
-                  <BoardCard
-                    key={item.boardId}
-                    boardId={item.boardId}
-                    image={item.imageList[0]}
-                    title={item.title}
-                    likeStatus={item.likeStatus}
-                    likeCount={item.likeCount}
-                    content={item.content}
-                    regDate={item.regDate}
-                    _onClick={() => {
-                      history.push(`/bulletinboard/detail/${item.boardId}`);
-                    }}
-                  />
-                );
-              })}
+              {isFetching && <SpinnerImg src={Spinner} />}
+              {currentList.length !== 0
+                ? currentList.map((item, idx) => {
+                    return (
+                      <BoardCard
+                        key={item.boardId}
+                        boardId={item.boardId}
+                        image={item.imageList[0]}
+                        title={item.title}
+                        likeStatus={item.likeStatus}
+                        likeCount={item.likeCount}
+                        content={item.content}
+                        regDate={item.regDate}
+                        _onClick={() => {
+                          history.push(`/bulletinboard/detail/${item.boardId}`);
+                        }}
+                      />
+                    );
+                  })
+                : !isFetching && <Blank message={message} />}
             </CardList>
             <div ref={target}>{isLoading && "loading..."}</div>
           </>
@@ -440,5 +465,9 @@ const Count = styled.span`
 `;
 
 const FollowBtn = styled(ProfileEditButton)``;
+
+const SpinnerImg = styled.img`
+  margin-top: 10vh;
+`;
 
 export default UserMain;
