@@ -76,7 +76,6 @@ export const nickCheckDB = createAsyncThunk(
   "user/nickCheck",
   async (nickname) => {
     const response = await nicknameCheckAPI(nickname);
-    console.log(response);
     if (response.data.code === 1) {
       return true;
     } else {
@@ -94,8 +93,6 @@ export const updateUserInfoDB = createAsyncThunk(
 
       return response.data.message;
     } catch (error) {
-      console.log(error);
-
       return rejectWithValue(error.data.message);
     }
   }
