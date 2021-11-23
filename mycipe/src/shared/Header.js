@@ -99,7 +99,7 @@ const Header = (props) => {
     //레시피 메인
     return (
       <HeaderInner flexBetween>
-        <PageName>레시피</PageName>
+        <PageName>카페</PageName>
         <SearchIcon
           onClick={() => {
             history.push("/searchmain");

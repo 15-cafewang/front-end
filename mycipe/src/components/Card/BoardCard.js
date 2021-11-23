@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { useDispatch } from "react-redux";
 // icon
@@ -43,46 +43,53 @@ const BoardCard = ({
   }, [likeCount, likeStatus]);
 
   return (
-    <BoardCardInner onClick={_onClick}>
-      <TitleInner>
-        <Title>{title}</Title>
-        <Date>{regDate}</Date>
-      </TitleInner>
+    <BoardCardOuter>
+      <BoardCardInner onClick={_onClick}>
+        <InnerLeft>
+          <Grid flexColumn height="56px">
+            <Title>{title}</Title>
+            <Content>{content}</Content>
+          </Grid>
 
-      <Content>{content}</Content>
+          <Grid flexRow>
+            <Date>{regDate}</Date>
+            <IconsInner>
+              {componentLikeStatus ? (
+                <LikeInner
+                  onClick={(e) => {
+                    handleLikeToggle(e);
+                    setLikeCount(componentLikeCount - 1);
+                  }}
+                >
+                  <ActiveLikeIcon />
+                  <Count>{componentLikeCount}개</Count>
+                </LikeInner>
+              ) : (
+                <LikeInner
+                  onClick={(e) => {
+                    handleLikeToggle(e);
+                    setLikeCount(componentLikeCount + 1);
+                  }}
+                >
+                  <LikeIcon />
+                  <Count>{componentLikeCount}개</Count>
+                </LikeInner>
+              )}
 
-      {/* 사진 있을 경우 렌더링 */}
-      {isThumbnail && <Image shape="rectangle" size="medium2" src={image} />}
+              <CommentInner>
+                <CommentMiniIcon />
+                <Count>{commentCount}개</Count>
+              </CommentInner>
+            </IconsInner>
+          </Grid>
+        </InnerLeft>
 
-      <IconsInner>
-        {componentLikeStatus ? (
-          <LikeInner
-            onClick={(e) => {
-              handleLikeToggle(e);
-              setLikeCount(componentLikeCount - 1);
-            }}
-          >
-            <ActiveLikeIcon />
-            <Count>{componentLikeCount}개</Count>
-          </LikeInner>
-        ) : (
-          <LikeInner
-            onClick={(e) => {
-              handleLikeToggle(e);
-              setLikeCount(componentLikeCount + 1);
-            }}
-          >
-            <LikeIcon />
-            <Count>{componentLikeCount}개</Count>
-          </LikeInner>
-        )}
+        {/* 사진 있을 경우 렌더링 */}
+        {isThumbnail && <Image shape="rectangle" size="medium2" src={image} />}
+      </BoardCardInner>
 
-        <CommentInner>
-          <CommentMiniIcon />
-          <Count>{commentCount}개</Count>
-        </CommentInner>
-      </IconsInner>
-    </BoardCardInner>
+      <Line />
+    </BoardCardOuter>
   );
 };
 
@@ -90,20 +97,60 @@ BoardCard.defaultProps = {
   _onClick: () => {},
 };
 
-const BoardCardInner = styled.div`
-  width: 320px;
+const Grid = styled.div`
+  position: relative;
+
+  height: ${(props) => (props.height ? props.height : "16px")};
+  ${(props) =>
+    props.flexColumn &&
+    css`
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 8px;
+    `};
+
+  ${(props) =>
+    props.flexRow &&
+    css`
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    `};
+
+  /* display: flex;
+  justify-content: flex-start;
+  align-items: center; */
+`;
+
+const Line = styled.div`
+  margin-top: 14px;
+  height: 1px;
+  width: 100%;
+  background-color: #ededed;
+  //14px
+`;
+
+const BoardCardOuter = styled.div`
   margin: 0px 20px 20px;
 `;
 
-const TitleInner = styled.div`
+const BoardCardInner = styled.div`
+  width: 320px;
+  height: 80px;
+
   display: flex;
   justify-content: space-between;
+`;
+
+const InnerLeft = styled.div`
+  width: 208px;
+  margin-right: 12px;
 `;
 
 const Title = styled.p`
   font-size: 14px;
   font-weight: 500;
-  width: 160px;
+  width: 208px;
 
   //1줄일떄 말줄임
   overflow: hidden;
@@ -111,15 +158,24 @@ const Title = styled.p`
   white-space: nowrap;
 `;
 
-const Date = styled.p`
+const Date = styled.div`
   color: #999;
   font-size: 10px;
+  padding-top: 2px;
+  letter-spacing: -0.25px;
+  margin-right: 16px;
+
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1px; */
 `;
 
 const Content = styled.p`
   margin-top: 4px;
   font-size: 12px;
   color: #191919;
+  width: 208px;
 
   //2줄이상 말줄임
   overflow: hidden;
@@ -129,10 +185,11 @@ const Content = styled.p`
 `;
 
 const IconsInner = styled.div`
+  /* position: absolute;
+  right: 80px; */
   display: flex;
   font-size: 10px;
   height: 16px;
-  margin-top: 8px;
 `;
 
 const LikeInner = styled.button`

@@ -1,11 +1,11 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as HomeIcon } from "../assets/icon/BottomNavIcon/home.svg";
 import { ReactComponent as ActiveHomeIcon } from "../assets/icon/BottomNavIcon/homeActive.svg";
 
-import { ReactComponent as RecipeIcon } from "../assets/icon/BottomNavIcon/recipe.svg";
-import { ReactComponent as ActiveRecipeIcon } from "../assets/icon/BottomNavIcon/recipeActive.svg";
+import { ReactComponent as CafeIcon } from "../assets/icon/BottomNavIcon/cafe.svg";
+import { ReactComponent as ActiveCafeIcon } from "../assets/icon/BottomNavIcon/cafeActive.svg";
 
 import { ReactComponent as PlusIcon } from "../assets/icon/BottomNavIcon/plus.svg";
 
@@ -58,7 +58,7 @@ const BottomNav = (props) => {
                   history.push("/recipeboard/write");
                 }}
               >
-                레시피 공유하기
+                카페 공유하기
               </ModalContent>
               <ModalContent
                 onClick={() => {
@@ -84,14 +84,10 @@ const BottomNav = (props) => {
 
           <NavButton
             onClick={() => {
-              history.push("/bulletinboard");
+              history.push("/recipeboard");
             }}
           >
-            {location === "/bulletinboard" ? (
-              <ActiveBoardIcon />
-            ) : (
-              <BoardIcon />
-            )}
+            {location === "/recipeboard" ? <ActiveCafeIcon /> : <CafeIcon />}
           </NavButton>
 
           <NavButton onClick={ClickedModal}>
@@ -100,13 +96,13 @@ const BottomNav = (props) => {
 
           <NavButton
             onClick={() => {
-              history.push("/recipeboard");
+              history.push("/bulletinboard");
             }}
           >
-            {location === "/recipeboard" ? (
-              <ActiveRecipeIcon />
+            {location === "/bulletinboard" ? (
+              <ActiveBoardIcon />
             ) : (
-              <RecipeIcon />
+              <BoardIcon />
             )}
           </NavButton>
 

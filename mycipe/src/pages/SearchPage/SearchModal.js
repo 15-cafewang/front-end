@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -6,6 +6,8 @@ import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 
 import HashTag from "../../shared/HashTag";
 import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
+
+import Popup from "../../shared/PopUp";
 
 import {
   deleteAllRecipeKeyword,
@@ -16,6 +18,8 @@ import {
 
 const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
   const dispatch = useDispatch();
+
+  const [popUp, setPopUp] = useState(false);
 
   // 레시피게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
   const whereFrom = useSelector((state) => state.search.whereFrom);
@@ -34,6 +38,14 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
       <SearchModalInner isSearch={isSearch}>
         <RecentSearchInner>
           <Grid margin="32px 0px 0px 0px">
+            {/* alert 창 */}
+            <Popup
+              popUp={popUp}
+              setPopUp={setPopUp}
+              message="삭제할 검색기록이 없습니다."
+              isButton={false}
+            />
+
             <Text grey>최근 검색어</Text>
 
             {/* 전체삭제 버튼 */}
@@ -41,11 +53,19 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
               onClick={() => {
                 if (whereFrom === "recipe") {
                   if (recipeSearchList.length === 0) {
-                    window.alert("삭제할 검색기록이 없습니다.");
-                  } else dispatch(deleteAllRecipeKeyword());
+                    setPopUp(true);
+                    setTimeout(() => {
+                      setPopUp(false);
+                    }, 700);
+                  } else {
+                    dispatch(deleteAllRecipeKeyword());
+                  }
                 } else {
                   if (boardSearchList.length === 0) {
-                    window.alert("삭제할 검색기록이 없습니다.");
+                    setPopUp(true);
+                    setTimeout(() => {
+                      setPopUp(false);
+                    }, 700);
                   } else dispatch(deleteAllBoardKeyword());
                 }
               }}

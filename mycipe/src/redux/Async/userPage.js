@@ -13,8 +13,6 @@ import {
   followingList,
 } from "../../shared/api/userPageApi";
 
-import { updateUserList } from "../Modules/userPageSlice";
-
 //user페이지 정보 불러오기
 const getUserInfoDB = createAsyncThunk(
   "userpage/userinfo",
@@ -90,17 +88,15 @@ const getUserLikedBoardsDB = createAsyncThunk(
   "userpage/board/like",
   async (data, thunkAPI) => {
     const response = await getUserLikedBoards(data.page, data.nickname);
-
     return response.data.data.content;
   }
 );
 
 //유저가 좋아요한 게시물 정보 무한스크롤
 const getInfinityScrollLikeBoardsDB = createAsyncThunk(
-  "userpage/board/like",
+  "userpage/board/like/getInfinityScroll",
   async (data, thunkAPI) => {
     const response = await getUserLikedBoards(data.page, data.nickname);
-
     return response.data.data.content;
   }
 );
@@ -140,7 +136,6 @@ const userFollowListDB = createAsyncThunk(
   "userpage/followList",
   async (data, thunkAPI) => {
     const response = await followList(data);
-    console.log(response.data.data.content);
 
     return response.data.data.content;
   }
@@ -151,7 +146,6 @@ const userFollowingListDB = createAsyncThunk(
   "userpage/followingList",
   async (data, thunkAPI) => {
     const response = await followingList(data);
-    console.log(response.data.data.content);
 
     return response.data.data.content;
   }

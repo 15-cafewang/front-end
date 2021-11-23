@@ -12,13 +12,20 @@ import SearchModal from "./SearchModal";
 import RecipeCard from "../../components/Card/RecipeCard";
 import BoardCard from "../../components/Card/BoardCard";
 
+import PopUp from "../../shared/PopUp";
+import Spinner from "../../assets/image/Spinner.gif";
+import Blank from "../../shared/Blank";
+
 import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
 
 import { setSorting } from "../../redux/Modules/searchSlice";
 
-const SearchMain = (props) => {
+const SearchMain = () => {
+  const [popUp, setPopUp] = useState(false);
+
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
+  const isFetching = useSelector((state) => state.search.isFetching);
 
   const recipeList = useSelector((state) => state.search.recipeList);
   const boardList = useSelector((state) => state.search.boardList);
@@ -44,7 +51,7 @@ const SearchMain = (props) => {
 
   // 검색모달창 외부클릭시 닫음.
   useEffect(() => {
-    const DetectOutsideClick = (e) => {
+    const DetectOutsideClick = () => {
       setIsSearch(false);
       inputRef.current.value = "";
     };
@@ -131,6 +138,14 @@ const SearchMain = (props) => {
   return (
     <>
       <Container>
+        {/* alert 창 */}
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="입력된 검색어가 없습니다."
+          isButton={false}
+        />
+
         {/* 모달 */}
         {isActive && <ModalBackground />}
 
@@ -160,7 +175,10 @@ const SearchMain = (props) => {
               const keyword = inputRef.current.value;
 
               if (!keyword) {
-                window.alert("검색어를 입력해주세요");
+                setPopUp(true);
+                setTimeout(() => {
+                  setPopUp(false);
+                }, 700);
               } else {
                 if (whereFrom === "recipe") {
                   dispatch(
@@ -294,37 +312,36 @@ const SearchMain = (props) => {
           {/* 목록 뿌려주기 */}
           {whereFrom === "recipe" ? (
             <SearchListInner>
-              {recipeList.length !== 0 ? ( // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
-                recipeList.map((recipe) => (
-                  <RecipeCard
-                    key={recipe.recipeId}
-                    {...recipe}
-                    image={recipe.images[0]}
-                    _onClick={() => {
-                      history.push(`/recipeboard/detail/${recipe.recipeId}`);
-                    }}
-                  />
-                ))
-              ) : (
-                <div>해당하는 게시물이 없습니다.</div>
-              )}
+              {isFetching && <SpinnerImg src={Spinner} />}
+              {recipeList.length !== 0 // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
+                ? recipeList.map((recipe) => (
+                    <RecipeCard
+                      key={recipe.recipeId}
+                      {...recipe}
+                      image={recipe.images[0]}
+                      _onClick={() => {
+                        history.push(`/recipeboard/detail/${recipe.recipeId}`);
+                      }}
+                    />
+                  ))
+                : !isFetching && <Blank message="조회된 글이 없습니다." />}
             </SearchListInner>
           ) : (
             <SearchListInner>
               <SearchListInner>
-                {boardList.length !== 0 ? (
-                  boardList.map((board) => (
-                    <BoardCard
-                      key={board.boardId}
-                      {...board}
-                      _onClick={() => {
-                        history.push(`/bulletinboard/detail/${board.boardId}`);
-                      }}
-                    />
-                  ))
-                ) : (
-                  <div>해당하는 게시물이 없습니다.</div>
-                )}
+                {boardList.length !== 0
+                  ? boardList.map((board) => (
+                      <BoardCard
+                        key={board.boardId}
+                        {...board}
+                        _onClick={() => {
+                          history.push(
+                            `/bulletinboard/detail/${board.boardId}`
+                          );
+                        }}
+                      />
+                    ))
+                  : !isFetching && <Blank message="조회된 글이 없습니다." />}
               </SearchListInner>
             </SearchListInner>
           )}
@@ -429,6 +446,10 @@ const HashTagItem = styled.div`
   color: ${(props) => (props.active ? `#ffffff` : `#767676`)};
   background-color: ${(props) => (props.active ? `#7692E4` : `#ffffff`)};
   cursor: pointer;
+`;
+
+const SpinnerImg = styled.img`
+  margin-top: 25vh;
 `;
 
 export default SearchMain;
