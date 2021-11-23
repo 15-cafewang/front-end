@@ -87,9 +87,13 @@ export const nickCheckDB = createAsyncThunk(
 // 회원정보 수정 ( 프로필이미지 + 닉네임)
 export const updateUserInfoDB = createAsyncThunk(
   "user/updateUserInfoWithImage",
-  async (formData) => {
-    const response = await updateUserInfoAPI(formData);
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await updateUserInfoAPI(formData);
 
-    return response.data;
+      return response.data.message;
+    } catch (error) {
+      return rejectWithValue(error.data.message);
+    }
   }
 );

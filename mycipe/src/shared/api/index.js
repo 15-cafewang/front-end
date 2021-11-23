@@ -36,7 +36,7 @@ api.interceptors.response.use(
     ) {
       localStorage.removeItem("USER_TOKEN");
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
 

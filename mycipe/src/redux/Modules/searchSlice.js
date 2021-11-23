@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getSearchRecipeDB, getSearchBoardDB } from "../Async/Search";
 
 //initialState
-
 const initialState = {
   isFetching: false,
 
@@ -26,32 +25,32 @@ const initialState = {
   boardSearchList: [],
 
   recipeList: [
-    {
-      recipeId: 24,
-      nickname: "hhh",
-      title: "hello111",
-      content: "안녕하세요 헬로입.",
-      images: [""],
-      regDate: "2021-11-11T16:55:23.198059",
-      commentCount: 0,
-      likeCount: 0,
-      price: null,
-      likeStatus: false,
-    },
+    // {
+    //   recipeId: 24,
+    //   nickname: "hhh",
+    //   title: "hello111",
+    //   content: "안녕하세요 헬로입.",
+    //   images: [""],
+    //   regDate: "2021-11-11T16:55:23.198059",
+    //   commentCount: 0,
+    //   likeCount: 0,
+    //   price: null,
+    //   likeStatus: false,
+    // },
   ],
 
   boardList: [
-    {
-      boardId: 2,
-      nickname: "na_0",
-      title: "제",
-      content: "테스트내용",
-      images: [""],
-      regDate: "2021-11-07T02:21:46.212107",
-      commentCount: 0,
-      likeCount: 0,
-      likeStatus: false,
-    },
+    // {
+    //   boardId: 2,
+    //   nickname: "na_0",
+    //   title: "제",
+    //   content: "테스트내용",
+    //   images: [""],
+    //   regDate: "2021-11-07T02:21:46.212107",
+    //   commentCount: 0,
+    //   likeCount: 0,
+    //   likeStatus: false,
+    // },
   ],
 };
 
