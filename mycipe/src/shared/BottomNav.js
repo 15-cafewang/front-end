@@ -58,7 +58,7 @@ const BottomNav = (props) => {
                   history.push("/recipeboard/write");
                 }}
               >
-                레시피 공유하기
+                카페 공유하기
               </ModalContent>
               <ModalContent
                 onClick={() => {
