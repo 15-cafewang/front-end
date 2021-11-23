@@ -1,10 +1,11 @@
 import api from "./index";
 
 export const mainApi = {
-  //메인 인기레시피 조회
-  getPopularListDay: () => {
-    return api.get("/main/popular?sortBy=day");
+  // 추천 카페
+  getRecommendCafe: () => {
+    return api.get("/main/recommend");
   },
+  //메인 인기레시피 조회
   getPopularListWeek: () => {
     return api.get("/main/popular?sortBy=week");
   },

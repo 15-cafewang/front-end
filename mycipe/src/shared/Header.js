@@ -23,11 +23,7 @@ const Header = (props) => {
     //메인페이지
     return (
       <HeaderInner flexBetween>
-        <LogoIcon
-          onClick={() => {
-            history.push("/main");
-          }}
-        />
+        <LogoIcon />
       </HeaderInner>
     );
   }
@@ -201,6 +197,5 @@ const LeftInner = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 export default Header;
