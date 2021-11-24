@@ -2,15 +2,20 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
+
 // components
+import Spinner from "../../assets/image/Spinner.gif";
 import { SmallFilterButton, ButtonInner } from "../../elements";
 import BoardCard from "../../components/Card/BoardCard";
 import ModalBackground from "../../shared/ModalBackground";
+
 // async
 import {
   getBulletinPostListDB,
   getInfinityScrollDB,
 } from "../../redux/Async/bulletinBoard";
+
+// 무한스크롤 hook
 import { useInterSectionObserver } from "../../hooks";
 
 const BulletinBoardMain = () => {
@@ -105,7 +110,7 @@ const BulletinBoardMain = () => {
                 );
               })}
           </CardList>
-          <div ref={target}>{isLoading && "loading..."}</div>
+          <div ref={target}>{isLoading && <SpinnerImg src={Spinner} />}</div>
         </>
       )}
 
@@ -125,7 +130,7 @@ const BulletinBoardMain = () => {
                 );
               })}
           </CardList>
-          <div ref={target}>{isLoading && "loading..."}</div>
+          <div ref={target}>{isLoading && <SpinnerImg src={Spinner} />}</div>
         </>
       )}
     </BoardMainContainer>
@@ -145,5 +150,7 @@ const BoardMainContainer = styled.div`
 const CardList = styled.div`
   margin-top: 14px;
 `;
+
+const SpinnerImg = styled.img``;
 
 export default BulletinBoardMain;
