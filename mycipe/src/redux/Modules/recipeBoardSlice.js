@@ -13,6 +13,7 @@ import {
   editRecipeCommentDB,
   deleteRecipeCommentDB,
   recipeCommentLikeDB,
+  getInfinityScrollRecipeCommentDB,
 } from "../Async/recipeBoard";
 
 // initialstate
@@ -20,7 +21,7 @@ const initialstate = {
   isFetching: false,
   recipeList: [],
   currentRecipePost: null,
-  commentList: null,
+  commentList: [],
 };
 
 const recipeBoardSlice = createSlice({
@@ -171,6 +172,18 @@ const recipeBoardSlice = createSlice({
       state.isFetching = false;
     },
     [recipeCommentLikeDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 댓글 무한스크롤
+    [getInfinityScrollRecipeCommentDB.pending]: (state, acton) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollRecipeCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.commentList = [...state.commentList, ...payload];
+    },
+    [getInfinityScrollRecipeCommentDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
   },

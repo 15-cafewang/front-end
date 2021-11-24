@@ -85,7 +85,7 @@ export const addBulletinCommentDB = createAsyncThunk(
 export const getBulletinCommentDB = createAsyncThunk(
   "bulletinBoard/getComment",
   async (data) => {
-    const response = await bulletinBoardApi.getComment(data);
+    const response = await bulletinBoardApi.getComment(data.boardId, data.page);
     return response.data.data.content;
   }
 );
@@ -121,5 +121,14 @@ export const bulletinCommentLikeDB = createAsyncThunk(
   async (data) => {
     const response = await bulletinBoardApi.commentLikeToggle(data);
     return response.data.data;
+  }
+);
+
+// 게시판 댓글 무한 스크롤
+export const getInfinityScrollBulletinCommentDB = createAsyncThunk(
+  "recipeBoardComment/getInfinityScroll",
+  async (data) => {
+    const response = await bulletinBoardApi.getComment(data.boardId, data.page);
+    return response.data.data.content;
   }
 );
