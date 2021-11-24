@@ -443,8 +443,8 @@ const Button = styled.button`
 `;
 
 const ProfileEditButton = styled.button`
-  border: 1px solid #dbdbdb;
-  border-radius: 4px;
+  border: 1px solid #999999;
+
   padding: 4px 12px;
   font-size: 14px;
   color: #767676;
@@ -464,7 +464,11 @@ const Count = styled.span`
   margin-right: 4px;
 `;
 
-const FollowBtn = styled(ProfileEditButton)``;
+const FollowBtn = styled(ProfileEditButton)`
+  background: #191919;
+  color: #ffffff;
+  font-weight: 500;
+`;
 
 const SpinnerImg = styled.img`
   margin-top: 10vh;
