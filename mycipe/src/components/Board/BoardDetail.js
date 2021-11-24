@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -19,6 +19,7 @@ import {
   deleteRecipePostDB,
   addRecipeCommentDB,
   getRecipeCommentDB,
+  getInfinityScrollRecipeCommentDB,
 } from "../../redux/Async/recipeBoard";
 import {
   bulletinLikeToggleDB,
@@ -26,7 +27,10 @@ import {
   deleteBulletinPostDB,
   addBulletinCommentDB,
   getBulletinCommentDB,
+  getInfinityScrollBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
+
+import { useInterSectionObserver } from "../../hooks/index";
 
 const BoardDetail = ({ boardName }) => {
   const dispatch = useDispatch();
@@ -57,6 +61,12 @@ const BoardDetail = ({ boardName }) => {
 
   const [content, setContent] = useState("");
 
+  const target = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const pageRef = useRef(1);
+
+  // let currentList = [];
+
   // 새로 고침 시 like 반영
   useEffect(() => {
     setLikeStatus(postDetail && postDetail.likeStatus);
@@ -77,15 +87,60 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 조회
   useEffect(() => {
+    const data = {
+      page: 1,
+      recipeId: recipeId,
+    };
     if (boardName === "recipeBoard") {
-      dispatch(getRecipeCommentDB(recipeId));
+      dispatch(getRecipeCommentDB(data));
       return;
     }
+  }, [dispatch, recipeId, boardName]);
+
+  useEffect(() => {
+    const data = {
+      page: 1,
+      boardId: boardId,
+    };
     if (boardName === "bulletinBoard") {
-      dispatch(getBulletinCommentDB(boardId));
+      dispatch(getBulletinCommentDB(data));
       return;
     }
-  }, [dispatch, recipeId, boardId, boardName]);
+  }, [dispatch, boardId, boardName]);
+
+  const fetchMoreRecipe = (page) => {
+    setIsLoading(true);
+    if (boardName === "recipeBoard") {
+      dispatch(
+        getInfinityScrollRecipeCommentDB({
+          page: page,
+          recipeId: recipeId,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          setIsLoading(false);
+        });
+    } else {
+      dispatch(
+        getInfinityScrollBulletinCommentDB({
+          page: page,
+          boardId: boardId,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          setIsLoading(false);
+        });
+    }
+  };
+  useInterSectionObserver(
+    fetchMoreRecipe,
+    pageRef,
+    target.current,
+    commentList
+  );
+
   const isPostUser = (postDetail && postDetail.nickname) === userNickname;
 
   // 좋아요 누를 때 마다 DB 반영
@@ -252,19 +307,8 @@ const BoardDetail = ({ boardName }) => {
                     />
                   );
                 })}
-              {/* {commentList &&
-                boardName === "bulletinBoard" &&
-                commentList.map((comment) => {
-                  return (
-                    <BoardComment
-                      key={comment.commentId}
-                      comment={comment}
-                      boardId={boardId}
-                      boardName={boardName}
-                    />
-                  );
-                })} */}
             </CommentBox>
+            <div ref={target}>{isLoading && "loading..."}</div>
           </>
         )}
       </Box>
