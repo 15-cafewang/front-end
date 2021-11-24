@@ -166,7 +166,7 @@ const ModalContent = styled.button`
   padding: 12px;
   width: 100%;
   &:hover {
-    background-color: #7692e4;
+    background-color: #f8f8fa;
   }
 `;
 
