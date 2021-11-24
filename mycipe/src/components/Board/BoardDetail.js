@@ -129,15 +129,12 @@ const BoardDetail = ({ boardName }) => {
 
     setContent("");
   };
-<<<<<<< HEAD
 
   //  alert창
   const [popUp, setPopUp] = useState(false);
   const [buttonName, setButtonName] = useState(null);
   console.log(popUp);
   console.log(buttonName);
-=======
->>>>>>> dev
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
@@ -301,16 +298,18 @@ const BoardDetail = ({ boardName }) => {
           <>
             <CommentBox>
               {commentList &&
+                boardName === "recipeBoard" &&
                 commentList.map((comment) => {
                   return (
                     <BoardComment
                       key={comment.commentId}
                       comment={comment}
+                      boardId={boardId}
                       boardName={boardName}
                     />
                   );
                 })}
-              {/* {commentList &&
+              {commentList &&
                 boardName === "bulletinBoard" &&
                 commentList.map((comment) => {
                   return (
@@ -321,7 +320,7 @@ const BoardDetail = ({ boardName }) => {
                       boardName={boardName}
                     />
                   );
-                })} */}
+                })}
             </CommentBox>
           </>
         )}
