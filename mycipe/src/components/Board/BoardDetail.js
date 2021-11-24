@@ -3,15 +3,21 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
+
 // icon
 import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
+
 // elements
 import Image from "../../elements/Image";
+
 // components
+// import Comment from "../../shared/Comment";
 import BoardComment from "./BoardComment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";
+import PopUp from "../../shared/PopUp";
+
 // async
 import {
   recipeLikeToggleDB,
@@ -20,6 +26,7 @@ import {
   addRecipeCommentDB,
   getRecipeCommentDB,
 } from "../../redux/Async/recipeBoard";
+
 import {
   bulletinLikeToggleDB,
   getBulletinPostDetailDB,
@@ -81,6 +88,7 @@ const BoardDetail = ({ boardName }) => {
       dispatch(getRecipeCommentDB(recipeId));
       return;
     }
+
     if (boardName === "bulletinBoard") {
       dispatch(getBulletinCommentDB(boardId));
       return;
@@ -122,9 +130,60 @@ const BoardDetail = ({ boardName }) => {
     setContent("");
   };
 
+  //  alert창
+  const [popUp, setPopUp] = useState(false);
+  const [buttonName, setButtonName] = useState(null);
+  console.log(popUp);
+  console.log(buttonName);
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
+
+      {/* alert 창 */}
+      {buttonName === "수정" ? (
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="게시물을 수정하시겠습니까?"
+          isButton={true}
+          buttonName={buttonName}
+          _onClick={() => {
+            boardName === "recipeBoard"
+              ? history.push(`/recipeboard/write/${recipeId}`)
+              : history.push(`/bulletinboard/write/${boardId}`);
+          }}
+        />
+      ) : (
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="게시물을 삭제하시겠습니까?"
+          isButton={true}
+          buttonName={buttonName}
+          _onClick={() => {
+            boardName === "recipeBoard"
+              ? dispatch(deleteRecipePostDB(recipeId))
+              : dispatch(deleteBulletinPostDB(boardId));
+          }}
+        />
+      )}
+
+      {/* 
+      {buttonName === "삭제" && (
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="게시물을 삭제하시겠습니까?"
+          isButton={true}
+          buttonName={buttonName}
+          _onClick={() => {
+            boardName === "recipeBoard"
+              ? dispatch(deleteRecipePostDB(recipeId))
+              : dispatch(deleteBulletinPostDB(boardId));
+          }}
+        />
+      )} */}
+
       <Box margin="0px 0px 16px 0px">
         <Image
           shape="circle"
@@ -135,15 +194,13 @@ const BoardDetail = ({ boardName }) => {
           }}
         />
         <Nickname>{postDetail && postDetail.nickname}</Nickname>
+
         {isPostUser && (
           <Box between width="60px">
             <EditBtn
               onClick={() => {
-                if (boardName === "recipeBoard") {
-                  history.push(`/recipeboard/write/${recipeId}`);
-                } else {
-                  history.push(`/bulletinboard/write/${boardId}`);
-                }
+                setPopUp(true);
+                setButtonName("수정");
               }}
             >
               수정
@@ -151,11 +208,8 @@ const BoardDetail = ({ boardName }) => {
 
             <EditBtn
               onClick={() => {
-                if (boardName === "recipeBoard") {
-                  dispatch(deleteRecipePostDB(recipeId));
-                } else {
-                  dispatch(deleteBulletinPostDB(boardId));
-                }
+                setPopUp(true);
+                setButtonName("삭제");
               }}
             >
               삭제
@@ -276,7 +330,7 @@ const BoardDetail = ({ boardName }) => {
 };
 
 const BoardDetailContainer = styled.div`
-  padding: 0px 20px;
+  padding: 20px 20px 0px;
   height: auto;
   min-height: calc(100% - 60px);
   position: relative;
