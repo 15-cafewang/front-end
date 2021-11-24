@@ -56,7 +56,6 @@ export const bulletinLikeToggleDB = createAsyncThunk(
 // 게시글 수정
 export const editBulletinPostDB = createAsyncThunk(
   "bulletinBoard/editPost",
-<<<<<<< HEAD
   async (data, { rejectWithValue }) => {
     try {
       const response = await bulletinBoardApi.editPost(
@@ -67,15 +66,6 @@ export const editBulletinPostDB = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-=======
-  async (data) => {
-    const response = await bulletinBoardApi.editPost(
-      data.boardId,
-      data.formData
-    );
-    history.push("/bulletinBoard");
-    return response.data.data;
->>>>>>> dev
   }
 );
 
