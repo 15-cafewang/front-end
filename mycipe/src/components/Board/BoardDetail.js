@@ -30,6 +30,7 @@ import {
   getInfinityScrollBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
 
+// 무한스크롤 Hook
 import { useInterSectionObserver } from "../../hooks/index";
 
 const BoardDetail = ({ boardName }) => {
@@ -64,8 +65,6 @@ const BoardDetail = ({ boardName }) => {
   const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const pageRef = useRef(1);
-
-  // let currentList = [];
 
   // 새로 고침 시 like 반영
   useEffect(() => {
@@ -108,6 +107,7 @@ const BoardDetail = ({ boardName }) => {
     }
   }, [dispatch, boardId, boardName]);
 
+  // 관찰이 시작될 때 실행될 콜백 함수
   const fetchMoreRecipe = (page) => {
     setIsLoading(true);
     if (boardName === "recipeBoard") {
@@ -134,6 +134,7 @@ const BoardDetail = ({ boardName }) => {
         });
     }
   };
+
   useInterSectionObserver(
     fetchMoreRecipe,
     pageRef,
