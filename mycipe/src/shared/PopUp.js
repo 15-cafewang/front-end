@@ -1,22 +1,26 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { Button } from "../elements/index";
 
 const PopUp = ({
-  popUp,
+  popUp = false,
   setPopUp = () => {},
-  message,
-  isButton,
-  buttonName,
+  message = "",
+  isButton = false,
+  buttonName = "",
   _onClick = () => {},
 }) => {
   return (
     <PopUpContainer active={popUp}>
-      <Text>{message}</Text>
+      <Text isButton={isButton}>{message}</Text>
 
       {isButton && (
         <ButtonInner>
           <Button
-            onClick={() => {
+            width="90px"
+            height="28px"
+            bg="#ededed"
+            _onClick={() => {
               setPopUp(false);
             }}
           >
@@ -24,7 +28,10 @@ const PopUp = ({
           </Button>
 
           <Button
-            onClick={() => {
+            width="90px"
+            height="28px"
+            color="#fff"
+            _onClick={() => {
               setPopUp(false);
               _onClick();
             }}
@@ -39,7 +46,6 @@ const PopUp = ({
 
 const PopUpContainer = styled.div`
   //공통
-
   position: fixed;
   z-index: 100;
   top: 100px;
@@ -63,7 +69,7 @@ const PopUpContainer = styled.div`
       opacity: 1;
     `}
 
-  background: #fff;
+  background:#fff;
 
   //글만 있을때
   justify-content: center;
@@ -73,25 +79,21 @@ const PopUpContainer = styled.div`
 const Text = styled.p`
   font-size: 14px;
   text-align: center;
+  word-break: keep-all;
 
   //버튼 있을때
-  /* height: 72px;
-  line-height: 72px; */
+  ${(props) =>
+    props.isButton &&
+    css`
+      height: 72px;
+      line-height: 72px;
+    `}
 `;
 
 const ButtonInner = styled.div`
   width: 100%;
   display: flex;
   height: 60px;
-`;
-
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  color: ${(props) => (props.active ? "#7692E4" : "#000")};
 `;
 
 export default PopUp;
