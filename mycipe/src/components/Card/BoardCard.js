@@ -43,7 +43,6 @@ const BoardCard = ({
   }, [likeCount, likeStatus]);
 
   return (
-
     <BoardCardOuter>
       <BoardCardInner onClick={_onClick}>
         <InnerLeft>
@@ -53,7 +52,9 @@ const BoardCard = ({
           </Grid>
 
           <Grid flexRow>
-            <Date>{regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}</Date>
+            <Date>
+              {regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}
+            </Date>
             <IconsInner>
               {componentLikeStatus ? (
                 <LikeInner
@@ -91,7 +92,6 @@ const BoardCard = ({
 
       <Line />
     </BoardCardOuter>
-
   );
 };
 
@@ -118,18 +118,13 @@ const Grid = styled.div`
       justify-content: flex-start;
       align-items: center;
     `};
-
-  /* display: flex;
-  justify-content: flex-start;
-  align-items: center; */
 `;
 
 const Line = styled.div`
   margin-top: 14px;
   height: 1px;
   width: 100%;
-  background-color: #ededed;
-  //14px
+  background-color: #999999;
 `;
 
 const BoardCardOuter = styled.div`
