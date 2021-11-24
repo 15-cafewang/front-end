@@ -45,8 +45,10 @@ export const bulletinBoardApi = {
   },
 
   // 댓글 수정
-  editComment: (commentId, comment) => {
-    return api.put(`/boards/comments/${commentId}`, comment);
+  editComment: (commentId, content) => {
+    return api.put(`/boards/comments/${commentId}`, {
+      content: content,
+    });
   },
 
   // 댓글 삭제

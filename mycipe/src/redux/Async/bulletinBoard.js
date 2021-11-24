@@ -56,6 +56,7 @@ export const bulletinLikeToggleDB = createAsyncThunk(
 // 게시글 수정
 export const editBulletinPostDB = createAsyncThunk(
   "bulletinBoard/editPost",
+<<<<<<< HEAD
   async (data, { rejectWithValue }) => {
     try {
       const response = await bulletinBoardApi.editPost(
@@ -66,6 +67,15 @@ export const editBulletinPostDB = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
+=======
+  async (data) => {
+    const response = await bulletinBoardApi.editPost(
+      data.boardId,
+      data.formData
+    );
+    history.push("/bulletinBoard");
+    return response.data.data;
+>>>>>>> dev
   }
 );
 
@@ -94,6 +104,18 @@ export const getBulletinCommentDB = createAsyncThunk(
   async (data) => {
     const response = await bulletinBoardApi.getComment(data);
     return response.data.data.content;
+  }
+);
+
+// 댓글 수정
+export const editBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/editComment",
+  async (data) => {
+    const response = await bulletinBoardApi.editComment(
+      data.commentId,
+      data.content
+    );
+    return response.data.data;
   }
 );
 

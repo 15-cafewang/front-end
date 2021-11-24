@@ -57,23 +57,8 @@ const Main = (props) => {
                   history.push(`/recipeboard/detail/${c.recipeId}`);
                 }}
                 key={c.recipeId}
-                recipeId={c.recipeId}
-                commentCount={c.commentCount}
-                content={c.content}
                 image={c.images[0]}
-                likeCount={c.likeCount}
-                likeStatus={c.likeStatus}
-                nickname={c.nickname}
-                price={c.price}
-                regDate={
-                  c.regdate
-                    ? c.regdate
-                        .split("T")[0]
-                        .replace("-", ". ")
-                        .replace("-", ". ")
-                    : ""
-                }
-                title={c.title}
+                {...c}
               />
             );
           })}
@@ -115,23 +100,8 @@ const Main = (props) => {
                   history.push(`/recipeboard/detail/${m.recipeId}`);
                 }}
                 key={m.recipeId}
-                recipeId={m.recipeId}
-                commentCount={m.commentCount}
-                content={m.content}
                 image={m.images[0]}
-                likeCount={m.likeCount}
-                likeStatus={m.likeStatus}
-                nickname={m.nickname}
-                price={m.price}
-                regDate={
-                  m.regdate
-                    ? m.regdate
-                        .split("T")[0]
-                        .replace("-", ". ")
-                        .replace("-", ". ")
-                    : ""
-                }
-                title={m.title}
+                {...m}
               />
             );
           })}
@@ -157,23 +127,8 @@ const Main = (props) => {
                   history.push(`/recipeboard/detail/${m.recipeId}`);
                 }}
                 key={m.recipeId}
-                recipeId={m.recipeId}
-                commentCount={m.commentCount}
-                content={m.content}
                 image={m.images[0]}
-                likeCount={m.likeCount}
-                likeStatus={m.likeStatus}
-                nickname={m.nickname}
-                price={m.price}
-                regDate={
-                  m.regdate
-                    ? m.regdate
-                        .split("T")[0]
-                        .replace("-", ". ")
-                        .replace("-", ". ")
-                    : ""
-                }
-                title={m.title}
+                {...m}
               />
             );
           })}
