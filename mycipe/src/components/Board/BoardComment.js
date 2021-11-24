@@ -65,7 +65,6 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
     if (boardName === "recipeBoard") {
       dispatch(editRecipeCommentDB(data));
     } else {
-      console.log(data);
       dispatch(editBulletinCommentDB(data));
     }
 

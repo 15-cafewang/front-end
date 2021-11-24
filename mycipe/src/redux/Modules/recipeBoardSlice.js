@@ -136,7 +136,6 @@ const recipeBoardSlice = createSlice({
     },
     [editRecipeCommentDB.fulfilled]: (state, { payload }) => {
       // commentId로 특정 댓글을 찾아서 content를 바꿈.
-      console.log(payload);
       const idx = state.commentList.findIndex(
         (comment) => comment.commentId === payload.commentId
       );

@@ -131,7 +131,6 @@ const bulletinBoardSlice = createSlice({
       state.isFetching = true;
     },
     [editBulletinCommentDB.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       // commentId로 특정 댓글을 찾아서 content를 바꿈.
       const idx = state.commentList.findIndex(
         (comment) => comment.commentId === payload.commentId

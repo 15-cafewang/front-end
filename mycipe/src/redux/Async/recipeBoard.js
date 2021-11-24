@@ -54,7 +54,6 @@ export const recipeLikeToggleDB = createAsyncThunk(
 export const editRecipePostDB = createAsyncThunk(
   "recipeBoard/editPost",
   async (data) => {
-    console.log(data);
     const response = await recipeBoardApi.editPost(data.boardId, data.formData);
     history.push("/recipeBoard");
     return response.data.data;
