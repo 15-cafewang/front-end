@@ -121,7 +121,6 @@ const BoardDetail = ({ boardName }) => {
 
     setContent("");
   };
-
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
@@ -244,18 +243,16 @@ const BoardDetail = ({ boardName }) => {
           <>
             <CommentBox>
               {commentList &&
-                boardName === "recipeBoard" &&
                 commentList.map((comment) => {
                   return (
                     <BoardComment
                       key={comment.commentId}
                       comment={comment}
-                      boardId={boardId}
                       boardName={boardName}
                     />
                   );
                 })}
-              {commentList &&
+              {/* {commentList &&
                 boardName === "bulletinBoard" &&
                 commentList.map((comment) => {
                   return (
@@ -266,7 +263,7 @@ const BoardDetail = ({ boardName }) => {
                       boardName={boardName}
                     />
                   );
-                })}
+                })} */}
             </CommentBox>
           </>
         )}

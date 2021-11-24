@@ -43,8 +43,10 @@ export const recipeBoardApi = {
   },
 
   // 댓글 수정
-  editComment: (commentId, comment) => {
-    return api.put(`/recipes/comment/${commentId}`, comment);
+  editComment: (commentId, content) => {
+    return api.put(`/recipes/comment/${commentId}`, {
+      content: content,
+    });
   },
 
   // 댓글 삭제

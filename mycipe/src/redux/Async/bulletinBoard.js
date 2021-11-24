@@ -53,7 +53,6 @@ export const bulletinLikeToggleDB = createAsyncThunk(
 export const editBulletinPostDB = createAsyncThunk(
   "bulletinBoard/editPost",
   async (data) => {
-    console.log(data);
     const response = await bulletinBoardApi.editPost(
       data.boardId,
       data.formData
@@ -88,6 +87,18 @@ export const getBulletinCommentDB = createAsyncThunk(
   async (data) => {
     const response = await bulletinBoardApi.getComment(data);
     return response.data.data.content;
+  }
+);
+
+// 댓글 수정
+export const editBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/editComment",
+  async (data) => {
+    const response = await bulletinBoardApi.editComment(
+      data.commentId,
+      data.content
+    );
+    return response.data.data;
   }
 );
 

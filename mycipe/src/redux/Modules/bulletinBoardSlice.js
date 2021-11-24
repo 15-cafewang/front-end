@@ -10,6 +10,7 @@ import {
   deleteBulletinPostDB,
   addBulletinCommentDB,
   getBulletinCommentDB,
+  editBulletinCommentDB,
   deleteBulletinCommentDB,
   bulletinCommentLikeDB,
 } from "../Async/bulletinBoard";
@@ -122,6 +123,22 @@ const bulletinBoardSlice = createSlice({
       state.commentList = payload;
     },
     [getBulletinCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시판 댓글 수정
+    [editBulletinCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [editBulletinCommentDB.fulfilled]: (state, { payload }) => {
+      // commentId로 특정 댓글을 찾아서 content를 바꿈.
+      const idx = state.commentList.findIndex(
+        (comment) => comment.commentId === payload.commentId
+      );
+      state.commentList[idx].content = payload.content;
+      state.isFetching = false;
+    },
+    [editBulletinCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
