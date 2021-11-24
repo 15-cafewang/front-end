@@ -91,6 +91,19 @@ export const getBulletinCommentDB = createAsyncThunk(
   }
 );
 
+// 댓글 수정
+export const editBulletinCommentDB = createAsyncThunk(
+  "bulletinBoard/editComment",
+  async (data) => {
+    const response = await bulletinBoardApi.editComment(
+      data.commentId,
+      data.content
+    );
+    console.log(response);
+    return response.data.data;
+  }
+);
+
 // 댓글 삭제
 export const deleteBulletinCommentDB = createAsyncThunk(
   "bulletinBoard/deleteComment",

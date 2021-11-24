@@ -54,6 +54,7 @@ export const recipeLikeToggleDB = createAsyncThunk(
 export const editRecipePostDB = createAsyncThunk(
   "recipeBoard/editPost",
   async (data) => {
+    console.log(data);
     const response = await recipeBoardApi.editPost(data.boardId, data.formData);
     history.push("/recipeBoard");
     return response.data.data;
@@ -85,6 +86,18 @@ export const getRecipeCommentDB = createAsyncThunk(
   async (data) => {
     const response = await recipeBoardApi.getComment(data);
     return response.data.data.content;
+  }
+);
+
+// 댓글 수정
+export const editRecipeCommentDB = createAsyncThunk(
+  "recipeBoard/editComment",
+  async (data) => {
+    const response = await recipeBoardApi.editComment(
+      data.commentId,
+      data.content
+    );
+    return response.data.data;
   }
 );
 

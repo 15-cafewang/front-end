@@ -10,6 +10,7 @@ import {
   deleteRecipePostDB,
   addRecipeCommentDB,
   getRecipeCommentDB,
+  editRecipeCommentDB,
   deleteRecipeCommentDB,
   recipeCommentLikeDB,
 } from "../Async/recipeBoard";
@@ -69,6 +70,16 @@ const recipeBoardSlice = createSlice({
       state.isFetching = false;
       state.currentRecipePost = payload;
     },
+    // 레시피  수정
+    [editRecipePostDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [editRecipePostDB.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [editRecipePostDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
     [getRecipePostDetailDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
@@ -82,16 +93,7 @@ const recipeBoardSlice = createSlice({
     [recipeLikeToggleDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
-    // 레시피 수정
-    [editRecipePostDB.pending]: (state, action) => {
-      state.isFetching = true;
-    },
-    [editRecipePostDB.fulfilled]: (state, action) => {
-      state.isFetching = false;
-    },
-    [editRecipePostDB.rejected]: (state, action) => {
-      state.isFetching = false;
-    },
+
     // 레시피 삭제
     [deleteRecipePostDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -128,6 +130,22 @@ const recipeBoardSlice = createSlice({
       state.isFetching = false;
     },
 
+    // 레시피 댓글수정
+    [editRecipeCommentDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [editRecipeCommentDB.fulfilled]: (state, { payload }) => {
+      // commentId로 특정 댓글을 찾아서 content를 바꿈.
+      console.log(payload);
+      const idx = state.commentList.findIndex(
+        (comment) => comment.commentId === payload.commentId
+      );
+      state.commentList[idx].content = payload.content;
+      state.isFetching = false;
+    },
+    [editRecipeCommentDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
     // 레시피 댓글 삭제
     [deleteRecipeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
