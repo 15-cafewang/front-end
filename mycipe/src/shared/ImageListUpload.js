@@ -7,6 +7,9 @@ import { ReactComponent as Remove } from "../assets/remove.svg";
 // elements
 import Image from "../elements/Image";
 
+// shared components
+import PopUp from "../shared/PopUp";
+
 const ImageListUpload = ({ isEdit, post, images, setPost }) => {
   const isImage = images ? [...images] : [];
   const [fileList, setFileList] = useState({
@@ -32,8 +35,13 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
 
     // 6장 이상이면 return
     if (imageFileList.length >= 6) {
-      window.alert("사진은 최대 5장까지 업로드 가능합니다🥲");
-      return;
+      setPopUp(true);
+      setMessage("사진은 최대 5장까지 업로드 가능합니다🥲");
+
+      setTimeout(() => {
+        setPopUp(false);
+        return;
+      }, 1200);
     }
 
     if (imageFileList.length <= 5) {
@@ -96,8 +104,13 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
     });
   }, [fileList]);
 
+  const [popUp, setPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+
   return (
     <>
+      <PopUp popUp={popUp} setPopUp={setPopUp} message={message} />
+
       <Grid>
         <Image shape="rectangle" size="small">
           <label>
