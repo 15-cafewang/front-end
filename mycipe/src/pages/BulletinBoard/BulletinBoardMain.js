@@ -62,7 +62,7 @@ const BulletinBoardMain = () => {
     <BoardMainContainer>
       {isActive && <ModalBackground />}
       {/* 정렬 박스 */}
-      <ButtonInner height="32px" small margin="12px 0px 8px 0px">
+      <ButtonInner height="32px" small margin="12px 0px 0px">
         <SmallFilterButton
           active={currentSorting.sortedByDate}
           _onClick={() => {
@@ -143,7 +143,7 @@ const BoardMainContainer = styled.div`
 `;
 
 const CardList = styled.div`
-  margin-top: 14px;
+  margin-top: 20px;
 `;
 
 export default BulletinBoardMain;
