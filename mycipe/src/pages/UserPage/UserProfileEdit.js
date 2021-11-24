@@ -124,11 +124,11 @@ const UserpageProfileEdit = () => {
           <CheckButton onClick={confirmNickname}>중복확인</CheckButton>
         </NickNameInputInner>
         {validStatus ? (
-          <Text color="#7692E4" size="12px">
+          <Text color="#191919" size="12px" margin="0px 0px 0px 6px">
             중복확인을 해주세요.
           </Text>
         ) : (
-          <Text color="#F05C5C" size="12px">
+          <Text color="#F05C5C" size="12px" margin="0px 0px 0px 6px ">
             닉네임은 2-10자 이내로 입력해주세요.
           </Text>
         )}
@@ -166,8 +166,8 @@ const NickNameInputInner = styled.div`
   width: 320px;
   height: 48px;
   background: #f8f8fa;
-  margin-bottom: 10px;
-  border-radius: 6px;
+  margin-bottom: 4px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -175,7 +175,8 @@ const NickNameInputInner = styled.div`
 `;
 
 const CheckButton = styled.button`
-  color: #7692e4;
+  color: #000000;
+  font-weight: 500;
 `;
 
 const NickNameInputBox = styled.input`
