@@ -43,7 +43,6 @@ const BoardCard = ({
   }, [likeCount, likeStatus]);
 
   return (
-
     <BoardCardOuter>
       <BoardCardInner onClick={_onClick}>
         <InnerLeft>
@@ -52,8 +51,10 @@ const BoardCard = ({
             <Content>{content}</Content>
           </Grid>
 
-          <Grid flexRow>
-            <Date>{regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}</Date>
+          <Grid flexRow height="16px">
+            <Date>
+              {regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}
+            </Date>
             <IconsInner>
               {componentLikeStatus ? (
                 <LikeInner
@@ -84,14 +85,11 @@ const BoardCard = ({
             </IconsInner>
           </Grid>
         </InnerLeft>
-
         {/* 사진 있을 경우 렌더링 */}
         {isThumbnail && <Image shape="rectangle" size="medium2" src={image} />}
       </BoardCardInner>
-
       <Line />
     </BoardCardOuter>
-
   );
 };
 
@@ -118,22 +116,20 @@ const Grid = styled.div`
       justify-content: flex-start;
       align-items: center;
     `};
-
-  /* display: flex;
-  justify-content: flex-start;
-  align-items: center; */
 `;
 
 const Line = styled.div`
-  margin-top: 14px;
+  margin: 14px 0;
   height: 1px;
+  /* border-top: 100% solid #ededed; */
+  /* padding-top: 1px; */
   width: 100%;
   background-color: #ededed;
   //14px
 `;
 
 const BoardCardOuter = styled.div`
-  margin: 0px 20px 20px;
+  margin: 0px 20px;
 `;
 
 const BoardCardInner = styled.div`
@@ -166,11 +162,6 @@ const Date = styled.div`
   padding-top: 2px;
   letter-spacing: -0.25px;
   margin-right: 16px;
-
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 1px; */
 `;
 
 const Content = styled.p`
