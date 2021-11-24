@@ -6,17 +6,21 @@ import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
 // 게시글 작성
 export const addBulletinPostDB = createAsyncThunk(
   "bulletinBoard/addPost",
-  async (data, thunkAPI) => {
-    const response = await bulletinBoardApi.addPost(data);
-    history.push("/bulletinboard");
-    return response.data.message;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await bulletinBoardApi.addPost(data);
+
+      return response.data.message;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
 
 // 게시판 목록 가져오기
 export const getBulletinPostListDB = createAsyncThunk(
   "bulletinBoard/getPostList",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await bulletinBoardApi.getList(data.page, data.sortBy);
     return response.data.data.content;
   }
@@ -34,7 +38,7 @@ export const getInfinityScrollDB = createAsyncThunk(
 // 게시판 상세 조회
 export const getBulletinPostDetailDB = createAsyncThunk(
   "bulletinBoard/getPostDetail",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await bulletinBoardApi.getPostDetail(data);
     return response.data.data;
   }
@@ -52,14 +56,16 @@ export const bulletinLikeToggleDB = createAsyncThunk(
 // 게시글 수정
 export const editBulletinPostDB = createAsyncThunk(
   "bulletinBoard/editPost",
-  async (data) => {
-    console.log(data);
-    const response = await bulletinBoardApi.editPost(
-      data.boardId,
-      data.formData
-    );
-    history.push("/bulletinBoard");
-    return response.data.data;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await bulletinBoardApi.editPost(
+        data.boardId,
+        data.formData
+      );
+      return response.data.message;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
 
