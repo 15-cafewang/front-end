@@ -46,6 +46,8 @@ const PopUp = ({
 
 const PopUpContainer = styled.div`
   //공통
+  /* box-shadow: 1px 1px 5px #000; */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
   position: fixed;
   z-index: 100;
   top: 100px;
