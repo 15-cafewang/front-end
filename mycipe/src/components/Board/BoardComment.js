@@ -27,13 +27,14 @@ import TimeCounting from "time-counting";
 
 const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
   const dispatch = useDispatch();
-  const userNickname = useSelector((state) => state.user.userInfo.nickname);
+  const userNickname = useSelector((state) => state.user.userInfo.nickname); // 유저닉네임
   const isWriter = comment.nickname === userNickname ? true : false; // 댓글 작성자인지 아닌지 체크
-  const [likeStatus, setLikeStatus] = useState(comment.likeStatus);
-  const [likeCount, setLikeCount] = useState(comment.likeCount);
-  const [content, setContent] = useState(comment.content);
-  const [isEdit, setIsEdit] = useState(false);
+  const [likeStatus, setLikeStatus] = useState(comment.likeStatus); // 좋아요 상태
+  const [likeCount, setLikeCount] = useState(comment.likeCount); // 좋아요 개수
+  const [content, setContent] = useState(comment.content); // 댓글 입력 값을 저장합니다.
+  const [isEdit, setIsEdit] = useState(false); // 수정 모드인지 아닌지 체크합니다.
 
+  // 댓글 작성 시간 표시 기본 설정
   const timeOption = {
     lang: "ko",
     objectTime: dayjs().format(`YYYY/MM/DD HH:mm:ss`),
@@ -49,9 +50,11 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
   }, []);
 
   const clickEditBtn = () => {
+    //isEdit가 false가 되면 text가 나타나고, true면 input이 나타납니다.
     setIsEdit(!isEdit);
   };
   const clickCancelBtn = () => {
+    // 수정모드에서 취소를 누를 떄, 사용합니다
     setContent(comment.content);
     setIsEdit(false);
   };
