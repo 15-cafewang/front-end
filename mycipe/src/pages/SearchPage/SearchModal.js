@@ -37,7 +37,7 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
       <SearchMidalBackground ref={SearchModalRef} isSearch={isSearch} />
       <SearchModalInner isSearch={isSearch}>
         <RecentSearchInner>
-          <Grid margin="32px 0px 0px 0px">
+          <Grid padding="42px 0px 0px 0px">
             {/* alert 창 */}
             <Popup
               popUp={popUp}
@@ -144,7 +144,7 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
                 <Grid margin="16px 0px">
                   <Text grey>추천 키워드</Text>
                 </Grid>
-                <Grid center>
+                <Grid center padding="0px 0px 32px 0px">
                   <HashTag
                     isSearch={isSearch}
                     _onClick={(e) => {
@@ -198,7 +198,9 @@ const SearchModalInner = styled.div`
   display: ${(props) => (props.isSearch ? "block" : "none")};
 `;
 
-const RecentSearchInner = styled.div``;
+const RecentSearchInner = styled.div`
+  border-radius: 0px 0px 6px 6px;
+`;
 
 const Text = styled.span`
   font-size: 14px;
@@ -215,6 +217,7 @@ const Grid = styled.div`
   display: flex;
   justify-content: ${(props) => (props.center ? "center" : "space-between")};
   margin: ${(props) => (props.margin ? props.margin : 0)};
+  padding: ${(props) => (props.padding ? props.padding : 0)};
 `;
 
 const SearchWordInner = styled(Grid)`

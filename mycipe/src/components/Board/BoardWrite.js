@@ -10,15 +10,19 @@ import { ReactComponent as BackIcon } from "../../assets/icon/HeaderIcon/back.sv
 import ImageListUpload from "../../shared/ImageListUpload";
 import HashTag from "../../shared/HashTag";
 import ModalBackground from "../../shared/ModalBackground";
+import PopUp from "../../shared/PopUp";
+
 // async function
 import {
   addRecipePostDB,
   editRecipePostDB,
 } from "../../redux/Async/recipeBoard";
+
 import {
   addBulletinPostDB,
   editBulletinPostDB,
 } from "../../redux/Async/bulletinBoard";
+
 // api
 import { recipeBoardApi } from "../../shared/api/recipeBoardApi";
 import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
@@ -30,7 +34,12 @@ const BoardWrite = ({ boardName }) => {
   const isEdit = params.id ? true : false;
 
   // 입력 값 state
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState({
+    title: "",
+    content: "",
+    location: "",
+    tag: [],
+  });
 
   const titleRef = useRef(null);
   const locationRef = useRef(null);
@@ -42,6 +51,7 @@ const BoardWrite = ({ boardName }) => {
       : state.bulletinBoard.currentBoardPost
   );
 
+
   // textarea 높이 자동 resize
   const handleResizeInputHeight = (height, ref) => {
     if (ref === null || ref.current === null) {
@@ -50,7 +60,6 @@ const BoardWrite = ({ boardName }) => {
     ref.current.style.height = height;
     ref.current.style.height = ref.current.scrollHeight + "px";
   };
-
   useEffect(() => {
     // 수정모드인데 리덕스에 현재 게시물 정보가 남아있다.
     if (isEdit && currentPost) {
@@ -74,8 +83,14 @@ const BoardWrite = ({ boardName }) => {
   }, [boardName, currentPost, isEdit, params.id]);
 
   const addPost = () => {
+    console.log(post);
+    if (post.title === "" || post.content === "" || post.location === "") {
+      alertPopUp("모든 항목을 작성해 주세요!", 1200);
+      return;
+    }
+
     if (post && post.previewURLList && post.previewURLList.length >= 6) {
-      window.alert("사진은 최대 5장까지 업로드 가능합니다🥲");
+      alertPopUp("사진은 최대 5장까지 업로드 가능합니다🥲", 1200);
       return;
     }
 
@@ -97,7 +112,8 @@ const BoardWrite = ({ boardName }) => {
             post.images.length === post.deleteImage.length &&
             post.fileList.length === 0
           ) {
-            window.alert("카페 사진은 최소 1장 첨부 부탁드립니다 🙏");
+            alertPopUp("카페 사진은 최소 1장 첨부 부탁드립니다 🙏", 1200);
+
             return;
           }
         }
@@ -108,23 +124,42 @@ const BoardWrite = ({ boardName }) => {
             recipeFormData.append("image", f);
           }
         }
+
         dispatch(
           editRecipePostDB({ boardId: params.id, formData: recipeFormData })
-        );
+        )
+          .unwrap()
+          .then((message) => {
+            alertPopUp(message, 700, "/recipeBoard");
+          })
+          .catch((error) => {
+            console.log(error);
+            alertPopUp(error.data.message);
+          });
       }
 
       if (boardName === "bulletinBoard") {
         const bulletinFormData = new FormData();
         bulletinFormData.append("title", post.title);
         bulletinFormData.append("content", post.content);
+
         if (post.fileList) {
           for (const f of post.fileList) {
             bulletinFormData.append("image", f);
           }
         }
+
         dispatch(
           editBulletinPostDB({ boardId: params.id, formData: bulletinFormData })
-        );
+        )
+          .unwrap()
+          .then((message) => {
+            alertPopUp(message, 700, "/bulletinBoard");
+          })
+          .catch((error) => {
+            console.log(error);
+            alertPopUp(error.data.message);
+          });
       }
     }
 
@@ -138,7 +173,7 @@ const BoardWrite = ({ boardName }) => {
         recipeFormData.append("tag", post.tags);
 
         if (!post.fileList) {
-          window.alert("카페 사진은 최소 1장 첨부 부탁드립니다 🙏");
+          alertPopUp("카페 사진은 최소 1장 첨부 부탁드립니다 🙏", 1200);
           return;
         }
 
@@ -146,23 +181,63 @@ const BoardWrite = ({ boardName }) => {
           recipeFormData.append("image", f);
         }
 
-        dispatch(addRecipePostDB(recipeFormData));
+        dispatch(addRecipePostDB(recipeFormData))
+          .unwrap()
+          .then((messgae) => {
+            alertPopUp(messgae, 700, "/recipeBoard");
+          })
+          .catch((error) => {
+            console.log(error);
+            alertPopUp(error.data.message);
+          });
       }
 
       if (boardName === "bulletinBoard") {
         const bulletinFormData = new FormData();
         bulletinFormData.append("title", post.title);
         bulletinFormData.append("content", post.content);
+
         for (const f of post.fileList) {
           bulletinFormData.append("image", f);
         }
-        dispatch(addBulletinPostDB(bulletinFormData));
+
+        dispatch(addBulletinPostDB(bulletinFormData))
+          .unwrap()
+          .then((messgae) => {
+            alertPopUp(messgae, 700, "/bulletinBoard");
+          })
+          .catch((error) => {
+            console.log(error);
+            alertPopUp(error.data.message);
+          });
       }
     }
   };
 
+  // alert 창
+  const [popUp, setPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // alert 제어 함수 ( 반복되는 코드를 줄이기위해)
+  const alertPopUp = (message, delay = 700, url = "") => {
+    setPopUp(true);
+    setMessage(message);
+
+    setTimeout(() => {
+      setPopUp(false);
+      url && history.push(url);
+    }, delay);
+  };
+
   return (
     <>
+      <PopUp
+        popUp={popUp}
+        setPopUp={setPopUp}
+        message={message}
+        _onClick={() => {}}
+      />
+
       <HeaderInner flexBetween>
         <LeftInner>
           <BackIcon

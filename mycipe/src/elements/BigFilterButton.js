@@ -27,7 +27,7 @@ const Button = styled.button`
   border-right: none;
 
   ${(props) => props.noneBorderTop && `border-top : none `};
-  ${(props) => props.active && `border-bottom : 2px solid #7692E4 `};
+  ${(props) => props.active && `border-bottom : 2px solid #000000 `};
 `;
 
 export default BigFilterButton;

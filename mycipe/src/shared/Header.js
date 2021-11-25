@@ -190,7 +190,9 @@ const HeaderInner = styled.div`
 
 const PageName = styled.span`
   font-size: 16px;
-  margin-left: 8px;
+  margin-left: 12px;
+  height: 16px;
+  line-height: 20px;
 `;
 
 const LeftInner = styled.div`
