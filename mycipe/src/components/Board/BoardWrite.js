@@ -121,7 +121,7 @@ const BoardWrite = ({ boardName }) => {
           })
           .catch((error) => {
             console.log(error);
-            alertPopUp(error.data.messgae);
+            alertPopUp(error.data.message);
           });
       }
 
@@ -145,7 +145,7 @@ const BoardWrite = ({ boardName }) => {
           })
           .catch((error) => {
             console.log(error);
-            alertPopUp(error.data.messgae);
+            alertPopUp(error.data.message);
           });
       }
     }
@@ -175,7 +175,7 @@ const BoardWrite = ({ boardName }) => {
           })
           .catch((error) => {
             console.log(error);
-            alertPopUp(error.data.messgae);
+            alertPopUp(error.data.message);
           });
       }
 
@@ -195,7 +195,7 @@ const BoardWrite = ({ boardName }) => {
           })
           .catch((error) => {
             console.log(error);
-            alertPopUp(error.data.messgae);
+            alertPopUp(error.data.message);
           });
       }
     }
