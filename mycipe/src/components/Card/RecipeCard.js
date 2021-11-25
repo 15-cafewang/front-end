@@ -43,7 +43,7 @@ const RecipeCard = ({
 
   return (
     <RecipeCardInner onClick={_onClick}>
-      <Image shape="rectangle" src={isImage} size="medium" />
+      <Image shape="rectangle" src={isImage} size="medium" border />
       <CardContent>
         <TextInner>
           <Title>{title}</Title>
@@ -83,18 +83,18 @@ RecipeCard.defaultProps = {
 const RecipeCardInner = styled.li`
   height: 112px;
   display: flex;
-  margin: 12px 0px;
+  margin: 12px 0px 0px;
   width: 320px;
 `;
 
 const CardContent = styled.div`
   background: #f8f8fa;
-  border-radius: 0px 6px 6px 0px;
+  border: 1px solid #767676;
   width: 208px;
 `;
 
 const TextInner = styled.div`
-  margin: 12px 19.5px 0px;
+  margin: 12px 12px 0px;
 `;
 
 const Text = styled.p`
@@ -118,7 +118,7 @@ const LikeInner = styled.button`
   font-size: 16px;
   display: flex;
   align-items: center;
-  margin: 8px 14px;
+  margin: 8px 12px;
 `;
 
 const Count = styled.span`

@@ -50,8 +50,8 @@ const BoardCard = ({
             <Title>{title}</Title>
             <Content>{content}</Content>
           </Grid>
-
           <Grid flexRow height="16px">
+
             <Date>
               {regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}
             </Date>
@@ -124,8 +124,7 @@ const Line = styled.div`
   /* border-top: 100% solid #ededed; */
   /* padding-top: 1px; */
   width: 100%;
-  background-color: #ededed;
-  //14px
+  background-color: #999999;
 `;
 
 const BoardCardOuter = styled.div`
