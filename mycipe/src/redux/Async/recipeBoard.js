@@ -94,7 +94,7 @@ export const addRecipeCommentDB = createAsyncThunk(
 export const getRecipeCommentDB = createAsyncThunk(
   "recipeBoard/getComment",
   async (data) => {
-    const response = await recipeBoardApi.getComment(data);
+    const response = await recipeBoardApi.getComment(data.recipeId, data.page);
     return response.data.data.content;
   }
 );
@@ -130,5 +130,14 @@ export const recipeCommentLikeDB = createAsyncThunk(
   async (data) => {
     const response = await recipeBoardApi.commentLikeToggle(data);
     return response.data.data;
+  }
+);
+
+// 댓글 무한 스크롤
+export const getInfinityScrollRecipeCommentDB = createAsyncThunk(
+  "recipeBoardComment/getInfinityScroll",
+  async (data) => {
+    const response = await recipeBoardApi.getComment(data.recipeId, data.page);
+    return response.data.data.content;
   }
 );
