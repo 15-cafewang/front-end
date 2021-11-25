@@ -6,17 +6,21 @@ import { recipeBoardApi } from "../../shared/api/recipeBoardApi";
 // 레시피 작성
 export const addRecipePostDB = createAsyncThunk(
   "recipeBoard/addPost",
-  async (data, thunkAPI) => {
-    const response = await recipeBoardApi.addPost(data);
-    history.push("/recipeboard");
-    return response.data.message;
+  async (data, { rejectWuthValue }) => {
+    try {
+      const response = await recipeBoardApi.addPost(data);
+
+      return response.data.message;
+    } catch (error) {
+      return rejectWuthValue(error);
+    }
   }
 );
 
 // 레시피 목록 가져오기
 export const getRecipePostListDB = createAsyncThunk(
   "recipeBoard/getPostList",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await recipeBoardApi.getPostList(data.page, data.sortBy);
     history.push("/recipeboard");
     return response.data.data.content;
@@ -53,10 +57,17 @@ export const recipeLikeToggleDB = createAsyncThunk(
 // 레시피 수정
 export const editRecipePostDB = createAsyncThunk(
   "recipeBoard/editPost",
-  async (data) => {
-    const response = await recipeBoardApi.editPost(data.boardId, data.formData);
-    history.push("/recipeBoard");
-    return response.data.data;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await recipeBoardApi.editPost(
+        data.boardId,
+        data.formData
+      );
+
+      return response.data.message;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
 
