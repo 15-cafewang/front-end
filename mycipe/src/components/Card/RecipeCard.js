@@ -118,7 +118,7 @@ const LikeInner = styled.button`
   font-size: 16px;
   display: flex;
   align-items: center;
-  margin: 8px 14px;
+  margin: 8px 20px;
 `;
 
 const Count = styled.span`
