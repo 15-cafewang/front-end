@@ -33,86 +33,86 @@ const Main = (props) => {
     monthly: false,
   });
 
-  const [rankList, setRankList] = useState([]);
+  const [rankList, setRankList] = useState([
+    [
+      {
+        nickname: "test",
+
+        image: "",
+        count: 11,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 6,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 6,
+      },
+    ],
+    [
+      {
+        nickname: "test",
+
+        image: "",
+        count: 4,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 3,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 3,
+      },
+    ],
+    [
+      {
+        nickname: "test",
+
+        image: "",
+        count: 2,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 2,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 1,
+      },
+    ],
+    [
+      {
+        nickname: "test",
+        image: "",
+        count: 29,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 1,
+      },
+      {
+        nickname: "test",
+        image: "",
+        count: 1,
+      },
+    ],
+  ]);
   const [kingList, setKingList] = useState([]);
 
   async function fetchData() {
     try {
-      const rankListResponse = mainApi.getRankList([
-        [
-          {
-            nickname: "test",
+      const rankListResponse = mainApi.getRankList();
 
-            image: "",
-            count: 11,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 6,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 6,
-          },
-        ],
-        [
-          {
-            nickname: "test",
-
-            image: "",
-            count: 4,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 3,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 3,
-          },
-        ],
-        [
-          {
-            nickname: "test",
-
-            image: "",
-            count: 2,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 2,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 1,
-          },
-        ],
-        [
-          {
-            nickname: "test",
-            image: "",
-            count: 29,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 1,
-          },
-          {
-            nickname: "test",
-            image: "",
-            count: 1,
-          },
-        ],
-      ]);
-
-      const kingListResponse = mainApi.getKingList([]);
+      const kingListResponse = mainApi.getKingList();
       const getRankList = (await rankListResponse).data.data;
       const getKingList = (await kingListResponse).data.data[0];
 
@@ -138,14 +138,6 @@ const Main = (props) => {
 
   console.log(rankList);
   console.log(kingList);
-
-  const buttonRef = useRef();
-
-  useEffect(() => {
-    buttonRef.current.addEventListener("click", (e) => {
-      console.log(e);
-    });
-  }, []);
 
   // 0 : 좋아요왕 , 1 : 게시글왕 , 2: 팔로우왕 , 3:댓글왕
   const [rankCategory, setRankCategory] = useState(0);
@@ -181,7 +173,7 @@ const Main = (props) => {
             <BannerTitle>누가 왕이 될 상인가</BannerTitle>
           </Banner>
 
-          <RankingButtonInner ref={buttonRef}>
+          <RankingButtonInner>
             <RankingButton
               isActive={rankCategory === 0 ? true : false}
               onClick={() => {
