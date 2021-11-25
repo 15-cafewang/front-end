@@ -510,4 +510,6 @@ const Button = styled.div`
   cursor: pointer;
 `;
 
+const CommentBox = styled.div``;
+
 export default BoardDetail;
