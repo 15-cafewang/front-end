@@ -18,11 +18,6 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
     deleteImage: [],
   });
 
-  console.log(images);
-  console.log(isImage);
-  console.log(fileList.previewURLList);
-  console.log(fileList);
-
   // 이미시 선택시 실행되는 함수
   const handleChangeImageFile = (e) => {
     // onChange 함수로 새로 받아온 file 배열
