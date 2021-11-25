@@ -33,9 +33,9 @@ export const bulletinBoardApi = {
   },
 
   // 댓글 조회
-  getComment: (boardId) => {
+  getComment: (boardId, page) => {
     return api.get(
-      `/boards/comments/${boardId}?page=1&size=10&isAsc=false&sortBy=regDate`
+      `/boards/comments/${boardId}?page=${page}&size=8&isAsc=false&sortBy=regDate`
     );
   },
 

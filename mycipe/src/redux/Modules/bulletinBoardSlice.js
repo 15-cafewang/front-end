@@ -13,13 +13,14 @@ import {
   editBulletinCommentDB,
   deleteBulletinCommentDB,
   bulletinCommentLikeDB,
+  getInfinityScrollBulletinCommentDB,
 } from "../Async/bulletinBoard";
 
 const initialstate = {
   isFetching: false,
   boardList: [],
   currentBoardPost: null,
-  commentList: null,
+  commentList: [],
 };
 
 const bulletinBoardSlice = createSlice({
@@ -168,6 +169,19 @@ const bulletinBoardSlice = createSlice({
       state.isFetching = false;
     },
     [bulletinCommentLikeDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 게시판 댓글 무한 스크롤
+    [getInfinityScrollBulletinCommentDB.pending]: (state, acton) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollBulletinCommentDB.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+
+      state.commentList = [...state.commentList, ...payload];
+    },
+    [getInfinityScrollBulletinCommentDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
   },
