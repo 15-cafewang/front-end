@@ -117,12 +117,10 @@ const HashTagItem = styled.li`
   justify-content: center;
   align-items: center;
   padding: 8px 10px;
-  border: ${(props) =>
-    props.active ? `1px solid #7692E4` : `1px solid #dbdbdb`};
-  border-radius: 6px;
+  border: ${(props) => (props.active ? `none;` : `1px solid #999999;`)};
   font-size: 14px;
   color: ${(props) => (props.active ? `#ffffff` : `#767676`)};
-  background-color: ${(props) => (props.active ? `#7692E4` : `#ffffff`)};
+  background-color: ${(props) => (props.active ? `#191919;` : `#ffffff`)};
   cursor: pointer;
 `;
 

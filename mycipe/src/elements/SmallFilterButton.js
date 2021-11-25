@@ -22,7 +22,7 @@ const Button = styled.button`
   padding: 8px;
   font-size: 12px;
   color: #767676;
-  ${(props) => props.active && `color : #7692E4`};
+  ${(props) => props.active && `color : #000000`};
 `;
 
 export default SmallFilterButton;

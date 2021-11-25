@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -32,13 +32,25 @@ const BoardWrite = ({ boardName }) => {
   // 입력 값 state
   const [post, setPost] = useState(null);
 
+  const titleRef = useRef(null);
+  const locationRef = useRef(null);
+  const contentRef = useRef(null);
+
   const currentPost = useSelector((state) =>
     boardName === "recipeBoard"
       ? state.recipeBoard.currentRecipePost
       : state.bulletinBoard.currentBoardPost
   );
 
-  console.log(post);
+  // textarea 높이 자동 resize
+  const handleResizeInputHeight = (height, ref) => {
+    if (ref === null || ref.current === null) {
+      return;
+    }
+    ref.current.style.height = height;
+    ref.current.style.height = ref.current.scrollHeight + "px";
+  };
+
   useEffect(() => {
     // 수정모드인데 리덕스에 현재 게시물 정보가 남아있다.
     if (isEdit && currentPost) {
@@ -190,9 +202,11 @@ const BoardWrite = ({ boardName }) => {
         {!isEdit && <ImageListUpload post={post} setPost={setPost} />}
 
         <TextInputBox
+          ref={titleRef}
+          onIput={handleResizeInputHeight("48px", titleRef)}
           onChange={(e) => setPost({ ...post, title: e.target.value })}
+          borderNone
           height="48"
-          marginBtm="8"
           placeholder={
             boardName === "recipeBoard" ? "카페 이름" : "게시글 제목"
           }
@@ -202,9 +216,11 @@ const BoardWrite = ({ boardName }) => {
         {/* 레시피 작성시에만 렌더링 해줌 */}
         {boardName === "recipeBoard" ? (
           <TextInputBox
+            ref={locationRef}
+            onIput={handleResizeInputHeight("48px", locationRef)}
             onChange={(e) => setPost({ ...post, location: e.target.value })}
+            borderNone
             height="48"
-            marginBtm="8"
             placeholder="카페 위치 (ex. 홍대 어딘가)"
             value={post ? post.location : ""}
           />
@@ -213,9 +229,11 @@ const BoardWrite = ({ boardName }) => {
         )}
 
         <TextInputBox
+          ref={contentRef}
+          onIput={handleResizeInputHeight("240px", contentRef)}
           onChange={(e) => setPost({ ...post, content: e.target.value })}
           height="240"
-          marginBtm="16"
+          marginBtm="24"
           placeholder={
             boardName === "recipeBoard"
               ? "카페 설명을 입력해주세요."
@@ -281,17 +299,23 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   font-size: 16px;
-  color: #7692e4;
+  color: #000000;
   justify-content: center;
 `;
 
 const TextInputBox = styled.textarea`
   width: 320px;
   height: ${(props) => props.height}px;
-  margin-bottom: ${(props) => props.marginBtm}px;
   padding: 14px 16px;
-  background: #f8f8fa;
-  border-radius: 6px;
+  border: 1px solid #999999;
+  margin-bottom: ${(props) => props.marginBtm}px;
+  ${(props) => props.borderNone && `border-bottom : none;`}
+
+  resize: none;
+  overflow: hidden;
+
+  white-space: pre-wrap;
+  word-break: break-all;
 
   &::placeholder {
     color: #999999;
