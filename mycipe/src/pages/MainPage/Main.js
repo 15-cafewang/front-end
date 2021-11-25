@@ -136,9 +136,6 @@ const Main = (props) => {
     fetchData();
   }, []);
 
-  console.log(rankList);
-  console.log(kingList);
-
   // 0 : 좋아요왕 , 1 : 게시글왕 , 2: 팔로우왕 , 3:댓글왕
   const [rankCategory, setRankCategory] = useState(0);
 
