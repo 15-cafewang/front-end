@@ -77,7 +77,7 @@ const Outter = styled.div`
   // 디테일 페이지
   ${(props) => props.size === "large" && `width : 320px; height : 320px;`}
   
-
+  // 메인페이지 배너 이미지
   ${(props) => props.size === "large2" && `width : 360px; height : 200px`}
 
 
