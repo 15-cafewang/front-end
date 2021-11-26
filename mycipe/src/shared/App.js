@@ -58,65 +58,65 @@ function App() {
             <PublickRoute path="/login" exact component={Login} />
             <PublickRoute path="/signup" exact component={Signup} />
             <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
-              <PrivateRoute path="/main" exact component={Main} />
-              <PrivateRoute
-                path="/recipeboard"
-                exact
-                component={RecipeBoardMain}
-              />
-              <PrivateRoute
-                path="/recipeboard/write"
-                exact
-                component={RecipeBoardWrite}
-              />
-              <PrivateRoute
-                path="/recipeboard/write/:id"
-                exact
-                component={RecipeBoardWrite}
-              />
-              <PrivateRoute
-                path="/recipeboard/detail/:recipeid"
-                exact
-                component={RecipeBoardDetail}
-              />
-              <PrivateRoute
-                path="/bulletinboard"
-                exact
-                component={BulletinBoardMain}
-              />
-              <PrivateRoute
-                path="/bulletinboard/write"
-                exact
-                component={BulletinBoardWrite}
-              />
-              <PrivateRoute
-                path="/bulletinboard/detail/:boardid"
-                exact
-                component={BulletinBoardDetail}
-              />
-              <PrivateRoute
-                path="/bulletinboard/write/:id"
-                exact
-                component={BulletinBoardWrite}
-              />
-              <PrivateRoute
-                path="/usermain/:nickname"
-                exact
-                component={UserMain}
-              />
-              <PrivateRoute
-                path="/userpageprofileedit"
-                exact
-                component={UserpageProfileEdit}
-              />
-              <PrivateRoute
-                path="/userpagefollowlist/:nickname"
-                exact
-                component={UserPageFollowList}
-              />
-              <PrivateRoute path="/searchmain" component={SearchMain} />
-              <PrivateRoute path="/setting" component={Setting} />
-                <NotFound />
+            <PrivateRoute path="/main" exact component={Main} />
+            <PrivateRoute
+              path="/recipeboard"
+              exact
+              component={RecipeBoardMain}
+            />
+            <PrivateRoute
+              path="/recipeboard/write"
+              exact
+              component={RecipeBoardWrite}
+            />
+            <PrivateRoute
+              path="/recipeboard/write/:id"
+              exact
+              component={RecipeBoardWrite}
+            />
+            <PrivateRoute
+              path="/recipeboard/detail/:recipeid"
+              exact
+              component={RecipeBoardDetail}
+            />
+            <PrivateRoute
+              path="/bulletinboard"
+              exact
+              component={BulletinBoardMain}
+            />
+            <PrivateRoute
+              path="/bulletinboard/write"
+              exact
+              component={BulletinBoardWrite}
+            />
+            <PrivateRoute
+              path="/bulletinboard/detail/:boardid"
+              exact
+              component={BulletinBoardDetail}
+            />
+            <PrivateRoute
+              path="/bulletinboard/write/:id"
+              exact
+              component={BulletinBoardWrite}
+            />
+            <PrivateRoute
+              path="/usermain/:nickname"
+              exact
+              component={UserMain}
+            />
+            <PrivateRoute
+              path="/userpageprofileedit"
+              exact
+              component={UserpageProfileEdit}
+            />
+            <PrivateRoute
+              path="/userpagefollowlist/:nickname"
+              exact
+              component={UserPageFollowList}
+            />
+            <PrivateRoute path="/searchmain" component={SearchMain} />
+            <PrivateRoute path="/setting" component={Setting} />
+            <NotFound />
           </Switch>
           <BottomNav />
         </Container>
@@ -132,6 +132,7 @@ const Container = styled.div`
   position: relative;
   background: #fff;
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const Outter = styled.div`
