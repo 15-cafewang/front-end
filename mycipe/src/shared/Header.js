@@ -120,7 +120,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>레시피 보기</PageName>
+        <PageName>카페 보기</PageName>
       </HeaderInner>
     );
   }
