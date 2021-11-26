@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSearchRecipeDB, getSearchBoardDB } from "../Async/Search";
+import { getSearchCafeDB, getSearchBoardDB } from "../Async/Search";
 
 //initialState
-
 const initialState = {
   isFetching: false,
 
@@ -22,36 +21,36 @@ const initialState = {
   currentSorting: "byDate",
 
   //최근검색어
-  recipeSearchList: [],
+  cafeSearchList: [],
   boardSearchList: [],
 
-  recipeList: [
-    {
-      recipeId: 24,
-      nickname: "hhh",
-      title: "hello111",
-      content: "안녕하세요 헬로입.",
-      images: [""],
-      regDate: "2021-11-11T16:55:23.198059",
-      commentCount: 0,
-      likeCount: 0,
-      price: null,
-      likeStatus: false,
-    },
+  cafeList: [
+    // {
+    //   cafeId: 24,
+    //   nickname: "hhh",
+    //   title: "hello111",
+    //   content: "안녕하세요 헬로입.",
+    //   images: [""],
+    //   regDate: "2021-11-11T16:55:23.198059",
+    //   commentCount: 0,
+    //   likeCount: 0,
+    //   price: null,
+    //   likeStatus: false,
+    // },
   ],
 
   boardList: [
-    {
-      boardId: 2,
-      nickname: "na_0",
-      title: "제",
-      content: "테스트내용",
-      images: [""],
-      regDate: "2021-11-07T02:21:46.212107",
-      commentCount: 0,
-      likeCount: 0,
-      likeStatus: false,
-    },
+    // {
+    //   boardId: 2,
+    //   nickname: "na_0",
+    //   title: "제",
+    //   content: "테스트내용",
+    //   images: [""],
+    //   regDate: "2021-11-07T02:21:46.212107",
+    //   commentCount: 0,
+    //   likeCount: 0,
+    //   likeStatus: false,
+    // },
   ],
 };
 
@@ -68,7 +67,7 @@ const searchSlice = createSlice({
     //레시피 메인 or 자유게시판 메인에서 넘어올떄 저장된 게시물들 전부 초기화.
     resetList: (state, action) => {
       state.boardList = [];
-      state.recipeList = [];
+      state.cafeList = [];
       state.isList = false;
     },
 
@@ -85,31 +84,31 @@ const searchSlice = createSlice({
     },
 
     //레시피 검색어 추가
-    addRecipeKeyword: (state, action) => {
+    addCafeKeyword: (state, action) => {
       const newKeyword = action.payload;
 
       //새로 등록할 키워드가 이미존재한다면 확인후 삭제하고 추가.
-      if (state.recipeSearchList.includes(newKeyword)) {
-        const index = state.recipeSearchList.indexOf(newKeyword);
-        state.recipeSearchList.splice(index, 1);
-        state.recipeSearchList.unshift(newKeyword);
+      if (state.cafeSearchList.includes(newKeyword)) {
+        const index = state.cafeSearchList.indexOf(newKeyword);
+        state.cafeSearchList.splice(index, 1);
+        state.cafeSearchList.unshift(newKeyword);
       } else {
-        state.recipeSearchList.unshift(newKeyword);
+        state.cafeSearchList.unshift(newKeyword);
       }
       //5개를 넘어가면 1개 제거.
-      if (state.recipeSearchList.length === 6) {
-        state.recipeSearchList.pop();
+      if (state.cafeSearchList.length === 6) {
+        state.cafeSearchList.pop();
       }
     },
     // 레시피 검색어 전부삭제
-    deleteAllRecipeKeyword: (state, action) => {
-      state.recipeSearchList = [];
+    deleteAllCafeKeyword: (state, action) => {
+      state.cafeSearchList = [];
     },
 
     //레시피 검색어 한개 삭제
-    deleteRecipeKeyword: (state, action) => {
-      const index = state.recipeSearchList.indexOf(action.payload);
-      state.recipeSearchList.splice(index, 1);
+    deleteCafeKeyword: (state, action) => {
+      const index = state.cafeSearchList.indexOf(action.payload);
+      state.cafeSearchList.splice(index, 1);
     },
 
     //자유게시판 검색어 추가
@@ -146,22 +145,22 @@ const searchSlice = createSlice({
   //비동기
   extraReducers: {
     //레시피검색
-    [getSearchRecipeDB.pending]: (state, ation) => {
+    [getSearchCafeDB.pending]: (state, ation) => {
       state.isFetching = true;
     },
 
-    [getSearchRecipeDB.fulfilled]: (state, { payload }) => {
+    [getSearchCafeDB.fulfilled]: (state, { payload }) => {
       console.log(payload);
       state.isFetching = false;
 
       state.isList = true;
-      state.recipeList = payload;
+      state.cafeList = payload;
 
       //레시피를 보여줄 거기 때문에 자유게시판 목록은 필요가 없다.
       state.boardList = [];
     },
 
-    [getSearchRecipeDB.rejected]: (state, action) => {
+    [getSearchCafeDB.rejected]: (state, action) => {
       state.isFetching = false;
       console.log(action.error);
     },
@@ -180,7 +179,7 @@ const searchSlice = createSlice({
       state.boardList = payload;
 
       //자유게시판 목록을 보여줄 거기 때문에 레시피 목록은 필요가 없다.
-      state.recipeList = [];
+      state.cafeList = [];
     },
 
     [getSearchBoardDB.rejected]: (state, action) => {
@@ -199,9 +198,9 @@ export const {
   setHashTag,
   setSorting,
 
-  addRecipeKeyword,
-  deleteAllRecipeKeyword,
-  deleteRecipeKeyword,
+  addCafeKeyword,
+  deleteAllCafeKeyword,
+  deleteCafeKeyword,
 
   addBoardKeyword,
   deleteAllBoardKeyword,

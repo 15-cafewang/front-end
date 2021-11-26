@@ -2,15 +2,20 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
+
 // components
+import Spinner from "../../assets/image/Spinner.gif";
 import { SmallFilterButton, ButtonInner } from "../../elements";
 import BoardCard from "../../components/Card/BoardCard";
 import ModalBackground from "../../shared/ModalBackground";
+
 // async
 import {
   getBulletinPostListDB,
   getInfinityScrollDB,
 } from "../../redux/Async/bulletinBoard";
+
+// 무한스크롤 hook
 import { useInterSectionObserver } from "../../hooks";
 
 const BulletinBoardMain = () => {
@@ -29,7 +34,6 @@ const BulletinBoardMain = () => {
   const [isLoading, setIsLoading] = useState(false);
   const pageRef = useRef(1);
 
-  console.log(target.current);
   useEffect(() => {
     dispatch(
       getBulletinPostListDB({
@@ -63,7 +67,7 @@ const BulletinBoardMain = () => {
     <BoardMainContainer>
       {isActive && <ModalBackground />}
       {/* 정렬 박스 */}
-      <ButtonInner height="32px" small>
+      <ButtonInner height="32px" small margin="12px 0px 0px">
         <SmallFilterButton
           active={currentSorting.sortedByDate}
           _onClick={() => {
@@ -101,27 +105,12 @@ const BulletinBoardMain = () => {
                       history.push(`/bulletinboard/detail/${b.boardId}`);
                     }}
                     key={b.boardId}
-                    boardId={b.boardId}
-                    commentCount={b.commentCount}
-                    content={b.content}
-                    image={b.image}
-                    likeCount={b.likeCount}
-                    likeStatus={b.likeStatus}
-                    nickname={b.nickname}
-                    regDate={
-                      b.regDate
-                        ? b.regDate
-                            .split("T")[0]
-                            .replace("-", ". ")
-                            .replace("-", ". ")
-                        : ""
-                    }
-                    title={b.title}
+                    {...b}
                   />
                 );
               })}
           </CardList>
-          <div ref={target}>{isLoading && "loading..."}</div>
+          <div ref={target}>{isLoading && <SpinnerImg src={Spinner} />}</div>
         </>
       )}
 
@@ -129,34 +118,19 @@ const BulletinBoardMain = () => {
         <>
           <CardList>
             {boardList &&
-              boardList.map((r, idx) => {
+              boardList.map((b, idx) => {
                 return (
                   <BoardCard
                     _onClick={() => {
-                      history.push(`/bulletinboard/detail/${r.boardId}`);
+                      history.push(`/bulletinboard/detail/${b.boardId}`);
                     }}
-                    key={r.boardId}
-                    boardId={r.boardId}
-                    commentCount={r.commentCount}
-                    content={r.content}
-                    image={r.image}
-                    likeCount={r.likeCount}
-                    likeStatus={r.likeStatus}
-                    nickname={r.nickname}
-                    price={r.price}
-                    title={r.title}
-                    regDate={
-                      r.regDate &&
-                      r.regDate
-                        .split("T")[0]
-                        .replace("-", ". ")
-                        .replace("-", ". ")
-                    }
+                    key={b.boardId}
+                    {...b}
                   />
                 );
               })}
           </CardList>
-          <div ref={target}>{isLoading && "loading..."}</div>
+          <div ref={target}>{isLoading && <SpinnerImg src={Spinner} />}</div>
         </>
       )}
     </BoardMainContainer>
@@ -174,10 +148,9 @@ const BoardMainContainer = styled.div`
 `;
 
 const CardList = styled.div`
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 20px;
 `;
+
+const SpinnerImg = styled.img``;
 
 export default BulletinBoardMain;

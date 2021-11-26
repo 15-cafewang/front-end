@@ -1,48 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
+
 // icon
-import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
-import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
+import { ReactComponent as ActiveLikeIcon } from "../../assets/icon/LikeIcon/activeLike.svg";
+import { ReactComponent as LikeIcon } from "../../assets/icon/LikeIcon/like.svg";
+
 // elements
 import Image from "../../elements/Image";
+
 // components
+// import Comment from "../../shared/Comment";
 import BoardComment from "./BoardComment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";
+import PopUp from "../../shared/PopUp";
+
 // async
 import {
-  recipeLikeToggleDB,
-  getRecipePostDetailDB,
-  deleteRecipePostDB,
-  addRecipeCommentDB,
-  getRecipeCommentDB,
-} from "../../redux/Async/recipeBoard";
+  cafeLikeToggleDB,
+  getCafePostDetailDB,
+  deleteCafePostDB,
+  addCafeCommentDB,
+  getCafeCommentDB,
+  getInfinityScrollCafeCommentDB,
+} from "../../redux/Async/cafeBoard";
+
 import {
   bulletinLikeToggleDB,
   getBulletinPostDetailDB,
   deleteBulletinPostDB,
   addBulletinCommentDB,
   getBulletinCommentDB,
+  getInfinityScrollBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
+
+// 무한스크롤 Hook
+import { useInterSectionObserver } from "../../hooks/index";
 
 const BoardDetail = ({ boardName }) => {
   const dispatch = useDispatch();
   const params = useParams();
+
   const boardId = params.boardid;
-  const recipeId = params.recipeid;
+  const cafeId = params.cafeid;
+
   const userNickname = useSelector((state) => state.user.userInfo.nickname);
   const isActive = useSelector((state) => state.modal.isActive);
   const postDetail = useSelector((state) =>
-    boardName === "recipeBoard"
-      ? state.recipeBoard.currentRecipePost
+    boardName === "cafeBoard"
+      ? state.cafeBoard.currentcafePost
       : state.bulletinBoard.currentBoardPost
   );
   const commentList = useSelector((state) =>
-    boardName === "recipeBoard"
-      ? state.recipeBoard.commentList
+    boardName === "cafeBoard"
+      ? state.cafeBoard.commentList
       : state.bulletinBoard.commentList
   );
 
@@ -55,41 +69,97 @@ const BoardDetail = ({ boardName }) => {
 
   const [content, setContent] = useState("");
 
+  const target = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const pageRef = useRef(1);
+  const inputRef = useRef(null);
+
   // 새로 고침 시 like 반영
   useEffect(() => {
     setLikeStatus(postDetail && postDetail.likeStatus);
     setLikeCount(postDetail && postDetail.likeCount);
   }, [postDetail]);
 
+  // textarea 높이 자동 resize
+  const handleResizeInputHeight = (height, ref) => {
+    if (ref === null || ref.current === null) {
+      return;
+    }
+    ref.current.style.height = height;
+    ref.current.style.height = ref.current.scrollHeight + "px";
+  };
+
   // 게시물 상세 불러오기
   useEffect(() => {
-    if (boardName === "recipeBoard") {
-      dispatch(getRecipePostDetailDB(recipeId));
+    if (boardName === "cafeBoard") {
+      dispatch(getCafePostDetailDB(cafeId));
       return;
     }
     if (boardName === "bulletinBoard") {
       dispatch(getBulletinPostDetailDB(boardId));
       return;
     }
-  }, [boardId, boardName, dispatch, recipeId]);
+  }, [boardId, boardName, dispatch, cafeId]);
 
   // 댓글 조회
   useEffect(() => {
-    if (boardName === "recipeBoard") {
-      dispatch(getRecipeCommentDB(recipeId));
+    const data = {
+      page: 1,
+      cafeId: cafeId,
+    };
+    if (boardName === "cafeBoard") {
+      dispatch(getCafeCommentDB(data));
       return;
     }
+  }, [dispatch, cafeId, boardName]);
+
+  useEffect(() => {
+    const data = {
+      page: 1,
+      boardId: boardId,
+    };
     if (boardName === "bulletinBoard") {
-      dispatch(getBulletinCommentDB(boardId));
+      dispatch(getBulletinCommentDB(data));
       return;
     }
-  }, [dispatch, recipeId, boardId, boardName]);
+  }, [dispatch, boardId, boardName]);
+
+  // 관찰이 시작될 때 실행될 콜백 함수
+  const fetchMoreCafe = (page) => {
+    setIsLoading(true);
+    if (boardName === "cafeBoard") {
+      dispatch(
+        getInfinityScrollCafeCommentDB({
+          page: page,
+          cafeId: cafeId,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          setIsLoading(false);
+        });
+    } else {
+      dispatch(
+        getInfinityScrollBulletinCommentDB({
+          page: page,
+          boardId: boardId,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          setIsLoading(false);
+        });
+    }
+  };
+
+  useInterSectionObserver(fetchMoreCafe, pageRef, target.current, commentList);
+
   const isPostUser = (postDetail && postDetail.nickname) === userNickname;
 
   // 좋아요 누를 때 마다 DB 반영
   const handleLikeToggle = () => {
-    if (boardName === "recipeBoard") {
-      dispatch(recipeLikeToggleDB(recipeId));
+    if (boardName === "cafeBoard") {
+      dispatch(cafeLikeToggleDB(cafeId));
     }
     if (boardName === "bulletinBoard") {
       dispatch(bulletinLikeToggleDB(boardId));
@@ -101,8 +171,8 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
-    const recipeComment = {
-      recipeId: recipeId,
+    const cafeComment = {
+      cafeId: cafeId,
       content: content,
     };
     const boardComment = {
@@ -110,8 +180,8 @@ const BoardDetail = ({ boardName }) => {
       content: content,
     };
 
-    if (boardName === "recipeBoard") {
-      dispatch(addRecipeCommentDB(recipeComment));
+    if (boardName === "cafeBoard") {
+      dispatch(addCafeCommentDB(cafeComment));
     }
     if (boardName === "bulletinBoard") {
       dispatch(addBulletinCommentDB(boardComment));
@@ -120,28 +190,77 @@ const BoardDetail = ({ boardName }) => {
     setContent("");
   };
 
+  //  alert창
+  const [popUp, setPopUp] = useState(false);
+  const [buttonName, setButtonName] = useState(null);
+  console.log(popUp);
+  console.log(buttonName);
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
-      <Box margin="0px 0px 16px 0px">
-        <Image
-          shape="circle"
-          size="small"
-          src={postDetail && postDetail.profile}
+      {/* alert 창 */}
+      {buttonName === "수정" ? (
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="게시물을 수정하시겠습니까?"
+          isButton={true}
+          buttonName={buttonName}
           _onClick={() => {
-            history.push(`/usermain/${postDetail.nickname}`);
+            boardName === "cafeBoard"
+              ? history.push(`/cafeboard/write/${cafeId}`)
+              : history.push(`/bulletinboard/write/${boardId}`);
           }}
         />
+      ) : (
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="게시물을 삭제하시겠습니까?"
+          isButton={true}
+          buttonName={buttonName}
+          _onClick={() => {
+            boardName === "cafeBoard"
+              ? dispatch(deleteCafePostDB(cafeId))
+              : dispatch(deleteBulletinPostDB(boardId));
+          }}
+        />
+      )}
+
+      {/* 
+      {buttonName === "삭제" && (
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="게시물을 삭제하시겠습니까?"
+          isButton={true}
+          buttonName={buttonName}
+          _onClick={() => {
+            boardName === "cafeBoard"
+              ? dispatch(deletecafePostDB(cafeId))
+              : dispatch(deleteBulletinPostDB(boardId));
+          }}
+        />
+      )} */}
+      <Box width="320px" margin="0 auto" padding="0px 0px 12px 0px">
+        <Box start>
+          <Image
+            shape="circle"
+            size="small"
+            src={postDetail && postDetail.profile}
+            _onClick={() => {
+              history.push(`/usermain/${postDetail.nickname}`);
+            }}
+          />
+        </Box>
         <Nickname>{postDetail && postDetail.nickname}</Nickname>
+
         {isPostUser && (
           <Box between width="60px">
             <EditBtn
               onClick={() => {
-                if (boardName === "recipeBoard") {
-                  history.push(`/recipeboard/write/${recipeId}`);
-                } else {
-                  history.push(`/bulletinboard/write/${boardId}`);
-                }
+                setPopUp(true);
+                setButtonName("수정");
               }}
             >
               수정
@@ -149,11 +268,8 @@ const BoardDetail = ({ boardName }) => {
 
             <EditBtn
               onClick={() => {
-                if (boardName === "recipeBoard") {
-                  dispatch(deleteRecipePostDB(recipeId));
-                } else {
-                  dispatch(deleteBulletinPostDB(boardId));
-                }
+                setPopUp(true);
+                setButtonName("삭제");
               }}
             >
               삭제
@@ -162,27 +278,33 @@ const BoardDetail = ({ boardName }) => {
         )}
       </Box>
 
-      <ImageSlider imageList={postDetail && postDetail.images} />
+      {postDetail && postDetail.images ? (
+        <ImageSlider imageList={postDetail && postDetail.images} />
+      ) : (
+        ""
+      )}
 
-      <Box col margin="12px 0px 0px">
+      <Box col>
         {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
-        {boardName === "recipeBoard" && (
-          <HashTagBox>
-            {postDetail &&
-              postDetail.tags.map((tag) => {
-                return <UserHashTagItem key={tag}>{tag}</UserHashTagItem>;
-              })}
-          </HashTagBox>
+        {boardName === "cafeBoard" && (
+          <Box margin="12px 0px 0px 0px">
+            <HashTagBox>
+              {postDetail &&
+                postDetail.tags.map((tag) => {
+                  return <UserHashTagItem key={tag}>#{tag}</UserHashTagItem>;
+                })}
+            </HashTagBox>
+          </Box>
         )}
 
-        <TextBox width="320" height="48" marginBtm="8">
+        <TextBox width="320" height="48" margin="14px 0px 0px 0px" borderNone>
           {postDetail && postDetail.title}
         </TextBox>
 
-        {/* 가격 정보 : 레시피 상세페이지 일때만 렌더링 */}
-        {boardName === "recipeBoard" && (
-          <TextBox width="320" height="48" marginBtm="8">
-            {postDetail && postDetail.price}원
+        {/* 위치 정보 : 카페 상세페이지 일때만 렌더링 */}
+        {boardName === "cafeBoard" && (
+          <TextBox width="320" height="48" borderNone>
+            {postDetail && postDetail.location}
           </TextBox>
         )}
 
@@ -199,7 +321,7 @@ const BoardDetail = ({ boardName }) => {
               }}
             >
               <div>
-                <ActiveSmallLikeIcon />
+                <ActiveLikeIcon />
               </div>
               <LikeCount>{likeCount}개</LikeCount>
             </LikeBox>
@@ -211,7 +333,7 @@ const BoardDetail = ({ boardName }) => {
               }}
             >
               <div>
-                <SmallLikeIcon />
+                <LikeIcon />
               </div>
               <LikeCount>{likeCount}개</LikeCount>
             </LikeBox>
@@ -227,14 +349,15 @@ const BoardDetail = ({ boardName }) => {
           </Date>
         </Box>
 
-        <Box width="320px" margin="0px 0px 20px 0px">
+        <Box width="320px" margin="0px 0px 20px 0px" between>
           <TextInputBox
             width="262"
-            height="50"
+            ref={inputRef}
             onChange={(e) => setContent(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && addComment()}
-            defaultvalue={content}
+            value={content}
             placeholder="댓글을 입력해 주세요."
+            onInput={handleResizeInputHeight("50px", inputRef)}
           />
           <Button onClick={addComment}>등록</Button>
         </Box>
@@ -242,36 +365,17 @@ const BoardDetail = ({ boardName }) => {
           <>
             <CommentBox>
               {commentList &&
-                boardName === "recipeBoard" &&
-                commentList.map((r, idx) => {
+                commentList.map((comment) => {
                   return (
                     <BoardComment
-                      key={r.recipeId}
-                      content={r.content}
-                      likeCount={r.likeCount}
-                      likeStatus={r.likeStatus}
-                      nickname={r.nickname}
-                      profileImage={r.profileImage}
-                      regDate={r.regDate}
-                    />
-                  );
-                })}
-              {commentList &&
-                boardName === "bulletinBoard" &&
-                commentList.map((b, idx) => {
-                  return (
-                    <BoardComment
-                      key={b.boardId}
-                      content={b.content}
-                      likeCount={b.likeCount}
-                      likeStatus={b.likeStatus}
-                      nickname={b.nickname}
-                      profileImage={b.profileImage}
-                      regDate={b.regDate}
+                      key={comment.commentId}
+                      comment={comment}
+                      boardName={boardName}
                     />
                   );
                 })}
             </CommentBox>
+            <div ref={target}>{isLoading && "loading..."}</div>
           </>
         )}
       </Box>
@@ -280,7 +384,7 @@ const BoardDetail = ({ boardName }) => {
 };
 
 const BoardDetailContainer = styled.div`
-  padding: 0px 20px;
+  padding: 20px 20px 0px;
   height: auto;
   min-height: calc(100% - 60px);
   position: relative;
@@ -292,13 +396,18 @@ const LikeBox = styled.button`
 `;
 
 const Box = styled.div`
-  ${(props) => props.width && `width : ${props.width};`}
-  ${(props) => props.col && `flex-direction : column;`}
-  margin: ${(props) => props.margin};
-  ${(props) => props.cursor === "true" && `cursor : pointer`};
   display: flex;
   align-items: center;
-  ${(props) => props.between && `justify-content : space-between`};
+
+  margin: ${(props) => props.margin};
+  ${(props) => props.height && `height : ${props.height};`}
+  ${(props) => props.padding && `padding : ${props.padding};`}
+  ${(props) => props.width && `width : ${props.width};`}
+  ${(props) => props.col && `flex-direction : column;`}
+  ${(props) => props.cursor === "true" && `cursor : pointer;`};
+  ${(props) => props.center && `justify-content : center;`};
+  ${(props) => props.start && `justify-content : start;`}
+  ${(props) => props.between && `justify-content : space-between;`};
 `;
 
 const Nickname = styled.div`
@@ -318,7 +427,6 @@ const HashTagBox = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 320px;
-  margin-bottom: 12px;
 `;
 
 const UserHashTagItem = styled.div`
@@ -329,40 +437,43 @@ const UserHashTagItem = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: ${(props) =>
-    props.active ? `1px solid #7692E4` : `1px solid #dbdbdb`};
-  border-radius: 6px;
+  border: 1px solid #999999;
   font-size: 14px;
-  color: ${(props) => (props.active ? `#ffffff` : `#767676`)};
-  background-color: ${(props) => (props.active ? `#7692E4` : `#ffffff`)};
-  cursor: pointer;
+  color: #767676;
 `;
 
 const TextBox = styled.pre`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
-  margin-bottom: ${(props) => props.marginBtm}px;
   padding: 15px 16px;
-  background: #f8f8fa;
-  border-radius: 6px;
   font-size: 14px;
   color: #191919;
+  border: 1px solid #999999;
+  ${(props) => props.margin && `margin : ${props.margin};`}
+  ${(props) => props.borderNone && `border-bottom : none;`}
+
   white-space: pre-wrap;
+  word-break: break-all;
 
   &::placeholder {
     color: #999999;
   }
 `;
 
-const TextInputBox = styled.input`
+const TextInputBox = styled.textarea`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
   margin-bottom: ${(props) => props.marginBtm}px;
   padding: 15px 16px;
   background: #f8f8fa;
-  border-radius: 6px;
   font-size: 14px;
   color: #191919;
+
+  resize: none;
+  overflow: hidden;
+
+  white-space: pre-wrap;
+  word-break: break-all;
 
   &::placeholder {
     color: #999999;
@@ -384,14 +495,14 @@ const Date = styled.div`
 const Button = styled.div`
   width: 50px;
   height: 50px;
-  border: 1px solid #dbdbdb;
-  border-radius: 4px;
+  border: 1px solid #999999;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 14px;
   color: #767676;
   background-color: #ffffff;
+  cursor: pointer;
 `;
 
 const CommentBox = styled.div``;

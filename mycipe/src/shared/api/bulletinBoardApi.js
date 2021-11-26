@@ -33,9 +33,9 @@ export const bulletinBoardApi = {
   },
 
   // 댓글 조회
-  getComment: (boardId) => {
+  getComment: (boardId, page) => {
     return api.get(
-      `/boards/comments/${boardId}?page=1&size=10&isAsc=false&sortBy=regDate`
+      `/boards/comments/${boardId}?page=${page}&size=8&isAsc=false&sortBy=regDate`
     );
   },
 
@@ -45,8 +45,10 @@ export const bulletinBoardApi = {
   },
 
   // 댓글 수정
-  editComment: (commentId, comment) => {
-    return api.put(`/boards/comments/${commentId}`, comment);
+  editComment: (commentId, content) => {
+    return api.put(`/boards/comments/${commentId}`, {
+      content: content,
+    });
   },
 
   // 댓글 삭제
@@ -57,5 +59,10 @@ export const bulletinBoardApi = {
   // 좋아요 토글
   likeToggle: (boardId) => {
     return api.post(`/boards/likes/${boardId}`);
+  },
+
+  // 게시물 댓글 좋아요 토글
+  commentLikeToggle: (commentId) => {
+    return api.post(`/boards/comments/likes/${commentId}`);
   },
 };

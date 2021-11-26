@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const hashTagStrList = [
-  "청량한",
-  "고소한",
-  "단짠",
-  "디카페인",
-  "달달한",
-  "아이스",
-  "따뜻한",
-  "새콤달콤한",
-  "시험기간에 필수",
-  "당충전",
+  "화이트톤",
+  "인생샷",
+  "힙한",
+  "디저트",
+  "귀여운",
+  "야외공간",
+  "애견동반",
+  "몽환적인",
+  "아늑한",
+  "비건",
+  "스터디",
 ];
 
 const HashTag = ({
@@ -97,15 +98,15 @@ const HashTagBox = styled.ul`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  width: 302px;
-  height: 124px;
+  width: calc(100% - 70px);
+  height: 8rem;
 
   & > :nth-child(5) {
-    margin-left: 49.5px;
+    margin-left: calc((100% - 240px) / 2);
   }
 
   & > :nth-child(7) {
-    margin-right: 39.5px;
+    margin-right: calc((100% - 240px) / 2);
   }
 `;
 
@@ -116,12 +117,10 @@ const HashTagItem = styled.li`
   justify-content: center;
   align-items: center;
   padding: 8px 10px;
-  border: ${(props) =>
-    props.active ? `1px solid #7692E4` : `1px solid #dbdbdb`};
-  border-radius: 6px;
+  border: ${(props) => (props.active ? `none;` : `1px solid #999999;`)};
   font-size: 14px;
   color: ${(props) => (props.active ? `#ffffff` : `#767676`)};
-  background-color: ${(props) => (props.active ? `#7692E4` : `#ffffff`)};
+  background-color: ${(props) => (props.active ? `#191919;` : `#ffffff`)};
   cursor: pointer;
 `;
 

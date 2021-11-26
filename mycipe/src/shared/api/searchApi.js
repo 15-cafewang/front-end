@@ -1,7 +1,7 @@
 import api from "./index";
 
-const getSearchRecipe = ({ keyword, withTag, sortBy }) => {
-  return api.get(`/search/recipe?keyword=${keyword}&withTag=${withTag}&page=1&size=10&isAsc=true&sortBy=${sortBy}
+const getSearchcafe = ({ keyword, withTag, sortBy }) => {
+  return api.get(`/search/cafe?keyword=${keyword}&withTag=${withTag}&page=1&size=10&isAsc=true&sortBy=${sortBy}
 `);
 };
 
@@ -10,4 +10,4 @@ const getSearchBoard = ({ keyword, sortBy }) => {
 `);
 };
 
-export { getSearchRecipe, getSearchBoard };
+export { getSearchcafe, getSearchBoard };

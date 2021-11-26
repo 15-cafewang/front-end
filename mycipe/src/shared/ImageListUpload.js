@@ -1,16 +1,19 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
 // icon
-import { ReactComponent as PlusImageBefore } from "../assets/plusImageBefore.svg";
-import { ReactComponent as Remove } from "../assets/remove.svg";
+import { ReactComponent as PlusImageBefore } from "../assets/icon/ImageUploadIcon/plusImageBefore.svg";
+import { ReactComponent as Remove } from "../assets/icon/ImageUploadIcon/remove.svg";
 
 // elements
 import Image from "../elements/Image";
 
+// shared components
+import PopUp from "../shared/PopUp";
+
 const ImageListUpload = ({ isEdit, post, images, setPost }) => {
   const isImage = images ? [...images] : [];
   const [fileList, setFileList] = useState({
-    fileList: [],
+    fileObj: {},
     previewURLList: isImage,
     deleteImage: [],
   });
@@ -27,26 +30,32 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
     if (isEdit) imageFileList = selectedFile;
 
     // 작성모드일 때 선택했던 파일 + 지금 선택한 파일
-    if (!isEdit) imageFileList = [...fileList.fileList, ...selectedFile];
+    if (!isEdit)
+      imageFileList = [...Object.values(fileList.fileObj), ...selectedFile];
 
     // 6장 이상이면 return
     if (imageFileList.length >= 6) {
-      window.alert("사진은 최대 5장까지 업로드 가능합니다");
-      return;
+      setPopUp(true);
+      setMessage("사진은 최대 5장까지 업로드 가능합니다🥲");
+
+      setTimeout(() => {
+        setPopUp(false);
+        return;
+      }, 1200);
     }
 
     if (imageFileList.length <= 5) {
       const previewFileList = [];
+      const newFileObj = {};
 
       for (let i = 0; i < imageFileList.length; i++) {
         const previewURL = URL.createObjectURL(imageFileList[i]);
         previewFileList.push(previewURL);
+        newFileObj[previewURL] = imageFileList[i];
       }
 
       setFileList({
-        fileList: isEdit
-          ? [...fileList.fileList, ...imageFileList]
-          : imageFileList,
+        fileObj: isEdit ? { ...fileList.fileObj, ...newFileObj } : newFileObj,
 
         // 수정모드일 때는 previewURLList를 props로 받아온 images + 새로 선택한 파일 미리보기
         previewURLList: isEdit
@@ -58,18 +67,27 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
   };
 
   // 이미지 삭제시 실행되는 함수
-  const handleRemoveImageFile = (idx) => {
+  const handleRemoveImageFile = (url, idx) => {
     // 수정모드일 때 삭제한 이미지만 담아놓는 배열
     if (images && images.includes(fileList.previewURLList[idx]))
       fileList.deleteImage.push(fileList.previewURLList[idx]);
 
-    // 선택한 index의 배열 요소를 자른다.
-    fileList.fileList.splice(idx, 1);
-    fileList.previewURLList.splice(idx, 1);
+    const deletedPreviewURLList = fileList.previewURLList.filter(
+      (prev, idx) => {
+        return prev !== url;
+      }
+    );
+
+    const newObject = Object.keys(fileList.fileObj)
+      .filter((key) => key !== url)
+      .reduce((result, current) => {
+        result[current] = fileList.fileObj[current];
+        return result;
+      }, {});
 
     setFileList({
-      fileList: fileList.fileList,
-      previewURLList: fileList.previewURLList,
+      fileObj: newObject,
+      previewURLList: deletedPreviewURLList,
       deleteImage: fileList.deleteImage,
     });
   };
@@ -78,13 +96,19 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
     // request data
     setPost({
       ...post,
-      fileList: fileList.fileList,
+      fileList: Object.values(fileList.fileObj),
       deleteImage: fileList.deleteImage,
+      previewURLList: fileList.previewURLList,
     });
   }, [fileList]);
 
+  const [popUp, setPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+
   return (
     <>
+      <PopUp popUp={popUp} setPopUp={setPopUp} message={message} />
+
       <Grid>
         <Image shape="rectangle" size="small">
           <label>
@@ -107,7 +131,7 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
               <Image key={url} src={url} shape="rectangle" size="small">
                 <RemoveIconWrapper
                   onClick={() => {
-                    handleRemoveImageFile(idx);
+                    handleRemoveImageFile(url, idx);
                   }}
                 >
                   <Remove />

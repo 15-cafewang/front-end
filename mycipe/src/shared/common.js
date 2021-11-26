@@ -26,7 +26,7 @@ export const pwdConfirm = (pwd, pwdcheck) => {
 // 닉네임 정규식
 export const nickCheck = (nick) => {
   let _reg = /^[가-힣a-zA-Z0-9]/;
-  if (nick.length < 2 || nick.length > 10) {
+  if (nick.length < 2 || nick.length > 8) {
     return false;
   }
   return _reg.test(nick);

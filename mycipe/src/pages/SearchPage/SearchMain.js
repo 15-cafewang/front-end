@@ -3,24 +3,31 @@ import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
 
-import { ReactComponent as BackIcon } from "../../assets/back.svg";
+import { ReactComponent as BackIcon } from "../../assets/icon/HeaderIcon/back.svg";
 import { ButtonInner, SmallFilterButton } from "../../elements/index";
 
 import ModalBackground from "../../shared/ModalBackground";
 import SearchModal from "./SearchModal";
 
-import RecipeCard from "../../components/Card/RecipeCard";
+import CafeCard from "../../components/Card/CafeCard";
 import BoardCard from "../../components/Card/BoardCard";
 
-import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
+import PopUp from "../../shared/PopUp";
+import Spinner from "../../assets/image/Spinner.gif";
+import Blank from "../../shared/Blank";
+
+import { getSearchCafeDB, getSearchBoardDB } from "../../redux/Async/Search";
 
 import { setSorting } from "../../redux/Modules/searchSlice";
 
-const SearchMain = (props) => {
+const SearchMain = () => {
+  const [popUp, setPopUp] = useState(false);
+
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
+  const isFetching = useSelector((state) => state.search.isFetching);
 
-  const recipeList = useSelector((state) => state.search.recipeList);
+  const cafeList = useSelector((state) => state.search.cafeList);
   const boardList = useSelector((state) => state.search.boardList);
 
   //현재 게시물이 존재하는지(레시피 or 자유게시물 아무거나뭐든)
@@ -44,7 +51,7 @@ const SearchMain = (props) => {
 
   // 검색모달창 외부클릭시 닫음.
   useEffect(() => {
-    const DetectOutsideClick = (e) => {
+    const DetectOutsideClick = () => {
       setIsSearch(false);
       inputRef.current.value = "";
     };
@@ -67,11 +74,11 @@ const SearchMain = (props) => {
   // 최초에 검색하고 게시물을 불러올떈 동작하지않는다.
   useEffect(() => {
     // (검색전엔 아무것도 불러오지않은상태니 배열의 길이로 실행여부를 판단함.)
-    if (recipeList.length !== 0) {
+    if (cafeList.length !== 0) {
       if (currentSorting === "byDate") {
         if (hashTag) {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: hashTag,
               withTag: true,
               sortBy: "regDate",
@@ -79,7 +86,7 @@ const SearchMain = (props) => {
           );
         } else {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: preKeyword,
               withTag: false,
               sortBy: "regDate",
@@ -89,7 +96,7 @@ const SearchMain = (props) => {
       } else {
         if (hashTag) {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: hashTag,
               withTag: true,
               sortBy: "likeCount",
@@ -97,7 +104,7 @@ const SearchMain = (props) => {
           );
         } else {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: preKeyword,
               withTag: false,
               sortBy: "likeCount",
@@ -131,6 +138,14 @@ const SearchMain = (props) => {
   return (
     <>
       <Container>
+        {/* alert 창 */}
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message="입력된 검색어가 없습니다."
+          isButton={false}
+        />
+
         {/* 모달 */}
         {isActive && <ModalBackground />}
 
@@ -160,11 +175,14 @@ const SearchMain = (props) => {
               const keyword = inputRef.current.value;
 
               if (!keyword) {
-                window.alert("검색어를 입력해주세요");
+                setPopUp(true);
+                setTimeout(() => {
+                  setPopUp(false);
+                }, 700);
               } else {
-                if (whereFrom === "recipe") {
+                if (whereFrom === "cafe") {
                   dispatch(
-                    getSearchRecipeDB({
+                    getSearchCafeDB({
                       keyword,
                       withTag: false,
                       sortBy: "regDate",
@@ -201,9 +219,7 @@ const SearchMain = (props) => {
 
         <ListContainer>
           {/* 레시피를 검색했을때만 해쉬태그를 보여줌. */}
-          <SelectedHashTagInner
-            recipeList={recipeList.length !== 0 ? true : false}
-          >
+          <SelectedHashTagInner cafeList={cafeList.length !== 0 ? true : false}>
             {/* 선택된 해쉬태그가있으면 보여줌 */}
             {hashTag ? <HashTagItem active>{hashTag}</HashTagItem> : ""}
           </SelectedHashTagInner>
@@ -220,7 +236,7 @@ const SearchMain = (props) => {
                 let keyword = null;
 
                 // 레시피검색일경우 해쉬태그도 생각해야한다.
-                if (whereFrom === "recipe") {
+                if (whereFrom === "cafe") {
                   if (hashTag) {
                     keyword = hashTag;
                   } else {
@@ -230,7 +246,7 @@ const SearchMain = (props) => {
                   }
 
                   dispatch(
-                    getSearchRecipeDB({
+                    getSearchCafeDB({
                       keyword,
                       withTag: hashTag ? true : false,
                       sortBy: "regDate",
@@ -259,7 +275,7 @@ const SearchMain = (props) => {
 
                 let keyword = null;
 
-                if (whereFrom === "recipe") {
+                if (whereFrom === "cafe") {
                   if (hashTag) {
                     keyword = hashTag;
                   } else {
@@ -269,7 +285,7 @@ const SearchMain = (props) => {
                   }
 
                   dispatch(
-                    getSearchRecipeDB({
+                    getSearchCafeDB({
                       keyword,
                       withTag: hashTag ? true : false,
                       sortBy: "likeCount",
@@ -292,39 +308,38 @@ const SearchMain = (props) => {
             </SmallFilterButton>
           </ButtonInner>
           {/* 목록 뿌려주기 */}
-          {whereFrom === "recipe" ? (
+          {whereFrom === "cafe" ? (
             <SearchListInner>
-              {recipeList.length !== 0 ? ( // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
-                recipeList.map((recipe) => (
-                  <RecipeCard
-                    key={recipe.recipeId}
-                    {...recipe}
-                    image={recipe.images[0]}
-                    _onClick={() => {
-                      history.push(`/recipeboard/detail/${recipe.recipeId}`);
-                    }}
-                  />
-                ))
-              ) : (
-                <div>해당하는 게시물이 없습니다.</div>
-              )}
+              {isFetching && <SpinnerImg src={Spinner} />}
+              {cafeList.length !== 0 // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
+                ? cafeList.map((cafe) => (
+                    <CafeCard
+                      key={cafe.cafeId}
+                      {...cafe}
+                      image={cafe.images[0]}
+                      _onClick={() => {
+                        history.push(`/cafeboard/detail/${cafe.cafeId}`);
+                      }}
+                    />
+                  ))
+                : !isFetching && <Blank message="조회된 글이 없습니다." />}
             </SearchListInner>
           ) : (
             <SearchListInner>
               <SearchListInner>
-                {boardList.length !== 0 ? (
-                  boardList.map((board) => (
-                    <BoardCard
-                      key={board.boardId}
-                      {...board}
-                      _onClick={() => {
-                        history.push(`/bulletinboard/detail/${board.boardId}`);
-                      }}
-                    />
-                  ))
-                ) : (
-                  <div>해당하는 게시물이 없습니다.</div>
-                )}
+                {boardList.length !== 0
+                  ? boardList.map((board) => (
+                      <BoardCard
+                        key={board.boardId}
+                        {...board}
+                        _onClick={() => {
+                          history.push(
+                            `/bulletinboard/detail/${board.boardId}`
+                          );
+                        }}
+                      />
+                    ))
+                  : !isFetching && <Blank message="조회된 글이 없습니다." />}
               </SearchListInner>
             </SearchListInner>
           )}
@@ -367,7 +382,6 @@ const LeftInner = styled.div`
 
 const SearchInput = styled.input`
   background-color: #f8f8fa;
-  border-radius: 6px;
   width: 250px;
   height: 28px;
   padding: 14px;
@@ -389,8 +403,8 @@ const Button = styled.button`
 const SearchButton = styled(Button)`
   width: 50px;
   height: 28px;
-  background: #7692e4;
-  border-radius: 6px;
+  background: #191919;
+
   color: #fff;
 `;
 
@@ -402,7 +416,7 @@ const SearchListInner = styled.div`
 `;
 
 const SelectedHashTagInner = styled.div`
-  display: ${(props) => (props.recipeList ? "flex" : "none")};
+  display: ${(props) => (props.cafeList ? "flex" : "none")};
   /* margin: 12px 0px 20px 20px; */
   overflow: auto;
   white-space: nowrap;
@@ -423,12 +437,16 @@ const HashTagItem = styled.div`
   padding: 8px 10px;
   margin-right: 8px;
   border: ${(props) =>
-    props.active ? `1px solid #7692E4` : `1px solid #dbdbdb`};
-  border-radius: 6px;
+    props.active ? `1px solid #7692E4` : `1px solid #191919`};
+
   font-size: 14px;
   color: ${(props) => (props.active ? `#ffffff` : `#767676`)};
-  background-color: ${(props) => (props.active ? `#7692E4` : `#ffffff`)};
+  background-color: ${(props) => (props.active ? `#191919` : `#ffffff`)};
   cursor: pointer;
+`;
+
+const SpinnerImg = styled.img`
+  margin-top: 25vh;
 `;
 
 export default SearchMain;

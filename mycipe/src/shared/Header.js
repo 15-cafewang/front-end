@@ -23,11 +23,7 @@ const Header = (props) => {
     //메인페이지
     return (
       <HeaderInner flexBetween>
-        <LogoIcon
-          onClick={() => {
-            history.push("/main");
-          }}
-        />
+        <LogoIcon />
       </HeaderInner>
     );
   }
@@ -99,23 +95,23 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/recipeboard") {
+  if (location === "/cafeboard") {
     //레시피 메인
     return (
       <HeaderInner flexBetween>
-        <PageName>레시피</PageName>
+        <PageName>카페</PageName>
         <SearchIcon
           onClick={() => {
             history.push("/searchmain");
             dispatch(resetList());
-            dispatch(whereFrom("recipe"));
+            dispatch(whereFrom("cafe"));
           }}
         />
       </HeaderInner>
     );
   }
 
-  if (location.includes("/recipeboard/detail")) {
+  if (location.includes("/cafeboard/detail")) {
     //레시피 상세
     return (
       <HeaderInner>
@@ -124,7 +120,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>레시피 보기</PageName>
+        <PageName>카페 보기</PageName>
       </HeaderInner>
     );
   }
@@ -194,13 +190,14 @@ const HeaderInner = styled.div`
 
 const PageName = styled.span`
   font-size: 16px;
-  margin-left: 8px;
+  margin-left: 12px;
+  height: 16px;
+  line-height: 20px;
 `;
 
 const LeftInner = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 export default Header;

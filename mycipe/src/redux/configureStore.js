@@ -8,14 +8,16 @@ import userSlice from "./Modules/userSlice";
 import userPageSlice from "./Modules/userPageSlice";
 import modalSlice from "./Modules/modalSlice";
 import bulletinBoardSlice from "./Modules/bulletinBoardSlice";
-import recipeBoardSlice from "./Modules/recipeBoardSlice";
+import cafeBoardSlice from "./Modules/cafeBoardSlice";
 import mainPageSlice from "./Modules/mainPageSlice";
 import searchSlice from "./Modules/searchSlice";
+import popUpSlice from "./Modules/popupSlice";
 
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
 import storage from "redux-persist/lib/storage";
+
 export const history = createBrowserHistory();
 
 const userPagePersistConfig = {
@@ -27,7 +29,7 @@ const userPagePersistConfig = {
 const searchPersistConfig = {
   key: "Search",
   storage: storage,
-  whitelist: ["whereFrom", "recipeSearchList", "boardSearchList"],
+  whitelist: ["whereFrom", "cafeSearchList", "boardSearchList"],
 };
 
 const reducer = combineReducers({
@@ -36,9 +38,10 @@ const reducer = combineReducers({
   userPage: persistReducer(userPagePersistConfig, userPageSlice.reducer),
   modal: modalSlice.reducer,
   bulletinBoard: bulletinBoardSlice.reducer,
-  recipeBoard: recipeBoardSlice.reducer,
+  cafeBoard: cafeBoardSlice.reducer,
   mainPage: mainPageSlice.reducer,
   search: persistReducer(searchPersistConfig, searchSlice.reducer),
+  popUp: popUpSlice.reducer,
 });
 
 const middlewares = [];

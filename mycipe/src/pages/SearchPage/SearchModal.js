@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
+import { ReactComponent as DeleteIcon } from "../../assets/icon/SearchModalIcon/delete.svg";
 
 import HashTag from "../../shared/HashTag";
-import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
+import { getSearchCafeDB, getSearchBoardDB } from "../../redux/Async/Search";
+
+import Popup from "../../shared/PopUp";
 
 import {
-  deleteAllRecipeKeyword,
-  deleteRecipeKeyword,
+  deleteAllCafeKeyword,
+  deleteCafeKeyword,
   deleteAllBoardKeyword,
   deleteBoardKeyword,
 } from "../../redux/Modules/searchSlice";
@@ -17,13 +19,13 @@ import {
 const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
   const dispatch = useDispatch();
 
+  const [popUp, setPopUp] = useState(false);
+
   // 레시피게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
   const whereFrom = useSelector((state) => state.search.whereFrom);
 
   //레시피 최근검색목록 리스트
-  const recipeSearchList = useSelector(
-    (state) => state.search.recipeSearchList
-  );
+  const cafeSearchList = useSelector((state) => state.search.cafeSearchList);
 
   //자유게시판 최근검색목록 리스트
   const boardSearchList = useSelector((state) => state.search.boardSearchList);
@@ -33,19 +35,35 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
       <SearchMidalBackground ref={SearchModalRef} isSearch={isSearch} />
       <SearchModalInner isSearch={isSearch}>
         <RecentSearchInner>
-          <Grid margin="32px 0px 0px 0px">
+          <Grid padding="42px 0px 0px 0px">
+            {/* alert 창 */}
+            <Popup
+              popUp={popUp}
+              setPopUp={setPopUp}
+              message="삭제할 검색기록이 없습니다."
+              isButton={false}
+            />
+
             <Text grey>최근 검색어</Text>
 
             {/* 전체삭제 버튼 */}
             <DeleteAllButton
               onClick={() => {
-                if (whereFrom === "recipe") {
-                  if (recipeSearchList.length === 0) {
-                    window.alert("삭제할 검색기록이 없습니다.");
-                  } else dispatch(deleteAllRecipeKeyword());
+                if (whereFrom === "cafe") {
+                  if (cafeSearchList.length === 0) {
+                    setPopUp(true);
+                    setTimeout(() => {
+                      setPopUp(false);
+                    }, 700);
+                  } else {
+                    dispatch(deleteAllCafeKeyword());
+                  }
                 } else {
                   if (boardSearchList.length === 0) {
-                    window.alert("삭제할 검색기록이 없습니다.");
+                    setPopUp(true);
+                    setTimeout(() => {
+                      setPopUp(false);
+                    }, 700);
                   } else dispatch(deleteAllBoardKeyword());
                 }
               }}
@@ -56,15 +74,15 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
 
           <SearchWordList>
             {/* 레시피에서 왔으면 레시피 최근검색목록  아니면 자유게시판 최근검색목록 보여주기 */}
-            {whereFrom === "recipe"
-              ? recipeSearchList.map((keyword) => {
+            {whereFrom === "cafe"
+              ? cafeSearchList.map((keyword) => {
                   return (
                     <SearchWordInner key={keyword}>
                       {/* 최근검색어 누르면 그 검색어를 키워드로 검색 */}
                       <Text
                         onClick={(e) => {
                           dispatch(
-                            getSearchRecipeDB({
+                            getSearchCafeDB({
                               keyword,
                               withTag: false,
                               sortBy: "regDate",
@@ -81,7 +99,7 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
                         <DeleteIcon
                           cursor="pointer"
                           onClick={() => {
-                            dispatch(deleteRecipeKeyword(keyword));
+                            dispatch(deleteCafeKeyword(keyword));
                           }}
                         />
                       )}
@@ -119,12 +137,12 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
 
           <>
             {/* 해쉬태그검색은 레시피검색에만 있는 기능이니 레시피게시판에서 이동했는지 확인 */}
-            {whereFrom === "recipe" && (
+            {whereFrom === "cafe" && (
               <>
                 <Grid margin="16px 0px">
                   <Text grey>추천 키워드</Text>
                 </Grid>
-                <Grid center>
+                <Grid center padding="0px 0px 32px 0px">
                   <HashTag
                     isSearch={isSearch}
                     _onClick={(e) => {
@@ -132,7 +150,7 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
                         const hashTag = e.target.innerHTML.substr(1);
 
                         dispatch(
-                          getSearchRecipeDB({
+                          getSearchCafeDB({
                             keyword: hashTag,
                             withTag: true,
                             sortBy: "regDate",
@@ -178,7 +196,9 @@ const SearchModalInner = styled.div`
   display: ${(props) => (props.isSearch ? "block" : "none")};
 `;
 
-const RecentSearchInner = styled.div``;
+const RecentSearchInner = styled.div`
+  border-radius: 0px 0px 6px 6px;
+`;
 
 const Text = styled.span`
   font-size: 14px;
@@ -195,6 +215,7 @@ const Grid = styled.div`
   display: flex;
   justify-content: ${(props) => (props.center ? "center" : "space-between")};
   margin: ${(props) => (props.margin ? props.margin : 0)};
+  padding: ${(props) => (props.padding ? props.padding : 0)};
 `;
 
 const SearchWordInner = styled(Grid)`

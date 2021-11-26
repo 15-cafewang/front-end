@@ -2,8 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { children, bg, width, margin, height, _onClick, border_radius } =
-    props;
+  const {
+    children,
+    bg,
+    width,
+    margin,
+    height,
+    _onClick,
+    border_radius,
+    color,
+  } = props;
 
   const styles = {
     bg,
@@ -11,6 +19,7 @@ const Button = (props) => {
     margin,
     height,
     border_radius,
+    color,
   };
 
   return (
@@ -24,12 +33,13 @@ const Button = (props) => {
 
 Button.defaultProps = {
   children: null,
-  bg: "#7692E4",
+  bg: "#191919",
   width: "320px",
   margin: "auto",
   height: "48px",
   _onClick: () => {},
-  border_radius: "6px",
+
+  color: "",
 };
 
 const DefaultBtn = styled.button`
@@ -40,6 +50,7 @@ const DefaultBtn = styled.button`
   margin: ${(props) => props.margin};
   background-color: ${(props) => props.bg};
   border-radius: ${(props) => props.border_radius};
+  color: ${(props) => props.color};
 `;
 
 export default Button;
