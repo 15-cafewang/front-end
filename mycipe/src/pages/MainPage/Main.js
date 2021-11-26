@@ -349,7 +349,7 @@ const CafeCardList = styled.ul`
 const Contact = styled.div`
   margin-top: 80px;
   margin-bottom: 20px;
-  border-top: solid 1px #EDEDED;
+  border-top: solid 1px #ededed;
   padding: 20px 0px 0px 0px !important;
   position: relative;
 `;
@@ -371,13 +371,13 @@ const A = styled.a`
 const FloatButton = styled.a`
   position: fixed;
   right: -17%;
-  top: 77%;
-  z-index: 2;
+  bottom: 70px;
+  z-index: 100;
 
   display: flex;
 
   @media only screen and (min-width: 380px) and (max-width: 720px) {
-    top: 73%;
+    /* top: 73%; */
   }
 `;
 
