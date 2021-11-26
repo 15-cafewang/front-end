@@ -90,7 +90,7 @@ const Main = (props) => {
         {isActive && <ModalBackground />}
         {/* 추천 카페 */}
         <Banner>
-          <BannerTitle>추천 카페</BannerTitle>
+          <BannerTitle>추천 카페 후기</BannerTitle>
         </Banner>
         <CafeCardList>
           {commendList.map((c, idx) => {
@@ -165,7 +165,7 @@ const Main = (props) => {
 
         {/* 인기 카페 */}
         <Banner>
-          <BannerTitle>인기 카페</BannerTitle>
+          <BannerTitle>인기 카페 후기</BannerTitle>
 
           <BannerButtonInner>
             <BannerDateButton
@@ -208,7 +208,7 @@ const Main = (props) => {
 
         {/* 최근 카페 */}
         <Banner>
-          <BannerTitle>최근 카페</BannerTitle>
+          <BannerTitle>최근 카페 후기</BannerTitle>
           <BannerMoreButton
             onClick={() => {
               history.push("/cafeboard");
@@ -286,7 +286,7 @@ const RankingInner = styled(MainInner)`
 `;
 
 const Banner = styled.div`
-  margin: 32px 6px 4px 6px;
+  margin: 56px 0 4px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -297,7 +297,7 @@ const BannerTitle = styled.span`
 `;
 
 const BannerButtonInner = styled.div`
-  width: 200px;
+  width: 100px;
   display: flex;
   justify-content: flex-end;
 `;
@@ -308,12 +308,12 @@ const RankingButtonInner = styled.div`
 `;
 
 const BannerDateButton = styled.button`
-  width: 53px;
+  width: 60px;
   height: 24px;
 
-  margin-left: 5px;
+  // margin-left: 5px;
   font-size: 14px;
-  padding: 0px 12px;
+  // padding: 0px 12px;
 
   color: ${(props) => (props.color ? "#fff" : "#767676")};
   background-color: ${(props) => (props.backgroundColor ? "#191919" : "#fff")};
@@ -322,7 +322,7 @@ const BannerDateButton = styled.button`
 
 const RankingButton = styled(BannerDateButton)`
   padding: 4px 8px;
-  width: 67px;
+  width: 80px;
   height: 28px;
 
   ${(props) =>
@@ -339,7 +339,7 @@ const BannerMoreButton = styled.button`
 `;
 
 const CafeCardList = styled.ul`
-  margin-bottom: ${(props) => props.marginBottom && "56px"};
+  // margin-bottom: ${(props) => props.marginBottom && "56px"};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -347,8 +347,9 @@ const CafeCardList = styled.ul`
 `;
 
 const Contact = styled.div`
-  margin-top: 50px;
-  border-top: solid 1px gray;
+  margin-top: 80px;
+  margin-bottom: 20px;
+  border-top: solid 1px #EDEDED;
   padding: 20px 0px 0px 0px !important;
   position: relative;
 `;
