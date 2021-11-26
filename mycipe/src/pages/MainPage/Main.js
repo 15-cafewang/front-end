@@ -14,10 +14,16 @@ import RecipeCard from "../../components/Card/RecipeCard";
 import ModalBackground from "../../shared/ModalBackground";
 
 import UserCard from "../../components/Card/UserCard";
+import ImageSlider from "../../shared/ImageSlider";
 
-import { Text } from "../../elements";
+import likeKing from "../../assets/image/banner/likeKing.svg";
+import commentKing from "../../assets/image/banner/commentKing.svg";
+import writeKing from "../../assets/image/banner/writeKing.svg";
+import followerKing from "../../assets/image/banner/followerKing.svg";
+import bannerText from "../../assets/image/banner/bannerText.svg";
+
 import { ReactComponent as BannerImage } from "../../assets/image/banner.svg";
-import { ReactComponent as ContactImage } from "../../assets/image/contact.svg";
+import { ReactComponent as ContactImage } from "../../assets/icon/HeaderIcon/logo.svg";
 
 import { mainApi } from "../../shared/api/mainApi";
 
@@ -114,7 +120,7 @@ const Main = (props) => {
 
       const kingListResponse = mainApi.getKingList();
       const getRankList = (await rankListResponse).data.data;
-      const getKingList = (await kingListResponse).data.data[0];
+      const getKingList = (await kingListResponse).data.data;
 
       setRankList(getRankList);
       setKingList(getKingList);
@@ -139,9 +145,19 @@ const Main = (props) => {
   // 0 : 좋아요왕 , 1 : 게시글왕 , 2: 팔로우왕 , 3:댓글왕
   const [rankCategory, setRankCategory] = useState(0);
 
+  // 배너에 보여줄 정보
+  const bannerList = [
+    { img: writeKing, title: "게시물", kinginfo: kingList.gePostKing },
+    { img: likeKing, title: "좋아요", kinginfo: kingList.getLikeKing },
+    { img: followerKing, title: "팔로워", kinginfo: kingList.geFollowKing },
+    { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
+  ];
+
+  console.log(bannerList);
+
   return (
     <>
-      <BannerImage />
+      <ImageSlider bannerList={bannerList} isBanner />
       <MainInner>
         {isActive && <ModalBackground />}
         {/* 추천 카페 */}
@@ -177,7 +193,7 @@ const Main = (props) => {
                 setRankCategory(0);
               }}
             >
-              작성왕
+              게시물왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 1 ? true : false}
@@ -185,7 +201,7 @@ const Main = (props) => {
                 setRankCategory(1);
               }}
             >
-              인기왕
+              좋아요왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 2 ? true : false}
@@ -193,7 +209,7 @@ const Main = (props) => {
                 setRankCategory(2);
               }}
             >
-              팔로우왕
+              팔로워왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 3 ? true : false}
@@ -208,7 +224,13 @@ const Main = (props) => {
           <UserListContainer>
             {rankList[rankCategory]?.map((user, idx) => {
               return (
-                <UserCard key={idx} isrank={true} {...user} rank={idx + 1} />
+                <UserCard
+                  key={idx}
+                  isrank={true}
+                  {...user}
+                  rank={idx + 1}
+                  category={bannerList[rankCategory].title}
+                />
               );
             })}
           </UserListContainer>
