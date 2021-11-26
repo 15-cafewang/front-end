@@ -25,11 +25,11 @@ const BulletinBoardMain = () => {
     sortedByLikes: false,
   });
 
-  const [target, setTarget] = useState(null);
+  const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const prevBoardListLengthRef = useRef(0);
   const pageRef = useRef(1);
 
+  console.log(target.current);
   useEffect(() => {
     dispatch(
       getBulletinPostListDB({
@@ -38,11 +38,7 @@ const BulletinBoardMain = () => {
           ? "sortBy=regDate"
           : "sortBy=likeCount",
       })
-    )
-      .unwrap()
-      .then((res) => {
-        prevBoardListLengthRef.current += res.length;
-      });
+    );
   }, [currentSorting.sortedByDate, dispatch]);
 
   const fetchMoreBoard = (page) => {
@@ -56,119 +52,114 @@ const BulletinBoardMain = () => {
       })
     )
       .unwrap()
-      .then((res) => {
+      .then(() => {
         setIsLoading(false);
-        prevBoardListLengthRef.current += res.length;
       });
   };
 
-  useInterSectionObserver(fetchMoreBoard, pageRef, target, boardList);
+  useInterSectionObserver(fetchMoreBoard, pageRef, target.current, boardList);
 
   return (
-    <>
-      <BoardMainContainer>
-        {isActive && <ModalBackground />}
-        {/* 정렬 박스 */}
-        <ButtonInner height="32px" small>
-          <SmallFilterButton
-            active={currentSorting.sortedByDate}
-            _onClick={() => {
-              setCurrentSorting({
-                sortedByDate: true,
-                sortedByLikes: false,
-              });
-              pageRef.current = 1;
-              prevBoardListLengthRef.current = 0;
-            }}
-          >
-            최신순
-          </SmallFilterButton>
-          <SmallFilterButton
-            active={currentSorting.sortedByLikes}
-            _onClick={() => {
-              setCurrentSorting({
-                sortedByDate: false,
-                sortedByLikes: true,
-              });
-              pageRef.current = 1;
-              prevBoardListLengthRef.current = 0;
-            }}
-          >
-            인기순
-          </SmallFilterButton>
-        </ButtonInner>
+    <BoardMainContainer>
+      {isActive && <ModalBackground />}
+      {/* 정렬 박스 */}
+      <ButtonInner height="32px" small>
+        <SmallFilterButton
+          active={currentSorting.sortedByDate}
+          _onClick={() => {
+            setCurrentSorting({
+              sortedByDate: true,
+              sortedByLikes: false,
+            });
+            pageRef.current = 1;
+          }}
+        >
+          최신순
+        </SmallFilterButton>
+        <SmallFilterButton
+          active={currentSorting.sortedByLikes}
+          _onClick={() => {
+            setCurrentSorting({
+              sortedByDate: false,
+              sortedByLikes: true,
+            });
+            pageRef.current = 1;
+          }}
+        >
+          인기순
+        </SmallFilterButton>
+      </ButtonInner>
 
-        {currentSorting.sortedByDate && (
-          <>
-            <CardList>
-              {boardList &&
-                boardList.map((b, idx) => {
-                  return (
-                    <BoardCard
-                      _onClick={() => {
-                        history.push(`/bulletinboard/detail/${b.boardId}`);
-                      }}
-                      key={b.boardId}
-                      commentCount={b.commentCount}
-                      content={b.content}
-                      image={b.image}
-                      likeCount={b.likeCount}
-                      likeStatus={b.likeStatus}
-                      nickname={b.nickname}
-                      regDate={
-                        b.regDate
-                          ? b.regDate
-                              .split("T")[0]
-                              .replace("-", ". ")
-                              .replace("-", ". ")
-                          : ""
-                      }
-                      title={b.title}
-                    />
-                  );
-                })}
-            </CardList>
-            {isLoading && <div>loading...</div>}
-            {boardList.length > 0 && <div ref={setTarget}></div>}
-          </>
-        )}
+      {currentSorting.sortedByDate && (
+        <>
+          <CardList>
+            {boardList &&
+              boardList.map((b, idx) => {
+                return (
+                  <BoardCard
+                    _onClick={() => {
+                      history.push(`/bulletinboard/detail/${b.boardId}`);
+                    }}
+                    key={b.boardId}
+                    boardId={b.boardId}
+                    commentCount={b.commentCount}
+                    content={b.content}
+                    image={b.image}
+                    likeCount={b.likeCount}
+                    likeStatus={b.likeStatus}
+                    nickname={b.nickname}
+                    regDate={
+                      b.regDate
+                        ? b.regDate
+                            .split("T")[0]
+                            .replace("-", ". ")
+                            .replace("-", ". ")
+                        : ""
+                    }
+                    title={b.title}
+                  />
+                );
+              })}
+          </CardList>
+          <div ref={target}>{isLoading && "loading..."}</div>
+        </>
+      )}
 
-        {currentSorting.sortedByLikes && (
-          <>
-            <CardList>
-              {boardList &&
-                boardList.map((r, idx) => {
-                  return (
-                    <BoardCard
-                      _onClick={() => {
-                        history.push(`/bulletinboard/detail/${r.boardId}`);
-                      }}
-                      key={r.boardId}
-                      commentCount={r.commentCount}
-                      content={r.content}
-                      image={r.image}
-                      likeCount={r.likeCount}
-                      likeStatus={r.likeStatus}
-                      nickname={r.nickname}
-                      price={r.price}
-                      title={r.title}
-                      regDate={
-                        r.regDate &&
-                        r.regDate
-                          .split("T")[0]
-                          .replace("-", ". ")
-                          .replace("-", ". ")
-                      }
-                    />
-                  );
-                })}
-            </CardList>
-            {isLoading && <div>loading...</div>}
-            {boardList.length > 0 && <div ref={setTarget}></div>}
-          </>
-        )}
-      </BoardMainContainer>
-    </>
+      {currentSorting.sortedByLikes && (
+        <>
+          <CardList>
+            {boardList &&
+              boardList.map((r, idx) => {
+                return (
+                  <BoardCard
+                    _onClick={() => {
+                      history.push(`/bulletinboard/detail/${r.boardId}`);
+                    }}
+                    key={r.boardId}
+                    boardId={r.boardId}
+                    commentCount={r.commentCount}
+                    content={r.content}
+                    image={r.image}
+                    likeCount={r.likeCount}
+                    likeStatus={r.likeStatus}
+                    nickname={r.nickname}
+                    price={r.price}
+                    title={r.title}
+                    regDate={
+                      r.regDate &&
+                      r.regDate
+                        .split("T")[0]
+                        .replace("-", ". ")
+                        .replace("-", ". ")
+                    }
+                  />
+                );
+              })}
+          </CardList>
+          <div ref={target}>{isLoading && "loading..."}</div>
+        </>
+      )}
+    </BoardMainContainer>
   );
 };
 
@@ -180,23 +171,6 @@ const BoardMainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const SortingBox = styled.div`
-  height: 32px;
-  display: flex;
-  position: relative;
-  left: 120px;
-`;
-
-const SortingItem = styled.div`
-  margin: 0px 8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-  color: #767676;
 `;
 
 const CardList = styled.div`

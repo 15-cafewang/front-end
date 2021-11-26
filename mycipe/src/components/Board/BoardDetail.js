@@ -9,7 +9,7 @@ import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smal
 // elements
 import Image from "../../elements/Image";
 // components
-import Comment from "../../shared/Comment";
+import BoardComment from "./BoardComment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";
 // async
@@ -17,11 +17,15 @@ import {
   recipeLikeToggleDB,
   getRecipePostDetailDB,
   deleteRecipePostDB,
+  addRecipeCommentDB,
+  getRecipeCommentDB,
 } from "../../redux/Async/recipeBoard";
 import {
   bulletinLikeToggleDB,
   getBulletinPostDetailDB,
   deleteBulletinPostDB,
+  addBulletinCommentDB,
+  getBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
 
 const BoardDetail = ({ boardName }) => {
@@ -36,6 +40,11 @@ const BoardDetail = ({ boardName }) => {
       ? state.recipeBoard.currentRecipePost
       : state.bulletinBoard.currentBoardPost
   );
+  const commentList = useSelector((state) =>
+    boardName === "recipeBoard"
+      ? state.recipeBoard.commentList
+      : state.bulletinBoard.commentList
+  );
 
   const [likeStatus, setLikeStatus] = useState(
     postDetail && postDetail.likeStatus
@@ -43,6 +52,8 @@ const BoardDetail = ({ boardName }) => {
   const [likeCount, setLikeCount] = useState(
     postDetail && postDetail.likeCount
   );
+
+  const [content, setContent] = useState("");
 
   // 새로 고침 시 like 반영
   useEffect(() => {
@@ -62,6 +73,17 @@ const BoardDetail = ({ boardName }) => {
     }
   }, [boardId, boardName, dispatch, recipeId]);
 
+  // 댓글 조회
+  useEffect(() => {
+    if (boardName === "recipeBoard") {
+      dispatch(getRecipeCommentDB(recipeId));
+      return;
+    }
+    if (boardName === "bulletinBoard") {
+      dispatch(getBulletinCommentDB(boardId));
+      return;
+    }
+  }, [dispatch, recipeId, boardId, boardName]);
   const isPostUser = (postDetail && postDetail.nickname) === userNickname;
 
   // 좋아요 누를 때 마다 DB 반영
@@ -75,6 +97,27 @@ const BoardDetail = ({ boardName }) => {
 
     // 리액트 좋아요 상태도 바꿔준다. (화면에 바로 보여주기 위함)
     setLikeStatus(!likeStatus);
+  };
+
+  // 댓글 추가
+  const addComment = () => {
+    const recipeComment = {
+      recipeId: recipeId,
+      content: content,
+    };
+    const boardComment = {
+      boardId: boardId,
+      content: content,
+    };
+
+    if (boardName === "recipeBoard") {
+      dispatch(addRecipeCommentDB(recipeComment));
+    }
+    if (boardName === "bulletinBoard") {
+      dispatch(addBulletinCommentDB(boardComment));
+    }
+
+    setContent("");
   };
 
   return (
@@ -149,25 +192,31 @@ const BoardDetail = ({ boardName }) => {
 
         <Box between width="320px" margin="12px 0px 56px 0px">
           {likeStatus ? (
-            <Box cursor="true">
-              <ActiveSmallLikeIcon
-                onClick={() => {
-                  handleLikeToggle();
-                  setLikeCount(likeCount - 1);
-                }}
-              />
-            </Box>
+            <LikeBox
+              onClick={() => {
+                handleLikeToggle();
+                setLikeCount(likeCount - 1);
+              }}
+            >
+              <div>
+                <ActiveSmallLikeIcon />
+              </div>
+              <LikeCount>{likeCount}개</LikeCount>
+            </LikeBox>
           ) : (
-            <Box cursor="true">
-              <SmallLikeIcon
-                onClick={() => {
-                  handleLikeToggle();
-                  setLikeCount(likeCount + 1);
-                }}
-              />
-            </Box>
+            <LikeBox
+              onClick={() => {
+                handleLikeToggle();
+                setLikeCount(likeCount + 1);
+              }}
+            >
+              <div>
+                <SmallLikeIcon />
+              </div>
+              <LikeCount>{likeCount}개</LikeCount>
+            </LikeBox>
           )}
-          <LikeCount>{likeCount}개</LikeCount>
+
           <Date>
             {postDetail && postDetail.regDate
               ? postDetail.regDate
@@ -182,14 +231,49 @@ const BoardDetail = ({ boardName }) => {
           <TextInputBox
             width="262"
             height="50"
+            onChange={(e) => setContent(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && addComment()}
+            defaultvalue={content}
             placeholder="댓글을 입력해 주세요."
           />
-          <Button>등록</Button>
+          <Button onClick={addComment}>등록</Button>
         </Box>
-
-        <Comment />
-        <Comment />
-        <Comment />
+        {commentList && (
+          <>
+            <CommentBox>
+              {commentList &&
+                boardName === "recipeBoard" &&
+                commentList.map((r, idx) => {
+                  return (
+                    <BoardComment
+                      key={r.recipeId}
+                      content={r.content}
+                      likeCount={r.likeCount}
+                      likeStatus={r.likeStatus}
+                      nickname={r.nickname}
+                      profileImage={r.profileImage}
+                      regDate={r.regDate}
+                    />
+                  );
+                })}
+              {commentList &&
+                boardName === "bulletinBoard" &&
+                commentList.map((b, idx) => {
+                  return (
+                    <BoardComment
+                      key={b.boardId}
+                      content={b.content}
+                      likeCount={b.likeCount}
+                      likeStatus={b.likeStatus}
+                      nickname={b.nickname}
+                      profileImage={b.profileImage}
+                      regDate={b.regDate}
+                    />
+                  );
+                })}
+            </CommentBox>
+          </>
+        )}
       </Box>
     </BoardDetailContainer>
   );
@@ -200,6 +284,11 @@ const BoardDetailContainer = styled.div`
   height: auto;
   min-height: calc(100% - 60px);
   position: relative;
+`;
+
+const LikeBox = styled.button`
+  display: flex;
+  align-items: center;
 `;
 
 const Box = styled.div`
@@ -281,9 +370,10 @@ const TextInputBox = styled.input`
 `;
 
 const LikeCount = styled.div`
+  top: 4px;
   font-size: 12px;
   color: #767676;
-  width: 220px;
+  margin-left: 4px;
 `;
 
 const Date = styled.div`
@@ -303,5 +393,7 @@ const Button = styled.div`
   color: #767676;
   background-color: #ffffff;
 `;
+
+const CommentBox = styled.div``;
 
 export default BoardDetail;

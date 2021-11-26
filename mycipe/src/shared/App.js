@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import "../index.css";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Header from "./Header";
@@ -28,7 +28,7 @@ import Main from "../pages/MainPage/Main";
 import UserMain from "../pages/UserPage/UserMain";
 import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
-// import SearchMain from "../pages/SearchPage/SearchModal";
+
 import SearchMain from "../pages/SearchPage/SearchMain";
 import Setting from "../pages/SettingPage/Setting";
 import background from "../assets/image/Background.png";
@@ -44,10 +44,12 @@ function App() {
     if (isToken) {
       dispatch(loginCheck());
     }
-  }, []);
+  }, [dispatch, isToken]);
+
   return (
     <ConnectedRouter history={history}>
       <WebVer />
+
       <Outter>
         <Container>
           <Header />
@@ -113,10 +115,6 @@ function App() {
               component={UserPageFollowList}
             />
             <PrivateRoute path="/searchmain" component={SearchMain} />
-            {/* <PrivateRoute
-              path="/searchmain/searchlist"
-              component={SearchList}
-            /> */}
             <PrivateRoute path="/setting" component={Setting} />
             <NotFound />
           </Switch>
@@ -164,5 +162,22 @@ const WebVer = styled.div`
     background-image: url(${background});
   }
 `;
+
+// const SearchModalBg = styled.div`
+//   position: fixed;
+//   width: 100vw;
+//   height: 100%;
+//   z-index: 1;
+//   background: red;
+//   opacity: 0;
+
+//   /* @media only screen and (min-width: 1025px) {
+//     opacity: 1;
+//     background-size: cover;
+//     background-position: 50% 90%;
+//     background-repeat: no-repeat;
+//     background-image: url(${background});
+//   } */
+// `;
 
 export default App;

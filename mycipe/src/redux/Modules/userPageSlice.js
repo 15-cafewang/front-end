@@ -3,9 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getUserInfoDB,
   getUserWrittenRecipesDB,
+  getInfinityScrollWrittenRecipesDB,
   getUserWrittenBoardsDB,
+  getInfinityScrollWrittenBoardsDB,
   getUserLikedRecipesDB,
+  getInfinityScrollLikedRecipesDB,
   getUserLikedBoardsDB,
+  getInfinityScrollLikeBoardsDB,
   userFollowDB,
   userUnFollowDB,
   userFollowListDB,
@@ -124,6 +128,22 @@ const userPageSlice = createSlice({
       console.log(action.error);
     },
 
+    // 유저가 작성한 레시피 무한스크롤 불러오기
+    [getInfinityScrollWrittenRecipesDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollWrittenRecipesDB.fulfilled]: (state, action) => {
+      state.isFetching = true;
+
+      state.postList.userWrittenRecipes = [
+        ...state.postList.userWrittenRecipes,
+        ...action.payload,
+      ];
+    },
+    [getInfinityScrollWrittenRecipesDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
     // 유저가 작성한 게시물 불러오기
     [getUserWrittenBoardsDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -135,6 +155,22 @@ const userPageSlice = createSlice({
     },
     [getUserWrittenBoardsDB.rejected]: (state, action) => {
       console.log(action.error);
+    },
+
+    // 유저가 작성한 게시물 무한스크롤 불러오기
+    [getInfinityScrollWrittenBoardsDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollWrittenBoardsDB.fulfilled]: (state, action) => {
+      state.isFetching = true;
+
+      state.postList.userWrittenBoards = [
+        ...state.postList.userWrittenBoards,
+        ...action.payload,
+      ];
+    },
+    [getInfinityScrollWrittenBoardsDB.rejected]: (state, action) => {
+      state.isFetching = false;
     },
 
     //유저 좋아요 레시피
@@ -150,6 +186,22 @@ const userPageSlice = createSlice({
       console.log(action.error);
     },
 
+    // 유저 좋아요 레시피 무한스크롤
+    [getInfinityScrollLikedRecipesDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollLikedRecipesDB.fulfilled]: (state, action) => {
+      state.isFetching = true;
+
+      state.postList.userLikedRecipes = [
+        ...state.postList.userLikedRecipes,
+        ...action.payload,
+      ];
+    },
+    [getInfinityScrollLikedRecipesDB.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
     //유저 좋아요 게시물
     [getUserLikedBoardsDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -162,6 +214,22 @@ const userPageSlice = createSlice({
     },
     [getUserLikedBoardsDB.rejected]: (state, action) => {
       console.log("에러발생", action.error);
+    },
+
+    //유저 좋아요 게시물 무한스크롤
+    [getInfinityScrollLikeBoardsDB.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [getInfinityScrollLikeBoardsDB.fulfilled]: (state, action) => {
+      state.isFetching = true;
+
+      state.postList.userLikedBoards = [
+        ...state.postList.userLikedBoards,
+        ...action.payload,
+      ];
+    },
+    [getInfinityScrollLikeBoardsDB.rejected]: (state, action) => {
+      state.isFetching = false;
     },
 
     //유저 팔로우 하기
@@ -193,13 +261,11 @@ const userPageSlice = createSlice({
     [userUnFollowDB.fulfilled]: (state, action) => {
       const nickname = action.payload.nickname;
 
-      if (!state.userList.length === 0) {
-        const newUserList = state.userList.filter(
-          (user) => user.nickname !== nickname
-        );
+      const newUserList = state.userList.filter(
+        (user) => user.nickname !== nickname
+      );
 
-        state.userList = newUserList;
-      }
+      state.userList = newUserList;
 
       state.isFetching = false;
       state.userInfo.followingCount--;
@@ -214,11 +280,11 @@ const userPageSlice = createSlice({
     //유저 팔로워 리스트 불러오기
     [userFollowListDB.pending]: (state, action) => {
       state.isFetching = true;
+      state.isFollower = true;
     },
     [userFollowListDB.fulfilled]: (state, action) => {
       state.isFetching = false;
 
-      state.isFollower = true;
       state.userList = action.payload;
     },
     [userFollowListDB.rejected]: (state, action) => {
@@ -241,6 +307,7 @@ const userPageSlice = createSlice({
   },
 });
 
-export const { resetPost, updateUserList } = userPageSlice.actions;
+export const { resetPost, updateUserList, updateIsFollowing } =
+  userPageSlice.actions;
 
 export default userPageSlice;

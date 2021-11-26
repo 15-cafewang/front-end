@@ -4,9 +4,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getUserInfo,
   getUserWrittenRecipes,
-  getUserWrittenBoardes,
+  getUserWrittenBoards,
   getUserLikedRecipes,
-  getUserLikeBoards,
+  getUserLikedBoards,
   follow,
   unFollow,
   followList,
@@ -29,7 +29,17 @@ const getUserInfoDB = createAsyncThunk(
 const getUserWrittenRecipesDB = createAsyncThunk(
   "userpage/recipes/write",
   async (data, thunkAPI) => {
-    const response = await getUserWrittenRecipes(data);
+    const response = await getUserWrittenRecipes(data.page, data.nickname);
+
+    return response.data.data.content;
+  }
+);
+
+//유저가 작성한 레시피 정보 무한스크롤
+const getInfinityScrollWrittenRecipesDB = createAsyncThunk(
+  "userPage/recipes/write/getInfinityScroll",
+  async (data, thunkAPI) => {
+    const response = await getUserWrittenRecipes(data.page, data.nickname);
 
     return response.data.data.content;
   }
@@ -39,7 +49,17 @@ const getUserWrittenRecipesDB = createAsyncThunk(
 const getUserWrittenBoardsDB = createAsyncThunk(
   "userpage/board/write",
   async (data, thunkAPI) => {
-    const response = await getUserWrittenBoardes(data);
+    const response = await getUserWrittenBoards(data.page, data.nickname);
+
+    return response.data.data.content;
+  }
+);
+
+//유저가 작성한 게시물 무한스크롤
+const getInfinityScrollWrittenBoardsDB = createAsyncThunk(
+  "userPage/board/write/getInfinityScroll",
+  async (data, thunkAPI) => {
+    const response = await getUserWrittenBoards(data.page, data.nickname);
 
     return response.data.data.content;
   }
@@ -49,8 +69,17 @@ const getUserWrittenBoardsDB = createAsyncThunk(
 const getUserLikedRecipesDB = createAsyncThunk(
   "userpage/recipes/like",
   async (data, thunkAPI) => {
-    console.log(data);
-    const response = await getUserLikedRecipes(data);
+    const response = await getUserLikedRecipes(data.page, data.nickname);
+
+    return response.data.data.content;
+  }
+);
+
+//유저가 좋아요한 레시피 정보 무한스크롤
+const getInfinityScrollLikedRecipesDB = createAsyncThunk(
+  "userpage/recipes/like/getInfinityScroll",
+  async (data, thunkAPI) => {
+    const response = await getUserLikedRecipes(data.page, data.nickname);
 
     return response.data.data.content;
   }
@@ -60,7 +89,17 @@ const getUserLikedRecipesDB = createAsyncThunk(
 const getUserLikedBoardsDB = createAsyncThunk(
   "userpage/board/like",
   async (data, thunkAPI) => {
-    const response = await getUserLikeBoards(data);
+    const response = await getUserLikedBoards(data.page, data.nickname);
+
+    return response.data.data.content;
+  }
+);
+
+//유저가 좋아요한 게시물 정보 무한스크롤
+const getInfinityScrollLikeBoardsDB = createAsyncThunk(
+  "userpage/board/like",
+  async (data, thunkAPI) => {
+    const response = await getUserLikedBoards(data.page, data.nickname);
 
     return response.data.data.content;
   }
@@ -121,9 +160,13 @@ const userFollowingListDB = createAsyncThunk(
 export {
   getUserInfoDB,
   getUserWrittenRecipesDB,
+  getInfinityScrollWrittenRecipesDB,
   getUserWrittenBoardsDB,
+  getInfinityScrollWrittenBoardsDB,
   getUserLikedRecipesDB,
+  getInfinityScrollLikedRecipesDB,
   getUserLikedBoardsDB,
+  getInfinityScrollLikeBoardsDB,
   userFollowDB,
   userUnFollowDB,
   userFollowListDB,

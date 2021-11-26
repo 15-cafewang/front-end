@@ -34,7 +34,7 @@ export const recipeBoardApi = {
 
   // 댓글 조회
   getComment: (recipeId) => {
-    return api.get(`/recipes/comment/${recipeId}`);
+    return api.get(`/recipes/comment/${recipeId}?page=1&size=10&isAsc=false`);
   },
 
   // 댓글 작성

@@ -34,7 +34,9 @@ export const bulletinBoardApi = {
 
   // 댓글 조회
   getComment: (boardId) => {
-    return api.get(`/boards/comments/${boardId}`);
+    return api.get(
+      `/boards/comments/${boardId}?page=1&size=10&isAsc=false&sortBy=regDate`
+    );
   },
 
   // 댓글 작성
