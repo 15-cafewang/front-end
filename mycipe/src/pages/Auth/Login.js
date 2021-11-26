@@ -7,7 +7,7 @@ import { loginDB } from "../../redux/Async/user";
 // style
 import styled, { css } from "styled-components";
 import { Button, Text } from "../../elements";
-import Kakao from "../../assets/image/kakaologin.svg";
+import Kakao from "../../assets/image/kakao.svg";
 
 // 유효성 검사
 import { emailCheck, pwCheck } from "../../shared/common";
@@ -195,7 +195,7 @@ const SignupBox = styled.div`
 `;
 
 const SignupText = styled.a`
-  color: #7692e4;
+  color: #191919;
   font-size: 12px;
   cursor: pointer;
 `;
