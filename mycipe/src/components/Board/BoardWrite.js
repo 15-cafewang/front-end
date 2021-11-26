@@ -51,7 +51,6 @@ const BoardWrite = ({ boardName }) => {
       : state.bulletinBoard.currentBoardPost
   );
 
-
   // textarea 높이 자동 resize
   const handleResizeInputHeight = (height, ref) => {
     if (ref === null || ref.current === null) {
