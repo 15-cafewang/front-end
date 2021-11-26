@@ -278,7 +278,7 @@ const BoardDetail = ({ boardName }) => {
         )}
       </Box>
 
-      {postDetail && postDetail.images ? (
+      {postDetail && postDetail.images.length > 0 ? (
         <ImageSlider imageList={postDetail && postDetail.images} />
       ) : (
         ""
