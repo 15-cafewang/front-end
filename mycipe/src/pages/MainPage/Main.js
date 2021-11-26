@@ -20,9 +20,7 @@ import likeKing from "../../assets/image/banner/likeKing.svg";
 import commentKing from "../../assets/image/banner/commentKing.svg";
 import writeKing from "../../assets/image/banner/writeKing.svg";
 import followerKing from "../../assets/image/banner/followerKing.svg";
-import bannerText from "../../assets/image/banner/bannerText.svg";
 
-import { ReactComponent as BannerImage } from "../../assets/image/banner.svg";
 import { ReactComponent as ContactImage } from "../../assets/icon/HeaderIcon/logo.svg";
 
 import { mainApi } from "../../shared/api/mainApi";
@@ -39,79 +37,7 @@ const Main = (props) => {
     monthly: false,
   });
 
-  const [rankList, setRankList] = useState([
-    [
-      {
-        nickname: "test",
-
-        image: "",
-        count: 11,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 6,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 6,
-      },
-    ],
-    [
-      {
-        nickname: "test",
-
-        image: "",
-        count: 4,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 3,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 3,
-      },
-    ],
-    [
-      {
-        nickname: "test",
-
-        image: "",
-        count: 2,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 2,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 1,
-      },
-    ],
-    [
-      {
-        nickname: "test",
-        image: "",
-        count: 29,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 1,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 1,
-      },
-    ],
-  ]);
+  const [rankList, setRankList] = useState([]);
   const [kingList, setKingList] = useState([]);
 
   async function fetchData() {
