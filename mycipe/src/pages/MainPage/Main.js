@@ -12,12 +12,11 @@ import {
 
 import RecipeCard from "../../components/Card/RecipeCard";
 import ModalBackground from "../../shared/ModalBackground";
-
 import UserCard from "../../components/Card/UserCard";
-
-import { Text } from "../../elements";
 import { ReactComponent as BannerImage } from "../../assets/image/banner.svg";
-import { ReactComponent as ContactImage } from "../../assets/image/contact.svg";
+import { ReactComponent as LogoIcon } from "../../assets/icon/HeaderIcon/logo.svg";
+import { ReactComponent as SmallFeedBackCafeIcon } from "../../assets/icon/smallFeedBackCafeIcon.svg";
+import { ReactComponent as CoachMarkIcon } from "../../assets/icon/coachmark.svg";
 
 import { mainApi } from "../../shared/api/mainApi";
 
@@ -287,7 +286,7 @@ const Main = (props) => {
 
       <Contact>
         <ContactInner>
-          <ContactImage />
+          <LogoIcon />
           <ContactBox>
             <ContactText>
               팀원소개 <A>Notion</A> &nbsp;&nbsp;|&nbsp;&nbsp; 프로젝트 &nbsp;
@@ -305,6 +304,15 @@ const Main = (props) => {
           </ContactBox>
         </ContactInner>
       </Contact>
+
+      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank" rel="noopener noreferrer">
+        <ButtonSmall>
+          <Box>
+            <CoachMarkIcon />
+          </Box>
+          <SmallFeedBackCafeIcon />
+        </ButtonSmall>
+      </FloatButton>
     </>
   );
 };
@@ -387,12 +395,14 @@ const RecipeCardList = styled.ul`
   align-items: center;
   flex-direction: column;
 `;
+
 const Contact = styled.div`
   margin-top: 50px;
   border-top: solid 1px gray;
   padding: 20px 0px 0px 0px !important;
   position: relative;
 `;
+
 const ContactInner = styled.div`
   padding: 0px 20px;
 `;
@@ -404,7 +414,31 @@ const ContactText = styled.span`
 `;
 
 const A = styled.a`
-  color: #7692e4;
+  color: #ff7a7a;
+`;
+
+const FloatButton = styled.a`
+  position: fixed;
+  right: -17%;
+  top: 77%;
+  z-index: 2;
+
+  display: flex;
+
+  @media only screen and (min-width: 380px) and (max-width: 720px) {
+    top: 73%;
+  }
+`;
+
+const ButtonSmall = styled.div`
+  @media only screen and (min-width: 720px) {
+    display: none;
+  }
+`;
+
+const Box = styled.div`
+  position: relative;
+  right: 60%;
 `;
 
 const UserListContainer = styled.ul`
