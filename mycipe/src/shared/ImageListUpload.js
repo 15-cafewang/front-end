@@ -92,8 +92,6 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
     });
   };
 
-  console.log(fileList);
-
   useEffect(() => {
     // request data
     setPost({

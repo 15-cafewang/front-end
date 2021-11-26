@@ -5,8 +5,8 @@ import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 
 // icon
-import { ReactComponent as ActiveSmallLikeIcon } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
-import { ReactComponent as SmallLikeIcon } from "../../assets/icon/LikeIcon/smallLike.svg";
+import { ReactComponent as ActiveLikeIcon } from "../../assets/icon/LikeIcon/activeLike.svg";
+import { ReactComponent as LikeIcon } from "../../assets/icon/LikeIcon/like.svg";
 
 // elements
 import Image from "../../elements/Image";
@@ -321,7 +321,7 @@ const BoardDetail = ({ boardName }) => {
               }}
             >
               <div>
-                <ActiveSmallLikeIcon />
+                <ActiveLikeIcon />
               </div>
               <LikeCount>{likeCount}개</LikeCount>
             </LikeBox>
@@ -333,7 +333,7 @@ const BoardDetail = ({ boardName }) => {
               }}
             >
               <div>
-                <SmallLikeIcon />
+                <LikeIcon />
               </div>
               <LikeCount>{likeCount}개</LikeCount>
             </LikeBox>
@@ -400,6 +400,7 @@ const Box = styled.div`
   align-items: center;
 
   margin: ${(props) => props.margin};
+  ${(props) => props.height && `height : ${props.height};`}
   ${(props) => props.padding && `padding : ${props.padding};`}
   ${(props) => props.width && `width : ${props.width};`}
   ${(props) => props.col && `flex-direction : column;`}
@@ -431,7 +432,7 @@ const HashTagBox = styled.div`
 const UserHashTagItem = styled.div`
   height: 36px;
   padding: 8px 10px;
-  margin: 0px 8px 0px 0px;
+  margin: 0px 8px 8px 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -17,4 +17,14 @@ export const mainApi = {
   getRecentList: () => {
     return api.get("/main/recent");
   },
+
+  //현랭킹 정보 불러오기
+  getRankList: () => {
+    return api.get("/main/thisweek");
+  },
+
+  //지난주 왕 불러오기
+  getKingList: () => {
+    return api.get("/main/lastweek");
+  },
 };

@@ -11,6 +11,10 @@ import BottomNav from "./BottomNav";
 import PrivateRoute from "../auth/PrivateRoute";
 import PublickRoute from "../auth/PublickRoute";
 
+// icon
+import { ReactComponent as FeedBackIcon } from "../assets/icon/feedBackIcon.svg";
+import { ReactComponent as FeedBackCafeIcon } from "../assets/icon/feedBackCafeIcon.svg";
+
 // pages
 import Intro from "../pages/Auth/Intro";
 import Login from "../pages/Auth/Login";
@@ -48,6 +52,15 @@ function App() {
 
   return (
     <ConnectedRouter history={history}>
+      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank" rel="noopener noreferrer">
+        <ButtonBody>
+          <FeedBackIcon />
+        </ButtonBody>
+
+        <ButtonCafe>
+          <FeedBackCafeIcon />
+        </ButtonCafe>
+      </FloatButton>
       <WebVer />
 
       <Outter>
@@ -131,12 +144,10 @@ const Container = styled.div`
 `;
 
 const Outter = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  height: 97vh;
+  position: fixed;
+  left: 60%;
+  transform: translate(-60%, 0);
+  height: 100vh;
 
   background-size: cover;
   background-repeat: no-repeat;
@@ -147,7 +158,7 @@ const WebVer = styled.div`
   width: 100vw;
   height: 100%;
   z-index: -100;
-  background: #ffe899;
+  background: #fcb2c3;
   opacity: 0.18;
 
   @media only screen and (min-width: 1025px) {
@@ -158,22 +169,43 @@ const WebVer = styled.div`
     background-image: url(${background});
   }
 `;
+const FloatButton = styled.a`
+  width: 300px;
+  position: fixed;
+  right: 5%;
+  top: 83%;
+  z-index: 2;
 
-// const SearchModalBg = styled.div`
-//   position: fixed;
-//   width: 100vw;
-//   height: 100%;
-//   z-index: 1;
-//   background: red;
-//   opacity: 0;
+  display: flex;
 
-//   /* @media only screen and (min-width: 1025px) {
-//     opacity: 1;
-//     background-size: cover;
-//     background-position: 50% 90%;
-//     background-repeat: no-repeat;
-//     background-image: url(${background});
-//   } */
-// `;
+  @media only screen and (max-width: 1650px) {
+    right: 5%;
+  }
+  @media only screen and (max-width: 1580px) {
+    right: 3%;
+  }
+  @media only screen and (max-width: 1450px) {
+    right: 5%;
+    width: 80px;
+  }
+  @media only screen and (max-width: 1240px) {
+    right: 3%;
+  }
+  @media only screen and (max-width: 1100px) {
+    right: 3%;
+  }
+`;
+
+const ButtonBody = styled.div`
+  @media only screen and (max-width: 1450px) {
+    display: none;
+  }
+`;
+
+const ButtonCafe = styled.div`
+  @media only screen and (max-width: 720px) {
+    display: none;
+  }
+`;
 
 export default App;

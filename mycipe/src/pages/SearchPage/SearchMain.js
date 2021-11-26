@@ -382,7 +382,6 @@ const LeftInner = styled.div`
 
 const SearchInput = styled.input`
   background-color: #f8f8fa;
-  border-radius: 6px;
   width: 250px;
   height: 28px;
   padding: 14px;

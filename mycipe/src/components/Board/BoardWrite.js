@@ -31,12 +31,7 @@ const BoardWrite = ({ boardName }) => {
   const isEdit = params.id ? true : false;
 
   // 입력 값 state
-  const [post, setPost] = useState({
-    title: "",
-    content: "",
-    location: "",
-    tag: [],
-  });
+  const [post, setPost] = useState(null);
 
   const titleRef = useRef(null);
   const locationRef = useRef(null);
@@ -79,12 +74,6 @@ const BoardWrite = ({ boardName }) => {
   }, [boardName, currentPost, isEdit, params.id]);
 
   const addPost = () => {
-    // console.log(post);
-    // if (post.title === "" || post.content === "" || post.location === "") {
-    //   alertPopUp("모든 항목을 작성해 주세요!", 1200);
-    //   return;
-    // }
-
     if (post && post.previewURLList && post.previewURLList.length >= 6) {
       alertPopUp("사진은 최대 5장까지 업로드 가능합니다🥲", 1200);
       return;
@@ -92,12 +81,18 @@ const BoardWrite = ({ boardName }) => {
 
     // 수정모드
     if (isEdit) {
+
       if (boardName === "cafeBoard") {
+         if (!post.title || !post.content || !post.location) {
+          alertPopUp("모든 항목을 작성해 주세요!", 1200);
+          return;
+        }
         const cafeFormData = new FormData();
         cafeFormData.append("title", post.title);
         cafeFormData.append("content", post.content);
         cafeFormData.append("location", post.location);
         cafeFormData.append("tag", post.tags);
+
 
         // 삭제한 이미지가 있을 때
         if (post.deleteImage) {
@@ -133,6 +128,21 @@ const BoardWrite = ({ boardName }) => {
       }
 
       if (boardName === "bulletinBoard") {
+        if (!post.title && !post.content) {
+          alertPopUp(" 제목과 내용을 작성해 주세요!", 1200);
+          return;
+        }
+
+        if (!post.title) {
+          alertPopUp(" 제목을 작성해 주세요!", 1200);
+          return;
+        }
+
+        if (!post.content) {
+          alertPopUp(" 내용을 작성해 주세요!", 1200);
+          return;
+        }
+
         const bulletinFormData = new FormData();
         bulletinFormData.append("title", post.title);
         bulletinFormData.append("content", post.content);
@@ -160,17 +170,19 @@ const BoardWrite = ({ boardName }) => {
     // 작성모드
     if (!isEdit) {
       if (boardName === "cafeBoard") {
+           if (!post.title || !post.content || !post.location) {
+          alertPopUp("모든 항목을 작성해 주세요!", 1200);
+          return;
+        }
         const cafeFormData = new FormData();
         cafeFormData.append("title", post.title);
         cafeFormData.append("content", post.content);
         cafeFormData.append("location", post.location);
         cafeFormData.append("tag", post.tags);
-
         if (!post.fileList) {
           alertPopUp("카페 사진은 최소 1장 첨부 부탁드립니다 🙏", 1200);
           return;
         }
-
         for (const f of post.fileList) {
           cafeFormData.append("image", f);
         }
@@ -187,6 +199,21 @@ const BoardWrite = ({ boardName }) => {
       }
 
       if (boardName === "bulletinBoard") {
+        if (!post.title && !post.content) {
+          alertPopUp(" 제목과 내용을 작성해 주세요!", 1200);
+          return;
+        }
+
+        if (!post.title) {
+          alertPopUp(" 제목을 작성해 주세요!", 1200);
+          return;
+        }
+
+        if (!post.content) {
+          alertPopUp(" 내용을 작성해 주세요!", 1200);
+          return;
+        }
+
         const bulletinFormData = new FormData();
         bulletinFormData.append("title", post.title);
         bulletinFormData.append("content", post.content);
