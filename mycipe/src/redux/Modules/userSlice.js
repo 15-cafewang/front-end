@@ -65,12 +65,10 @@ const userSlice = createSlice({
       state.isLogin = true;
       state.isLogin = true;
       state.userInfo = payload;
-      window.alert("로그인 되셨습니다! 환영합니다!");
     },
     // 로그인 실패시
     [loginDB.rejected]: (state, action) => {
       state.isFetching = false;
-      window.alert("로그인 실패");
     },
     //카카오
     [kakaoLogin.pending]: (state, action) => {
@@ -81,7 +79,6 @@ const userSlice = createSlice({
       state.userInfo = payload;
       state.isFetching = false;
       state.isLogin = true;
-      window.alert("로그인 되셨습니다! 환영합니다!");
     },
     // 카카오 로그인 실패시
     [kakaoLogin.rejected]: (state, action) => {
