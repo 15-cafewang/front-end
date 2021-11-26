@@ -102,11 +102,11 @@ const HashTagBox = styled.ul`
   height: 8rem;
 
   & > :nth-child(5) {
-    margin-left: calc((100% - 240px) / 2);
+    margin-left: calc((50% - 120px) / 2);
   }
 
   & > :nth-child(7) {
-    margin-right: calc((100% - 240px) / 2);
+    margin-right: calc((50% - 120px) / 2);
   }
 `;
 
