@@ -52,7 +52,7 @@ function App() {
 
   return (
     <ConnectedRouter history={history}>
-      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank">
+      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank" rel="noopener noreferrer">
         <ButtonBody>
           <FeedBackIcon />
         </ButtonBody>
