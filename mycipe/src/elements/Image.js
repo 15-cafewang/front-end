@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const Image = ({ size, shape, src, border, children, _onClick }) => {
-  const styles = { size: size, shape: shape, src: src, border: border };
+const Image = ({ size, shape, src, border, children, _onClick, position }) => {
+  const styles = {
+    size: size,
+    shape: shape,
+    src: src,
+    border: border,
+    position: position,
+  };
 
   if (shape === "circle") {
     return (
@@ -15,7 +21,9 @@ const Image = ({ size, shape, src, border, children, _onClick }) => {
   if (shape === "rectangle") {
     return (
       <Outter {...styles}>
-        <ImageRectångle {...styles}>{children}</ImageRectångle>
+        <ImageRectångle {...styles} onClick={_onClick}>
+          {children}
+        </ImageRectångle>
       </Outter>
     );
   }
@@ -26,6 +34,7 @@ Image.defaultProps = {
   shape: "",
   src: "",
   _onClick: () => {},
+  position: "",
 };
 
 const ImageCircle = styled.div`
@@ -44,6 +53,7 @@ const ImageCircle = styled.div`
     props.size === "large" &&
     `width : 80px; height : 80px; border-radius : 80px;`}
     
+  
   background-image: ${(props) => (props.src ? `url(${props.src})` : "")};
   background-size: cover;
   background-color: #ededed;
@@ -67,6 +77,10 @@ const Outter = styled.div`
   // 디테일 페이지
   ${(props) => props.size === "large" && `width : 320px; height : 320px;`}
   
+
+  ${(props) => props.size === "large2" && `width : 360px; height : 200px`}
+
+
   ${(props) =>
     props.border &&
     `border: 1px solid #767676;
@@ -81,6 +95,7 @@ const ImageRectångle = styled.div`
   background-size: cover;
   background-position: center;
   ${(props) => (props.src ? `background-image : url(${props.src})` : "")};
+  position: ${(props) => (props.position ? props.position : "static")};
 `;
 
 export default Image;
