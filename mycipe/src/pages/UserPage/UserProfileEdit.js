@@ -22,7 +22,6 @@ const UserpageProfileEdit = () => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
   const LoginUserInfo = useSelector((state) => state.user.userInfo);
-  console.log(LoginUserInfo);
   const [file, setFile] = useState({
     file: "",
     previewURL: LoginUserInfo.profileImage,
