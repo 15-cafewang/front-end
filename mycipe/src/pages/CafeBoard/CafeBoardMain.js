@@ -6,23 +6,23 @@ import { history } from "../../redux/configureStore";
 // elements, components
 import Spinner from "../../assets/image/Spinner.gif";
 import { SmallFilterButton, ButtonInner } from "../../elements";
-import RecipeCard from "../../components/Card/RecipeCard";
+import CafeCard from "../../components/Card/CafeCard";
 import ModalBackground from "../../shared/ModalBackground";
 
 // async
 import {
-  getRecipePostListDB,
+  getCafePostListDB,
   getInfinityScrollDB,
-} from "../../redux/Async/recipeBoard";
+} from "../../redux/Async/cafeBoard";
 
 // 무한스크롤 hook
 import { useInterSectionObserver } from "../../hooks/index";
 
-const RecipeBoardMain = () => {
+const CafeBoardMain = () => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
-  const recipeList = useSelector(
-    (state) => state.recipeBoard && state.recipeBoard.recipeList
+  const cafeList = useSelector(
+    (state) => state.cafeBoard && state.cafeBoard.cafeList
   );
 
   const [currentSorting, setCurrentSorting] = useState({
@@ -37,7 +37,7 @@ const RecipeBoardMain = () => {
   // 처음 페이지 진입했을 때 page=1인 data을 받아온다.
   useEffect(() => {
     dispatch(
-      getRecipePostListDB({
+      getCafePostListDB({
         page: 1,
         sortBy: currentSorting.sortedByDate
           ? "sortBy=regDate&sortByLike=false"
@@ -47,7 +47,7 @@ const RecipeBoardMain = () => {
   }, [dispatch, currentSorting.sortedByDate]);
 
   // 관찰이 시작될 때 실행될 콜백 함수
-  const fetchMoreRecipe = (page) => {
+  const fetchMorecafe = (page) => {
     setIsLoading(true);
     dispatch(
       getInfinityScrollDB({
@@ -63,7 +63,7 @@ const RecipeBoardMain = () => {
       });
   };
 
-  useInterSectionObserver(fetchMoreRecipe, pageRef, target.current, recipeList);
+  useInterSectionObserver(fetchMorecafe, pageRef, target.current, cafeList);
 
   return (
     <>
@@ -101,14 +101,14 @@ const RecipeBoardMain = () => {
         {currentSorting.sortedByDate && (
           <>
             <CardList>
-              {recipeList &&
-                recipeList.map((r, idx) => {
+              {cafeList &&
+                cafeList.map((r, idx) => {
                   return (
-                    <RecipeCard
+                    <CafeCard
                       _onClick={(e) => {
-                        history.push(`/recipeboard/detail/${r.recipeId}`);
+                        history.push(`/cafeboard/detail/${r.cafeId}`);
                       }}
-                      key={r.recipeId}
+                      key={r.cafeId}
                       image={r.images[0]}
                       {...r}
                     />
@@ -123,14 +123,14 @@ const RecipeBoardMain = () => {
         {currentSorting.sortedByLikes && (
           <>
             <CardList>
-              {recipeList &&
-                recipeList.map((r, idx) => {
+              {cafeList &&
+                cafeList.map((r, idx) => {
                   return (
-                    <RecipeCard
+                    <CafeCard
                       _onClick={() => {
-                        history.push(`/recipeboard/detail/${r.recipeId}`);
+                        history.push(`/cafeboard/detail/${r.cafeId}`);
                       }}
-                      key={r.recipeId}
+                      key={r.cafeId}
                       image={r.images[0]}
                       {...r}
                     />
@@ -161,4 +161,4 @@ const CardList = styled.div`
 
 const SpinnerImg = styled.img``;
 
-export default RecipeBoardMain;
+export default CafeBoardMain;

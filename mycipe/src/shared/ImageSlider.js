@@ -36,7 +36,7 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
                   >
                     <ImageContent>
                       <Text>
-                        {banner.title}왕은 <br /> {banner.kinginfo?.nickname}
+                        {banner.title}왕은 <br /> {banner.kinginfo?.nickname}님
                         <br />
                         입니다!
                       </Text>
@@ -102,8 +102,9 @@ const StyledBanner = styled(StyledSlider)`
   }
 
   .slick-list {
-    width: 360px;
+    width: 375px;
     margin: 0 auto;
+    margin-left: -20px;
   }
 
   .slick-dots {

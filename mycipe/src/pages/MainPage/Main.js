@@ -10,9 +10,8 @@ import {
   getRecentListDB,
 } from "../../redux/Async/mainPage";
 
-import RecipeCard from "../../components/Card/RecipeCard";
+import CafeCard from "../../components/Card/CafeCard";
 import ModalBackground from "../../shared/ModalBackground";
-
 import UserCard from "../../components/Card/UserCard";
 import ImageSlider from "../../shared/ImageSlider";
 
@@ -21,7 +20,9 @@ import commentKing from "../../assets/image/banner/commentKing.svg";
 import writeKing from "../../assets/image/banner/writeKing.svg";
 import followerKing from "../../assets/image/banner/followerKing.svg";
 
-import { ReactComponent as ContactImage } from "../../assets/icon/HeaderIcon/logo.svg";
+import { ReactComponent as LogoIcon } from "../../assets/icon/HeaderIcon/logo.svg";
+import { ReactComponent as SmallFeedBackCafeIcon } from "../../assets/icon/smallFeedBackCafeIcon.svg";
+import { ReactComponent as CoachMarkIcon } from "../../assets/icon/coachmark.svg";
 
 import { mainApi } from "../../shared/api/mainApi";
 
@@ -45,6 +46,7 @@ const Main = (props) => {
       const rankListResponse = mainApi.getRankList();
 
       const kingListResponse = mainApi.getKingList();
+
       const getRankList = (await rankListResponse).data.data;
       const getKingList = (await kingListResponse).data.data;
 
@@ -73,9 +75,9 @@ const Main = (props) => {
 
   // 배너에 보여줄 정보
   const bannerList = [
-    { img: writeKing, title: "게시물", kinginfo: kingList.gePostKing },
+    { img: writeKing, title: "게시물", kinginfo: kingList.getPostKing },
     { img: likeKing, title: "좋아요", kinginfo: kingList.getLikeKing },
-    { img: followerKing, title: "팔로워", kinginfo: kingList.geFollowKing },
+    { img: followerKing, title: "팔로워", kinginfo: kingList.getFollowKing },
     { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
   ];
 
@@ -83,28 +85,27 @@ const Main = (props) => {
 
   return (
     <>
-      <ImageSlider bannerList={bannerList} isBanner />
       <MainInner>
+        <ImageSlider bannerList={bannerList} isBanner />
         {isActive && <ModalBackground />}
         {/* 추천 카페 */}
         <Banner>
           <BannerTitle>추천 카페</BannerTitle>
         </Banner>
-
-        <RecipeCardList>
+        <CafeCardList>
           {commendList.map((c, idx) => {
             return (
-              <RecipeCard
+              <CafeCard
                 _onClick={() => {
-                  history.push(`/recipeboard/detail/${c.recipeId}`);
+                  history.push(`/cafeboard/detail/${c.cafeId}`);
                 }}
-                key={c.recipeId}
+                key={c.cafeId}
                 image={c.images[0]}
                 {...c}
               />
             );
           })}
-        </RecipeCardList>
+        </CafeCardList>
 
         {/* 왕 후보 */}
         <RankingInner>
@@ -190,52 +191,52 @@ const Main = (props) => {
           </BannerButtonInner>
         </Banner>
 
-        <RecipeCardList marginBottom>
+        <CafeCardList marginBottom>
           {popularList.map((m, idx) => {
             return (
-              <RecipeCard
+              <CafeCard
                 _onClick={() => {
-                  history.push(`/recipeboard/detail/${m.recipeId}`);
+                  history.push(`/cafeboard/detail/${m.cafeId}`);
                 }}
-                key={m.recipeId}
+                key={m.cafeId}
                 image={m.images[0]}
                 {...m}
               />
             );
           })}
-        </RecipeCardList>
+        </CafeCardList>
 
         {/* 최근 카페 */}
         <Banner>
           <BannerTitle>최근 카페</BannerTitle>
           <BannerMoreButton
             onClick={() => {
-              history.push("/recipeboard");
+              history.push("/cafeboard");
             }}
           >
             더보기
           </BannerMoreButton>
         </Banner>
 
-        <RecipeCardList>
+        <CafeCardList>
           {recentList.map((m, idx) => {
             return (
-              <RecipeCard
+              <CafeCard
                 _onClick={() => {
-                  history.push(`/recipeboard/detail/${m.recipeId}`);
+                  history.push(`/cafeboard/detail/${m.cafeId}`);
                 }}
-                key={m.recipeId}
+                key={m.cafeId}
                 image={m.images[0]}
                 {...m}
               />
             );
           })}
-        </RecipeCardList>
+        </CafeCardList>
       </MainInner>
 
       <Contact>
         <ContactInner>
-          <ContactImage />
+          <LogoIcon />
           <ContactBox>
             <ContactText>
               팀원소개 <A>Notion</A> &nbsp;&nbsp;|&nbsp;&nbsp; 프로젝트 &nbsp;
@@ -253,6 +254,19 @@ const Main = (props) => {
           </ContactBox>
         </ContactInner>
       </Contact>
+
+      <FloatButton
+        href="https://forms.gle/hhrYTh9eFxB3ZfYH9"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <ButtonSmall>
+          <Box>
+            <CoachMarkIcon />
+          </Box>
+          <SmallFeedBackCafeIcon />
+        </ButtonSmall>
+      </FloatButton>
     </>
   );
 };
@@ -283,7 +297,7 @@ const BannerTitle = styled.span`
 `;
 
 const BannerButtonInner = styled.div`
-  width: 250px;
+  width: 200px;
   display: flex;
   justify-content: flex-end;
 `;
@@ -291,15 +305,11 @@ const BannerButtonInner = styled.div`
 const RankingButtonInner = styled.div`
   display: flex;
   margin-top: 4px;
-
-  & :nth-child(1) {
-    margin-left: 0px;
-  }
 `;
 
 const BannerDateButton = styled.button`
   width: 53px;
-  height: 28px;
+  height: 24px;
 
   margin-left: 5px;
   font-size: 14px;
@@ -328,19 +338,21 @@ const BannerMoreButton = styled.button`
   color: #999;
 `;
 
-const RecipeCardList = styled.ul`
+const CafeCardList = styled.ul`
   margin-bottom: ${(props) => props.marginBottom && "56px"};
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
+
 const Contact = styled.div`
   margin-top: 50px;
   border-top: solid 1px gray;
   padding: 20px 0px 0px 0px !important;
   position: relative;
 `;
+
 const ContactInner = styled.div`
   padding: 0px 20px;
 `;
@@ -352,7 +364,31 @@ const ContactText = styled.span`
 `;
 
 const A = styled.a`
-  color: #7692e4;
+  color: #ff7a7a;
+`;
+
+const FloatButton = styled.a`
+  position: fixed;
+  right: -17%;
+  top: 77%;
+  z-index: 2;
+
+  display: flex;
+
+  @media only screen and (min-width: 380px) and (max-width: 720px) {
+    top: 73%;
+  }
+`;
+
+const ButtonSmall = styled.div`
+  @media only screen and (min-width: 720px) {
+    display: none;
+  }
+`;
+
+const Box = styled.div`
+  position: relative;
+  right: 60%;
 `;
 
 const UserListContainer = styled.ul`

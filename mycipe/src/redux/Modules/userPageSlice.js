@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
   getUserInfoDB,
-  getUserWrittenRecipesDB,
-  getInfinityScrollWrittenRecipesDB,
+  getUserWrittencafesDB,
+  getInfinityScrollWrittencafesDB,
   getUserWrittenBoardsDB,
   getInfinityScrollWrittenBoardsDB,
-  getUserLikedRecipesDB,
-  getInfinityScrollLikedRecipesDB,
+  getUserLikedcafesDB,
+  getInfinityScrollLikedcafesDB,
   getUserLikedBoardsDB,
   getInfinityScrollLikeBoardsDB,
   userFollowDB,
@@ -31,44 +31,44 @@ const initialState = {
 
   // 게시물 목록
   postList: {
-    userWrittenRecipes: [
-      {
-        recipeId: 8,
-        title: "123",
-        nickname: "tester2",
-        price: 1,
-        imageList: [],
-        likecount: 0,
-      },
+    userWrittencafes: [
+      // {
+      //   cafeId: 8,
+      //   title: "123",
+      //   nickname: "tester2",
+      //   price: 1,
+      //   imageList: [],
+      //   likecount: 0,
+      // },
     ],
 
     userWrittenBoards: [
-      {
-        boardId: 1,
-        title: "123",
-        content: "123",
-        regDate: null,
-        likeCount: 0,
-        commentCount: 0,
-        imageList: [],
-      },
+      // {
+      //   boardId: 1,
+      //   title: "123",
+      //   content: "123",
+      //   regDate: null,
+      //   likeCount: 0,
+      //   commentCount: 0,
+      //   imageList: [],
+      // },
     ],
 
     userLikedBoards: [
-      {
-        boardId: 1,
-        title: "123",
-        content: "123",
-        regDate: null,
-        likeCount: 0,
-        commentCount: 0,
-        imageList: [],
-      },
+      // {
+      //   boardId: 1,
+      //   title: "123",
+      //   content: "123",
+      //   regDate: null,
+      //   likeCount: 0,
+      //   commentCount: 0,
+      //   imageList: [],
+      // },
     ],
 
-    userLikedRecipes: [
+    userLikedcafes: [
       // {
-      //   recipeId: 8,
+      //   cafeId: 8,
       //   title: "123",
       //   nickname: "tester2",
       //   price: 1,
@@ -121,31 +121,31 @@ const userPageSlice = createSlice({
       console.log(action.error);
     },
 
-    [getUserWrittenRecipesDB.pending]: (state, action) => {
+    [getUserWrittencafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getUserWrittenRecipesDB.fulfilled]: (state, action) => {
+    [getUserWrittencafesDB.fulfilled]: (state, action) => {
       state.isFetching = false;
-      state.postList.userWrittenRecipes = action.payload;
+      state.postList.userWrittencafes = action.payload;
     },
-    [getUserWrittenRecipesDB.rejected]: (state, action) => {
+    [getUserWrittencafesDB.rejected]: (state, action) => {
       console.log(action.error);
       state.isFetching = false;
     },
 
     // 유저가 작성한 레시피 무한스크롤 불러오기
-    [getInfinityScrollWrittenRecipesDB.pending]: (state, action) => {
+    [getInfinityScrollWrittencafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getInfinityScrollWrittenRecipesDB.fulfilled]: (state, action) => {
+    [getInfinityScrollWrittencafesDB.fulfilled]: (state, action) => {
       state.isFetching = false;
 
-      state.postList.userWrittenRecipes = [
-        ...state.postList.userWrittenRecipes,
+      state.postList.userWrittencafes = [
+        ...state.postList.userWrittencafes,
         ...action.payload,
       ];
     },
-    [getInfinityScrollWrittenRecipesDB.rejected]: (state, action) => {
+    [getInfinityScrollWrittencafesDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
@@ -180,32 +180,32 @@ const userPageSlice = createSlice({
     },
 
     //유저 좋아요 레시피
-    [getUserLikedRecipesDB.pending]: (state, action) => {
+    [getUserLikedcafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getUserLikedRecipesDB.fulfilled]: (state, action) => {
+    [getUserLikedcafesDB.fulfilled]: (state, action) => {
       state.isFetching = false;
 
-      state.postList.userLikedRecipes = action.payload;
+      state.postList.userLikedcafes = action.payload;
     },
-    [getUserLikedRecipesDB.rejected]: (state, action) => {
+    [getUserLikedcafesDB.rejected]: (state, action) => {
       console.log(action.error);
       state.isFetching = false;
     },
 
     // 유저 좋아요 레시피 무한스크롤
-    [getInfinityScrollLikedRecipesDB.pending]: (state, action) => {
+    [getInfinityScrollLikedcafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getInfinityScrollLikedRecipesDB.fulfilled]: (state, action) => {
+    [getInfinityScrollLikedcafesDB.fulfilled]: (state, action) => {
       state.isFetching = false;
       console.log(2);
-      state.postList.userLikedRecipes = [
-        ...state.postList.userLikedRecipes,
+      state.postList.userLikedcafes = [
+        ...state.postList.userLikedcafes,
         ...action.payload,
       ];
     },
-    [getInfinityScrollLikedRecipesDB.rejected]: (state, action) => {
+    [getInfinityScrollLikedcafesDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 

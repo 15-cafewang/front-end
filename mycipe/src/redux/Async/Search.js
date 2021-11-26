@@ -1,17 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getSearchRecipe, getSearchBoard } from "../../shared/api/searchApi";
+import { getSearchcafe, getSearchBoard } from "../../shared/api/searchApi";
 import {
   setKeyword,
   setHashTag,
-  addRecipeKeyword,
+  addCafeKeyword,
   addBoardKeyword,
 } from "../Modules/searchSlice";
 
 //레시피 검색.
-const getSearchRecipeDB = createAsyncThunk(
-  "search/recipe",
+const getSearchCafeDB = createAsyncThunk(
+  "search/cafe",
   async (searchInfo, ThunkAPI) => {
-    const response = await getSearchRecipe(searchInfo);
+    const response = await getSearchcafe(searchInfo);
 
     if (!searchInfo.withTag) {
       //검색어로 검색했을떄.
@@ -22,7 +22,7 @@ const getSearchRecipeDB = createAsyncThunk(
       ThunkAPI.dispatch(setHashTag(null));
 
       // 최근검색어에 추가.
-      ThunkAPI.dispatch(addRecipeKeyword(searchInfo.keyword));
+      ThunkAPI.dispatch(addCafeKeyword(searchInfo.keyword));
     } else {
       // 해쉬태그로 검색했을떄.
       ThunkAPI.dispatch(setHashTag(searchInfo.keyword));
@@ -45,4 +45,4 @@ const getSearchBoardDB = createAsyncThunk(
   }
 );
 
-export { getSearchRecipeDB, getSearchBoardDB };
+export { getSearchCafeDB, getSearchBoardDB };

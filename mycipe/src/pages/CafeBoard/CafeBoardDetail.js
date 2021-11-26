@@ -1,12 +1,12 @@
 import React from "react";
 import BoardDetail from "../../components/Board/BoardDetail";
 
-const RecipeBoardDetail = () => {
+const cafeBoardDetail = () => {
   return (
     <>
-      <BoardDetail boardName="recipeBoard" />
+      <BoardDetail boardName="cafeBoard" />
     </>
   );
 };
 
-export default RecipeBoardDetail;
+export default cafeBoardDetail;

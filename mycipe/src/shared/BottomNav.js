@@ -55,7 +55,7 @@ const BottomNav = (props) => {
             <ModalContentInner>
               <ModalContent
                 onClick={() => {
-                  history.push("/recipeboard/write");
+                  history.push("/cafeboard/write");
                 }}
               >
                 카페 공유하기
@@ -84,10 +84,10 @@ const BottomNav = (props) => {
 
           <NavButton
             onClick={() => {
-              history.push("/recipeboard");
+              history.push("/cafeboard");
             }}
           >
-            {location === "/recipeboard" ? <ActiveCafeIcon /> : <CafeIcon />}
+            {location === "/cafeboard" ? <ActiveCafeIcon /> : <CafeIcon />}
           </NavButton>
 
           <NavButton onClick={ClickedModal}>
@@ -138,8 +138,8 @@ const BottomNavInner = styled.div`
   position: fixed;
   bottom: 0;
   z-index: 4;
-  left: 50%;
-  transform: translate(-50%, 0);
+  left: 60%;
+  transform: translate(-60%, 0);
 `;
 
 const PlusModal = styled.div`

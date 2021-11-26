@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 
 import BoardCard from "../../components/Card/BoardCard";
-import RecipeCard from "../../components/Card/RecipeCard";
+import CafeCard from "../../components/Card/CafeCard";
 
 import {
   BigFilterButton,
@@ -21,12 +21,12 @@ import Blank from "../../shared/Blank";
 //thunkAsync
 import {
   getUserInfoDB,
-  getUserWrittenRecipesDB,
-  getInfinityScrollWrittenRecipesDB,
+  getUserWrittencafesDB,
+  getInfinityScrollWrittencafesDB,
   getUserWrittenBoardsDB,
   getInfinityScrollWrittenBoardsDB,
-  getUserLikedRecipesDB,
-  getInfinityScrollLikedRecipesDB,
+  getUserLikedcafesDB,
+  getInfinityScrollLikedcafesDB,
   getUserLikedBoardsDB,
   getInfinityScrollLikeBoardsDB,
   userFollowDB,
@@ -68,7 +68,7 @@ const UserMain = (props) => {
   const [filterButtons, setFilterButtons] = useState({
     writtenBoard: true,
     likedBoard: false,
-    recipe: true,
+    cafe: true,
     bulletinBoard: false,
   });
 
@@ -78,16 +78,16 @@ const UserMain = (props) => {
   let message = null;
 
   if (filterButtons.writtenBoard) {
-    if (filterButtons.recipe) {
-      currentList = pageInfo.postList.userWrittenRecipes;
+    if (filterButtons.cafe) {
+      currentList = pageInfo.postList.userWrittencafes;
       message = "공유한 카페가 없습니다.";
     } else {
       currentList = pageInfo.postList.userWrittenBoards;
       message = "작성한 글이 없습니다.";
     }
   } else {
-    if (filterButtons.recipe) {
-      currentList = pageInfo.postList.userLikedRecipes;
+    if (filterButtons.cafe) {
+      currentList = pageInfo.postList.userLikedcafes;
       message = "좋아요한 카폐가 없습니다.";
     } else {
       currentList = pageInfo.postList.userLikedBoards;
@@ -97,7 +97,7 @@ const UserMain = (props) => {
 
   useEffect(() => {
     dispatch(getUserInfoDB(userNickname));
-    dispatch(getUserWrittenRecipesDB({ page: 1, nickname: userNickname }));
+    dispatch(getUserWrittencafesDB({ page: 1, nickname: userNickname }));
   }, [dispatch, userNickname]);
 
   // 관찰이 시작될 때 실행될 콜백 함수
@@ -105,9 +105,9 @@ const UserMain = (props) => {
     setIsLoading(true);
     if (filterButtons.writtenBoard) {
       // 유저가 작성한 레시피 보여줄때
-      if (filterButtons.recipe) {
+      if (filterButtons.cafe) {
         dispatch(
-          getInfinityScrollWrittenRecipesDB({
+          getInfinityScrollWrittencafesDB({
             page: page,
             nickname: userNickname,
           })
@@ -132,9 +132,9 @@ const UserMain = (props) => {
       }
     } else {
       // 유저가 좋아요한 레시피 보여줄때
-      if (filterButtons.recipe) {
+      if (filterButtons.cafe) {
         dispatch(
-          getInfinityScrollLikedRecipesDB({
+          getInfinityScrollLikedcafesDB({
             page: page,
             nickname: userNickname,
           })
@@ -232,7 +232,7 @@ const UserMain = (props) => {
             _onClick={() => {
               setFilterButtons({
                 writtenBoard: true,
-                recipe: true,
+                cafe: true,
 
                 likedBoard: false,
                 bulletinBoard: false,
@@ -241,7 +241,7 @@ const UserMain = (props) => {
               pageRef.current = 1;
 
               dispatch(
-                getUserWrittenRecipesDB({
+                getUserWrittencafesDB({
                   page: 1,
                   nickname: userInfo.nickname,
                 })
@@ -256,7 +256,7 @@ const UserMain = (props) => {
             _onClick={() => {
               setFilterButtons({
                 likedBoard: true,
-                recipe: true,
+                cafe: true,
 
                 writtenBoard: false,
                 bulletinBoard: false,
@@ -265,7 +265,7 @@ const UserMain = (props) => {
               pageRef.current = 1;
 
               dispatch(
-                getUserLikedRecipesDB({
+                getUserLikedcafesDB({
                   page: 1,
                   nickname: userInfo.nickname,
                 })
@@ -279,26 +279,26 @@ const UserMain = (props) => {
 
         <ButtonInner height="32px" small margin="12px -20px">
           <SmallFilterButton
-            active={filterButtons.recipe}
+            active={filterButtons.cafe}
             _onClick={() => {
               setFilterButtons({
                 ...filterButtons,
                 bulletinBoard: false,
-                recipe: true,
+                cafe: true,
               });
 
               pageRef.current = 1;
 
               if (filterButtons.writtenBoard) {
                 dispatch(
-                  getUserWrittenRecipesDB({
+                  getUserWrittencafesDB({
                     page: 1,
                     nickname: userInfo.nickname,
                   })
                 );
               } else {
                 dispatch(
-                  getUserLikedRecipesDB({
+                  getUserLikedcafesDB({
                     page: 1,
                     nickname: userInfo.nickname,
                   })
@@ -317,7 +317,7 @@ const UserMain = (props) => {
               setFilterButtons({
                 ...filterButtons,
                 bulletinBoard: true,
-                recipe: false,
+                cafe: false,
               });
 
               pageRef.current = 1;
@@ -345,16 +345,16 @@ const UserMain = (props) => {
         </ButtonInner>
 
         {/* 게시물 보여주기 */}
-        {filterButtons.recipe ? (
+        {filterButtons.cafe ? (
           <>
             <CardList>
               {isFetching && <SpinnerImg src={Spinner} />}
               {currentList.length !== 0
                 ? currentList.map((item, idx) => {
                     return (
-                      <RecipeCard
-                        key={item.recipeId}
-                        recipeId={item.recipeId}
+                      <CafeCard
+                        key={item.cafeId}
+                        cafeId={item.cafeId}
                         image={item.imageList[0]}
                         nickname={item.nickname}
                         title={item.title}
@@ -362,7 +362,7 @@ const UserMain = (props) => {
                         likeCount={item.likeCount}
                         price={item.price}
                         _onClick={() => {
-                          history.push(`/recipeboard/detail/${item.recipeId}`);
+                          history.push(`/cafeboard/detail/${item.cafeId}`);
                         }}
                       />
                     );

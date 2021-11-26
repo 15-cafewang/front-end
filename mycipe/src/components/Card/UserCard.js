@@ -48,7 +48,7 @@ const UserCard = ({
   } else {
     return (
       <>
-        <UserCardInner between>
+        <UserCardInner between margin="20px 20px 12px 20px">
           <Grid>
             <Image
               shape="circle"

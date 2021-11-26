@@ -9,14 +9,14 @@ import { ButtonInner, SmallFilterButton } from "../../elements/index";
 import ModalBackground from "../../shared/ModalBackground";
 import SearchModal from "./SearchModal";
 
-import RecipeCard from "../../components/Card/RecipeCard";
+import CafeCard from "../../components/Card/CafeCard";
 import BoardCard from "../../components/Card/BoardCard";
 
 import PopUp from "../../shared/PopUp";
 import Spinner from "../../assets/image/Spinner.gif";
 import Blank from "../../shared/Blank";
 
-import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
+import { getSearchCafeDB, getSearchBoardDB } from "../../redux/Async/Search";
 
 import { setSorting } from "../../redux/Modules/searchSlice";
 
@@ -27,7 +27,7 @@ const SearchMain = () => {
   const isActive = useSelector((state) => state.modal.isActive);
   const isFetching = useSelector((state) => state.search.isFetching);
 
-  const recipeList = useSelector((state) => state.search.recipeList);
+  const cafeList = useSelector((state) => state.search.cafeList);
   const boardList = useSelector((state) => state.search.boardList);
 
   //현재 게시물이 존재하는지(레시피 or 자유게시물 아무거나뭐든)
@@ -74,11 +74,11 @@ const SearchMain = () => {
   // 최초에 검색하고 게시물을 불러올떈 동작하지않는다.
   useEffect(() => {
     // (검색전엔 아무것도 불러오지않은상태니 배열의 길이로 실행여부를 판단함.)
-    if (recipeList.length !== 0) {
+    if (cafeList.length !== 0) {
       if (currentSorting === "byDate") {
         if (hashTag) {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: hashTag,
               withTag: true,
               sortBy: "regDate",
@@ -86,7 +86,7 @@ const SearchMain = () => {
           );
         } else {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: preKeyword,
               withTag: false,
               sortBy: "regDate",
@@ -96,7 +96,7 @@ const SearchMain = () => {
       } else {
         if (hashTag) {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: hashTag,
               withTag: true,
               sortBy: "likeCount",
@@ -104,7 +104,7 @@ const SearchMain = () => {
           );
         } else {
           dispatch(
-            getSearchRecipeDB({
+            getSearchCafeDB({
               keyword: preKeyword,
               withTag: false,
               sortBy: "likeCount",
@@ -180,9 +180,9 @@ const SearchMain = () => {
                   setPopUp(false);
                 }, 700);
               } else {
-                if (whereFrom === "recipe") {
+                if (whereFrom === "cafe") {
                   dispatch(
-                    getSearchRecipeDB({
+                    getSearchCafeDB({
                       keyword,
                       withTag: false,
                       sortBy: "regDate",
@@ -219,9 +219,7 @@ const SearchMain = () => {
 
         <ListContainer>
           {/* 레시피를 검색했을때만 해쉬태그를 보여줌. */}
-          <SelectedHashTagInner
-            recipeList={recipeList.length !== 0 ? true : false}
-          >
+          <SelectedHashTagInner cafeList={cafeList.length !== 0 ? true : false}>
             {/* 선택된 해쉬태그가있으면 보여줌 */}
             {hashTag ? <HashTagItem active>{hashTag}</HashTagItem> : ""}
           </SelectedHashTagInner>
@@ -238,7 +236,7 @@ const SearchMain = () => {
                 let keyword = null;
 
                 // 레시피검색일경우 해쉬태그도 생각해야한다.
-                if (whereFrom === "recipe") {
+                if (whereFrom === "cafe") {
                   if (hashTag) {
                     keyword = hashTag;
                   } else {
@@ -248,7 +246,7 @@ const SearchMain = () => {
                   }
 
                   dispatch(
-                    getSearchRecipeDB({
+                    getSearchCafeDB({
                       keyword,
                       withTag: hashTag ? true : false,
                       sortBy: "regDate",
@@ -277,7 +275,7 @@ const SearchMain = () => {
 
                 let keyword = null;
 
-                if (whereFrom === "recipe") {
+                if (whereFrom === "cafe") {
                   if (hashTag) {
                     keyword = hashTag;
                   } else {
@@ -287,7 +285,7 @@ const SearchMain = () => {
                   }
 
                   dispatch(
-                    getSearchRecipeDB({
+                    getSearchCafeDB({
                       keyword,
                       withTag: hashTag ? true : false,
                       sortBy: "likeCount",
@@ -310,17 +308,17 @@ const SearchMain = () => {
             </SmallFilterButton>
           </ButtonInner>
           {/* 목록 뿌려주기 */}
-          {whereFrom === "recipe" ? (
+          {whereFrom === "cafe" ? (
             <SearchListInner>
               {isFetching && <SpinnerImg src={Spinner} />}
-              {recipeList.length !== 0 // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
-                ? recipeList.map((recipe) => (
-                    <RecipeCard
-                      key={recipe.recipeId}
-                      {...recipe}
-                      image={recipe.images[0]}
+              {cafeList.length !== 0 // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
+                ? cafeList.map((cafe) => (
+                    <CafeCard
+                      key={cafe.cafeId}
+                      {...cafe}
+                      image={cafe.images[0]}
                       _onClick={() => {
-                        history.push(`/recipeboard/detail/${recipe.recipeId}`);
+                        history.push(`/cafeboard/detail/${cafe.cafeId}`);
                       }}
                     />
                   ))
@@ -384,7 +382,6 @@ const LeftInner = styled.div`
 
 const SearchInput = styled.input`
   background-color: #f8f8fa;
-  border-radius: 6px;
   width: 250px;
   height: 28px;
   padding: 14px;
@@ -419,7 +416,7 @@ const SearchListInner = styled.div`
 `;
 
 const SelectedHashTagInner = styled.div`
-  display: ${(props) => (props.recipeList ? "flex" : "none")};
+  display: ${(props) => (props.cafeList ? "flex" : "none")};
   /* margin: 12px 0px 20px 20px; */
   overflow: auto;
   white-space: nowrap;
