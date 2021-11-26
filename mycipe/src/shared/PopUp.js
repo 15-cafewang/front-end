@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { Button } from "../elements/index";
 
@@ -10,8 +10,31 @@ const PopUp = ({
   buttonName = "",
   _onClick = () => {},
 }) => {
+  const hidePopUp = (e) => {
+    if (e.code === "Escape") {
+      //모달 닫기
+      setPopUp(false);
+    }
+
+    if (e.code === "Enter") {
+      // 버튼 누를시 실행되는 함수 호출
+      _onClick();
+    }
+  };
+
+  const popUpRef = useRef();
+
+  useEffect(() => {
+    if (popUp) {
+      window.addEventListener("keydown", hidePopUp);
+      return () => {
+        window.removeEventListener("keydown", hidePopUp);
+      };
+    }
+  }, [popUp]);
+
   return (
-    <PopUpContainer active={popUp}>
+    <PopUpContainer active={popUp} ref={popUpRef}>
       <Text isButton={isButton}>{message}</Text>
 
       {isButton && (
