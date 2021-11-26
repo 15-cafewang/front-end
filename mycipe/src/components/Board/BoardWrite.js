@@ -419,7 +419,7 @@ const TextInputBox = styled.textarea`
 const HashTagTitle = styled.p`
   margin-bottom: 8px;
   position: relative;
-  right: 33%;
+  right: 31%;
   font-size: 14px;
   color: #999999;
 `;
