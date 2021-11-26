@@ -19,12 +19,12 @@ import { ReactComponent as FeedBackCafeIcon } from "../assets/icon/feedBackCafeI
 import Intro from "../pages/Auth/Intro";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
-import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
+import CafeBoardWrite from "../pages/CafeBoard/CafeBoardWrite";
 import NotFound from "../pages/NotFound";
 
 import Kakao from "../components/Kakao";
-import RecipeBoardMain from "../pages/RecipeBoard/RecipeBoardMain";
-import RecipeBoardDetail from "../pages/RecipeBoard/RecipeBoardDetail";
+import CafeBoardMain from "../pages/CafeBoard/CafeBoardMain";
+import CafeBoardDetail from "../pages/CafeBoard/CafeBoardDetail";
 import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
 import BulletinBoardMain from "../pages/BulletinBoard/BulletinBoardMain";
 import BulletinBoardDetail from "../pages/BulletinBoard/BulletinBoardDetail";
@@ -72,25 +72,21 @@ function App() {
             <PublickRoute path="/signup" exact component={Signup} />
             <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
             <PrivateRoute path="/main" exact component={Main} />
+            <PrivateRoute path="/cafeboard" exact component={CafeBoardMain} />
             <PrivateRoute
-              path="/recipeboard"
+              path="/cafeboard/write"
               exact
-              component={RecipeBoardMain}
+              component={CafeBoardWrite}
             />
             <PrivateRoute
-              path="/recipeboard/write"
+              path="/cafeboard/write/:id"
               exact
-              component={RecipeBoardWrite}
+              component={CafeBoardWrite}
             />
             <PrivateRoute
-              path="/recipeboard/write/:id"
+              path="/cafeboard/detail/:cafeid"
               exact
-              component={RecipeBoardWrite}
-            />
-            <PrivateRoute
-              path="/recipeboard/detail/:recipeid"
-              exact
-              component={RecipeBoardDetail}
+              component={CafeBoardDetail}
             />
             <PrivateRoute
               path="/bulletinboard"
@@ -173,24 +169,6 @@ const WebVer = styled.div`
     background-image: url(${background});
   }
 `;
-
-// const SearchModalBg = styled.div`
-//   position: fixed;
-//   width: 100vw;
-//   height: 100%;
-//   z-index: 1;
-//   background: red;
-//   opacity: 0;
-
-//   /* @media only screen and (min-width: 1025px) {
-//     opacity: 1;
-//     background-size: cover;
-//     background-position: 50% 90%;
-//     background-repeat: no-repeat;
-//     background-image: url(${background});
-//   } */
-// `;
-
 const FloatButton = styled.a`
   width: 300px;
   position: fixed;

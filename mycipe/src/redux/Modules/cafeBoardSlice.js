@@ -1,44 +1,44 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
-  addRecipePostDB,
-  getRecipePostListDB,
+  addCafePostDB,
+  getCafePostListDB,
   getInfinityScrollDB,
-  getRecipePostDetailDB,
-  recipeLikeToggleDB,
-  editRecipePostDB,
-  deleteRecipePostDB,
-  addRecipeCommentDB,
-  getRecipeCommentDB,
-  editRecipeCommentDB,
-  deleteRecipeCommentDB,
-  recipeCommentLikeDB,
-  getInfinityScrollRecipeCommentDB,
-} from "../Async/recipeBoard";
+  getCafePostDetailDB,
+  cafeLikeToggleDB,
+  editCafePostDB,
+  deleteCafePostDB,
+  addCafeCommentDB,
+  getCafeCommentDB,
+  editCafeCommentDB,
+  deleteCafeCommentDB,
+  cafeCommentLikeDB,
+  getInfinityScrollCafeCommentDB,
+} from "../Async/cafeBoard";
 
 // initialstate
 const initialstate = {
   isFetching: false,
-  recipeList: [],
-  currentRecipePost: null,
+  cafeList: [],
+  currentcafePost: null,
   commentList: [],
 };
 
-const recipeBoardSlice = createSlice({
-  name: "recipeBoard",
+const cafeBoardSlice = createSlice({
+  name: "cafeBoard",
   initialState: initialstate,
   reducers: {},
   extraReducers: {
     // 레시피 목록 불러오기
-    [getRecipePostListDB.pending]: (state, action) => {
+    [getCafePostListDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getRecipePostListDB.fulfilled]: (state, { payload }) => {
+    [getCafePostListDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
 
-      state.recipeList = payload;
+      state.cafeList = payload;
     },
-    [getRecipePostListDB.rejected]: (state, action) => {
+    [getCafePostListDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
     // 무한스크롤
@@ -48,94 +48,93 @@ const recipeBoardSlice = createSlice({
     [getInfinityScrollDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
 
-      state.recipeList = [...state.recipeList, ...payload];
+      state.cafeList = [...state.cafeList, ...payload];
     },
     [getInfinityScrollDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
     // 레시피 작성
-    [addRecipePostDB.pending]: (state, action) => {
+    [addCafePostDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [addRecipePostDB.fulfilled]: (state, action) => {
+    [addCafePostDB.fulfilled]: (state, action) => {
       state.isfetching = false;
     },
-    [addRecipePostDB.rejected]: (state, action) => {
+    [addCafePostDB.rejected]: (state, action) => {
       state.isfetching = false;
     },
     // 레시피 상세 조회
-    [getRecipePostDetailDB.pending]: (state, action) => {
+    [getCafePostDetailDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getRecipePostDetailDB.fulfilled]: (state, { payload }) => {
+    [getCafePostDetailDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
-      state.currentRecipePost = payload;
+      state.currentcafePost = payload;
     },
     // 레시피  수정
-    [editRecipePostDB.pending]: (state, action) => {
+    [editCafePostDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [editRecipePostDB.fulfilled]: (state, action) => {
+    [editCafePostDB.fulfilled]: (state, action) => {
       state.isFetching = false;
     },
-    [editRecipePostDB.rejected]: (state, action) => {
+    [editCafePostDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
-    [getRecipePostDetailDB.rejected]: (state, action) => {
+    [getCafePostDetailDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
     // 레시피 좋아요 토글
-    [recipeLikeToggleDB.pending]: (state, action) => {
+    [cafeLikeToggleDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [recipeLikeToggleDB.fulfilled]: (state, action) => {
+    [cafeLikeToggleDB.fulfilled]: (state, action) => {
       state.isFetching = false;
     },
-    [recipeLikeToggleDB.rejected]: (state, action) => {
+    [cafeLikeToggleDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
     // 레시피 삭제
-    [deleteRecipePostDB.pending]: (state, action) => {
+    [deleteCafePostDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [deleteRecipePostDB.fulfilled]: (state, action) => {
+    [deleteCafePostDB.fulfilled]: (state, action) => {
       state.isFetching = false;
     },
-    [deleteRecipePostDB.rejected]: (state, action) => {
+    [deleteCafePostDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
     // 레시피 댓글 추가
-    [addRecipeCommentDB.pending]: (state, action) => {
+    [addCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [addRecipeCommentDB.fulfilled]: (state, { payload }) => {
+    [addCafeCommentDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.commentList.unshift(payload);
-      window.alert("댓글 작성 성공!");
     },
-    [addRecipeCommentDB.rejected]: (state, action) => {
+    [addCafeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
     // 레시피 댓글 조회
-    [getRecipeCommentDB.pending]: (state, action) => {
+    [getCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getRecipeCommentDB.fulfilled]: (state, { payload }) => {
+    [getCafeCommentDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.commentList = payload;
     },
-    [getRecipeCommentDB.rejected]: (state, action) => {
+    [getCafeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
     // 레시피 댓글수정
-    [editRecipeCommentDB.pending]: (state, action) => {
+    [editCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [editRecipeCommentDB.fulfilled]: (state, { payload }) => {
+    [editCafeCommentDB.fulfilled]: (state, { payload }) => {
       // commentId로 특정 댓글을 찾아서 content를 바꿈.
       const idx = state.commentList.findIndex(
         (comment) => comment.commentId === payload.commentId
@@ -143,50 +142,49 @@ const recipeBoardSlice = createSlice({
       state.commentList[idx].content = payload.content;
       state.isFetching = false;
     },
-    [editRecipeCommentDB.rejected]: (state, action) => {
+    [editCafeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
     // 레시피 댓글 삭제
-    [deleteRecipeCommentDB.pending]: (state, action) => {
+    [deleteCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [deleteRecipeCommentDB.fulfilled]: (state, action) => {
+    [deleteCafeCommentDB.fulfilled]: (state, action) => {
       const commentId = action.payload.commentId;
       // 전체 state.list에서 commentId가 포함 된 것을 뺴고, state.list를 반환함.
-      const recipeCommentList = state.commentList.filter(
+      const cafeCommentList = state.commentList.filter(
         (comment) => comment.commentId !== commentId
       );
-      state.commentList = recipeCommentList;
+      state.commentList = cafeCommentList;
       state.isFetching = false;
-      window.alert("댓글 삭제 성공!");
     },
-    [deleteRecipeCommentDB.rejected]: (state, action) => {
+    [deleteCafeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
     // 레시피 댓글 좋아요
-    [recipeCommentLikeDB.pending]: (state, action) => {
+    [cafeCommentLikeDB.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [recipeCommentLikeDB.fulfilled]: (state, action) => {
+    [cafeCommentLikeDB.fulfilled]: (state, action) => {
       state.isFetching = false;
     },
-    [recipeCommentLikeDB.rejected]: (state, action) => {
+    [cafeCommentLikeDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
     // 댓글 무한스크롤
-    [getInfinityScrollRecipeCommentDB.pending]: (state, acton) => {
+    [getInfinityScrollCafeCommentDB.pending]: (state, acton) => {
       state.isFetching = true;
     },
-    [getInfinityScrollRecipeCommentDB.fulfilled]: (state, { payload }) => {
+    [getInfinityScrollCafeCommentDB.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.commentList = [...state.commentList, ...payload];
     },
-    [getInfinityScrollRecipeCommentDB.rejected]: (state, acton) => {
+    [getInfinityScrollCafeCommentDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
   },
 });
 
-export default recipeBoardSlice;
+export default cafeBoardSlice;

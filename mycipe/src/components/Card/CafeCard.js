@@ -8,13 +8,13 @@ import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/ac
 // elements
 import Image from "../../elements/Image";
 // async
-import { recipeLikeToggleDB } from "../../redux/Async/recipeBoard";
+import { cafeLikeToggleDB } from "../../redux/Async/cafeBoard";
 
-const RecipeCard = ({
+const CafeCard = ({
   _onClick,
   commentCount,
   content,
-  recipeId,
+  cafeId,
   image,
   likeCount,
   likeStatus,
@@ -31,7 +31,7 @@ const RecipeCard = ({
   const handleLikeToggle = (e) => {
     // 부모 요소의 클릭 이벤트를 막아줌
     e.stopPropagation();
-    dispatch(recipeLikeToggleDB(recipeId));
+    dispatch(cafeLikeToggleDB(cafeId));
 
     setLikeStatus(!componentLikeStatus);
   };
@@ -42,7 +42,7 @@ const RecipeCard = ({
   }, [likeCount, likeStatus]);
 
   return (
-    <RecipeCardInner onClick={_onClick}>
+    <CafeCardInner onClick={_onClick}>
       <Image shape="rectangle" src={isImage} size="medium" border />
       <CardContent>
         <TextInner>
@@ -72,15 +72,15 @@ const RecipeCard = ({
           </LikeInner>
         )}
       </CardContent>
-    </RecipeCardInner>
+    </CafeCardInner>
   );
 };
 
-RecipeCard.defaultProps = {
+CafeCard.defaultProps = {
   _onClick: () => {},
 };
 
-const RecipeCardInner = styled.li`
+const CafeCardInner = styled.li`
   height: 112px;
   display: flex;
   margin: 12px 0px 0px;
@@ -127,4 +127,4 @@ const Count = styled.span`
   color: #767676;
 `;
 
-export default RecipeCard;
+export default CafeCard;

@@ -10,7 +10,7 @@ import {
   getRecentListDB,
 } from "../../redux/Async/mainPage";
 
-import RecipeCard from "../../components/Card/RecipeCard";
+import CafeCard from "../../components/Card/CafeCard";
 import ModalBackground from "../../shared/ModalBackground";
 import UserCard from "../../components/Card/UserCard";
 import { ReactComponent as BannerImage } from "../../assets/image/banner.svg";
@@ -147,21 +147,20 @@ const Main = (props) => {
         <Banner>
           <BannerTitle>추천 카페</BannerTitle>
         </Banner>
-
-        <RecipeCardList>
+        <CafeCardList>
           {commendList.map((c, idx) => {
             return (
-              <RecipeCard
+              <CafeCard
                 _onClick={() => {
-                  history.push(`/recipeboard/detail/${c.recipeId}`);
+                  history.push(`/cafeboard/detail/${c.cafeId}`);
                 }}
-                key={c.recipeId}
+                key={c.cafeId}
                 image={c.images[0]}
                 {...c}
               />
             );
           })}
-        </RecipeCardList>
+        </CafeCardList>
 
         {/* 왕 후보 */}
         <RankingInner>
@@ -241,47 +240,47 @@ const Main = (props) => {
           </BannerButtonInner>
         </Banner>
 
-        <RecipeCardList marginBottom>
+        <CafeCardList marginBottom>
           {popularList.map((m, idx) => {
             return (
-              <RecipeCard
+              <CafeCard
                 _onClick={() => {
-                  history.push(`/recipeboard/detail/${m.recipeId}`);
+                  history.push(`/cafeboard/detail/${m.cafeId}`);
                 }}
-                key={m.recipeId}
+                key={m.cafeId}
                 image={m.images[0]}
                 {...m}
               />
             );
           })}
-        </RecipeCardList>
+        </CafeCardList>
 
         {/* 최근 카페 */}
         <Banner>
           <BannerTitle>최근 카페</BannerTitle>
           <BannerMoreButton
             onClick={() => {
-              history.push("/recipeboard");
+              history.push("/cafeboard");
             }}
           >
             더보기
           </BannerMoreButton>
         </Banner>
 
-        <RecipeCardList>
+        <CafeCardList>
           {recentList.map((m, idx) => {
             return (
-              <RecipeCard
+              <CafeCard
                 _onClick={() => {
-                  history.push(`/recipeboard/detail/${m.recipeId}`);
+                  history.push(`/cafeboard/detail/${m.cafeId}`);
                 }}
-                key={m.recipeId}
+                key={m.cafeId}
                 image={m.images[0]}
                 {...m}
               />
             );
           })}
-        </RecipeCardList>
+        </CafeCardList>
       </MainInner>
 
       <Contact>
@@ -388,7 +387,7 @@ const BannerMoreButton = styled.button`
   color: #999;
 `;
 
-const RecipeCardList = styled.ul`
+const CafeCardList = styled.ul`
   margin-bottom: ${(props) => props.marginBottom && "56px"};
   display: flex;
   justify-content: center;

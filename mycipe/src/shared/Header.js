@@ -95,7 +95,7 @@ const Header = (props) => {
     );
   }
 
-  if (location === "/recipeboard") {
+  if (location === "/cafeboard") {
     //레시피 메인
     return (
       <HeaderInner flexBetween>
@@ -104,14 +104,14 @@ const Header = (props) => {
           onClick={() => {
             history.push("/searchmain");
             dispatch(resetList());
-            dispatch(whereFrom("recipe"));
+            dispatch(whereFrom("cafe"));
           }}
         />
       </HeaderInner>
     );
   }
 
-  if (location.includes("/recipeboard/detail")) {
+  if (location.includes("/cafeboard/detail")) {
     //레시피 상세
     return (
       <HeaderInner>

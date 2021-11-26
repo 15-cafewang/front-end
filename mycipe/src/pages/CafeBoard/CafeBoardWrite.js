@@ -2,12 +2,12 @@ import React from "react";
 
 import BoardWrite from "../../components/Board/BoardWrite";
 
-const RecipeBoardWrite = () => {
+const cafeBoardWrite = () => {
   return (
     <>
-      <BoardWrite boardName="recipeBoard" />
+      <BoardWrite boardName="cafeBoard" />
     </>
   );
 };
 
-export default RecipeBoardWrite;
+export default cafeBoardWrite;

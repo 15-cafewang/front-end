@@ -5,7 +5,8 @@ import { history } from "../../redux/configureStore";
 // style
 import styled from "styled-components";
 import { Button } from "../../elements";
-import Kakao from "../../assets/image/kakaologin.svg";
+import Kakao from "../../assets/image/kakao.svg";
+import { ReactComponent as IntroIcon } from "../../assets/image/Intro.svg";
 
 // 카카오 로그인
 import { KAKAO_AUTH_URL } from "../../shared/KakaoAuth";
@@ -23,12 +24,7 @@ const Intro = () => {
     <React.Fragment>
       <SocialLoginContainer>
         <Main>
-          <Title>
-            <span style={{ color: "#7692E4" }}>내시피</span>
-            에서
-          </Title>
-          <Title>나만의 레시피를</Title>
-          <Title>공유해 보세요!</Title>
+          <IntroIcon />
         </Main>
         <ButtonGrid>
           <Button
@@ -68,18 +64,12 @@ const SocialLoginContainer = styled.div`
 
 const Main = styled.div`
   position: absolute;
-  margin: 180px 0 480px 32px;
+  margin: 200px 77px 518px 77px;
 `;
 const ButtonGrid = styled.div`
   position: absolute;
   margin: 400px 0 220px 0;
   align-items: center;
-`;
-
-const Title = styled.p`
-  font-size: 28px;
-  font-weight: bold;
-  color: #767676;
 `;
 
 const KakaoBtn = styled.img`
