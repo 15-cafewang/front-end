@@ -157,7 +157,7 @@ const Main = (props) => {
         </ContactInner>
       </Contact>
 
-      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank">
+      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank" rel="noopener noreferrer">
         <ButtonSmall>
           <Box>
             <CoachMarkIcon />
