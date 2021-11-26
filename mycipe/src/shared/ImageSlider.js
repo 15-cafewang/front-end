@@ -9,12 +9,21 @@ import { history } from "../redux/configureStore";
 
 const ImageSlider = ({ imageList, isBanner, bannerList }) => {
   const settings = {
+    // 아래 dots 줄 것인가
     dots: true,
+    // 좌우 화살표 줄 것인가
+    arrows: false,
+    // 레이지 로딩할 거야?
     lazyLoad: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    // 자동 넘김을 할 것인가. 한다면 스피드는?
+    // autoplay: true,
+    // autoplaySpeed: 2000,
+    // 화면에 올리면 슬라이더가 자동으로 넘어가지 않음
+    // pauseOnHover: true,
   };
 
   if (isBanner) {
