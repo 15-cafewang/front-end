@@ -32,38 +32,38 @@ const initialState = {
   // 게시물 목록
   postList: {
     userWrittencafes: [
-      {
-        cafeId: 8,
-        title: "123",
-        nickname: "tester2",
-        price: 1,
-        imageList: [],
-        likecount: 0,
-      },
+      // {
+      //   cafeId: 8,
+      //   title: "123",
+      //   nickname: "tester2",
+      //   price: 1,
+      //   imageList: [],
+      //   likecount: 0,
+      // },
     ],
 
     userWrittenBoards: [
-      {
-        boardId: 1,
-        title: "123",
-        content: "123",
-        regDate: null,
-        likeCount: 0,
-        commentCount: 0,
-        imageList: [],
-      },
+      // {
+      //   boardId: 1,
+      //   title: "123",
+      //   content: "123",
+      //   regDate: null,
+      //   likeCount: 0,
+      //   commentCount: 0,
+      //   imageList: [],
+      // },
     ],
 
     userLikedBoards: [
-      {
-        boardId: 1,
-        title: "123",
-        content: "123",
-        regDate: null,
-        likeCount: 0,
-        commentCount: 0,
-        imageList: [],
-      },
+      // {
+      //   boardId: 1,
+      //   title: "123",
+      //   content: "123",
+      //   regDate: null,
+      //   likeCount: 0,
+      //   commentCount: 0,
+      //   imageList: [],
+      // },
     ],
 
     userLikedcafes: [

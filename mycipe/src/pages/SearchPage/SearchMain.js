@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
 
-import { ReactComponent as BackIcon } from "../../assets/back.svg";
+import { ReactComponent as BackIcon } from "../../assets/icon/HeaderIcon/back.svg";
 import { ButtonInner, SmallFilterButton } from "../../elements/index";
 
 import ModalBackground from "../../shared/ModalBackground";

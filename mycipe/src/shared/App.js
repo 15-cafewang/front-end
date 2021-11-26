@@ -35,7 +35,7 @@ import UserPageFollowList from "../pages/UserPage/UserFollowList";
 
 import SearchMain from "../pages/SearchPage/SearchMain";
 import Setting from "../pages/SettingPage/Setting";
-import background from "../assets/image/Background.png";
+import background from "../assets/image/background.png";
 
 import { loginCheck } from "../redux/Async/user";
 
@@ -52,7 +52,11 @@ function App() {
 
   return (
     <ConnectedRouter history={history}>
-      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank" rel="noopener noreferrer">
+      <FloatButton
+        href="https://forms.gle/hhrYTh9eFxB3ZfYH9"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <ButtonBody>
           <FeedBackIcon />
         </ButtonBody>
@@ -141,6 +145,7 @@ const Container = styled.div`
   position: relative;
   background: #fff;
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const Outter = styled.div`

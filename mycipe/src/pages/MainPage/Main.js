@@ -13,7 +13,13 @@ import {
 import CafeCard from "../../components/Card/CafeCard";
 import ModalBackground from "../../shared/ModalBackground";
 import UserCard from "../../components/Card/UserCard";
-import { ReactComponent as BannerImage } from "../../assets/image/banner.svg";
+import ImageSlider from "../../shared/ImageSlider";
+
+import likeKing from "../../assets/image/banner/likeKing.svg";
+import commentKing from "../../assets/image/banner/commentKing.svg";
+import writeKing from "../../assets/image/banner/writeKing.svg";
+import followerKing from "../../assets/image/banner/followerKing.svg";
+
 import { ReactComponent as LogoIcon } from "../../assets/icon/HeaderIcon/logo.svg";
 import { ReactComponent as SmallFeedBackCafeIcon } from "../../assets/icon/smallFeedBackCafeIcon.svg";
 import { ReactComponent as CoachMarkIcon } from "../../assets/icon/coachmark.svg";
@@ -32,79 +38,7 @@ const Main = (props) => {
     monthly: false,
   });
 
-  const [rankList, setRankList] = useState([
-    [
-      {
-        nickname: "test",
-
-        image: "",
-        count: 11,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 6,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 6,
-      },
-    ],
-    [
-      {
-        nickname: "test",
-
-        image: "",
-        count: 4,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 3,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 3,
-      },
-    ],
-    [
-      {
-        nickname: "test",
-
-        image: "",
-        count: 2,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 2,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 1,
-      },
-    ],
-    [
-      {
-        nickname: "test",
-        image: "",
-        count: 29,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 1,
-      },
-      {
-        nickname: "test",
-        image: "",
-        count: 1,
-      },
-    ],
-  ]);
+  const [rankList, setRankList] = useState([]);
   const [kingList, setKingList] = useState([]);
 
   async function fetchData() {
@@ -112,8 +46,9 @@ const Main = (props) => {
       const rankListResponse = mainApi.getRankList();
 
       const kingListResponse = mainApi.getKingList();
+
       const getRankList = (await rankListResponse).data.data;
-      const getKingList = (await kingListResponse).data.data[0];
+      const getKingList = (await kingListResponse).data.data;
 
       setRankList(getRankList);
       setKingList(getKingList);
@@ -138,10 +73,20 @@ const Main = (props) => {
   // 0 : 좋아요왕 , 1 : 게시글왕 , 2: 팔로우왕 , 3:댓글왕
   const [rankCategory, setRankCategory] = useState(0);
 
+  // 배너에 보여줄 정보
+  const bannerList = [
+    { img: writeKing, title: "게시물", kinginfo: kingList.getPostKing },
+    { img: likeKing, title: "좋아요", kinginfo: kingList.getLikeKing },
+    { img: followerKing, title: "팔로워", kinginfo: kingList.getFollowKing },
+    { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
+  ];
+
+  console.log(bannerList);
+
   return (
     <>
-      <BannerImage />
       <MainInner>
+        <ImageSlider bannerList={bannerList} isBanner />
         {isActive && <ModalBackground />}
         {/* 추천 카페 */}
         <Banner>
@@ -175,7 +120,7 @@ const Main = (props) => {
                 setRankCategory(0);
               }}
             >
-              작성왕
+              게시물왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 1 ? true : false}
@@ -183,7 +128,7 @@ const Main = (props) => {
                 setRankCategory(1);
               }}
             >
-              인기왕
+              좋아요왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 2 ? true : false}
@@ -191,7 +136,7 @@ const Main = (props) => {
                 setRankCategory(2);
               }}
             >
-              팔로우왕
+              팔로워왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 3 ? true : false}
@@ -206,7 +151,13 @@ const Main = (props) => {
           <UserListContainer>
             {rankList[rankCategory]?.map((user, idx) => {
               return (
-                <UserCard key={idx} isrank={true} {...user} rank={idx + 1} />
+                <UserCard
+                  key={idx}
+                  isrank={true}
+                  {...user}
+                  rank={idx + 1}
+                  category={bannerList[rankCategory].title}
+                />
               );
             })}
           </UserListContainer>
@@ -304,7 +255,11 @@ const Main = (props) => {
         </ContactInner>
       </Contact>
 
-      <FloatButton href="https://forms.gle/hhrYTh9eFxB3ZfYH9" target="_blank" rel="noopener noreferrer">
+      <FloatButton
+        href="https://forms.gle/hhrYTh9eFxB3ZfYH9"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <ButtonSmall>
           <Box>
             <CoachMarkIcon />
@@ -342,7 +297,7 @@ const BannerTitle = styled.span`
 `;
 
 const BannerButtonInner = styled.div`
-  width: 250px;
+  width: 200px;
   display: flex;
   justify-content: flex-end;
 `;
@@ -350,15 +305,11 @@ const BannerButtonInner = styled.div`
 const RankingButtonInner = styled.div`
   display: flex;
   margin-top: 4px;
-
-  & :nth-child(1) {
-    margin-left: 0px;
-  }
 `;
 
 const BannerDateButton = styled.button`
   width: 53px;
-  height: 28px;
+  height: 24px;
 
   margin-left: 5px;
   font-size: 14px;

@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
 // icon
-import { ReactComponent as PlusImageBefore } from "../assets/plusImageBefore.svg";
-import { ReactComponent as Remove } from "../assets/remove.svg";
+import { ReactComponent as PlusImageBefore } from "../assets/icon/ImageUploadIcon/plusImageBefore.svg";
+import { ReactComponent as Remove } from "../assets/icon/ImageUploadIcon/remove.svg";
 
 // elements
 import Image from "../elements/Image";

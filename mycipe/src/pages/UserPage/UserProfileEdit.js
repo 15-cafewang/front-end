@@ -22,7 +22,6 @@ const UserpageProfileEdit = () => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
   const LoginUserInfo = useSelector((state) => state.user.userInfo);
-
   const [file, setFile] = useState({
     file: "",
     previewURL: LoginUserInfo.profileImage,
@@ -50,6 +49,12 @@ const UserpageProfileEdit = () => {
   const updateInfo = async () => {
     try {
       const newNickname = inputRef.current.value;
+
+      if (newNickname !== LoginUserInfo.nickname && !isConfirm) {
+        alertPopUp("중복확인을 해주세요", 700);
+        return;
+      }
+
       const profileFofmData = new FormData();
 
       profileFofmData.append("nickname", newNickname);
@@ -59,7 +64,7 @@ const UserpageProfileEdit = () => {
       }
 
       const msg = await dispatch(updateUserInfoDB(profileFofmData)).unwrap();
-      console.log(msg);
+
       dispatch(
         updateUserInfo({
           nickname: newNickname,
@@ -69,8 +74,9 @@ const UserpageProfileEdit = () => {
       //alert
       alertPopUp(msg, 700, newNickname);
     } catch (errorMsg) {
-      //alert
-      alertPopUp(errorMsg, 1000);
+      // console.log(errorMsg);
+      // console.log(errorMsg.message);
+      alertPopUp("파일 이름이 너무 깁니다.", 700);
     }
   };
 
@@ -137,8 +143,7 @@ const UserpageProfileEdit = () => {
       <Button
         color="#fff"
         _onClick={() => {
-          if (isConfirm) updateInfo();
-          else alertPopUp("중복확인을 해주세요", 700);
+          updateInfo();
         }}
       >
         변경하기

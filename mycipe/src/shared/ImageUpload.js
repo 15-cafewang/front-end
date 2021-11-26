@@ -6,7 +6,7 @@ import styled from "styled-components";
 // elements
 import Image from "../elements/Image";
 
-import { ReactComponent as ProfileEditIcon } from "../assets/icon/profileEdit.svg";
+import { ReactComponent as ProfileEditIcon } from "../assets/icon/profileEditIcon/profileEdit.svg";
 
 const ImageUpload = ({ file, setFile, profileImage }) => {
   let currentSelectedFile = file.file;
