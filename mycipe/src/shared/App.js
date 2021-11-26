@@ -15,12 +15,12 @@ import PublickRoute from "../auth/PublickRoute";
 import Intro from "../pages/Auth/Intro";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
-import RecipeBoardWrite from "../pages/RecipeBoard/RecipeBoardWrite";
+import CafeBoardWrite from "../pages/CafeBoard/CafeBoardWrite";
 import NotFound from "../pages/NotFound";
 
 import Kakao from "../components/Kakao";
-import RecipeBoardMain from "../pages/RecipeBoard/RecipeBoardMain";
-import RecipeBoardDetail from "../pages/RecipeBoard/RecipeBoardDetail";
+import CafeBoardMain from "../pages/CafeBoard/CafeBoardMain";
+import CafeBoardDetail from "../pages/CafeBoard/CafeBoardDetail";
 import BulletinBoardWrite from "../pages/BulletinBoard/BulletinBoardWrite";
 import BulletinBoardMain from "../pages/BulletinBoard/BulletinBoardMain";
 import BulletinBoardDetail from "../pages/BulletinBoard/BulletinBoardDetail";
@@ -58,65 +58,61 @@ function App() {
             <PublickRoute path="/login" exact component={Login} />
             <PublickRoute path="/signup" exact component={Signup} />
             <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
-              <PrivateRoute path="/main" exact component={Main} />
-              <PrivateRoute
-                path="/recipeboard"
-                exact
-                component={RecipeBoardMain}
-              />
-              <PrivateRoute
-                path="/recipeboard/write"
-                exact
-                component={RecipeBoardWrite}
-              />
-              <PrivateRoute
-                path="/recipeboard/write/:id"
-                exact
-                component={RecipeBoardWrite}
-              />
-              <PrivateRoute
-                path="/recipeboard/detail/:recipeid"
-                exact
-                component={RecipeBoardDetail}
-              />
-              <PrivateRoute
-                path="/bulletinboard"
-                exact
-                component={BulletinBoardMain}
-              />
-              <PrivateRoute
-                path="/bulletinboard/write"
-                exact
-                component={BulletinBoardWrite}
-              />
-              <PrivateRoute
-                path="/bulletinboard/detail/:boardid"
-                exact
-                component={BulletinBoardDetail}
-              />
-              <PrivateRoute
-                path="/bulletinboard/write/:id"
-                exact
-                component={BulletinBoardWrite}
-              />
-              <PrivateRoute
-                path="/usermain/:nickname"
-                exact
-                component={UserMain}
-              />
-              <PrivateRoute
-                path="/userpageprofileedit"
-                exact
-                component={UserpageProfileEdit}
-              />
-              <PrivateRoute
-                path="/userpagefollowlist/:nickname"
-                exact
-                component={UserPageFollowList}
-              />
-              <PrivateRoute path="/searchmain" component={SearchMain} />
-              <PrivateRoute path="/setting" component={Setting} />
-                <NotFound />
+            <PrivateRoute path="/main" exact component={Main} />
+            <PrivateRoute path="/cafeboard" exact component={CafeBoardMain} />
+            <PrivateRoute
+              path="/cafeboard/write"
+              exact
+              component={CafeBoardWrite}
+            />
+            <PrivateRoute
+              path="/cafeboard/write/:id"
+              exact
+              component={CafeBoardWrite}
+            />
+            <PrivateRoute
+              path="/cafeboard/detail/:cafeid"
+              exact
+              component={CafeBoardDetail}
+            />
+            <PrivateRoute
+              path="/bulletinboard"
+              exact
+              component={BulletinBoardMain}
+            />
+            <PrivateRoute
+              path="/bulletinboard/write"
+              exact
+              component={BulletinBoardWrite}
+            />
+            <PrivateRoute
+              path="/bulletinboard/detail/:boardid"
+              exact
+              component={BulletinBoardDetail}
+            />
+            <PrivateRoute
+              path="/bulletinboard/write/:id"
+              exact
+              component={BulletinBoardWrite}
+            />
+            <PrivateRoute
+              path="/usermain/:nickname"
+              exact
+              component={UserMain}
+            />
+            <PrivateRoute
+              path="/userpageprofileedit"
+              exact
+              component={UserpageProfileEdit}
+            />
+            <PrivateRoute
+              path="/userpagefollowlist/:nickname"
+              exact
+              component={UserPageFollowList}
+            />
+            <PrivateRoute path="/searchmain" component={SearchMain} />
+            <PrivateRoute path="/setting" component={Setting} />
+            <NotFound />
           </Switch>
           <BottomNav />
         </Container>

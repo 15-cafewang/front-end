@@ -13,10 +13,7 @@ import ModalBackground from "../../shared/ModalBackground";
 import PopUp from "../../shared/PopUp";
 
 // async function
-import {
-  addRecipePostDB,
-  editRecipePostDB,
-} from "../../redux/Async/recipeBoard";
+import { addCafePostDB, editCafePostDB } from "../../redux/Async/cafeBoard";
 
 import {
   addBulletinPostDB,
@@ -24,7 +21,7 @@ import {
 } from "../../redux/Async/bulletinBoard";
 
 // api
-import { recipeBoardApi } from "../../shared/api/recipeBoardApi";
+import { cafeBoardApi } from "../../shared/api/cafeBoardApi";
 import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
 
 const BoardWrite = ({ boardName }) => {
@@ -46,11 +43,10 @@ const BoardWrite = ({ boardName }) => {
   const contentRef = useRef(null);
 
   const currentPost = useSelector((state) =>
-    boardName === "recipeBoard"
-      ? state.recipeBoard.currentRecipePost
+    boardName === "cafeBoard"
+      ? state.cafeBoard.currentcafePost
       : state.bulletinBoard.currentBoardPost
   );
-
 
   // textarea 높이 자동 resize
   const handleResizeInputHeight = (height, ref) => {
@@ -69,8 +65,8 @@ const BoardWrite = ({ boardName }) => {
 
     // 수정모드인데 현재 게시물에 대한 정보가 없을 때 (리덕스 초기화 되었을 때)
     if (isEdit && !currentPost) {
-      if (boardName === "recipeBoard") {
-        recipeBoardApi.getPostDetail(params.id).then((res) => {
+      if (boardName === "cafeBoard") {
+        cafeBoardApi.getPostDetail(params.id).then((res) => {
           setPost(res.data.data);
         });
       }
@@ -83,11 +79,11 @@ const BoardWrite = ({ boardName }) => {
   }, [boardName, currentPost, isEdit, params.id]);
 
   const addPost = () => {
-    console.log(post);
-    if (post.title === "" || post.content === "" || post.location === "") {
-      alertPopUp("모든 항목을 작성해 주세요!", 1200);
-      return;
-    }
+    // console.log(post);
+    // if (post.title === "" || post.content === "" || post.location === "") {
+    //   alertPopUp("모든 항목을 작성해 주세요!", 1200);
+    //   return;
+    // }
 
     if (post && post.previewURLList && post.previewURLList.length >= 6) {
       alertPopUp("사진은 최대 5장까지 업로드 가능합니다🥲", 1200);
@@ -96,17 +92,17 @@ const BoardWrite = ({ boardName }) => {
 
     // 수정모드
     if (isEdit) {
-      if (boardName === "recipeBoard") {
-        const recipeFormData = new FormData();
-        recipeFormData.append("title", post.title);
-        recipeFormData.append("content", post.content);
-        recipeFormData.append("location", post.location);
-        recipeFormData.append("tag", post.tags);
+      if (boardName === "cafeBoard") {
+        const cafeFormData = new FormData();
+        cafeFormData.append("title", post.title);
+        cafeFormData.append("content", post.content);
+        cafeFormData.append("location", post.location);
+        cafeFormData.append("tag", post.tags);
 
         // 삭제한 이미지가 있을 때
         if (post.deleteImage) {
           for (const d of post.deleteImage) {
-            recipeFormData.append("deleteImage", d);
+            cafeFormData.append("deleteImage", d);
           }
           if (
             post.images.length === post.deleteImage.length &&
@@ -121,16 +117,14 @@ const BoardWrite = ({ boardName }) => {
         // 추가한 이미지가 있을 때
         if (post.fileList) {
           for (const f of post.fileList) {
-            recipeFormData.append("image", f);
+            cafeFormData.append("image", f);
           }
         }
 
-        dispatch(
-          editRecipePostDB({ boardId: params.id, formData: recipeFormData })
-        )
+        dispatch(editCafePostDB({ boardId: params.id, formData: cafeFormData }))
           .unwrap()
           .then((message) => {
-            alertPopUp(message, 700, "/recipeBoard");
+            alertPopUp(message, 700, "/cafeBoard");
           })
           .catch((error) => {
             console.log(error);
@@ -165,12 +159,12 @@ const BoardWrite = ({ boardName }) => {
 
     // 작성모드
     if (!isEdit) {
-      if (boardName === "recipeBoard") {
-        const recipeFormData = new FormData();
-        recipeFormData.append("title", post.title);
-        recipeFormData.append("content", post.content);
-        recipeFormData.append("location", post.location);
-        recipeFormData.append("tag", post.tags);
+      if (boardName === "cafeBoard") {
+        const cafeFormData = new FormData();
+        cafeFormData.append("title", post.title);
+        cafeFormData.append("content", post.content);
+        cafeFormData.append("location", post.location);
+        cafeFormData.append("tag", post.tags);
 
         if (!post.fileList) {
           alertPopUp("카페 사진은 최소 1장 첨부 부탁드립니다 🙏", 1200);
@@ -178,13 +172,13 @@ const BoardWrite = ({ boardName }) => {
         }
 
         for (const f of post.fileList) {
-          recipeFormData.append("image", f);
+          cafeFormData.append("image", f);
         }
 
-        dispatch(addRecipePostDB(recipeFormData))
+        dispatch(addCafePostDB(cafeFormData))
           .unwrap()
           .then((messgae) => {
-            alertPopUp(messgae, 700, "/recipeBoard");
+            alertPopUp(messgae, 700, "/cafeBoard");
           })
           .catch((error) => {
             console.log(error);
@@ -247,10 +241,10 @@ const BoardWrite = ({ boardName }) => {
           />
           <PageName>
             {isEdit
-              ? boardName === "recipeBoard"
+              ? boardName === "cafeBoard"
                 ? "카페 수정하기"
                 : "게시글 수정하기"
-              : boardName === "recipeBoard"
+              : boardName === "cafeBoard"
               ? "카페 작성하기"
               : "게시글 작성하기"}
           </PageName>
@@ -282,14 +276,12 @@ const BoardWrite = ({ boardName }) => {
           onChange={(e) => setPost({ ...post, title: e.target.value })}
           borderNone
           height="48"
-          placeholder={
-            boardName === "recipeBoard" ? "카페 이름" : "게시글 제목"
-          }
+          placeholder={boardName === "cafeBoard" ? "카페 이름" : "게시글 제목"}
           value={post ? post.title : ""}
         />
 
         {/* 레시피 작성시에만 렌더링 해줌 */}
-        {boardName === "recipeBoard" ? (
+        {boardName === "cafeBoard" ? (
           <TextInputBox
             ref={locationRef}
             onIput={handleResizeInputHeight("48px", locationRef)}
@@ -310,7 +302,7 @@ const BoardWrite = ({ boardName }) => {
           height="240"
           marginBtm="24"
           placeholder={
-            boardName === "recipeBoard"
+            boardName === "cafeBoard"
               ? "카페 설명을 입력해주세요."
               : "게시글 내용을 작성해주세요."
           }
@@ -318,7 +310,7 @@ const BoardWrite = ({ boardName }) => {
         />
 
         {/* 레시피 작성시에만 렌더링 해줌 */}
-        {boardName === "recipeBoard" && (
+        {boardName === "cafeBoard" && (
           <>
             <HashTagTitle>해시태그 선택</HashTagTitle>
             {isEdit && post && (

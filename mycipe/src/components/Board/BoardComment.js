@@ -10,10 +10,10 @@ import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLik
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 
 import {
-  editRecipeCommentDB,
-  deleteRecipeCommentDB,
-  recipeCommentLikeDB,
-} from "../../redux/Async/recipeBoard";
+  editCafeCommentDB,
+  deleteCafeCommentDB,
+  cafeCommentLikeDB,
+} from "../../redux/Async/cafeBoard";
 import {
   editBulletinCommentDB,
   deleteBulletinCommentDB,
@@ -77,8 +77,8 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
       commentId: comment.commentId,
       content: content,
     };
-    if (boardName === "recipeBoard") {
-      dispatch(editRecipeCommentDB(data));
+    if (boardName === "cafeBoard") {
+      dispatch(editCafeCommentDB(data));
     } else {
       dispatch(editBulletinCommentDB(data));
     }
@@ -89,8 +89,8 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
 
   // 댓글 삭제
   const deleteComment = () => {
-    if (boardName === "recipeBoard") {
-      dispatch(deleteRecipeCommentDB(comment.commentId));
+    if (boardName === "cafeBoard") {
+      dispatch(deleteCafeCommentDB(comment.commentId));
     } else {
       dispatch(deleteBulletinCommentDB(comment.commentId));
     }
@@ -98,8 +98,8 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
 
   // 좋아요 누를 때 마다 DB 반영
   const LikeToggle = () => {
-    if (boardName === "recipeBoard") {
-      dispatch(recipeCommentLikeDB(comment.commentId));
+    if (boardName === "cafeBoard") {
+      dispatch(cafeCommentLikeDB(comment.commentId));
     } else {
       dispatch(bulletinCommentLikeDB(comment.commentId));
     }

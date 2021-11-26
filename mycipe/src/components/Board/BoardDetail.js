@@ -20,13 +20,13 @@ import PopUp from "../../shared/PopUp";
 
 // async
 import {
-  recipeLikeToggleDB,
-  getRecipePostDetailDB,
-  deleteRecipePostDB,
-  addRecipeCommentDB,
-  getRecipeCommentDB,
-  getInfinityScrollRecipeCommentDB,
-} from "../../redux/Async/recipeBoard";
+  cafeLikeToggleDB,
+  getCafePostDetailDB,
+  deleteCafePostDB,
+  addCafeCommentDB,
+  getCafeCommentDB,
+  getInfinityScrollCafeCommentDB,
+} from "../../redux/Async/cafeBoard";
 
 import {
   bulletinLikeToggleDB,
@@ -45,18 +45,18 @@ const BoardDetail = ({ boardName }) => {
   const params = useParams();
 
   const boardId = params.boardid;
-  const recipeId = params.recipeid;
+  const cafeId = params.cafeid;
 
   const userNickname = useSelector((state) => state.user.userInfo.nickname);
   const isActive = useSelector((state) => state.modal.isActive);
   const postDetail = useSelector((state) =>
-    boardName === "recipeBoard"
-      ? state.recipeBoard.currentRecipePost
+    boardName === "cafeBoard"
+      ? state.cafeBoard.currentcafePost
       : state.bulletinBoard.currentBoardPost
   );
   const commentList = useSelector((state) =>
-    boardName === "recipeBoard"
-      ? state.recipeBoard.commentList
+    boardName === "cafeBoard"
+      ? state.cafeBoard.commentList
       : state.bulletinBoard.commentList
   );
 
@@ -68,7 +68,6 @@ const BoardDetail = ({ boardName }) => {
   );
 
   const [content, setContent] = useState("");
-
 
   const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,27 +91,27 @@ const BoardDetail = ({ boardName }) => {
 
   // 게시물 상세 불러오기
   useEffect(() => {
-    if (boardName === "recipeBoard") {
-      dispatch(getRecipePostDetailDB(recipeId));
+    if (boardName === "cafeBoard") {
+      dispatch(getCafePostDetailDB(cafeId));
       return;
     }
     if (boardName === "bulletinBoard") {
       dispatch(getBulletinPostDetailDB(boardId));
       return;
     }
-  }, [boardId, boardName, dispatch, recipeId]);
+  }, [boardId, boardName, dispatch, cafeId]);
 
   // 댓글 조회
   useEffect(() => {
     const data = {
       page: 1,
-      recipeId: recipeId,
+      cafeId: cafeId,
     };
-    if (boardName === "recipeBoard") {
-      dispatch(getRecipeCommentDB(data));
+    if (boardName === "cafeBoard") {
+      dispatch(getCafeCommentDB(data));
       return;
     }
-  }, [dispatch, recipeId, boardName]);
+  }, [dispatch, cafeId, boardName]);
 
   useEffect(() => {
     const data = {
@@ -126,13 +125,13 @@ const BoardDetail = ({ boardName }) => {
   }, [dispatch, boardId, boardName]);
 
   // 관찰이 시작될 때 실행될 콜백 함수
-  const fetchMoreRecipe = (page) => {
+  const fetchMoreCafe = (page) => {
     setIsLoading(true);
-    if (boardName === "recipeBoard") {
+    if (boardName === "cafeBoard") {
       dispatch(
-        getInfinityScrollRecipeCommentDB({
+        getInfinityScrollCafeCommentDB({
           page: page,
-          recipeId: recipeId,
+          cafeId: cafeId,
         })
       )
         .unwrap()
@@ -153,19 +152,14 @@ const BoardDetail = ({ boardName }) => {
     }
   };
 
-  useInterSectionObserver(
-    fetchMoreRecipe,
-    pageRef,
-    target.current,
-    commentList
-  );
+  useInterSectionObserver(fetchMoreCafe, pageRef, target.current, commentList);
 
   const isPostUser = (postDetail && postDetail.nickname) === userNickname;
 
   // 좋아요 누를 때 마다 DB 반영
   const handleLikeToggle = () => {
-    if (boardName === "recipeBoard") {
-      dispatch(recipeLikeToggleDB(recipeId));
+    if (boardName === "cafeBoard") {
+      dispatch(cafeLikeToggleDB(cafeId));
     }
     if (boardName === "bulletinBoard") {
       dispatch(bulletinLikeToggleDB(boardId));
@@ -177,8 +171,8 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
-    const recipeComment = {
-      recipeId: recipeId,
+    const cafeComment = {
+      cafeId: cafeId,
       content: content,
     };
     const boardComment = {
@@ -186,8 +180,8 @@ const BoardDetail = ({ boardName }) => {
       content: content,
     };
 
-    if (boardName === "recipeBoard") {
-      dispatch(addRecipeCommentDB(recipeComment));
+    if (boardName === "cafeBoard") {
+      dispatch(addCafeCommentDB(cafeComment));
     }
     if (boardName === "bulletinBoard") {
       dispatch(addBulletinCommentDB(boardComment));
@@ -213,8 +207,8 @@ const BoardDetail = ({ boardName }) => {
           isButton={true}
           buttonName={buttonName}
           _onClick={() => {
-            boardName === "recipeBoard"
-              ? history.push(`/recipeboard/write/${recipeId}`)
+            boardName === "cafeBoard"
+              ? history.push(`/cafeboard/write/${cafeId}`)
               : history.push(`/bulletinboard/write/${boardId}`);
           }}
         />
@@ -226,8 +220,8 @@ const BoardDetail = ({ boardName }) => {
           isButton={true}
           buttonName={buttonName}
           _onClick={() => {
-            boardName === "recipeBoard"
-              ? dispatch(deleteRecipePostDB(recipeId))
+            boardName === "cafeBoard"
+              ? dispatch(deleteCafePostDB(cafeId))
               : dispatch(deleteBulletinPostDB(boardId));
           }}
         />
@@ -242,13 +236,13 @@ const BoardDetail = ({ boardName }) => {
           isButton={true}
           buttonName={buttonName}
           _onClick={() => {
-            boardName === "recipeBoard"
-              ? dispatch(deleteRecipePostDB(recipeId))
+            boardName === "cafeBoard"
+              ? dispatch(deletecafePostDB(cafeId))
               : dispatch(deleteBulletinPostDB(boardId));
           }}
         />
       )} */}
-        <Box width="320px" margin="0 auto" padding="0px 0px 12px 0px">
+      <Box width="320px" margin="0 auto" padding="0px 0px 12px 0px">
         <Box start>
           <Image
             shape="circle"
@@ -292,7 +286,7 @@ const BoardDetail = ({ boardName }) => {
 
       <Box col>
         {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
-        {boardName === "recipeBoard" && (
+        {boardName === "cafeBoard" && (
           <Box margin="12px 0px 0px 0px">
             <HashTagBox>
               {postDetail &&
@@ -308,7 +302,7 @@ const BoardDetail = ({ boardName }) => {
         </TextBox>
 
         {/* 위치 정보 : 카페 상세페이지 일때만 렌더링 */}
-        {boardName === "recipeBoard" && (
+        {boardName === "cafeBoard" && (
           <TextBox width="320" height="48" borderNone>
             {postDetail && postDetail.location}
           </TextBox>
@@ -369,7 +363,7 @@ const BoardDetail = ({ boardName }) => {
         </Box>
         {commentList && (
           <>
-          <CommentBox>
+            <CommentBox>
               {commentList &&
                 commentList.map((comment) => {
                   return (

@@ -2,9 +2,9 @@ import api from "./index";
 
 const getUserInfo = (nickname) => api.get(`/userinfo/${nickname}`);
 
-const getUserWrittenRecipes = (page, nickname) =>
+const getUserWrittencafes = (page, nickname) =>
   api.get(
-    `/userinfo/recipes/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
+    `/userinfo/cafes/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
   );
 
 const getUserWrittenBoards = (page, nickname) =>
@@ -12,9 +12,9 @@ const getUserWrittenBoards = (page, nickname) =>
     `/userinfo/boards/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
   );
 
-const getUserLikedRecipes = (page, nickname) =>
+const getUserLikedcafes = (page, nickname) =>
   api.get(
-    `/userinfo/recipes/likes/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
+    `/userinfo/cafes/likes/${nickname}?page=${page}&size=7&isAsc=false&sortBy=regDate`
   );
 
 const getUserLikedBoards = (page, nickname) =>
@@ -38,9 +38,9 @@ const followingList = (nickname) =>
 
 export {
   getUserInfo,
-  getUserWrittenRecipes,
+  getUserWrittencafes,
   getUserWrittenBoards,
-  getUserLikedRecipes,
+  getUserLikedcafes,
   getUserLikedBoards,
   follow,
   unFollow,
