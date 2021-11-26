@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
+import { ReactComponent as DeleteIcon } from "../../assets/icon/SearchModalIcon/delete.svg";
 
 import HashTag from "../../shared/HashTag";
 import { getSearchRecipeDB, getSearchBoardDB } from "../../redux/Async/Search";
