@@ -326,21 +326,17 @@ const SearchMain = () => {
             </SearchListInner>
           ) : (
             <SearchListInner>
-              <SearchListInner>
-                {boardList.length !== 0
-                  ? boardList.map((board) => (
-                      <BoardCard
-                        key={board.boardId}
-                        {...board}
-                        _onClick={() => {
-                          history.push(
-                            `/bulletinboard/detail/${board.boardId}`
-                          );
-                        }}
-                      />
-                    ))
-                  : !isFetching && <Blank message="조회된 글이 없습니다." />}
-              </SearchListInner>
+              {boardList.length !== 0
+                ? boardList.map((board) => (
+                    <BoardCard
+                      key={board.boardId}
+                      {...board}
+                      _onClick={() => {
+                        history.push(`/bulletinboard/detail/${board.boardId}`);
+                      }}
+                    />
+                  ))
+                : !isFetching && <Blank message="조회된 글이 없습니다." />}
             </SearchListInner>
           )}
         </ListContainer>
@@ -359,8 +355,8 @@ const ListContainer = styled.div``;
 
 const HeaderInner = styled.div`
   width: 100%;
-  height: 48px;
-
+  height: 100%;
+  margin: 10px 0px 22px 0px;
   position: sticky;
   z-index: 0;
   top: 0;
@@ -412,7 +408,7 @@ const SearchListInner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
+  margin-bottom: 20px;
 `;
 
 const SelectedHashTagInner = styled.div`
@@ -436,6 +432,7 @@ const HashTagItem = styled.div`
   align-items: center;
   padding: 8px 10px;
   margin-right: 8px;
+
   border: ${(props) =>
     props.active ? `1px solid #7692E4` : `1px solid #191919`};
 
