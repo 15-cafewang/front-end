@@ -173,7 +173,6 @@ const BoardDetail = ({ boardName }) => {
   // 댓글 추가
   const addComment = () => {
     if (content === null) {
-      console.log(content);
       alertPopUp(" 내용을 작성해 주세요!", 1200);
       return;
     }
@@ -201,8 +200,6 @@ const BoardDetail = ({ boardName }) => {
   const [popUp, setPopUp] = useState(false);
   const [buttonName, setButtonName] = useState(null);
   const [message, setMsg] = useState("");
-  console.log(popUp);
-  console.log(buttonName);
 
   // alert 제어 함수 ( 반복되는 코드를 줄이기위해)
   const alertPopUp = (message, delay = 700) => {

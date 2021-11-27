@@ -118,7 +118,6 @@ const userPageSlice = createSlice({
 
     [getUserInfoDB.rejected]: (state, action) => {
       state.isFetching = false;
-      console.log(action.error);
     },
 
     [getUserWrittencafesDB.pending]: (state, action) => {
@@ -129,7 +128,6 @@ const userPageSlice = createSlice({
       state.postList.userWrittencafes = action.payload;
     },
     [getUserWrittencafesDB.rejected]: (state, action) => {
-      console.log(action.error);
       state.isFetching = false;
     },
 
@@ -159,7 +157,6 @@ const userPageSlice = createSlice({
       state.postList.userWrittenBoards = action.payload;
     },
     [getUserWrittenBoardsDB.rejected]: (state, action) => {
-      console.log(action.error);
       state.isFetching = false;
     },
 
@@ -189,7 +186,6 @@ const userPageSlice = createSlice({
       state.postList.userLikedcafes = action.payload;
     },
     [getUserLikedcafesDB.rejected]: (state, action) => {
-      console.log(action.error);
       state.isFetching = false;
     },
 
@@ -199,7 +195,6 @@ const userPageSlice = createSlice({
     },
     [getInfinityScrollLikedcafesDB.fulfilled]: (state, action) => {
       state.isFetching = false;
-      console.log(2);
       state.postList.userLikedcafes = [
         ...state.postList.userLikedcafes,
         ...action.payload,
@@ -220,7 +215,6 @@ const userPageSlice = createSlice({
     },
 
     [getUserLikedBoardsDB.rejected]: (state, action) => {
-      console.log("에러발생", action.error);
       state.isFetching = false;
     },
 
@@ -296,7 +290,7 @@ const userPageSlice = createSlice({
       state.userList = action.payload;
     },
     [userFollowListDB.rejected]: (state, action) => {
-      console.log("팔로우리스트 불러오기 에러발생", action.error);
+      // console.log("팔로우리스트 불러오기 에러발생", action.error);
     },
 
     //유저 팔로잉리스트 불러오기
@@ -310,7 +304,7 @@ const userPageSlice = createSlice({
       state.userList = action.payload;
     },
     [userFollowingListDB.rejected]: (state, action) => {
-      console.log("팔로잉리스트 불러오기 에러발생", action.error);
+      // console.log("팔로잉리스트 불러오기 에러발생", action.error);
     },
   },
 });

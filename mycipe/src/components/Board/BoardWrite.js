@@ -120,7 +120,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(message, 700, "/cafeBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }
@@ -159,7 +158,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(message, 700, "/bulletinBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }
@@ -191,7 +189,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(messgae, 700, "/cafeBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }
@@ -226,7 +223,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(messgae, 700, "/bulletinBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }

@@ -13,7 +13,6 @@ import {
 
 // 회원가입
 export const signupDB = createAsyncThunk("user/signUp", async (data) => {
-  console.log(data);
   const response = await signupAPI(data);
   history.push("/login");
   return response;

@@ -18,7 +18,6 @@ const getUserInfoDB = createAsyncThunk(
   "userpage/userinfo",
   async (data, thunkAPI) => {
     const response = await getUserInfo(data);
-    console.log(response.data.data);
     return response.data.data;
   }
 );
