@@ -353,14 +353,8 @@ const UserMain = (props) => {
                 ? currentList.map((item, idx) => {
                     return (
                       <CafeCard
-                        key={item.cafeId}
-                        cafeId={item.cafeId}
+                        {...item}
                         image={item.imageList[0]}
-                        nickname={item.nickname}
-                        title={item.title}
-                        likeStatus={item.likeStatus}
-                        likeCount={item.likeCount}
-                        price={item.price}
                         _onClick={() => {
                           history.push(`/cafeboard/detail/${item.cafeId}`);
                         }}
@@ -379,14 +373,8 @@ const UserMain = (props) => {
                 ? currentList.map((item, idx) => {
                     return (
                       <BoardCard
-                        key={item.boardId}
-                        boardId={item.boardId}
+                        {...item}
                         image={item.imageList[0]}
-                        title={item.title}
-                        likeStatus={item.likeStatus}
-                        likeCount={item.likeCount}
-                        content={item.content}
-                        regDate={item.regDate}
                         _onClick={() => {
                           history.push(`/bulletinboard/detail/${item.boardId}`);
                         }}
