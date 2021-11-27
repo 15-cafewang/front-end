@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { history } from "../../redux/configureStore";
 import { loginDB } from "../../redux/Async/user";
 
+// 알림 창
+import PopUp from "../../shared/PopUp";
+
 // style
 import styled, { css } from "styled-components";
 import { Button, Text } from "../../elements";
@@ -26,8 +29,25 @@ const Login = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  const login = () => {
-    dispatch(loginDB(userInfo));
+  const [popUp, setPopUp] = useState(null);
+  const [message, setMessage] = useState("");
+
+  const alertPopUp = (message, delay) => {
+    setPopUp(true);
+    setMessage(message);
+    setTimeout(() => {
+      setPopUp(false);
+      history.push("/main");
+    }, delay);
+  };
+
+  const login = async () => {
+    try {
+      const userResponse = await dispatch(loginDB(userInfo)).unwrap();
+      alertPopUp(userResponse.message, 400);
+    } catch (error) {
+      alertPopUp(error, 700);
+    }
   };
 
   return (
@@ -41,6 +61,12 @@ const Login = () => {
         <PageName>로그인</PageName>
       </HeaderInner>
       <LoginContainer>
+        <PopUp
+          popUp={popUp}
+          setPopUp={setPopUp}
+          message={message}
+          isButton={false}
+        />
         <Grid>
           <Text size="14px" margin="48px 0 0 0" lineheight="22px">
             이메일
