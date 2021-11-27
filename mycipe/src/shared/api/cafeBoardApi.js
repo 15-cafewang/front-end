@@ -1,12 +1,12 @@
 import api from "./index";
 
 export const cafeBoardApi = {
-  // 레시피 목록 조회 (최신순, 인기순)
+  // 카페 후기 목록 조회 (최신순, 인기순)
   getPostList: (page, sortBy) => {
     return api.get(`/cafes/list?page=${page}&size=7&isAsc=false&${sortBy}`);
   },
 
-  // 레시피 작성
+  // 카페 후기 작성
   addPost: (post) => {
     const config = {
       headers: { "content-type": "multipart/form-data" },
@@ -14,7 +14,7 @@ export const cafeBoardApi = {
     return api.post("/cafes", post, config);
   },
 
-  // 레시피 수정
+  // 카페 후기 수정
   editPost: (cafeId, post) => {
     const config = {
       headers: { "content-type": "multipart/form-data" },
@@ -22,12 +22,12 @@ export const cafeBoardApi = {
     return api.put(`/cafes/${cafeId}`, post, config);
   },
 
-  // 레시피 삭제
+  // 카페 후기 삭제
   deletePost: (cafeId) => {
     return api.delete(`/cafes/${cafeId}`);
   },
 
-  // 레시피 상세 조회
+  // 카페 후기 상세 조회
   getPostDetail: (cafeId) => {
     return api.get(`/cafes/${cafeId}`);
   },
@@ -59,7 +59,7 @@ export const cafeBoardApi = {
     return api.get(`/cafes/likes/${postId}`);
   },
 
-  // 레시피 댓글 좋아요 토글
+  // 카페 후기 댓글 좋아요 토글
   commentLikeToggle: (commentId) => {
     return api.get(`/cafes/comment/likes/${commentId}`);
   },

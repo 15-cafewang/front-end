@@ -5,7 +5,7 @@ export const mainApi = {
   getRecommendCafe: () => {
     return api.get("/main/recommend");
   },
-  //메인 인기레시피 조회
+  //메인 인기카페 후기 조회
   getPopularListWeek: () => {
     return api.get("/main/popular?sortBy=week");
   },
@@ -13,7 +13,7 @@ export const mainApi = {
     return api.get("/main/popular?sortBy=month");
   },
 
-  //최신 레시피 조회
+  //최신 카페 후기 조회
   getRecentList: () => {
     return api.get("/main/recent");
   },

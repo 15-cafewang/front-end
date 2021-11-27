@@ -7,7 +7,7 @@ import {
   addBoardKeyword,
 } from "../Modules/searchSlice";
 
-//레시피 검색.
+//카페 후기 검색.
 const getSearchCafeDB = createAsyncThunk(
   "search/cafe",
   async (searchInfo, ThunkAPI) => {

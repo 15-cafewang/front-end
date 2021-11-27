@@ -154,7 +154,6 @@ const bulletinBoardSlice = createSlice({
       );
       state.commentList = bulletinCommentList;
       state.isFetching = false;
-      window.alert("댓글 삭제 성공!");
     },
     [deleteBulletinCommentDB.rejected]: (state, action) => {
       state.isFetching = false;

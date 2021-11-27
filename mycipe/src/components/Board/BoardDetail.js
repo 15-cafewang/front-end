@@ -54,6 +54,7 @@ const BoardDetail = ({ boardName }) => {
       ? state.cafeBoard.currentcafePost
       : state.bulletinBoard.currentBoardPost
   );
+
   const commentList = useSelector((state) =>
     boardName === "cafeBoard"
       ? state.cafeBoard.commentList
@@ -67,7 +68,7 @@ const BoardDetail = ({ boardName }) => {
     postDetail && postDetail.likeCount
   );
 
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(null);
 
   const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -171,6 +172,12 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
+    if (content === null) {
+      console.log(content);
+      alertPopUp(" 내용을 작성해 주세요!", 1200);
+      return;
+    }
+
     const cafeComment = {
       cafeId: cafeId,
       content: content,
@@ -193,12 +200,24 @@ const BoardDetail = ({ boardName }) => {
   //  alert창
   const [popUp, setPopUp] = useState(false);
   const [buttonName, setButtonName] = useState(null);
+  const [message, setMsg] = useState("");
   console.log(popUp);
   console.log(buttonName);
+
+  // alert 제어 함수 ( 반복되는 코드를 줄이기위해)
+  const alertPopUp = (message, delay = 700) => {
+    setPopUp(true);
+    setMsg(message);
+
+    setTimeout(() => {
+      setPopUp(false);
+    }, delay);
+  };
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
       {/* alert 창 */}
+
       {buttonName === "수정" ? (
         <PopUp
           popUp={popUp}
@@ -212,7 +231,7 @@ const BoardDetail = ({ boardName }) => {
               : history.push(`/bulletinboard/write/${boardId}`);
           }}
         />
-      ) : (
+      ) : buttonName === "삭제" ? (
         <PopUp
           popUp={popUp}
           setPopUp={setPopUp}
@@ -225,6 +244,8 @@ const BoardDetail = ({ boardName }) => {
               : dispatch(deleteBulletinPostDB(boardId));
           }}
         />
+      ) : (
+        <PopUp popUp={popUp} setPopUp={setPopUp} message={message} />
       )}
 
       {/* 
@@ -285,7 +306,7 @@ const BoardDetail = ({ boardName }) => {
       )}
 
       <Box col>
-        {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
+        {/* 사용자가 올린 해시태그 목록 : 카페 후기 상세일 때만 렌더링 */}
         {boardName === "cafeBoard" ? (
           <>
             <Box width="100%">

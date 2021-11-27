@@ -9,7 +9,7 @@ export const getRecommendCafeDB = createAsyncThunk(
   }
 );
 
-//인기 레시피 조회
+//인기 카페 후기 조회
 export const getPopularWeekListDB = createAsyncThunk(
   "mainPage/populartList",
   async (thunkAPI) => {
@@ -25,7 +25,7 @@ export const getPopularMonthListDB = createAsyncThunk(
   }
 );
 
-// 최신 레시피 조회
+// 최신 카페 후기 조회
 export const getRecentListDB = createAsyncThunk(
   "mainPage/recentList",
   async (thunkAPI) => {

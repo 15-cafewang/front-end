@@ -133,7 +133,7 @@ const userPageSlice = createSlice({
       state.isFetching = false;
     },
 
-    // 유저가 작성한 레시피 무한스크롤 불러오기
+    // 유저가 작성한 카페 후기 무한스크롤 불러오기
     [getInfinityScrollWrittencafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -179,7 +179,7 @@ const userPageSlice = createSlice({
       state.isFetching = false;
     },
 
-    //유저 좋아요 레시피
+    //유저 좋아요 카페 후기
     [getUserLikedcafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -193,7 +193,7 @@ const userPageSlice = createSlice({
       state.isFetching = false;
     },
 
-    // 유저 좋아요 레시피 무한스크롤
+    // 유저 좋아요 카페 후기 무한스크롤
     [getInfinityScrollLikedcafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
