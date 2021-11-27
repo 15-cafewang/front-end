@@ -3,7 +3,7 @@ import { history } from "../configureStore";
 
 import { cafeBoardApi } from "../../shared/api/cafeBoardApi";
 
-// 레시피 작성
+// 카페 후기 작성
 export const addCafePostDB = createAsyncThunk(
   "CafeBoard/addPost",
   async (data, { rejectWuthValue }) => {
@@ -17,7 +17,7 @@ export const addCafePostDB = createAsyncThunk(
   }
 );
 
-// 레시피 목록 가져오기
+// 카페 후기 목록 가져오기
 export const getCafePostListDB = createAsyncThunk(
   "cafeBoard/getPostList",
   async (data) => {
@@ -37,7 +37,7 @@ export const getInfinityScrollDB = createAsyncThunk(
   }
 );
 
-// 레시피 상세 조회
+// 카페 후기 상세 조회
 export const getCafePostDetailDB = createAsyncThunk(
   "cafeBoard/getPostDetail",
   async (data) => {
@@ -46,7 +46,7 @@ export const getCafePostDetailDB = createAsyncThunk(
   }
 );
 
-// 레시피 좋아요 토글
+// 카페 후기 좋아요 토글
 export const cafeLikeToggleDB = createAsyncThunk(
   "cafeBoard/likeToggle",
   async (data) => {
@@ -55,7 +55,7 @@ export const cafeLikeToggleDB = createAsyncThunk(
   }
 );
 
-// 레시피 수정
+// 카페 후기 수정
 export const editCafePostDB = createAsyncThunk(
   "cafeBoard/editPost",
   async (data, { rejectWithValue }) => {
@@ -69,7 +69,7 @@ export const editCafePostDB = createAsyncThunk(
   }
 );
 
-// 레시피 삭제
+// 카페 후기 삭제
 export const deleteCafePostDB = createAsyncThunk(
   "cafeBoard/deletePost",
   async (data) => {

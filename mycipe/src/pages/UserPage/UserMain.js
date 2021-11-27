@@ -104,7 +104,7 @@ const UserMain = (props) => {
   const fetchMoreData = (page) => {
     setIsLoading(true);
     if (filterButtons.writtenBoard) {
-      // 유저가 작성한 레시피 보여줄때
+      // 유저가 작성한 카페 후기 보여줄때
       if (filterButtons.cafe) {
         dispatch(
           getInfinityScrollWrittencafesDB({
@@ -131,7 +131,7 @@ const UserMain = (props) => {
           });
       }
     } else {
-      // 유저가 좋아요한 레시피 보여줄때
+      // 유저가 좋아요한 카페 후기 보여줄때
       if (filterButtons.cafe) {
         dispatch(
           getInfinityScrollLikedcafesDB({

@@ -38,7 +38,7 @@ Image.defaultProps = {
 };
 
 const ImageCircle = styled.div`
-  // 레시피 페이지, 게시판 페이지
+  // 카페 후기 페이지, 게시판 페이지
   ${(props) =>
     props.size === "small" &&
     `width : 38px; height : 38px; border-radius : 38px;`}

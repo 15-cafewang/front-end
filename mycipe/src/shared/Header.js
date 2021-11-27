@@ -96,7 +96,7 @@ const Header = (props) => {
   }
 
   if (location === "/cafeboard") {
-    //레시피 메인
+    //카페 후기 메인
     return (
       <HeaderInner flexBetween>
         <PageName>카페 후기</PageName>
@@ -112,7 +112,7 @@ const Header = (props) => {
   }
 
   if (location.includes("/cafeboard/detail")) {
-    //레시피 상세
+    //카페 후기 상세
     return (
       <HeaderInner>
         <BackIcon

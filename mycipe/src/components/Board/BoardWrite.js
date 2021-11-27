@@ -305,7 +305,7 @@ const BoardWrite = ({ boardName }) => {
           value={post ? post.title : ""}
         />
 
-        {/* 레시피 작성시에만 렌더링 해줌 */}
+        {/* 카페 후기 작성시에만 렌더링 해줌 */}
         {boardName === "cafeBoard" ? (
           <TextInputBox
             ref={locationRef}
@@ -334,7 +334,7 @@ const BoardWrite = ({ boardName }) => {
           value={post ? post.content : ""}
         />
 
-        {/* 레시피 작성시에만 렌더링 해줌 */}
+        {/* 카페 후기 작성시에만 렌더링 해줌 */}
         {boardName === "cafeBoard" && (
           <>
             <HashTagTitle>해시태그 선택</HashTagTitle>
