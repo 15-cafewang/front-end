@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 // icons
 import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
+import { ReactComponent as CommentMiniIcon } from "../../assets/icon/CommmentIcon/commentMini.svg";
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
 // elements
 import Image from "../../elements/Image";
@@ -50,27 +51,33 @@ const CafeCard = ({
           <Text>{nickname}</Text>
           <Text>{location}</Text>
         </TextInner>
-        {componentLikeStatus ? (
-          <LikeInner
-            onClick={(e) => {
-              handleLikeToggle(e);
-              setLikeCount(componentLikeCount - 1);
-            }}
-          >
-            <ActiveSmallLike />
-            <Count>{componentLikeCount}개</Count>
-          </LikeInner>
-        ) : (
-          <LikeInner
-            onClick={(e) => {
-              handleLikeToggle(e);
-              setLikeCount(componentLikeCount + 1);
-            }}
-          >
-            <SmallLike />
-            <Count>{componentLikeCount}개</Count>
-          </LikeInner>
-        )}
+        <IconsInner>
+          {componentLikeStatus ? (
+            <LikeInner
+              onClick={(e) => {
+                handleLikeToggle(e);
+                setLikeCount(componentLikeCount - 1);
+              }}
+            >
+              <ActiveSmallLike />
+              <Count>{componentLikeCount}개</Count>
+            </LikeInner>
+          ) : (
+            <LikeInner
+              onClick={(e) => {
+                handleLikeToggle(e);
+                setLikeCount(componentLikeCount + 1);
+              }}
+            >
+              <SmallLike />
+              <Count>{componentLikeCount}개</Count>
+            </LikeInner>
+          )}
+          <CommentInner>
+            <CommentMiniIcon />
+            <Count>{commentCount}개</Count>
+          </CommentInner>
+        </IconsInner>
       </CardContent>
     </CafeCardInner>
   );
@@ -114,18 +121,33 @@ const Title = styled(Text)`
   font-weight: 500;
 `;
 
-const LikeInner = styled.button`
-  height: 16px;
+const IconsInner = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 6px 12px;
   font-size: 16px;
+  height: 16px;
+`;
+
+const LikeInner = styled.button`
+  display: flex;
+  flex-direction: row;
+  margin-right: 4px;
+`;
+
+const CommentInner = styled.div`
   display: flex;
   align-items: center;
-  margin: 8px 12px;
+  margin-left: 4px;
 `;
 
 const Count = styled.span`
   font-size: 12px;
+  height: 16px;
   margin-left: 6px;
   color: #767676;
+  padding: 2px 0px 2px 0px;
 `;
 
 export default CafeCard;

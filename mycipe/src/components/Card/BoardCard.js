@@ -51,7 +51,6 @@ const BoardCard = ({
             <Content>{content}</Content>
           </Grid>
           <Grid flexRow height="16px">
-
             <Date>
               {regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}
             </Date>
@@ -198,8 +197,11 @@ const CommentInner = styled.div`
 `;
 
 const Count = styled.span`
+  height: 16px;
+  font-size: 10px;
   margin-left: 4px;
   color: #999999;
+  padding: 3px 0px 2px 0px;
 `;
 
 export default BoardCard;
