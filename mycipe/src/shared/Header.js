@@ -77,7 +77,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>프로필편집</PageName>
+        <PageName margin="0px 0px 0px 12px">프로필편집</PageName>
       </HeaderInner>
     );
   }
