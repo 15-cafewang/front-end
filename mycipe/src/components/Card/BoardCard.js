@@ -197,8 +197,11 @@ const CommentInner = styled.div`
 `;
 
 const Count = styled.span`
+  height: 16px;
+  font-size: 10px;
   margin-left: 4px;
   color: #999999;
+  padding: 3px 0px 2px 0px;
 `;
 
 export default BoardCard;

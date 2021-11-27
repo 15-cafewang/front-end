@@ -118,7 +118,6 @@ const userPageSlice = createSlice({
 
     [getUserInfoDB.rejected]: (state, action) => {
       state.isFetching = false;
-      console.log(action.error);
     },
 
     [getUserWrittencafesDB.pending]: (state, action) => {
@@ -129,11 +128,10 @@ const userPageSlice = createSlice({
       state.postList.userWrittencafes = action.payload;
     },
     [getUserWrittencafesDB.rejected]: (state, action) => {
-      console.log(action.error);
       state.isFetching = false;
     },
 
-    // 유저가 작성한 레시피 무한스크롤 불러오기
+    // 유저가 작성한 카페 후기 무한스크롤 불러오기
     [getInfinityScrollWrittencafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -159,7 +157,6 @@ const userPageSlice = createSlice({
       state.postList.userWrittenBoards = action.payload;
     },
     [getUserWrittenBoardsDB.rejected]: (state, action) => {
-      console.log(action.error);
       state.isFetching = false;
     },
 
@@ -179,7 +176,7 @@ const userPageSlice = createSlice({
       state.isFetching = false;
     },
 
-    //유저 좋아요 레시피
+    //유저 좋아요 카페 후기
     [getUserLikedcafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -189,17 +186,15 @@ const userPageSlice = createSlice({
       state.postList.userLikedcafes = action.payload;
     },
     [getUserLikedcafesDB.rejected]: (state, action) => {
-      console.log(action.error);
       state.isFetching = false;
     },
 
-    // 유저 좋아요 레시피 무한스크롤
+    // 유저 좋아요 카페 후기 무한스크롤
     [getInfinityScrollLikedcafesDB.pending]: (state, action) => {
       state.isFetching = true;
     },
     [getInfinityScrollLikedcafesDB.fulfilled]: (state, action) => {
       state.isFetching = false;
-      console.log(2);
       state.postList.userLikedcafes = [
         ...state.postList.userLikedcafes,
         ...action.payload,
@@ -220,7 +215,6 @@ const userPageSlice = createSlice({
     },
 
     [getUserLikedBoardsDB.rejected]: (state, action) => {
-      console.log("에러발생", action.error);
       state.isFetching = false;
     },
 
@@ -296,7 +290,7 @@ const userPageSlice = createSlice({
       state.userList = action.payload;
     },
     [userFollowListDB.rejected]: (state, action) => {
-      console.log("팔로우리스트 불러오기 에러발생", action.error);
+      // console.log("팔로우리스트 불러오기 에러발생", action.error);
     },
 
     //유저 팔로잉리스트 불러오기
@@ -310,7 +304,7 @@ const userPageSlice = createSlice({
       state.userList = action.payload;
     },
     [userFollowingListDB.rejected]: (state, action) => {
-      console.log("팔로잉리스트 불러오기 에러발생", action.error);
+      // console.log("팔로잉리스트 불러오기 에러발생", action.error);
     },
   },
 });

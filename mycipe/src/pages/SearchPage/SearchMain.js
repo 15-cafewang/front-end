@@ -30,10 +30,10 @@ const SearchMain = () => {
   const cafeList = useSelector((state) => state.search.cafeList);
   const boardList = useSelector((state) => state.search.boardList);
 
-  //현재 게시물이 존재하는지(레시피 or 자유게시물 아무거나뭐든)
+  //현재 게시물이 존재하는지(카페 후기 or 자유게시물 아무거나뭐든)
   const isList = useSelector((state) => state.search.isList);
 
-  // 검색페이지를올떄 자유게시판에서 왔는지, 레시피게시판에서왔는지를 판단하기위함.
+  // 검색페이지를올떄 자유게시판에서 왔는지, 카페 후기게시판에서왔는지를 판단하기위함.
   const whereFrom = useSelector((state) => state.search.whereFrom);
 
   const hashTag = useSelector((state) => state.search.hashTag);
@@ -218,7 +218,7 @@ const SearchMain = () => {
         </HeaderInner>
 
         <ListContainer>
-          {/* 레시피를 검색했을때만 해쉬태그를 보여줌. */}
+          {/* 카페 후기를 검색했을때만 해쉬태그를 보여줌. */}
           <SelectedHashTagInner cafeList={cafeList.length !== 0 ? true : false}>
             {/* 선택된 해쉬태그가있으면 보여줌 */}
             {hashTag ? <HashTagItem active>{hashTag}</HashTagItem> : ""}
@@ -235,7 +235,7 @@ const SearchMain = () => {
                 // 검색어 받는다.
                 let keyword = null;
 
-                // 레시피검색일경우 해쉬태그도 생각해야한다.
+                // 카페 후기검색일경우 해쉬태그도 생각해야한다.
                 if (whereFrom === "cafe") {
                   if (hashTag) {
                     keyword = hashTag;

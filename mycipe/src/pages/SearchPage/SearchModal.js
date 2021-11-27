@@ -21,10 +21,10 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
 
   const [popUp, setPopUp] = useState(false);
 
-  // 레시피게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
+  // 카페 후기게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
   const whereFrom = useSelector((state) => state.search.whereFrom);
 
-  //레시피 최근검색목록 리스트
+  //카페 후기 최근검색목록 리스트
   const cafeSearchList = useSelector((state) => state.search.cafeSearchList);
 
   //자유게시판 최근검색목록 리스트
@@ -73,7 +73,7 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
           </Grid>
 
           <SearchWordList>
-            {/* 레시피에서 왔으면 레시피 최근검색목록  아니면 자유게시판 최근검색목록 보여주기 */}
+            {/* 카페 후기에서 왔으면 카페 후기 최근검색목록  아니면 자유게시판 최근검색목록 보여주기 */}
             {whereFrom === "cafe"
               ? cafeSearchList.map((keyword) => {
                   return (
@@ -136,7 +136,7 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
           </SearchWordList>
 
           <>
-            {/* 해쉬태그검색은 레시피검색에만 있는 기능이니 레시피게시판에서 이동했는지 확인 */}
+            {/* 해쉬태그검색은 카페 후기검색에만 있는 기능이니 카페 후기게시판에서 이동했는지 확인 */}
             {whereFrom === "cafe" && (
               <>
                 <Grid margin="16px 0px">

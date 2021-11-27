@@ -81,15 +81,13 @@ const Main = (props) => {
     { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
   ];
 
-  console.log(bannerList);
-
   return (
     <>
       <MainInner>
         <ImageSlider bannerList={bannerList} isBanner />
         {isActive && <ModalBackground />}
         {/* 추천 카페 */}
-        <Banner>
+        <Banner isflex>
           <BannerTitle>추천 카페 후기</BannerTitle>
         </Banner>
         <CafeCardList>
@@ -111,6 +109,7 @@ const Main = (props) => {
         <RankingInner>
           <Banner>
             <BannerTitle>누가 왕이 될 상인가</BannerTitle>
+            <Date>마감 D-7</Date>
           </Banner>
 
           <RankingButtonInner>
@@ -164,7 +163,7 @@ const Main = (props) => {
         </RankingInner>
 
         {/* 인기 카페 */}
-        <Banner>
+        <Banner isflex>
           <BannerTitle>인기 카페 후기</BannerTitle>
 
           <BannerButtonInner>
@@ -209,7 +208,7 @@ const Main = (props) => {
         </CafeCardList>
 
         {/* 최근 카페 */}
-        <Banner>
+        <Banner isflex>
           <BannerTitle>최근 카페 후기</BannerTitle>
           <BannerMoreButton
             onClick={() => {
@@ -252,7 +251,9 @@ const Main = (props) => {
             </ContactText>
           </ContactBox>
           <ContactBox>
-            <ContactText>ⓒ 2021. Project ecafe All rights reserved</ContactText>
+            <ContactText>
+              ⓒ 2021. Project cafewang All rights reserved
+            </ContactText>
           </ContactBox>
         </ContactInner>
       </Contact>
@@ -289,9 +290,14 @@ const RankingInner = styled(MainInner)`
 
 const Banner = styled.div`
   margin: 56px 0 4px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+  ${(props) =>
+    props.isflex &&
+    css`
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    `}
 `;
 
 const BannerTitle = styled.span`
@@ -395,6 +401,12 @@ const Box = styled.div`
 
 const UserListContainer = styled.ul`
   margin-top: 8px;
+`;
+
+const Date = styled.span`
+  color: #767676;
+  font-size: 14px;
+  margin-left: 8px;
 `;
 
 export default Main;

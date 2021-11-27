@@ -21,7 +21,7 @@ import {
 } from "../../redux/Async/bulletinBoard";
 
 // api
-import { cafeBoardApi } from "../../shared/api/cafeBoardApi";
+import { getPostDetail } from "../../shared/api/cafeBoardApi";
 import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
 
 const BoardWrite = ({ boardName }) => {
@@ -61,7 +61,7 @@ const BoardWrite = ({ boardName }) => {
     // 수정모드인데 현재 게시물에 대한 정보가 없을 때 (리덕스 초기화 되었을 때)
     if (isEdit && !currentPost) {
       if (boardName === "cafeBoard") {
-        cafeBoardApi.getPostDetail(params.id).then((res) => {
+        getPostDetail(params.id).then((res) => {
           setPost(res.data.data);
         });
       }
@@ -120,7 +120,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(message, 700, "/cafeBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }
@@ -159,7 +158,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(message, 700, "/bulletinBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }
@@ -191,7 +189,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(messgae, 700, "/cafeBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }
@@ -226,7 +223,6 @@ const BoardWrite = ({ boardName }) => {
             alertPopUp(messgae, 700, "/bulletinBoard");
           })
           .catch((error) => {
-            console.log(error);
             alertPopUp(error.data.message);
           });
       }
@@ -305,7 +301,7 @@ const BoardWrite = ({ boardName }) => {
           value={post ? post.title : ""}
         />
 
-        {/* 레시피 작성시에만 렌더링 해줌 */}
+        {/* 카페 후기 작성시에만 렌더링 해줌 */}
         {boardName === "cafeBoard" ? (
           <TextInputBox
             ref={locationRef}
@@ -334,7 +330,7 @@ const BoardWrite = ({ boardName }) => {
           value={post ? post.content : ""}
         />
 
-        {/* 레시피 작성시에만 렌더링 해줌 */}
+        {/* 카페 후기 작성시에만 렌더링 해줌 */}
         {boardName === "cafeBoard" && (
           <Grid>
             <HashTagTitle>해시태그 선택</HashTagTitle>

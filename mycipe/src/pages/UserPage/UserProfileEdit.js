@@ -74,8 +74,6 @@ const UserpageProfileEdit = () => {
       //alert
       alertPopUp(msg, 700, newNickname);
     } catch (errorMsg) {
-      // console.log(errorMsg);
-      // console.log(errorMsg.message);
       alertPopUp("파일 이름이 너무 깁니다.", 700);
     }
   };

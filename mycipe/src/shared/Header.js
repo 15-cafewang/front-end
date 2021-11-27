@@ -96,7 +96,7 @@ const Header = (props) => {
   }
 
   if (location === "/cafeboard") {
-    //레시피 메인
+    //카페 후기 메인
     return (
       <HeaderInner flexBetween>
         <PageName>카페 후기</PageName>
@@ -112,7 +112,7 @@ const Header = (props) => {
   }
 
   if (location.includes("/cafeboard/detail")) {
-    //레시피 상세
+    //카페 후기 상세
     return (
       <HeaderInner>
         <BackIcon
@@ -164,7 +164,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>설정페이지</PageName>
+        <PageName margin="0px 0px 0px 12px">설정페이지</PageName>
       </HeaderInner>
     );
   } else return null;
@@ -190,8 +190,6 @@ const HeaderInner = styled.div`
 
 const PageName = styled.span`
   font-size: 16px;
-
-  /* margin-left: 12px; */
   margin: ${(props) => props.margin};
   height: 16px;
   line-height: 20px;

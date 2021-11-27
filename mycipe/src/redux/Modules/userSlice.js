@@ -35,8 +35,6 @@ const userSlice = createSlice({
     },
 
     updateUserInfo: (state, action) => {
-      console.log(action.payload);
-
       state.userInfo = action.payload;
     },
   },
@@ -47,7 +45,6 @@ const userSlice = createSlice({
     },
     // 회원가입 성공시
     [signupDB.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.isFetching = false;
       window.alert("회원가입이 완료 되었습니다!");
     },

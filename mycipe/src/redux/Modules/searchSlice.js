@@ -8,7 +8,7 @@ const initialState = {
   //어떤 게시판으로부터 왔는지
   whereFrom: "",
 
-  //현재 검색페이지에서 게시물 리스트가 존재하는지(레시피 or 자유게시판을 불러올떄 true로바꿔준다.)
+  //현재 검색페이지에서 게시물 리스트가 존재하는지(카페 후기 or 자유게시판을 불러올떄 true로바꿔준다.)
   isList: false,
 
   // 해쉬태그
@@ -64,7 +64,7 @@ const searchSlice = createSlice({
       state.whereFrom = action.payload;
     },
 
-    //레시피 메인 or 자유게시판 메인에서 넘어올떄 저장된 게시물들 전부 초기화.
+    //카페 후기 메인 or 자유게시판 메인에서 넘어올떄 저장된 게시물들 전부 초기화.
     resetList: (state, action) => {
       state.boardList = [];
       state.cafeList = [];
@@ -83,7 +83,7 @@ const searchSlice = createSlice({
       state.currentSorting = action.payload;
     },
 
-    //레시피 검색어 추가
+    //카페 후기 검색어 추가
     addCafeKeyword: (state, action) => {
       const newKeyword = action.payload;
 
@@ -100,12 +100,12 @@ const searchSlice = createSlice({
         state.cafeSearchList.pop();
       }
     },
-    // 레시피 검색어 전부삭제
+    // 카페 후기 검색어 전부삭제
     deleteAllCafeKeyword: (state, action) => {
       state.cafeSearchList = [];
     },
 
-    //레시피 검색어 한개 삭제
+    //카페 후기 검색어 한개 삭제
     deleteCafeKeyword: (state, action) => {
       const index = state.cafeSearchList.indexOf(action.payload);
       state.cafeSearchList.splice(index, 1);
@@ -144,25 +144,23 @@ const searchSlice = createSlice({
 
   //비동기
   extraReducers: {
-    //레시피검색
+    //카페 후기검색
     [getSearchCafeDB.pending]: (state, ation) => {
       state.isFetching = true;
     },
 
     [getSearchCafeDB.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.isFetching = false;
 
       state.isList = true;
       state.cafeList = payload;
 
-      //레시피를 보여줄 거기 때문에 자유게시판 목록은 필요가 없다.
+      //카페 후기를 보여줄 거기 때문에 자유게시판 목록은 필요가 없다.
       state.boardList = [];
     },
 
     [getSearchCafeDB.rejected]: (state, action) => {
       state.isFetching = false;
-      console.log(action.error);
     },
 
     //게시판검색
@@ -171,20 +169,18 @@ const searchSlice = createSlice({
     },
 
     [getSearchBoardDB.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.isFetching = false;
 
       state.hashTag = "";
       state.isList = true;
       state.boardList = payload;
 
-      //자유게시판 목록을 보여줄 거기 때문에 레시피 목록은 필요가 없다.
+      //자유게시판 목록을 보여줄 거기 때문에 카페 후기 목록은 필요가 없다.
       state.cafeList = [];
     },
 
     [getSearchBoardDB.rejected]: (state, action) => {
       state.isFetching = false;
-      console.log(action.error);
     },
   },
 });

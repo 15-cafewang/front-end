@@ -29,7 +29,7 @@ const cafeBoardSlice = createSlice({
   initialState: initialstate,
   reducers: {},
   extraReducers: {
-    // 레시피 목록 불러오기
+    // 카페 후기 목록 불러오기
     [getCafePostListDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -53,7 +53,7 @@ const cafeBoardSlice = createSlice({
     [getInfinityScrollDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
-    // 레시피 작성
+    // 카페 후기 작성
     [addCafePostDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -63,7 +63,7 @@ const cafeBoardSlice = createSlice({
     [addCafePostDB.rejected]: (state, action) => {
       state.isfetching = false;
     },
-    // 레시피 상세 조회
+    // 카페 후기 상세 조회
     [getCafePostDetailDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -71,7 +71,7 @@ const cafeBoardSlice = createSlice({
       state.isFetching = false;
       state.currentcafePost = payload;
     },
-    // 레시피  수정
+    // 카페 후기  수정
     [editCafePostDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -84,7 +84,7 @@ const cafeBoardSlice = createSlice({
     [getCafePostDetailDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
-    // 레시피 좋아요 토글
+    // 카페 후기 좋아요 토글
     [cafeLikeToggleDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -95,7 +95,7 @@ const cafeBoardSlice = createSlice({
       state.isFetching = false;
     },
 
-    // 레시피 삭제
+    // 카페 후기 삭제
     [deleteCafePostDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -106,7 +106,7 @@ const cafeBoardSlice = createSlice({
       state.isFetching = false;
     },
 
-    // 레시피 댓글 추가
+    // 카페 후기 댓글 추가
     [addCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -118,7 +118,7 @@ const cafeBoardSlice = createSlice({
       state.isFetching = false;
     },
 
-    // 레시피 댓글 조회
+    // 카페 후기 댓글 조회
     [getCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -130,7 +130,7 @@ const cafeBoardSlice = createSlice({
       state.isFetching = false;
     },
 
-    // 레시피 댓글수정
+    // 카페 후기 댓글수정
     [editCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -145,7 +145,7 @@ const cafeBoardSlice = createSlice({
     [editCafeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
-    // 레시피 댓글 삭제
+    // 카페 후기 댓글 삭제
     [deleteCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -162,7 +162,7 @@ const cafeBoardSlice = createSlice({
       state.isFetching = false;
     },
 
-    // 레시피 댓글 좋아요
+    // 카페 후기 댓글 좋아요
     [cafeCommentLikeDB.pending]: (state, action) => {
       state.isFetching = true;
     },

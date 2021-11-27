@@ -48,7 +48,6 @@ const UserMain = (props) => {
   //스피너
   const isFetching = useSelector((state) => state.userPage.isFetching);
 
-  console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
   const loginUserInfo = useSelector((state) => state.user);
   const pageInfo = useSelector((state) => state.userPage);
@@ -104,7 +103,7 @@ const UserMain = (props) => {
   const fetchMoreData = (page) => {
     setIsLoading(true);
     if (filterButtons.writtenBoard) {
-      // 유저가 작성한 레시피 보여줄때
+      // 유저가 작성한 카페 후기 보여줄때
       if (filterButtons.cafe) {
         dispatch(
           getInfinityScrollWrittencafesDB({
@@ -131,7 +130,7 @@ const UserMain = (props) => {
           });
       }
     } else {
-      // 유저가 좋아요한 레시피 보여줄때
+      // 유저가 좋아요한 카페 후기 보여줄때
       if (filterButtons.cafe) {
         dispatch(
           getInfinityScrollLikedcafesDB({
@@ -354,14 +353,8 @@ const UserMain = (props) => {
                 ? currentList.map((item, idx) => {
                     return (
                       <CafeCard
-                        key={item.cafeId}
-                        cafeId={item.cafeId}
+                        {...item}
                         image={item.imageList[0]}
-                        nickname={item.nickname}
-                        title={item.title}
-                        likeStatus={item.likeStatus}
-                        likeCount={item.likeCount}
-                        price={item.price}
                         _onClick={() => {
                           history.push(`/cafeboard/detail/${item.cafeId}`);
                         }}
@@ -380,14 +373,8 @@ const UserMain = (props) => {
                 ? currentList.map((item, idx) => {
                     return (
                       <BoardCard
-                        key={item.boardId}
-                        boardId={item.boardId}
+                        {...item}
                         image={item.imageList[0]}
-                        title={item.title}
-                        likeStatus={item.likeStatus}
-                        likeCount={item.likeCount}
-                        content={item.content}
-                        regDate={item.regDate}
                         _onClick={() => {
                           history.push(`/bulletinboard/detail/${item.boardId}`);
                         }}

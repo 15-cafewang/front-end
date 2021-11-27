@@ -18,12 +18,11 @@ const getUserInfoDB = createAsyncThunk(
   "userpage/userinfo",
   async (data, thunkAPI) => {
     const response = await getUserInfo(data);
-    console.log(response.data.data);
     return response.data.data;
   }
 );
 
-//유저가 작성한 레시피 정보 불러오기
+//유저가 작성한 카페 후기 정보 불러오기
 const getUserWrittencafesDB = createAsyncThunk(
   "userpage/cafes/write",
   async (data, thunkAPI) => {
@@ -33,7 +32,7 @@ const getUserWrittencafesDB = createAsyncThunk(
   }
 );
 
-//유저가 작성한 레시피 정보 무한스크롤
+//유저가 작성한 카페 후기 정보 무한스크롤
 const getInfinityScrollWrittencafesDB = createAsyncThunk(
   "userPage/cafes/write/getInfinityScroll",
   async (data, thunkAPI) => {
@@ -63,7 +62,7 @@ const getInfinityScrollWrittenBoardsDB = createAsyncThunk(
   }
 );
 
-//유저가 좋아요한 레시피 정보 불러오기
+//유저가 좋아요한 카페 후기 정보 불러오기
 const getUserLikedcafesDB = createAsyncThunk(
   "userpage/cafes/like",
   async (data, thunkAPI) => {
@@ -73,7 +72,7 @@ const getUserLikedcafesDB = createAsyncThunk(
   }
 );
 
-//유저가 좋아요한 레시피 정보 무한스크롤
+//유저가 좋아요한 카페 후기 정보 무한스크롤
 const getInfinityScrollLikedcafesDB = createAsyncThunk(
   "userpage/cafes/like/getInfinityScroll",
   async (data, thunkAPI) => {
