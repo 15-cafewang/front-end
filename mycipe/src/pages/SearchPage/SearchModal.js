@@ -145,6 +145,7 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
                 <Grid center padding="0px 0px 32px 0px">
                   <HashTag
                     isSearch={isSearch}
+                    fromSearch={true}
                     _onClick={(e) => {
                       if (e.target.nodeName === "LI") {
                         const hashTag = e.target.innerHTML.substr(1);

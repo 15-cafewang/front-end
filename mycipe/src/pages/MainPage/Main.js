@@ -305,6 +305,7 @@ const BannerButtonInner = styled.div`
 const RankingButtonInner = styled.div`
   display: flex;
   margin-top: 4px;
+  justify-content: space-between;
 `;
 
 const BannerDateButton = styled.button`
