@@ -491,6 +491,8 @@ const TextBox = styled.pre`
   white-space: pre-wrap;
   word-break: break-all;
 
+  overflow: auto;
+
   &::placeholder {
     color: #999999;
   }
