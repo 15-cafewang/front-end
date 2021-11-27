@@ -110,99 +110,96 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
   return (
     <>
       <Box width="100%">
-        <Box>
-          <CommentItem onClick={_onClick}>
-            <Image
-              shape="circle"
-              size="small"
-              src={comment.profile}
-              _onClick={() => {
-                history.push(`/usermain/${comment.nickname}`);
-              }}
-            />
+        <Image
+          shape="circle"
+          size="small"
+          src={comment.profile}
+          _onClick={() => {
+            history.push(`/usermain/${comment.nickname}`);
+          }}
+        />
+        <CommentItem onClick={_onClick}>
+          <Box verCenter col margin="0px 0px 20px 12px">
+            <Box
+              width="100%"
+              margin="0px 0px 4px 0px"
+              height="20"
+              verCenter
+              between
+            >
+              <Nickname>{comment.nickname}</Nickname>
+              <Date> {TimeCounting(comment.regDate, timeOption)}</Date>
+            </Box>
+            {isEdit ? (
+              <EditInput
+                ref={inputRef}
+                type="text"
+                placeholder="수정 내용을 입력해주세요"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                onInput={handleResizeInputHeight("50px", inputRef)}
+              />
+            ) : (
+              <CommmentContent>{comment.content}</CommmentContent>
+            )}
 
-            <Box verCenter col margin="0px 0px 0px 12px">
-              <Box
-                width="100%"
-                margin="0px 0px 4px 0px"
-                height="20"
-                verCenter
-                between
-              >
-                <Nickname>{comment.nickname}</Nickname>
-                <Date> {TimeCounting(comment.regDate, timeOption)}</Date>
-              </Box>
-              {isEdit ? (
-                <EditInput
-                  ref={inputRef}
-                  type="text"
-                  placeholder="수정 내용을 입력해주세요"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  onInput={handleResizeInputHeight("50px", inputRef)}
-                />
+            <Box width="100%" between>
+              {likeStatus ? (
+                <LikeBox
+                  onClick={() => {
+                    LikeToggle();
+                    setLikeCount(likeCount - 1);
+                  }}
+                >
+                  <div>
+                    <ActiveSmallLike />
+                  </div>
+                  <LikeCount>{likeCount}개</LikeCount>
+                </LikeBox>
               ) : (
-                <CommmentContent>{comment.content}</CommmentContent>
+                <LikeBox
+                  onClick={() => {
+                    LikeToggle();
+                    setLikeCount(likeCount + 1);
+                  }}
+                >
+                  <div>
+                    <SmallLike />
+                  </div>
+                  <LikeCount>{likeCount}개</LikeCount>
+                </LikeBox>
               )}
 
-              <Box width="100%" between>
-                {likeStatus ? (
-                  <LikeBox
-                    onClick={() => {
-                      LikeToggle();
-                      setLikeCount(likeCount - 1);
-                    }}
-                  >
-                    <div>
-                      <ActiveSmallLike />
-                    </div>
-                    <LikeCount>{likeCount}개</LikeCount>
-                  </LikeBox>
-                ) : (
-                  <LikeBox
-                    onClick={() => {
-                      LikeToggle();
-                      setLikeCount(likeCount + 1);
-                    }}
-                  >
-                    <div>
-                      <SmallLike />
-                    </div>
-                    <LikeCount>{likeCount}개</LikeCount>
-                  </LikeBox>
+              <Box>
+                {isWriter && (
+                  <>
+                    {isEdit ? (
+                      <>
+                        <EditBtn
+                          margin="0px 15px 0px 0px"
+                          onClick={clickCancelBtn}
+                        >
+                          취소
+                        </EditBtn>
+                        <EditBtn onClick={editComment}>완료</EditBtn>
+                      </>
+                    ) : (
+                      <>
+                        <EditBtn
+                          margin="0px 15px 0px 0px"
+                          onClick={clickEditBtn}
+                        >
+                          수정
+                        </EditBtn>
+                        <EditBtn onClick={deleteComment}>삭제</EditBtn>
+                      </>
+                    )}
+                  </>
                 )}
-
-                <Box>
-                  {isWriter && (
-                    <>
-                      {isEdit ? (
-                        <>
-                          <EditBtn
-                            margin="0px 15px 0px 0px"
-                            onClick={clickCancelBtn}
-                          >
-                            취소
-                          </EditBtn>
-                          <EditBtn onClick={editComment}>완료</EditBtn>
-                        </>
-                      ) : (
-                        <>
-                          <EditBtn
-                            margin="0px 15px 0px 0px"
-                            onClick={clickEditBtn}
-                          >
-                            수정
-                          </EditBtn>
-                          <EditBtn onClick={deleteComment}>삭제</EditBtn>
-                        </>
-                      )}
-                    </>
-                  )}
-                </Box>
               </Box>
             </Box>
-          </CommentItem>
-        </Box>
+          </Box>
+        </CommentItem>
       </Box>
     </>
   );
@@ -221,8 +218,8 @@ const Box = styled.div`
 `;
 
 const CommentItem = styled.div`
-  width: 100%;
-  margin: 0px 0px 20px 0px;
+  width: 88%;
+  margin: 0px 0px 0px 0px;
   display: flex;
   justify-content: space-between;
 `;
