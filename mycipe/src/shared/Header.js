@@ -164,7 +164,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>설정페이지</PageName>
+        <PageName margin="0px 0px 0px 12px">설정페이지</PageName>
       </HeaderInner>
     );
   } else return null;
@@ -190,8 +190,6 @@ const HeaderInner = styled.div`
 
 const PageName = styled.span`
   font-size: 16px;
-
-  /* margin-left: 12px; */
   margin: ${(props) => props.margin};
   height: 16px;
   line-height: 20px;
