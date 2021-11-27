@@ -448,7 +448,7 @@ const FollowBtn = styled(ProfileEditButton)`
     css`
       color: #ffffff;
       background: #191919;
-      border: none;
+      border: 1px solid #fff;
     `}
 `;
 
