@@ -117,7 +117,7 @@ const BoardWrite = ({ boardName }) => {
         dispatch(editCafePostDB({ boardId: params.id, formData: cafeFormData }))
           .unwrap()
           .then((message) => {
-            alertPopUp(message, 700, "/cafeBoard");
+            alertPopUp(message, 700, true);
           })
           .catch((error) => {
             alertPopUp(error.data.message);
@@ -155,7 +155,7 @@ const BoardWrite = ({ boardName }) => {
         )
           .unwrap()
           .then((message) => {
-            alertPopUp(message, 700, "/bulletinBoard");
+            alertPopUp(message, 700, true);
           })
           .catch((error) => {
             alertPopUp(error.data.message);
@@ -186,7 +186,7 @@ const BoardWrite = ({ boardName }) => {
         dispatch(addCafePostDB(cafeFormData))
           .unwrap()
           .then((messgae) => {
-            alertPopUp(messgae, 700, "/cafeBoard");
+            alertPopUp(messgae, 700, true);
           })
           .catch((error) => {
             alertPopUp(error.data.message);
@@ -220,7 +220,7 @@ const BoardWrite = ({ boardName }) => {
         dispatch(addBulletinPostDB(bulletinFormData))
           .unwrap()
           .then((messgae) => {
-            alertPopUp(messgae, 700, "/bulletinBoard");
+            alertPopUp(messgae, 700, true);
           })
           .catch((error) => {
             alertPopUp(error.data.message);
@@ -234,13 +234,13 @@ const BoardWrite = ({ boardName }) => {
   const [message, setMessage] = useState("");
 
   // alert 제어 함수 ( 반복되는 코드를 줄이기위해)
-  const alertPopUp = (message, delay = 700, url = "") => {
+  const alertPopUp = (message, delay = 700, back = false) => {
     setPopUp(true);
     setMessage(message);
 
     setTimeout(() => {
       setPopUp(false);
-      url && history.push(url);
+      back && history.goBack();
     }, delay);
   };
 
