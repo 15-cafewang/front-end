@@ -211,6 +211,7 @@ const UserMain = (props) => {
               </FollowBtn>
             ) : (
               <FollowBtn
+                active
                 onClick={() => {
                   dispatch(
                     userFollowDB({
@@ -439,6 +440,18 @@ const ProfileEditButton = styled.button`
   color: #767676;
 `;
 
+const FollowBtn = styled(ProfileEditButton)`
+  font-weight: 500;
+
+  ${(props) =>
+    props.active &&
+    css`
+      color: #ffffff;
+      background: #191919;
+      border: none;
+    `}
+`;
+
 const CardList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -452,12 +465,6 @@ const Text = styled.span`
 
 const Count = styled.span`
   margin-right: 4px;
-`;
-
-const FollowBtn = styled(ProfileEditButton)`
-  background: #191919;
-  color: #ffffff;
-  font-weight: 500;
 `;
 
 const SpinnerImg = styled.img`
