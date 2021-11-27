@@ -323,7 +323,11 @@ const BoardDetail = ({ boardName }) => {
                 setLikeCount(likeCount - 1);
               }}
             >
-              <div>
+              <div
+                style={{
+                  height: "24px",
+                }}
+              >
                 <ActiveLikeIcon />
               </div>
               <LikeCount>{likeCount}개</LikeCount>
@@ -335,7 +339,11 @@ const BoardDetail = ({ boardName }) => {
                 setLikeCount(likeCount + 1);
               }}
             >
-              <div>
+              <div
+                style={{
+                  height: "24px",
+                }}
+              >
                 <LikeIcon />
               </div>
               <LikeCount>{likeCount}개</LikeCount>
@@ -491,7 +499,6 @@ const TextInputBox = styled.textarea`
 `;
 
 const LikeCount = styled.div`
-  top: 4px;
   font-size: 12px;
   color: #767676;
   margin-left: 4px;
