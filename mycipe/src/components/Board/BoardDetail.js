@@ -403,7 +403,6 @@ const LikeBox = styled.button`
 const Box = styled.div`
   display: flex;
   align-items: center;
-  /* width: 100%; */
   margin: ${(props) => props.margin};
   ${(props) => props.height && `height : ${props.height};`}
   ${(props) => props.padding && `padding : ${props.padding};`}

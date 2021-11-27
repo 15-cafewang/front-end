@@ -84,6 +84,7 @@ const CafeBoardMain = () => {
             최신순
           </SmallFilterButton>
           <SmallFilterButton
+            padding="0px"
             active={currentSorting.sortedByLikes}
             _onClick={() => {
               setCurrentSorting({
@@ -156,7 +157,6 @@ const BoardMainContainer = styled.div`
 `;
 
 const CardList = styled.div`
-  /* margin-top: px; */
   width: 100%;
 `;
 

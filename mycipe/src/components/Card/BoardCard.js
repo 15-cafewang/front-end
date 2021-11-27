@@ -51,7 +51,6 @@ const BoardCard = ({
             <Content>{content}</Content>
           </Grid>
           <Grid flexRow height="16px">
-
             <Date>
               {regDate.split("T")[0].replace("-", ". ").replace("-", ". ")}
             </Date>
@@ -128,11 +127,11 @@ const Line = styled.div`
 `;
 
 const BoardCardOuter = styled.div`
-  margin: 0px 20px;
+  width: 100%;
 `;
 
 const BoardCardInner = styled.div`
-  width: 320px;
+  width: 100%;
   height: 80px;
 
   display: flex;

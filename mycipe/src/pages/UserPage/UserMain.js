@@ -312,6 +312,7 @@ const UserMain = (props) => {
           </SmallFilterButton>
 
           <SmallFilterButton
+            padding="0px"
             active={filterButtons.bulletinBoard}
             _onClick={() => {
               setFilterButtons({
@@ -454,12 +455,7 @@ const CardList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   margin: ${(props) => props.margin};
-
-  /* & :nth-child(1) {
-    margin-top: 0px;
-  } */
 `;
 
 const Text = styled.span`
