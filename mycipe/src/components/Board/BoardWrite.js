@@ -81,9 +81,8 @@ const BoardWrite = ({ boardName }) => {
 
     // 수정모드
     if (isEdit) {
-
       if (boardName === "cafeBoard") {
-         if (!post.title || !post.content || !post.location) {
+        if (!post.title || !post.content || !post.location) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
@@ -92,7 +91,6 @@ const BoardWrite = ({ boardName }) => {
         cafeFormData.append("content", post.content);
         cafeFormData.append("location", post.location);
         cafeFormData.append("tag", post.tags);
-
 
         // 삭제한 이미지가 있을 때
         if (post.deleteImage) {
@@ -170,7 +168,7 @@ const BoardWrite = ({ boardName }) => {
     // 작성모드
     if (!isEdit) {
       if (boardName === "cafeBoard") {
-           if (!post.title || !post.content || !post.location) {
+        if (!post.title || !post.content || !post.location) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
@@ -269,10 +267,10 @@ const BoardWrite = ({ boardName }) => {
           <PageName>
             {isEdit
               ? boardName === "cafeBoard"
-                ? "카페 수정하기"
+                ? "카페 후기 수정하기"
                 : "게시글 수정하기"
               : boardName === "cafeBoard"
-              ? "카페 작성하기"
+              ? "카페 공유하기"
               : "게시글 작성하기"}
           </PageName>
         </LeftInner>

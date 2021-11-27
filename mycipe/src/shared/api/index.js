@@ -2,10 +2,7 @@ import axios from "axios";
 import { getToken } from "../utils";
 
 const api = axios.create({
-  // baseURL: "http://jhhong0930.shop",
-  baseURL: "http://3.36.78.242:8080//",
-  // baseURL: "http://54.180.68.116:8080/",
-  // baseURL: "https://nybae.shop/",
+  baseURL: "https://nybae.shop/",
 });
 
 // interceptors
@@ -14,6 +11,7 @@ api.interceptors.request.use(
     config.headers["content-type"] = "application/json; charset=utf-8";
     config.headers["X-Requested-With"] = "XMLHttpRequest";
     config.headers["Accept"] = "*/*";
+    config.headers["X-Requested-With"] = "XMLHttpRequest";
     config.headers["authorization"] = await getToken();
     return config;
   },

@@ -146,6 +146,10 @@ const Container = styled.div`
   background: #fff;
   overflow-y: auto;
   overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Outter = styled.div`

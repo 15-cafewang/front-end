@@ -99,7 +99,7 @@ const Header = (props) => {
     //레시피 메인
     return (
       <HeaderInner flexBetween>
-        <PageName>카페</PageName>
+        <PageName>카페 후기</PageName>
         <SearchIcon
           onClick={() => {
             history.push("/searchmain");
@@ -120,7 +120,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>카페 보기</PageName>
+        <PageName>카페 후기 보기</PageName>
       </HeaderInner>
     );
   }
