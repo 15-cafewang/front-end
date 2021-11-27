@@ -1,14 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { history } from "../configureStore";
 
-import { cafeBoardApi } from "../../shared/api/cafeBoardApi";
+import {
+  getPostList,
+  addPost,
+  editPost,
+  deletePost,
+  getPostDetail,
+  getComment,
+  addComment,
+  editComment,
+  deleteComment,
+  likeToggle,
+  commentLikeToggle,
+} from "../../shared/api/cafeBoardApi";
 
 // 레시피 작성
 export const addCafePostDB = createAsyncThunk(
   "CafeBoard/addPost",
   async (data, { rejectWuthValue }) => {
     try {
-      const response = await cafeBoardApi.addPost(data);
+      const response = await addPost(data);
 
       return response.data.message;
     } catch (error) {
@@ -21,7 +33,7 @@ export const addCafePostDB = createAsyncThunk(
 export const getCafePostListDB = createAsyncThunk(
   "cafeBoard/getPostList",
   async (data) => {
-    const response = await cafeBoardApi.getPostList(data.page, data.sortBy);
+    const response = await getPostList(data.page, data.sortBy);
     history.push("/cafeboard");
     console.log(response);
     return response.data.data.content;
@@ -32,7 +44,7 @@ export const getCafePostListDB = createAsyncThunk(
 export const getInfinityScrollDB = createAsyncThunk(
   "cafeBoard/getInfinityScroll",
   async (data) => {
-    const response = await cafeBoardApi.getPostList(data.page, data.sortBy);
+    const response = await getPostList(data.page, data.sortBy);
     return response.data.data.content;
   }
 );
@@ -41,7 +53,7 @@ export const getInfinityScrollDB = createAsyncThunk(
 export const getCafePostDetailDB = createAsyncThunk(
   "cafeBoard/getPostDetail",
   async (data) => {
-    const response = await cafeBoardApi.getPostDetail(data);
+    const response = await getPostDetail(data);
     return response.data.data;
   }
 );
@@ -50,7 +62,7 @@ export const getCafePostDetailDB = createAsyncThunk(
 export const cafeLikeToggleDB = createAsyncThunk(
   "cafeBoard/likeToggle",
   async (data) => {
-    const response = await cafeBoardApi.likeToggle(data);
+    const response = await likeToggle(data);
     return response.data.data;
   }
 );
@@ -60,7 +72,7 @@ export const editCafePostDB = createAsyncThunk(
   "cafeBoard/editPost",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await cafeBoardApi.editPost(data.boardId, data.formData);
+      const response = await editPost(data.boardId, data.formData);
 
       return response.data.message;
     } catch (error) {
@@ -73,7 +85,7 @@ export const editCafePostDB = createAsyncThunk(
 export const deleteCafePostDB = createAsyncThunk(
   "cafeBoard/deletePost",
   async (data) => {
-    const response = await cafeBoardApi.deletePost(data);
+    const response = await deletePost(data);
     history.push("/cafeBoard");
     return response.data.data;
   }
@@ -83,7 +95,7 @@ export const deleteCafePostDB = createAsyncThunk(
 export const addCafeCommentDB = createAsyncThunk(
   "cafeBoard/addComment",
   async (data) => {
-    const response = await cafeBoardApi.addComment(data);
+    const response = await addComment(data);
     return response.data.data;
   }
 );
@@ -92,7 +104,7 @@ export const addCafeCommentDB = createAsyncThunk(
 export const getCafeCommentDB = createAsyncThunk(
   "cafeBoard/getComment",
   async (data) => {
-    const response = await cafeBoardApi.getComment(data.cafeId, data.page);
+    const response = await getComment(data.cafeId, data.page);
     return response.data.data.content;
   }
 );
@@ -101,10 +113,7 @@ export const getCafeCommentDB = createAsyncThunk(
 export const editCafeCommentDB = createAsyncThunk(
   "cafeBoard/editComment",
   async (data) => {
-    const response = await cafeBoardApi.editComment(
-      data.commentId,
-      data.content
-    );
+    const response = await editComment(data.commentId, data.content);
     return response.data.data;
   }
 );
@@ -113,7 +122,7 @@ export const editCafeCommentDB = createAsyncThunk(
 export const deleteCafeCommentDB = createAsyncThunk(
   "cafeBoard/deleteComment",
   async (commentId) => {
-    const response = await cafeBoardApi.deleteComment(commentId);
+    const response = await deleteComment(commentId);
     const data = {
       commentId: commentId,
       message: response.data.message,
@@ -126,7 +135,7 @@ export const deleteCafeCommentDB = createAsyncThunk(
 export const cafeCommentLikeDB = createAsyncThunk(
   "cafeBoardComment/likeToggle",
   async (data) => {
-    const response = await cafeBoardApi.commentLikeToggle(data);
+    const response = await commentLikeToggle(data);
     return response.data.data;
   }
 );
@@ -135,7 +144,7 @@ export const cafeCommentLikeDB = createAsyncThunk(
 export const getInfinityScrollCafeCommentDB = createAsyncThunk(
   "cafeBoardComment/getInfinityScroll",
   async (data) => {
-    const response = await cafeBoardApi.getComment(data.cafeId, data.page);
+    const response = await getComment(data.cafeId, data.page);
     return response.data.data.content;
   }
 );
