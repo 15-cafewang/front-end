@@ -67,18 +67,18 @@ const Outter = styled.div`
     `width : 100px; height : 100px; flex: 0 0 auto; margin : 0px 16px 26px 0px;`}
 
   // 메인 페이지, 마이(유저) 페이지, 검색 페이지
-    ${(props) => props.size === "medium" && `width : 112px; height : 112px;`}
+    ${(props) => props.size === "medium" && `width : 35%; height : 112px;`}
     
   // 게시판 메인 페이지
   ${(props) =>
     props.size === "medium2" &&
-    `width : 100px; height : 80px; border: 1px solid #767676;`}
+    `width : 35%; height : 80px; border: 1px solid #767676;`}
 
   // 디테일 페이지
-  ${(props) => props.size === "large" && `width : 320px; height : 320px;`}
+  ${(props) => props.size === "large" && `width : 100%; height : 320px;`}
   
   // 메인페이지 배너 이미지
-  ${(props) => props.size === "large2" && `width : 100%; height : 200px`}
+  ${(props) => props.size === "large2" && `width : 100%; height : 200px;`}
 
 
   ${(props) =>

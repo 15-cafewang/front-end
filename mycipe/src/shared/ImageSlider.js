@@ -20,10 +20,10 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     // 자동 넘김을 할 것인가. 한다면 스피드는?
-    // autoplay: true,
-    // autoplaySpeed: 2000,
+    autoplay: isBanner ? true : false,
+    autoplaySpeed: isBanner ? 2000 : false,
     // 화면에 올리면 슬라이더가 자동으로 넘어가지 않음
-    // pauseOnHover: true,
+    pauseOnHover: true,
   };
 
   if (isBanner) {
@@ -64,7 +64,7 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
           {imageList &&
             imageList.map((image) => {
               return (
-                <Container key={image} height="320px">
+                <Container key={image} height="315px">
                   <Image shape="rectangle" size="large" src={image} />
                 </Container>
               );
@@ -87,11 +87,12 @@ const Text = styled.p`
 const StyledSlider = styled(Slider)`
   .slick-slider {
     outline: none;
-    width: 320px;
+    /* width: 320px; */
+    width: 100%;
   }
 
   .slick-list {
-    width: 320px;
+    width: 100%;
     margin: 0 auto;
   }
 
@@ -126,7 +127,7 @@ const StyledBanner = styled(StyledSlider)`
 `;
 
 const Container = styled.div`
-  width: 320px;
+  width: 100%;
   height: ${(props) => props.height};
   position: relative;
 `;
