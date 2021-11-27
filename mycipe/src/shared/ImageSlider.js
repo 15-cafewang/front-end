@@ -21,7 +21,7 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
     slidesToScroll: 1,
     // 자동 넘김을 할 것인가. 한다면 스피드는?
     autoplay: isBanner ? true : false,
-    autoplaySpeed: isBanner ? 2000 : false,
+    autoplaySpeed: isBanner ? 2500 : false,
     // 화면에 올리면 슬라이더가 자동으로 넘어가지 않음
     pauseOnHover: true,
   };
@@ -45,7 +45,7 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
                   >
                     <ImageContent>
                       <Text>
-                        {banner.title}왕은 <br />{" "}
+                        {banner.title}왕은 <br />
                         <span>{banner.kinginfo?.nickname}</span>님
                         <br />
                         입니다!
@@ -82,7 +82,7 @@ const Text = styled.p`
   color: #fff;
   font-size: 20px;
   letter-spacing: 0.15px;
-  -webkit-text-stroke: 0.9px #191919;
+  -webkit-text-stroke: 0.5px #191919;
 `;
 
 const StyledSlider = styled(Slider)`
