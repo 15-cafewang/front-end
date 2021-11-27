@@ -83,14 +83,15 @@ CafeCard.defaultProps = {
 const CafeCardInner = styled.li`
   height: 112px;
   display: flex;
+
   margin: 12px 0px 0px;
-  width: 320px;
+  width: 100%;
 `;
 
 const CardContent = styled.div`
   background: #f8f8fa;
   border: 1px solid #767676;
-  width: 208px;
+  width: 65%;
 `;
 
 const TextInner = styled.div`
