@@ -340,8 +340,6 @@ const BannerMoreButton = styled.button`
 `;
 
 const CafeCardList = styled.ul`
-  // margin-bottom: ${(props) => props.marginBottom && "56px"};
-
   display: flex;
   justify-content: center;
   align-items: center;
