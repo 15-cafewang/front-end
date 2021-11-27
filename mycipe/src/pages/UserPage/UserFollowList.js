@@ -6,6 +6,7 @@ import { BigFilterButton } from "../../elements";
 import UserCard from "../../components/Card/UserCard";
 
 import ModalBackground from "../../shared/ModalBackground";
+import Blank from "../../shared/Blank";
 
 import { useParams } from "react-router-dom";
 
@@ -56,9 +57,13 @@ const UserPageFollowList = (props) => {
         </BigFilterButton>
 
         <UserCardList>
-          {userList.map((item, idx) => {
-            return <UserCard key={idx} {...item} />;
-          })}
+          {userList.length !== 0 ? (
+            userList.map((item, idx) => {
+              return <UserCard key={idx} {...item} />;
+            })
+          ) : (
+            <Blank message="팔로우 / 팔로잉한 유저가 없습니다." />
+          )}
         </UserCardList>
 
         {/* 추가 기능 사항 */}
