@@ -77,7 +77,7 @@ const HashTag = ({
     <>
       <HashTagBox
         onClick={_onClick}
-        width={fromSearch ? "calc(100% - 30px)" : "calc(100% - 70px)"}
+        width={fromSearch ? "calc(100% - 20px)" : "calc(100% - 30px)"}
       >
         {hashTagList.map((tag, idx) => {
           return (
@@ -120,7 +120,9 @@ const HashTagItem = styled.li`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
   padding: 8px 10px;
+
   border: ${(props) =>
     props.active ? `1px solid black;` : `1px solid #999999;`};
   font-size: 14px;

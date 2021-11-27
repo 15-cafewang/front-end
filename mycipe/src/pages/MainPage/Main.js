@@ -171,6 +171,7 @@ const Main = (props) => {
             <BannerDateButton
               color={category.weekly ? true : false}
               backgroundColor={category.weekly ? true : false}
+              border={category.weekly ? true : false}
               onClick={() => {
                 setCategory({ weekly: true, monthly: false });
                 dispatch(getPopularWeekListDB());
@@ -181,6 +182,7 @@ const Main = (props) => {
             <BannerDateButton
               color={category.monthly ? true : false}
               backgroundColor={category.monthly ? true : false}
+              border={category.monthly ? true : false}
               onClick={() => {
                 setCategory({ weekly: false, monthly: true });
                 dispatch(getPopularMonthListDB());
@@ -316,7 +318,7 @@ const BannerDateButton = styled.button`
 
   color: ${(props) => (props.color ? "#fff" : "#767676")};
   background-color: ${(props) => (props.backgroundColor ? "#191919" : "#fff")};
-  border: 1px solid #999999;
+  border: ${(props) => (props.border ? "1px solid #000" : "1px solid #999999")};
 `;
 
 const RankingButton = styled(BannerDateButton)`
