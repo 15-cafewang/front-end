@@ -433,9 +433,6 @@ const HashTagItem = styled.div`
   padding: 8px 10px;
   margin-right: 8px;
 
-  border: ${(props) =>
-    props.active ? `1px solid #7692E4` : `1px solid #191919`};
-
   font-size: 14px;
   color: ${(props) => (props.active ? `#ffffff` : `#767676`)};
   background-color: ${(props) => (props.active ? `#191919` : `#ffffff`)};
