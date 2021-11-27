@@ -20,17 +20,24 @@ export const signupDB = createAsyncThunk("user/signUp", async (data) => {
 });
 
 // 로그인
-export const loginDB = createAsyncThunk("user/logIn", async (data) => {
-  const response = await loginAPI(data);
-  const USER_TOKEN = response.data.data.token;
-  window.localStorage.setItem("USER_TOKEN", USER_TOKEN);
-  const userInfo = {
-    nickname: response.data.data.nickname,
-    profileImage: response.data.data.image,
-  };
-  history.replace("/main");
-  return userInfo;
-});
+export const loginDB = createAsyncThunk(
+  "user/logIn",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await loginAPI(data);
+      const USER_TOKEN = response.data.data.token;
+      window.localStorage.setItem("USER_TOKEN", USER_TOKEN);
+      const userInfo = {
+        nickname: response.data.data.nickname,
+        profileImage: response.data.data.image,
+        message: response.data.message,
+      };
+      return userInfo;
+    } catch (error) {
+      return rejectWithValue(error.data.message);
+    }
+  }
+);
 
 //카카오 로그인
 export const kakaoLogin = createAsyncThunk(
