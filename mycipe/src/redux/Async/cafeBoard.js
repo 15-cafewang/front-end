@@ -18,13 +18,13 @@ import {
 // 카페 후기 작성
 export const addCafePostDB = createAsyncThunk(
   "CafeBoard/addPost",
-  async (data, { rejectWuthValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await addPost(data);
 
       return response.data.message;
     } catch (error) {
-      return rejectWuthValue(error);
+      return rejectWithValue(error);
     }
   }
 );
@@ -35,7 +35,6 @@ export const getCafePostListDB = createAsyncThunk(
   async (data) => {
     const response = await getPostList(data.page, data.sortBy);
     history.push("/cafeboard");
-    console.log(response);
     return response.data.data.content;
   }
 );
