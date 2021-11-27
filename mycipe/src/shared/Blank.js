@@ -28,7 +28,7 @@ Blank.defaultProps = {
 };
 
 const BlankContent = styled.p`
-  margin-top: 140px;
+  margin-top: 152px;
   color: #767676;
 `;
 export default Blank;
