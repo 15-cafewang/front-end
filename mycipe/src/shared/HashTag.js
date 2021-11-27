@@ -21,6 +21,7 @@ const HashTag = ({
   setPost = () => {},
   isSearch = true,
   _onClick = () => {},
+  fromSearch = false,
 }) => {
   const [hashTagList, setHashTagList] = useState(
     // initialValue는 모두 false로 만들어준다.
@@ -74,7 +75,10 @@ const HashTag = ({
 
   return (
     <>
-      <HashTagBox onClick={_onClick}>
+      <HashTagBox
+        onClick={_onClick}
+        width={fromSearch ? "calc(100% - 30px)" : "calc(100% - 70px)"}
+      >
         {hashTagList.map((tag, idx) => {
           return (
             <HashTagItem
@@ -98,7 +102,7 @@ const HashTagBox = styled.ul`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 70px);
+  width: ${(props) => props.width};
   height: 8rem;
 
   & > :nth-child(5) {
