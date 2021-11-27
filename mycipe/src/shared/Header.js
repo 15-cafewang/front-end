@@ -77,7 +77,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>프로필편집</PageName>
+        <PageName margin="0px 0px 0px 12px">프로필편집</PageName>
       </HeaderInner>
     );
   }
@@ -120,7 +120,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>카페 후기 보기</PageName>
+        <PageName margin="0px 0px 0px 12px">카페 후기 보기</PageName>
       </HeaderInner>
     );
   }
@@ -150,7 +150,7 @@ const Header = (props) => {
             history.goBack();
           }}
         />
-        <PageName>게시글 보기</PageName>
+        <PageName margin="0px 0px 0px 12px">게시글 보기</PageName>
       </HeaderInner>
     );
   }

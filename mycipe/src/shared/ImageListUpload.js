@@ -145,7 +145,7 @@ const ImageListUpload = ({ isEdit, post, images, setPost }) => {
 };
 
 const Grid = styled.div`
-  width: 320px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;

@@ -336,21 +336,33 @@ const BoardWrite = ({ boardName }) => {
 
         {/* 레시피 작성시에만 렌더링 해줌 */}
         {boardName === "cafeBoard" && (
-          <>
+          <Grid>
             <HashTagTitle>해시태그 선택</HashTagTitle>
-            {isEdit && post && (
-              <HashTag tags={post.tags} post={post} setPost={setPost} />
-            )}
-            {!isEdit && <HashTag post={post} setPost={setPost} />}
-          </>
+            <Grid isflex>
+              {isEdit && post && (
+                <HashTag tags={post.tags} post={post} setPost={setPost} />
+              )}
+              {!isEdit && <HashTag post={post} setPost={setPost} />}
+            </Grid>
+          </Grid>
         )}
       </BoardWriteWrapper>
     </>
   );
 };
 
+const Grid = styled.div`
+  ${(props) =>
+    props.isflex &&
+    css`
+      display: flex;
+      justify-content: center;
+    `}
+`;
+
 const BoardWriteWrapper = styled.div`
-  padding: 20px 0px 20px;
+  padding: 20px 20px 20px;
+
   height: auto;
   min-height: calc(100% - 60px);
   position: relative;
@@ -396,7 +408,7 @@ const Button = styled.button`
 `;
 
 const TextInputBox = styled.textarea`
-  width: 320px;
+  width: 100%;
   height: ${(props) => props.height}px;
   padding: 14px 16px;
   border: 1px solid #999999;
@@ -416,8 +428,6 @@ const TextInputBox = styled.textarea`
 
 const HashTagTitle = styled.p`
   margin-bottom: 8px;
-  position: relative;
-  right: 31%;
   font-size: 14px;
   color: #999999;
 `;

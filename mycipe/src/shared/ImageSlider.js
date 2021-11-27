@@ -45,7 +45,8 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
                   >
                     <ImageContent>
                       <Text>
-                        {banner.title}왕은 <br /> {banner.kinginfo?.nickname}님
+                        {banner.title}왕은 <br />{" "}
+                        <span>{banner.kinginfo?.nickname}</span>님
                         <br />
                         입니다!
                       </Text>
