@@ -242,8 +242,8 @@ const BoardDetail = ({ boardName }) => {
           }}
         />
       )} */}
-      <Box width="320px" margin="0 auto" padding="0px 0px 12px 0px">
-        <Box start>
+      <Box padding="0px 0px 12px 0px">
+        <Box start width="100%">
           <Image
             shape="circle"
             size="small"
@@ -252,8 +252,8 @@ const BoardDetail = ({ boardName }) => {
               history.push(`/usermain/${postDetail.nickname}`);
             }}
           />
+          <Nickname>{postDetail && postDetail.nickname}</Nickname>
         </Box>
-        <Nickname>{postDetail && postDetail.nickname}</Nickname>
 
         {isPostUser && (
           <Box between width="60px">
@@ -286,33 +286,36 @@ const BoardDetail = ({ boardName }) => {
 
       <Box col>
         {/* 사용자가 올린 해시태그 목록 : 레시피 상세일 때만 렌더링 */}
-        {boardName === "cafeBoard" && (
-          <Box margin="12px 0px 0px 0px">
-            <HashTagBox>
-              {postDetail &&
-                postDetail.tags.map((tag) => {
-                  return <UserHashTagItem key={tag}>#{tag}</UserHashTagItem>;
-                })}
-            </HashTagBox>
-          </Box>
+        {boardName === "cafeBoard" ? (
+          <>
+            <Box width="100%">
+              <HashTagBox>
+                {postDetail &&
+                  postDetail.tags.map((tag) => {
+                    return <UserHashTagItem key={tag}>#{tag}</UserHashTagItem>;
+                  })}
+              </HashTagBox>
+            </Box>
+            <TextBox height="48" borderNone margin="0px 0px 0px 0px">
+              {postDetail && postDetail.title}
+            </TextBox>
+          </>
+        ) : (
+          <TextBox height="48" borderNone margin="15px 0px 0px 0px">
+            {postDetail && postDetail.title}
+          </TextBox>
         )}
-
-        <TextBox width="320" height="48" margin="14px 0px 0px 0px" borderNone>
-          {postDetail && postDetail.title}
-        </TextBox>
 
         {/* 위치 정보 : 카페 상세페이지 일때만 렌더링 */}
         {boardName === "cafeBoard" && (
-          <TextBox width="320" height="48" borderNone>
+          <TextBox height="48" borderNone>
             {postDetail && postDetail.location}
           </TextBox>
         )}
 
-        <TextBox width="320" height="240">
-          {postDetail && postDetail.content}
-        </TextBox>
+        <TextBox height="240">{postDetail && postDetail.content}</TextBox>
 
-        <Box between width="320px" margin="12px 0px 56px 0px">
+        <Box between width="100%" margin="12px 0px 64px 0px">
           {likeStatus ? (
             <LikeBox
               onClick={() => {
@@ -349,9 +352,10 @@ const BoardDetail = ({ boardName }) => {
           </Date>
         </Box>
 
-        <Box width="320px" margin="0px 0px 20px 0px" between>
+        <Box margin="0px 0px 20px 0px" between width="100%">
           <TextInputBox
-            width="262"
+            width="275px"
+            margin="0px 8px 0px 0px"
             ref={inputRef}
             onChange={(e) => setContent(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && addComment()}
@@ -361,6 +365,7 @@ const BoardDetail = ({ boardName }) => {
           />
           <Button onClick={addComment}>등록</Button>
         </Box>
+
         {commentList && (
           <>
             <CommentBox>
@@ -398,7 +403,7 @@ const LikeBox = styled.button`
 const Box = styled.div`
   display: flex;
   align-items: center;
-
+  /* width: 100%; */
   margin: ${(props) => props.margin};
   ${(props) => props.height && `height : ${props.height};`}
   ${(props) => props.padding && `padding : ${props.padding};`}
@@ -422,6 +427,7 @@ const EditBtn = styled.button`
 `;
 
 const HashTagBox = styled.div`
+  margin: 8px 0px 8px 0px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -432,7 +438,7 @@ const HashTagBox = styled.div`
 const UserHashTagItem = styled.div`
   height: 36px;
   padding: 8px 10px;
-  margin: 0px 8px 8px 0px;
+  margin: 4px 8px 4px 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -443,8 +449,10 @@ const UserHashTagItem = styled.div`
 `;
 
 const TextBox = styled.pre`
-  width: ${(props) => props.width}px;
+  /* width: ${(props) => props.width}; */
+  width: 100%;
   height: ${(props) => props.height}px;
+  margin: ${(props) => props.margin};
   padding: 15px 16px;
   font-size: 14px;
   color: #191919;
@@ -461,9 +469,11 @@ const TextBox = styled.pre`
 `;
 
 const TextInputBox = styled.textarea`
-  width: ${(props) => props.width}px;
+  width: ${(props) => props.width};
+  /* width: 100%; */
   height: ${(props) => props.height}px;
   margin-bottom: ${(props) => props.marginBtm}px;
+  margin: ${(props) => props.margin};
   padding: 15px 16px;
   background: #f8f8fa;
   font-size: 14px;
@@ -505,6 +515,8 @@ const Button = styled.div`
   cursor: pointer;
 `;
 
-const CommentBox = styled.div``;
+const CommentBox = styled.div`
+  width: 100%;
+`;
 
 export default BoardDetail;

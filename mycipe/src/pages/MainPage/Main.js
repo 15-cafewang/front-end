@@ -75,8 +75,8 @@ const Main = (props) => {
 
   // 배너에 보여줄 정보
   const bannerList = [
-    { img: writeKing, title: "게시물", kinginfo: kingList.getPostKing },
     { img: likeKing, title: "좋아요", kinginfo: kingList.getLikeKing },
+    { img: writeKing, title: "게시물", kinginfo: kingList.getPostKing },
     { img: followerKing, title: "팔로워", kinginfo: kingList.getFollowKing },
     { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
   ];
@@ -120,7 +120,7 @@ const Main = (props) => {
                 setRankCategory(0);
               }}
             >
-              게시물왕
+              좋아요왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 1 ? true : false}
@@ -128,7 +128,7 @@ const Main = (props) => {
                 setRankCategory(1);
               }}
             >
-              좋아요왕
+              게시물왕
             </RankingButton>
             <RankingButton
               isActive={rankCategory === 2 ? true : false}
@@ -328,6 +328,7 @@ const RankingButton = styled(BannerDateButton)`
     css`
       color: #fff;
       background-color: #191919;
+      border: 1px solid #000;
     `};
 `;
 
@@ -338,6 +339,7 @@ const BannerMoreButton = styled.button`
 
 const CafeCardList = styled.ul`
   // margin-bottom: ${(props) => props.marginBottom && "56px"};
+
   display: flex;
   justify-content: center;
   align-items: center;

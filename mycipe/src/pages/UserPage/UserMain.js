@@ -88,7 +88,7 @@ const UserMain = (props) => {
   } else {
     if (filterButtons.cafe) {
       currentList = pageInfo.postList.userLikedcafes;
-      message = "좋아요한 카폐가 없습니다.";
+      message = "좋아요한 카페가 없습니다.";
     } else {
       currentList = pageInfo.postList.userLikedBoards;
       message = "좋아요한 글이 없습니다.";
@@ -347,7 +347,7 @@ const UserMain = (props) => {
         {/* 게시물 보여주기 */}
         {filterButtons.cafe ? (
           <>
-            <CardList>
+            <CardList margin="-12px 20px 0px">
               {isFetching && <SpinnerImg src={Spinner} />}
               {currentList.length !== 0
                 ? currentList.map((item, idx) => {
@@ -373,7 +373,7 @@ const UserMain = (props) => {
           </>
         ) : (
           <>
-            <CardList>
+            <CardList margin="0px 20px ">
               {isFetching && <SpinnerImg src={Spinner} />}
               {currentList.length !== 0
                 ? currentList.map((item, idx) => {
@@ -454,6 +454,12 @@ const CardList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  margin: ${(props) => props.margin};
+
+  /* & :nth-child(1) {
+    margin-top: 0px;
+  } */
 `;
 
 const Text = styled.span`

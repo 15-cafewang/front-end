@@ -156,7 +156,8 @@ const BoardMainContainer = styled.div`
 `;
 
 const CardList = styled.div`
-  margin-top: px;
+  /* margin-top: px; */
+  width: 100%;
 `;
 
 const SpinnerImg = styled.img``;

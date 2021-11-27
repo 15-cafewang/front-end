@@ -109,8 +109,8 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
   };
   return (
     <>
-      <Box>
-        <Box width="320">
+      <Box width="100%">
+        <Box>
           <CommentItem onClick={_onClick}>
             <Image
               shape="circle"
@@ -122,7 +122,13 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
             />
 
             <Box verCenter col margin="0px 0px 0px 12px">
-              <Box width="270" margin="0px 0px 4px 0px" height="20" verCenter>
+              <Box
+                width="100%"
+                margin="0px 0px 4px 0px"
+                height="20"
+                verCenter
+                between
+              >
                 <Nickname>{comment.nickname}</Nickname>
                 <Date> {TimeCounting(comment.regDate, timeOption)}</Date>
               </Box>
@@ -139,7 +145,7 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
                 <CommmentContent>{comment.content}</CommmentContent>
               )}
 
-              <Box width="270" between>
+              <Box width="100%" between>
                 {likeStatus ? (
                   <LikeBox
                     onClick={() => {
@@ -205,7 +211,7 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
 const Box = styled.div`
   display: flex;
   margin: ${(props) => props.margin};
-  ${(props) => props.width && `width : ${props.width}px;`}
+  ${(props) => props.width && `width : ${props.width};`}
   ${(props) => props.height && `height : ${props.height}px;`}
   ${(props) =>
     props.col && `flex-direction : column; justify-content : flex-end;`}
@@ -215,14 +221,14 @@ const Box = styled.div`
 `;
 
 const CommentItem = styled.div`
-  width: 320px;
+  width: 100%;
   margin: 0px 0px 20px 0px;
   display: flex;
   justify-content: space-between;
 `;
 
 const CommmentContent = styled.pre`
-  width: 270px;
+  width: 100%;
   margin: 0px 0px 8px 0px;
   font-size: 12px;
   color: #191919;
@@ -233,7 +239,7 @@ const CommmentContent = styled.pre`
 
 const Nickname = styled.div`
   margin: 0px 8px 0px 0px;
-  width: 230px;
+  width: 260px;
   flex: auto; // flex : 1 1 auto;
   font-size: 14px;
   color: #191919;
