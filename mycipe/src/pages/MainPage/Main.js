@@ -311,9 +311,7 @@ const BannerDateButton = styled.button`
   width: 60px;
   height: 24px;
 
-  // margin-left: 5px;
   font-size: 14px;
-  // padding: 0px 12px;
 
   color: ${(props) => (props.color ? "#fff" : "#767676")};
   background-color: ${(props) => (props.backgroundColor ? "#191919" : "#fff")};
