@@ -72,7 +72,7 @@ const Outter = styled.div`
   // 게시판 메인 페이지
   ${(props) =>
     props.size === "medium2" &&
-    `width : 35%; height : 80px; border: 1px solid #767676;`}
+    `width : 100px; height : 80px; border: 1px solid #767676;`}
 
   // 디테일 페이지
   ${(props) => props.size === "large" && `width : 100%; height : 320px;`}
