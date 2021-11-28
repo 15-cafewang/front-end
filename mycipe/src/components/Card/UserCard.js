@@ -30,7 +30,15 @@ const UserCard = ({
             />
 
             <GridRight margin="0px 0px 0px 20px">
-              <Text size="14px">{nickname}</Text>
+              <Text
+                cursor
+                size="14px"
+                onClick={() => {
+                  history.push(`/usermain/${nickname}`);
+                }}
+              >
+                {nickname}
+              </Text>
               <GridRight>
                 <Text size="14px" color="#999">
                   {category} 수
@@ -89,6 +97,7 @@ const Text = styled.span`
   color: ${(props) => (props.color ? props.color : "#000")};
   font-size: ${(props) => (props.size ? props.size : "")};
   margin: ${(props) => (props.margin ? props.margin : "")};
+  ${(props) => props.cursor && `cursor : pointer`};
 `;
 
 const Line = styled.div`
