@@ -240,12 +240,6 @@ const userPageSlice = createSlice({
     },
 
     [userFollowDB.fulfilled]: (state, action) => {
-      const userInfo = action.payload.userInfo;
-
-      if (!state.userList.some((user) => user.nick === userInfo.nickname)) {
-        state.userList.push(userInfo);
-      }
-
       state.isFetching = false;
       state.userInfo.followingCount++;
       state.userInfo.followStatus = true;
@@ -261,14 +255,6 @@ const userPageSlice = createSlice({
     },
 
     [userUnFollowDB.fulfilled]: (state, action) => {
-      const nickname = action.payload.nickname;
-
-      const newUserList = state.userList.filter(
-        (user) => user.nickname !== nickname
-      );
-
-      state.userList = newUserList;
-
       state.isFetching = false;
       state.userInfo.followingCount--;
 

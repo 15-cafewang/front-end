@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
+import _ from "lodash";
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 
@@ -48,6 +49,7 @@ const UserMain = (props) => {
   //스피너
   const isFetching = useSelector((state) => state.userPage.isFetching);
 
+  console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
   const loginUserInfo = useSelector((state) => state.user);
   const pageInfo = useSelector((state) => state.userPage);
@@ -159,7 +161,17 @@ const UserMain = (props) => {
     }
   };
 
+  // 게시물 불러오기 무한스크롤
   useInterSectionObserver(fetchMoreData, pageRef, target.current, currentList);
+
+  //팔로우 & 언팔로우
+  const followDebounce = _.debounce(() => {
+    dispatch(userFollowDB(userInfo.nickname));
+  }, 200);
+
+  const unFollowDebounce = _.debounce(() => {
+    dispatch(userUnFollowDB(userInfo.nickname));
+  }, 200);
 
   return (
     <>
@@ -201,25 +213,9 @@ const UserMain = (props) => {
                 프로필편집
               </ProfileEditButton>
             ) : userInfo.followStatus ? (
-              <FollowBtn
-                onClick={() => {
-                  dispatch(userUnFollowDB(userInfo.nickname));
-                }}
-              >
-                팔로우취소
-              </FollowBtn>
+              <FollowBtn onClick={unFollowDebounce}>팔로우취소</FollowBtn>
             ) : (
-              <FollowBtn
-                active
-                onClick={() => {
-                  dispatch(
-                    userFollowDB({
-                      nickname: userInfo.nickname,
-                      image: userInfo.image,
-                    })
-                  );
-                }}
-              >
+              <FollowBtn active onClick={followDebounce}>
                 팔로우하기
               </FollowBtn>
             )}
@@ -447,7 +443,7 @@ const FollowBtn = styled(ProfileEditButton)`
     css`
       color: #ffffff;
       background: #191919;
-      border: none;
+      border: 1px solid #fff;
     `}
 `;
 
