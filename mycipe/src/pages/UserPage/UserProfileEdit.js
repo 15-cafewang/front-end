@@ -90,6 +90,10 @@ const UserpageProfileEdit = () => {
   //중복확인
   const confirmNickname = async () => {
     try {
+      if (inputRef.current.value === LoginUserInfo.nickname) {
+        alertPopUp("이미 동일한 닉네임입니다.", 700);
+        return;
+      }
       const response = await confirmNicknameAPI(inputRef.current.value);
       setIsConfirm(true);
       alertPopUp(response.data.message, 700);
