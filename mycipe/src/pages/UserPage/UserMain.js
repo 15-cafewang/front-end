@@ -145,6 +145,7 @@ const UserMain = (props) => {
             setIsLoading(false);
           });
       }
+
       //유저가 좋아요한 게시글 보여줄때
       else {
         dispatch(
@@ -167,11 +168,11 @@ const UserMain = (props) => {
   //팔로우 & 언팔로우
   const followDebounce = _.debounce(() => {
     dispatch(userFollowDB(userInfo.nickname));
-  }, 200);
+  }, 150);
 
   const unFollowDebounce = _.debounce(() => {
     dispatch(userUnFollowDB(userInfo.nickname));
-  }, 200);
+  }, 150);
 
   return (
     <>
