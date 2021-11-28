@@ -81,8 +81,6 @@ const Main = (props) => {
     { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
   ];
 
-  console.log(bannerList);
-
   return (
     <>
       <MainInner>
@@ -111,7 +109,7 @@ const Main = (props) => {
         <RankingInner>
           <Banner>
             <BannerTitle>누가 왕이 될 상인가</BannerTitle>
-            {/* <Date>마감 D-7</Date> */}
+            <Date>마감 D-7</Date>
           </Banner>
 
           <RankingButtonInner>
@@ -253,7 +251,9 @@ const Main = (props) => {
             </ContactText>
           </ContactBox>
           <ContactBox>
-            <ContactText>ⓒ 2021. Project ecafe All rights reserved</ContactText>
+            <ContactText>
+              ⓒ 2021. Project cafewang All rights reserved
+            </ContactText>
           </ContactBox>
         </ContactInner>
       </Contact>

@@ -150,7 +150,6 @@ const searchSlice = createSlice({
     },
 
     [getSearchCafeDB.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.isFetching = false;
 
       state.isList = true;
@@ -162,7 +161,6 @@ const searchSlice = createSlice({
 
     [getSearchCafeDB.rejected]: (state, action) => {
       state.isFetching = false;
-      console.log(action.error);
     },
 
     //게시판검색
@@ -171,7 +169,6 @@ const searchSlice = createSlice({
     },
 
     [getSearchBoardDB.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.isFetching = false;
 
       state.hashTag = "";
@@ -184,7 +181,6 @@ const searchSlice = createSlice({
 
     [getSearchBoardDB.rejected]: (state, action) => {
       state.isFetching = false;
-      console.log(action.error);
     },
   },
 });

@@ -2,7 +2,6 @@ import api from "./index";
 
 // 회원가입
 const signupAPI = (data) => {
-  console.log(data);
   return api.post("/user/signup", {
     email: data.email,
     nickname: data.nickname,
@@ -26,7 +25,6 @@ const loginCheckAPI = () => {
 
 // 이메일 중복체크
 const emailCheckAPI = (email) => {
-  console.log(email);
   return api.post("/user/signup/email", { email });
 };
 

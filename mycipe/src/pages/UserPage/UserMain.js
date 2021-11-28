@@ -48,7 +48,6 @@ const UserMain = (props) => {
   //스피너
   const isFetching = useSelector((state) => state.userPage.isFetching);
 
-  console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
   const loginUserInfo = useSelector((state) => state.user);
   const pageInfo = useSelector((state) => state.userPage);

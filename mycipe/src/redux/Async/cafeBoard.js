@@ -35,7 +35,6 @@ export const getCafePostListDB = createAsyncThunk(
   async (data) => {
     const response = await getPostList(data.page, data.sortBy);
     history.push("/cafeboard");
-    console.log(response);
     return response.data.data.content;
   }
 );
