@@ -27,6 +27,9 @@ const UserpageProfileEdit = () => {
     previewURL: LoginUserInfo.profileImage,
   });
 
+  console.log(file.file);
+  if (file.file) console.log(123);
+
   // alert
   const [popUp, setPopUp] = useState(null);
   const [message, setMessage] = useState("");
@@ -138,14 +141,32 @@ const UserpageProfileEdit = () => {
         )}
       </Grid>
 
-      <Button
-        color="#fff"
-        _onClick={() => {
-          updateInfo();
-        }}
-      >
-        변경하기
-      </Button>
+      {file.file || isConfirm ? (
+        <Button
+          color="#fff"
+          _onClick={() => {
+            updateInfo();
+          }}
+        >
+          변경하기
+        </Button>
+      ) : (
+        <Button
+          color="#fff"
+          bg="#ededed"
+          _onClick={() => {
+            const newNickname = inputRef.current.value;
+            if (newNickname !== LoginUserInfo.nickname) {
+              // 닉네임을 변경했지만, 중복확인 버튼을 누르지 않았을떄.
+              alertPopUp("중복확인을 해주세요.", 700);
+            } else {
+              alertPopUp("변경된 사항이 없습니다.", 700);
+            }
+          }}
+        >
+          변경하기
+        </Button>
+      )}
     </ProfileInfoInner>
   );
 };

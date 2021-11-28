@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
+import _ from "lodash";
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 
@@ -48,6 +49,7 @@ const UserMain = (props) => {
   //스피너
   const isFetching = useSelector((state) => state.userPage.isFetching);
 
+  console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
   const loginUserInfo = useSelector((state) => state.user);
   const pageInfo = useSelector((state) => state.userPage);
@@ -143,6 +145,7 @@ const UserMain = (props) => {
             setIsLoading(false);
           });
       }
+
       //유저가 좋아요한 게시글 보여줄때
       else {
         dispatch(
@@ -159,7 +162,17 @@ const UserMain = (props) => {
     }
   };
 
+  // 게시물 불러오기 무한스크롤
   useInterSectionObserver(fetchMoreData, pageRef, target.current, currentList);
+
+  //팔로우 & 언팔로우
+  const followDebounce = _.debounce(() => {
+    dispatch(userFollowDB(userInfo.nickname));
+  }, 150);
+
+  const unFollowDebounce = _.debounce(() => {
+    dispatch(userUnFollowDB(userInfo.nickname));
+  }, 150);
 
   return (
     <>
@@ -201,24 +214,9 @@ const UserMain = (props) => {
                 프로필편집
               </ProfileEditButton>
             ) : userInfo.followStatus ? (
-              <FollowBtn
-                onClick={() => {
-                  dispatch(userUnFollowDB(userInfo.nickname));
-                }}
-              >
-                팔로우취소
-              </FollowBtn>
+              <FollowBtn onClick={unFollowDebounce}>팔로우취소</FollowBtn>
             ) : (
-              <FollowBtn
-                onClick={() => {
-                  dispatch(
-                    userFollowDB({
-                      nickname: userInfo.nickname,
-                      image: userInfo.image,
-                    })
-                  );
-                }}
-              >
+              <FollowBtn active onClick={followDebounce}>
                 팔로우하기
               </FollowBtn>
             )}
@@ -438,6 +436,18 @@ const ProfileEditButton = styled.button`
   color: #767676;
 `;
 
+const FollowBtn = styled(ProfileEditButton)`
+  font-weight: 500;
+
+  ${(props) =>
+    props.active &&
+    css`
+      color: #ffffff;
+      background: #191919;
+      border: 1px solid #fff;
+    `}
+`;
+
 const CardList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -451,12 +461,6 @@ const Text = styled.span`
 
 const Count = styled.span`
   margin-right: 4px;
-`;
-
-const FollowBtn = styled(ProfileEditButton)`
-  background: #191919;
-  color: #ffffff;
-  font-weight: 500;
 `;
 
 const SpinnerImg = styled.img`

@@ -167,8 +167,7 @@ const WebVer = styled.div`
   width: 100vw;
   height: 100%;
   z-index: -100;
-  background: #fcb2c3;
-  opacity: 0.18;
+  background: #f4f4f4;
 
   @media only screen and (min-width: 1025px) {
     opacity: 1;

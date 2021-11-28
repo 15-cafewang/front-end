@@ -93,6 +93,8 @@ const CafeCardInner = styled.li`
 
   margin: 12px 0px 0px;
   width: 100%;
+
+  cursor: pointer;
 `;
 
 const CardContent = styled.div`

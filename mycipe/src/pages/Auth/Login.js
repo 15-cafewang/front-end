@@ -215,7 +215,7 @@ const KakaoBtn = styled.img`
   }
 `;
 const SignupBox = styled.div`
-  margin: 268px 40px 60px;
+  margin: 150px 40px 60px;
   text-align: center;
   display: flex;
 `;
