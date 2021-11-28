@@ -270,7 +270,9 @@ const BoardDetail = ({ boardName }) => {
               history.push(`/usermain/${postDetail.nickname}`);
             }}
           />
-          <Nickname>{postDetail && postDetail.nickname}</Nickname>
+          <Nickname  onClick={() => {
+              history.push(`/usermain/${postDetail.nickname}`);
+            }}>{postDetail && postDetail.nickname}</Nickname>
         </Box>
 
         {isPostUser && (
@@ -444,6 +446,7 @@ const Nickname = styled.div`
   margin-left: 8px;
   width: 214px;
   font-size: 14px;
+  cursor:pointer;
 `;
 
 const EditBtn = styled.button`
