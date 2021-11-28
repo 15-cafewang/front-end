@@ -65,6 +65,45 @@ const SearchMain = () => {
     };
   }, [isSearch]);
 
+  // 검색 실행
+  const searchKeyword = () => {
+    const keyword = inputRef.current.value;
+
+    if (!keyword) {
+      setPopUp(true);
+      setTimeout(() => {
+        setPopUp(false);
+      }, 700);
+    } else {
+      if (whereFrom === "cafe") {
+        dispatch(
+          getSearchCafeDB({
+            keyword,
+            withTag: false,
+            sortBy: "regDate",
+          })
+        );
+      } else {
+        dispatch(
+          getSearchBoardDB({
+            keyword,
+            sortBy: "regDate",
+          })
+        );
+      }
+
+      dispatch(setSorting("byDate"));
+      setIsSearch(!isSearch);
+    }
+  };
+
+  //엔터누를시 검색
+  const onEnter = (e) => {
+    if (e.key === "Enter") {
+      searchKeyword();
+    }
+  };
+
   //처음접속시 인풋창 포커스
   useEffect(() => {
     inputRef.current.focus();
@@ -161,6 +200,7 @@ const SearchMain = () => {
 
           <SearchInput
             ref={inputRef}
+            onKeyPress={onEnter}
             placeholder="검색어를 입력해 주세요."
             onClick={() => {
               // 검색된 게시물이없으면 인풋창 클릭해도 모달이 닫히지않음.
@@ -170,40 +210,7 @@ const SearchMain = () => {
             }}
           />
 
-          <SearchButton
-            onClick={() => {
-              const keyword = inputRef.current.value;
-
-              if (!keyword) {
-                setPopUp(true);
-                setTimeout(() => {
-                  setPopUp(false);
-                }, 700);
-              } else {
-                if (whereFrom === "cafe") {
-                  dispatch(
-                    getSearchCafeDB({
-                      keyword,
-                      withTag: false,
-                      sortBy: "regDate",
-                    })
-                  );
-                } else {
-                  dispatch(
-                    getSearchBoardDB({
-                      keyword,
-                      sortBy: "regDate",
-                    })
-                  );
-                }
-
-                dispatch(setSorting("byDate"));
-                setIsSearch(!isSearch);
-              }
-            }}
-          >
-            검색
-          </SearchButton>
+          <SearchButton onClick={searchKeyword}>검색</SearchButton>
 
           {/* 검색모달 */}
           {isActive ? (
