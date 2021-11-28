@@ -34,35 +34,43 @@ const Header = (props) => {
       return (
         <HeaderInner flexBetween>
           <LeftInner>
-            <BackIcon
-              onClick={() => {
-                history.goBack();
-              }}
-            />
+            <IconInner height="16px">
+              <BackIcon
+                onClick={() => {
+                  history.goBack();
+                }}
+              />
+            </IconInner>
             <PageName margin="0px 0px 0px 12px">마이페이지</PageName>
           </LeftInner>
 
-          <SettingIcon
-            onClick={() => {
-              history.push("/setting");
-            }}
-          />
+          <IconInner height="24px">
+            <SettingIcon
+              onClick={() => {
+                history.push("/setting");
+              }}
+            />
+          </IconInner>
         </HeaderInner>
       );
     } else {
       return (
         <HeaderInner flexBetween>
-          <BackIcon
-            onClick={() => {
-              history.goBack();
-            }}
-          />
+          <IconInner height="16px">
+            <BackIcon
+              onClick={() => {
+                history.goBack();
+              }}
+            />
+          </IconInner>
 
-          <SettingIcon
-            onClick={() => {
-              history.push("/setting");
-            }}
-          />
+          <IconInner height="24px">
+            <SettingIcon
+              onClick={() => {
+                history.push("/setting");
+              }}
+            />
+          </IconInner>
         </HeaderInner>
       );
     }
@@ -72,11 +80,13 @@ const Header = (props) => {
     // 유저 프로필 수정페이지
     return (
       <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
+        <IconInner height="16px">
+          <BackIcon
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </IconInner>
         <PageName margin="0px 0px 0px 12px">프로필편집</PageName>
       </HeaderInner>
     );
@@ -86,11 +96,13 @@ const Header = (props) => {
     // 유저 팔로우 & 팔로잉 페이지
     return (
       <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
+        <IconInner height="16px">
+          <BackIcon
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </IconInner>
       </HeaderInner>
     );
   }
@@ -100,13 +112,15 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>카페 후기</PageName>
-        <SearchIcon
-          onClick={() => {
-            history.push("/searchmain");
-            dispatch(resetList());
-            dispatch(whereFrom("cafe"));
-          }}
-        />
+        <IconInner height="24px">
+          <SearchIcon
+            onClick={() => {
+              history.push("/searchmain");
+              dispatch(resetList());
+              dispatch(whereFrom("cafe"));
+            }}
+          />
+        </IconInner>
       </HeaderInner>
     );
   }
@@ -115,11 +129,13 @@ const Header = (props) => {
     //카페 후기 상세
     return (
       <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
+        <IconInner height="16px">
+          <BackIcon
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </IconInner>
         <PageName margin="0px 0px 0px 12px">카페 후기 보기</PageName>
       </HeaderInner>
     );
@@ -130,13 +146,15 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>게시판</PageName>
-        <SearchIcon
-          onClick={() => {
-            history.push("/Searchmain");
-            dispatch(resetList());
-            dispatch(whereFrom("Board"));
-          }}
-        />
+        <IconInner height="24px">
+          <SearchIcon
+            onClick={() => {
+              history.push("/Searchmain");
+              dispatch(resetList());
+              dispatch(whereFrom("Board"));
+            }}
+          />
+        </IconInner>
       </HeaderInner>
     );
   }
@@ -145,11 +163,13 @@ const Header = (props) => {
     //자유게시판 상세
     return (
       <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
+        <IconInner height="16px">
+          <BackIcon
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </IconInner>
         <PageName margin="0px 0px 0px 12px">게시글 보기</PageName>
       </HeaderInner>
     );
@@ -159,11 +179,13 @@ const Header = (props) => {
     //설정페이지
     return (
       <HeaderInner>
-        <BackIcon
-          onClick={() => {
-            history.goBack();
-          }}
-        />
+        <IconInner height="16px">
+          <BackIcon
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </IconInner>
         <PageName margin="0px 0px 0px 12px">설정페이지</PageName>
       </HeaderInner>
     );
@@ -198,6 +220,10 @@ const PageName = styled.span`
 const LeftInner = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const IconInner = styled.button`
+  height: ${(props) => props.height};
 `;
 
 export default Header;

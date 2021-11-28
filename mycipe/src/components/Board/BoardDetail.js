@@ -275,7 +275,7 @@ const BoardDetail = ({ boardName }) => {
             }}>{postDetail && postDetail.nickname}</Nickname>
         </Box>
 
-        {isPostUser && (
+        {(isPostUser || userNickname === "admin") && (
           <Box between width="60px">
             <EditBtn
               onClick={() => {
@@ -335,7 +335,7 @@ const BoardDetail = ({ boardName }) => {
 
         <TextBox height="240">{postDetail && postDetail.content}</TextBox>
 
-        <Box between width="100%" margin="12px 0px 64px 0px">
+        <Box between width="100%" margin="12px 0px 56px 0px">
           {likeStatus ? (
             <LikeBox
               onClick={() => {
