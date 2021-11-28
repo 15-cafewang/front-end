@@ -75,10 +75,30 @@ const Main = (props) => {
 
   // 배너에 보여줄 정보
   const bannerList = [
-    { img: likeKing, title: "좋아요", kinginfo: kingList.getLikeKing },
-    { img: writeKing, title: "게시물", kinginfo: kingList.getPostKing },
-    { img: followerKing, title: "팔로워", kinginfo: kingList.getFollowKing },
-    { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
+    {
+      img: likeKing,
+      title: "좋아요",
+      kinginfo: kingList.getLikeKing,
+      fontColor: "#ffffff",
+    },
+    {
+      img: writeKing,
+      title: "게시물",
+      kinginfo: kingList.getPostKing,
+      fontColor: "#767676",
+    },
+    {
+      img: followerKing,
+      title: "팔로워",
+      kinginfo: kingList.getFollowKing,
+      fontColor: "#767676",
+    },
+    {
+      img: commentKing,
+      title: "댓글",
+      kinginfo: kingList.getCommentKing,
+      fontColor: "#ffffff",
+    },
   ];
 
   return (
