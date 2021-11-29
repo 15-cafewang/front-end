@@ -11,6 +11,7 @@ import PopUp from "../../shared/PopUp";
 import { nickCheck as validNickname } from "../../shared/common";
 import { Button, Text } from "../../elements/";
 
+import Header from "../../shared/Header";
 import ImageUpload from "../../shared/ImageUpload";
 
 import { updateUserInfoDB } from "../../redux/Async/user";
@@ -104,6 +105,7 @@ const UserpageProfileEdit = () => {
 
   return (
     <ProfileInfoInner>
+      <Header />
       {isActive && <ModalBackground />}
       {/* alert 창 */}
       <PopUp
