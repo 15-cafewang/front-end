@@ -276,7 +276,6 @@ const userPageSlice = createSlice({
       state.userList = action.payload;
     },
     [userFollowListDB.rejected]: (state, action) => {
-      // console.log("팔로우리스트 불러오기 에러발생", action.error);
     },
 
     //유저 팔로잉리스트 불러오기
@@ -290,7 +289,6 @@ const userPageSlice = createSlice({
       state.userList = action.payload;
     },
     [userFollowingListDB.rejected]: (state, action) => {
-      // console.log("팔로잉리스트 불러오기 에러발생", action.error);
     },
   },
 });
