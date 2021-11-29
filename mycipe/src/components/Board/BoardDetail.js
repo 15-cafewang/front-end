@@ -71,7 +71,7 @@ const BoardDetail = ({ boardName }) => {
     postDetail && postDetail.likeCount
   );
 
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState("");
 
   const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -175,7 +175,7 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
-    if (content === null) {
+    if (!content) {
       alertPopUp(" 내용을 작성해 주세요!", 1200);
       return;
     }
@@ -407,6 +407,7 @@ const BoardDetail = ({ boardName }) => {
               <div ref={target}>{isLoading && "loading..."}</div>
             </>
           )}
+
         </Box>
       </BoardDetailContainer>
       <BottomNav />
