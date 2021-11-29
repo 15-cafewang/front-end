@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
@@ -26,6 +26,8 @@ import { ReactComponent as CoachMarkIcon } from "../../assets/icon/coachmark.svg
 
 import { mainApi } from "../../shared/api/mainApi";
 
+// 날짜 라이브러리
+import dayjs from "dayjs";
 const Main = (props) => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
@@ -40,6 +42,13 @@ const Main = (props) => {
 
   const [rankList, setRankList] = useState([]);
   const [kingList, setKingList] = useState([]);
+
+  // 일 - 토 순으로 디데이 카운트 배열
+  const dDayArr = [1, 7, 6, 5, 4, 3, 2];
+
+  // get("d")를 하면 현재 시간의 요일을 숫자로 받아온다. 일-토 : 0-6
+  const [date, setDate] = useState(dayjs().get("d"));
+  const [dDay, setDday] = useState(0);
 
   async function fetchData() {
     try {
@@ -68,6 +77,10 @@ const Main = (props) => {
     dispatch(getRecommendCafeDB());
 
     fetchData();
+
+    // 페이지 렌더링 될 때마다 현재 시간으로 요일을 업데이트.
+    setDate(dayjs().get("d"));
+    setDday(dDayArr[date]);
   }, []);
 
   // 0 : 좋아요왕 , 1 : 게시글왕 , 2: 팔로우왕 , 3:댓글왕
@@ -109,7 +122,7 @@ const Main = (props) => {
         <RankingInner>
           <Banner>
             <BannerTitle>누가 왕이 될 상인가</BannerTitle>
-            <Date>마감 D-7</Date>
+            <Date>마감 D-{dDay}</Date>
           </Banner>
 
           <RankingButtonInner>
