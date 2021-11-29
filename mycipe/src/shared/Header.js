@@ -100,6 +100,14 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>카페 후기</PageName>
+        <SearchBox
+          placeholder="카페후기 검색하기"
+          onClick={() => {
+            history.push("/searchmain");
+            dispatch(resetList());
+            dispatch(whereFrom("cafe"));
+          }}
+        />
         <SearchIcon
           onClick={() => {
             history.push("/searchmain");
@@ -130,6 +138,14 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>게시판</PageName>
+        <SearchBox
+          placeholder="게시물 검색하기"
+          onClick={() => {
+            history.push("/searchmain");
+            dispatch(resetList());
+            dispatch(whereFrom("cafe"));
+          }}
+        />
         <SearchIcon
           onClick={() => {
             history.push("/Searchmain");
@@ -169,6 +185,18 @@ const Header = (props) => {
     );
   } else return null;
 };
+
+const SearchBox = styled.input`
+  background-color: #f8f8fa;
+  width: 200px;
+  height: 28px;
+  padding: 14px;
+
+  &::placeholder {
+    color: #999999;
+    font-size: 14px;
+  }
+`;
 
 const HeaderInner = styled.div`
   width: 100%;
