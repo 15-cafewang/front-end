@@ -93,6 +93,12 @@ const BoardDetail = ({ boardName }) => {
     ref.current.style.height = ref.current.scrollHeight + "px";
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
+
   // 게시물 상세 불러오기
   useEffect(() => {
     if (boardName === "cafeBoard") {
@@ -329,7 +335,9 @@ const BoardDetail = ({ boardName }) => {
             </TextBox>
           )}
 
-          <TextBox minHeight="240px">{postDetail && postDetail.content}</TextBox>
+          <TextBox minHeight="240px">
+            {postDetail && postDetail.content}
+          </TextBox>
 
           <Box between width="100%" margin="12px 0px 56px 0px">
             {likeStatus ? (
@@ -407,7 +415,6 @@ const BoardDetail = ({ boardName }) => {
               <div ref={target}>{isLoading && "loading..."}</div>
             </>
           )}
-
         </Box>
       </BoardDetailContainer>
       <BottomNav />
