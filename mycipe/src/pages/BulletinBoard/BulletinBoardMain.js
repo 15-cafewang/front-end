@@ -9,6 +9,9 @@ import { SmallFilterButton, ButtonInner } from "../../elements";
 import BoardCard from "../../components/Card/BoardCard";
 import ModalBackground from "../../shared/ModalBackground";
 
+import Header from "../../shared/Header";
+import BottomNav from "../../shared/BottomNav";
+
 // async
 import {
   getBulletinPostListDB,
@@ -35,6 +38,10 @@ const BulletinBoardMain = () => {
   const pageRef = useRef(1);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+
     dispatch(
       getBulletinPostListDB({
         page: 1,
@@ -65,6 +72,7 @@ const BulletinBoardMain = () => {
 
   return (
     <BoardMainContainer>
+      <Header />
       {isActive && <ModalBackground />}
       {/* 정렬 박스 */}
       <ButtonInner height="32px" small margin="12px 0px 0px">
@@ -81,7 +89,6 @@ const BulletinBoardMain = () => {
           최신순
         </SmallFilterButton>
         <SmallFilterButton
-          padding="0px"
           active={currentSorting.sortedByLikes}
           _onClick={() => {
             setCurrentSorting({
@@ -134,6 +141,7 @@ const BulletinBoardMain = () => {
           <div ref={target}>{isLoading && <SpinnerImg src={Spinner} />}</div>
         </>
       )}
+      <BottomNav />
     </BoardMainContainer>
   );
 };
