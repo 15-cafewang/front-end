@@ -9,6 +9,9 @@ import { SmallFilterButton, ButtonInner } from "../../elements";
 import CafeCard from "../../components/Card/CafeCard";
 import ModalBackground from "../../shared/ModalBackground";
 
+import Header from "../../shared/Header";
+import BottomNav from "../../shared/BottomNav";
+
 // async
 import {
   getCafePostListDB,
@@ -36,6 +39,10 @@ const CafeBoardMain = () => {
 
   // 처음 페이지 진입했을 때 page=1인 data을 받아온다.
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+
     dispatch(
       getCafePostListDB({
         page: 1,
@@ -67,6 +74,7 @@ const CafeBoardMain = () => {
 
   return (
     <>
+      <Header />
       <BoardMainContainer>
         {isActive && <ModalBackground />}
         {/* 정렬 박스 */}
@@ -84,7 +92,6 @@ const CafeBoardMain = () => {
             최신순
           </SmallFilterButton>
           <SmallFilterButton
-            padding="0px"
             active={currentSorting.sortedByLikes}
             _onClick={() => {
               setCurrentSorting({
@@ -142,6 +149,7 @@ const CafeBoardMain = () => {
           </>
         )}
       </BoardMainContainer>
+      <BottomNav />
     </>
   );
 };
