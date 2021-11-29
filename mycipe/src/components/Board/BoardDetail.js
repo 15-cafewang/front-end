@@ -475,7 +475,6 @@ const UserHashTagItem = styled.div`
 `;
 
 const TextBox = styled.pre`
-  /* width: ${(props) => props.width}; */
   width: 100%;
   height: ${(props) => props.height}px;
   margin: ${(props) => props.margin};
@@ -498,7 +497,6 @@ const TextBox = styled.pre`
 
 const TextInputBox = styled.textarea`
   width: ${(props) => props.width};
-  /* width: 100%; */
   height: ${(props) => props.height}px;
   margin-bottom: ${(props) => props.marginBtm}px;
   margin: ${(props) => props.margin};
