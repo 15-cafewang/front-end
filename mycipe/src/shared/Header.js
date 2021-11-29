@@ -35,6 +35,7 @@ const Header = (props) => {
         <HeaderInner flexBetween>
           <LeftInner>
             <BackIcon
+              style={{ cursor: "pointer" }}
               onClick={() => {
                 history.goBack();
               }}
@@ -43,6 +44,7 @@ const Header = (props) => {
           </LeftInner>
 
           <SettingIcon
+            style={{ cursor: "pointer" }}
             onClick={() => {
               history.push("/setting");
             }}
@@ -53,6 +55,7 @@ const Header = (props) => {
       return (
         <HeaderInner flexBetween>
           <BackIcon
+            style={{ cursor: "pointer" }}
             onClick={() => {
               history.goBack();
             }}
@@ -73,6 +76,7 @@ const Header = (props) => {
     return (
       <HeaderInner>
         <BackIcon
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.goBack();
           }}
@@ -87,6 +91,7 @@ const Header = (props) => {
     return (
       <HeaderInner>
         <BackIcon
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.goBack();
           }}
@@ -109,6 +114,7 @@ const Header = (props) => {
           }}
         />
         <SearchIcon
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.push("/searchmain");
             dispatch(resetList());
@@ -124,6 +130,7 @@ const Header = (props) => {
     return (
       <HeaderInner>
         <BackIcon
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.goBack();
           }}
@@ -147,6 +154,7 @@ const Header = (props) => {
           }}
         />
         <SearchIcon
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.push("/Searchmain");
             dispatch(resetList());
@@ -162,6 +170,7 @@ const Header = (props) => {
     return (
       <HeaderInner>
         <BackIcon
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.goBack();
           }}
@@ -176,6 +185,7 @@ const Header = (props) => {
     return (
       <HeaderInner>
         <BackIcon
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.goBack();
           }}
@@ -186,24 +196,12 @@ const Header = (props) => {
   } else return null;
 };
 
-const SearchBox = styled.input`
-  background-color: #f8f8fa;
-  width: 200px;
-  height: 28px;
-  padding: 14px;
-
-  &::placeholder {
-    color: #999999;
-    font-size: 14px;
-  }
-`;
-
 const HeaderInner = styled.div`
-  width: 100%;
+  width: 375px;
   height: 48px;
   padding: 0px 20px;
-  z-index: 1;
-  position: sticky;
+  z-index: 10;
+  position: fixed;
   top: 0;
 
   background: #fff;
@@ -226,6 +224,18 @@ const PageName = styled.span`
 const LeftInner = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const SearchBox = styled.input`
+  background-color: #f8f8fa;
+  width: 200px;
+  height: 28px;
+  padding: 14px;
+
+  &::placeholder {
+    color: #999999;
+    font-size: 14px;
+  }
 `;
 
 export default Header;
