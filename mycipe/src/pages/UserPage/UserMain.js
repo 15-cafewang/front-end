@@ -182,9 +182,9 @@ const UserMain = (props) => {
 
   return (
     <>
+      {isActive && <ModalBackground />}
       <UserMainInner>
         <Header />
-        {isActive && <ModalBackground />}
 
         <UserProfileInner>
           <UserProfileImage src={userInfo.image} />
