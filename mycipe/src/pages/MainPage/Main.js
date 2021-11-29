@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../redux/configureStore";
@@ -14,6 +14,9 @@ import CafeCard from "../../components/Card/CafeCard";
 import ModalBackground from "../../shared/ModalBackground";
 import UserCard from "../../components/Card/UserCard";
 import ImageSlider from "../../shared/ImageSlider";
+
+import Header from "../../shared/Header";
+import BottomNav from "../../shared/BottomNav";
 
 import likeKing from "../../assets/image/banner/likeKing.svg";
 import commentKing from "../../assets/image/banner/commentKing.svg";
@@ -60,7 +63,6 @@ const Main = (props) => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
     });
 
     dispatch(getPopularWeekListDB());
@@ -103,6 +105,7 @@ const Main = (props) => {
 
   return (
     <>
+      <Header />
       <MainInner>
         <ImageSlider bannerList={bannerList} isBanner />
         {isActive && <ModalBackground />}
@@ -290,6 +293,7 @@ const Main = (props) => {
           <SmallFeedBackCafeIcon />
         </ButtonSmall>
       </FloatButton>
+      <BottomNav />
     </>
   );
 };

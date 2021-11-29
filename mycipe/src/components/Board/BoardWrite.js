@@ -257,6 +257,7 @@ const BoardWrite = ({ boardName }) => {
       <HeaderInner flexBetween>
         <LeftInner>
           <BackIcon
+            style={{ cursor: "pointer" }}
             onClick={() => {
               history.goBack();
             }}
@@ -369,11 +370,11 @@ const BoardWriteWrapper = styled.div`
 `;
 
 const HeaderInner = styled.div`
-  width: 100%;
+  width: 375px;
   height: 48px;
   z-index: 1;
   padding: 0px 20px;
-  position: sticky;
+  position: fixed;
   top: 0;
 
   background: #fff;
