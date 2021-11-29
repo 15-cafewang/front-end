@@ -314,24 +314,24 @@ const BoardDetail = ({ boardName }) => {
                   })}
               </HashTagBox>
             </Box>
-            <TextBox height="48" borderNone margin="0px 0px 0px 0px">
+            <TextBox minHeight="48px" borderNone margin="0px 0px 0px 0px">
               {postDetail && postDetail.title}
             </TextBox>
           </>
         ) : (
-          <TextBox height="48" borderNone margin="15px 0px 0px 0px">
+          <TextBox minHeight="48px" borderNone margin="15px 0px 0px 0px">
             {postDetail && postDetail.title}
           </TextBox>
         )}
 
         {/* 위치 정보 : 카페 상세페이지 일때만 렌더링 */}
         {boardName === "cafeBoard" && (
-          <TextBox height="48" borderNone>
+          <TextBox minHeight="48px" borderNone>
             {postDetail && postDetail.location}
           </TextBox>
         )}
 
-        <TextBox height="240">{postDetail && postDetail.content}</TextBox>
+        <TextBox minHeight="240px">{postDetail && postDetail.content}</TextBox>
 
         <Box between width="100%" margin="12px 0px 56px 0px">
           {likeStatus ? (
@@ -474,9 +474,9 @@ const UserHashTagItem = styled.div`
 `;
 
 const TextBox = styled.pre`
-  /* width: ${(props) => props.width}; */
   width: 100%;
-  height: ${(props) => props.height}px;
+  min-height: ${(props) => props.minHeight};
+  height: auto;
   margin: ${(props) => props.margin};
   padding: 15px 16px;
   font-size: 14px;
@@ -487,8 +487,6 @@ const TextBox = styled.pre`
 
   white-space: pre-wrap;
   word-break: break-all;
-
-  overflow: auto;
 
   &::placeholder {
     color: #999999;
