@@ -131,8 +131,8 @@ function App() {
 
 const Container = styled.div`
   width: 375px;
-  height: 100vh;
-  min-height: 600px;
+
+  min-height: 100vh;
   padding-top: 48px;
   padding-bottom: 60px;
   position: relative;

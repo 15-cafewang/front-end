@@ -58,8 +58,8 @@ const BulletinBoardMain = () => {
       getInfinityScrollDB({
         page: page,
         sortBy: currentSorting.sortedByDate
-          ? "sortBy=regDate&sortByLike=false"
-          : "sortBy=regDate&sortByLike=true",
+          ? "sortBy=regDate"
+          : "sortBy=likeCount",
       })
     )
       .unwrap()
