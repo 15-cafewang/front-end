@@ -137,9 +137,7 @@ const BottomNavInner = styled.div`
   width: 375px;
   position: fixed;
   bottom: 0;
-  z-index: 4;
-  left: 60%;
-  transform: translate(-60%, 0);
+  z-index: 10;
 `;
 
 const PlusModal = styled.div`

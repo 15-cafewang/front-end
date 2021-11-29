@@ -12,6 +12,9 @@ import { ReactComponent as LikeIcon } from "../../assets/icon/LikeIcon/like.svg"
 import Image from "../../elements/Image";
 
 // components
+import Header from "../../shared/Header";
+import BottomNav from "../../shared/BottomNav";
+
 // import Comment from "../../shared/Comment";
 import BoardComment from "./BoardComment";
 import ImageSlider from "../../shared/ImageSlider";
@@ -68,7 +71,7 @@ const BoardDetail = ({ boardName }) => {
     postDetail && postDetail.likeCount
   );
 
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState("");
 
   const target = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,6 +92,12 @@ const BoardDetail = ({ boardName }) => {
     ref.current.style.height = height;
     ref.current.style.height = ref.current.scrollHeight + "px";
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
 
   // 게시물 상세 불러오기
   useEffect(() => {
@@ -172,7 +181,7 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
-    if (content === null) {
+    if (!content) {
       alertPopUp(" 내용을 작성해 주세요!", 1200);
       return;
     }
@@ -211,208 +220,205 @@ const BoardDetail = ({ boardName }) => {
     }, delay);
   };
   return (
-    <BoardDetailContainer>
-      {isActive && <ModalBackground />}
-      {/* alert 창 */}
+    <>
+      <Header />
+      <BoardDetailContainer>
+        {isActive && <ModalBackground />}
+        {/* alert 창 */}
 
-      {buttonName === "수정" ? (
-        <PopUp
-          popUp={popUp}
-          setPopUp={setPopUp}
-          message="게시물을 수정하시겠습니까?"
-          isButton={true}
-          buttonName={buttonName}
-          _onClick={() => {
-            boardName === "cafeBoard"
-              ? history.push(`/cafeboard/write/${cafeId}`)
-              : history.push(`/bulletinboard/write/${boardId}`);
-          }}
-        />
-      ) : buttonName === "삭제" ? (
-        <PopUp
-          popUp={popUp}
-          setPopUp={setPopUp}
-          message="게시물을 삭제하시겠습니까?"
-          isButton={true}
-          buttonName={buttonName}
-          _onClick={() => {
-            boardName === "cafeBoard"
-              ? dispatch(deleteCafePostDB(cafeId))
-              : dispatch(deleteBulletinPostDB(boardId));
-          }}
-        />
-      ) : (
-        <PopUp popUp={popUp} setPopUp={setPopUp} message={message} />
-      )}
-
-      {/* 
-      {buttonName === "삭제" && (
-        <PopUp
-          popUp={popUp}
-          setPopUp={setPopUp}
-          message="게시물을 삭제하시겠습니까?"
-          isButton={true}
-          buttonName={buttonName}
-          _onClick={() => {
-            boardName === "cafeBoard"
-              ? dispatch(deletecafePostDB(cafeId))
-              : dispatch(deleteBulletinPostDB(boardId));
-          }}
-        />
-      )} */}
-      <Box padding="0px 0px 12px 0px">
-        <Box start width="100%">
-          <Image
-            shape="circle"
-            size="small"
-            src={postDetail && postDetail.profile}
+        {buttonName === "수정" ? (
+          <PopUp
+            popUp={popUp}
+            setPopUp={setPopUp}
+            message="게시물을 수정하시겠습니까?"
+            isButton={true}
+            buttonName={buttonName}
             _onClick={() => {
-              history.push(`/usermain/${postDetail.nickname}`);
+              boardName === "cafeBoard"
+                ? history.push(`/cafeboard/write/${cafeId}`)
+                : history.push(`/bulletinboard/write/${boardId}`);
             }}
           />
-          <Nickname  onClick={() => {
-              history.push(`/usermain/${postDetail.nickname}`);
-            }}>{postDetail && postDetail.nickname}</Nickname>
+        ) : buttonName === "삭제" ? (
+          <PopUp
+            popUp={popUp}
+            setPopUp={setPopUp}
+            message="게시물을 삭제하시겠습니까?"
+            isButton={true}
+            buttonName={buttonName}
+            _onClick={() => {
+              boardName === "cafeBoard"
+                ? dispatch(deleteCafePostDB(cafeId))
+                : dispatch(deleteBulletinPostDB(boardId));
+            }}
+          />
+        ) : (
+          <PopUp popUp={popUp} setPopUp={setPopUp} message={message} />
+        )}
+
+        <Box padding="0px 0px 12px 0px">
+          <Box start width="100%">
+            <Image
+              shape="circle"
+              size="small"
+              src={postDetail && postDetail.profile}
+              _onClick={() => {
+                history.push(`/usermain/${postDetail.nickname}`);
+              }}
+            />
+            <Nickname
+              onClick={() => {
+                history.push(`/usermain/${postDetail.nickname}`);
+              }}
+            >
+              {postDetail && postDetail.nickname}
+            </Nickname>
+          </Box>
+
+          {(isPostUser || userNickname === "admin") && (
+            <Box between width="60px">
+              <EditBtn
+                onClick={() => {
+                  setPopUp(true);
+                  setButtonName("수정");
+                }}
+              >
+                수정
+              </EditBtn>
+
+              <EditBtn
+                onClick={() => {
+                  setPopUp(true);
+                  setButtonName("삭제");
+                }}
+              >
+                삭제
+              </EditBtn>
+            </Box>
+          )}
         </Box>
 
-        {(isPostUser || userNickname === "admin") && (
-          <Box between width="60px">
-            <EditBtn
-              onClick={() => {
-                setPopUp(true);
-                setButtonName("수정");
-              }}
-            >
-              수정
-            </EditBtn>
-
-            <EditBtn
-              onClick={() => {
-                setPopUp(true);
-                setButtonName("삭제");
-              }}
-            >
-              삭제
-            </EditBtn>
-          </Box>
+        {postDetail && postDetail.images.length > 0 ? (
+          <ImageSlider imageList={postDetail && postDetail.images} />
+        ) : (
+          ""
         )}
-      </Box>
 
-      {postDetail && postDetail.images.length > 0 ? (
-        <ImageSlider imageList={postDetail && postDetail.images} />
-      ) : (
-        ""
-      )}
-
-      <Box col>
-        {/* 사용자가 올린 해시태그 목록 : 카페 후기 상세일 때만 렌더링 */}
-        {boardName === "cafeBoard" ? (
-          <>
-            <Box width="100%">
-              <HashTagBox>
-                {postDetail &&
-                  postDetail.tags.map((tag) => {
-                    return <UserHashTagItem key={tag}>#{tag}</UserHashTagItem>;
-                  })}
-              </HashTagBox>
-            </Box>
-            <TextBox height="48" borderNone margin="0px 0px 0px 0px">
+        <Box col>
+          {/* 사용자가 올린 해시태그 목록 : 카페 후기 상세일 때만 렌더링 */}
+          {boardName === "cafeBoard" ? (
+            <>
+              <Box width="100%">
+                <HashTagBox>
+                  {postDetail &&
+                    postDetail.tags.map((tag) => {
+                      return (
+                        <UserHashTagItem key={tag}>#{tag}</UserHashTagItem>
+                      );
+                    })}
+                </HashTagBox>
+              </Box>
+              <TextBox minHeight="48px" borderNone margin="0px 0px 0px 0px">
+                {postDetail && postDetail.title}
+              </TextBox>
+            </>
+          ) : (
+            <TextBox minHeight="48px" borderNone margin="15px 0px 0px 0px">
               {postDetail && postDetail.title}
             </TextBox>
-          </>
-        ) : (
-          <TextBox height="48" borderNone margin="15px 0px 0px 0px">
-            {postDetail && postDetail.title}
-          </TextBox>
-        )}
-
-        {/* 위치 정보 : 카페 상세페이지 일때만 렌더링 */}
-        {boardName === "cafeBoard" && (
-          <TextBox height="48" borderNone>
-            {postDetail && postDetail.location}
-          </TextBox>
-        )}
-
-        <TextBox height="240">{postDetail && postDetail.content}</TextBox>
-
-        <Box between width="100%" margin="12px 0px 56px 0px">
-          {likeStatus ? (
-            <LikeBox
-              onClick={() => {
-                handleLikeToggle();
-                setLikeCount(likeCount - 1);
-              }}
-            >
-              <div
-                style={{
-                  height: "24px",
-                }}
-              >
-                <ActiveLikeIcon />
-              </div>
-              <LikeCount>{likeCount}개</LikeCount>
-            </LikeBox>
-          ) : (
-            <LikeBox
-              onClick={() => {
-                handleLikeToggle();
-                setLikeCount(likeCount + 1);
-              }}
-            >
-              <div
-                style={{
-                  height: "24px",
-                }}
-              >
-                <LikeIcon />
-              </div>
-              <LikeCount>{likeCount}개</LikeCount>
-            </LikeBox>
           )}
 
-          <Date>
-            {postDetail && postDetail.regDate
-              ? postDetail.regDate
-                  .split("T")[0]
-                  .replace("-", ". ")
-                  .replace("-", ". ")
-              : ""}
-          </Date>
-        </Box>
+          {/* 위치 정보 : 카페 상세페이지 일때만 렌더링 */}
+          {boardName === "cafeBoard" && (
+            <TextBox minHeight="48px" borderNone>
+              {postDetail && postDetail.location}
+            </TextBox>
+          )}
 
-        <Box margin="0px 0px 20px 0px" between width="100%">
-          <TextInputBox
-            width="275px"
-            margin="0px 8px 0px 0px"
-            ref={inputRef}
-            onChange={(e) => setContent(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && addComment()}
-            value={content}
-            placeholder="댓글을 입력해 주세요."
-            onInput={handleResizeInputHeight("50px", inputRef)}
-          />
-          <Button onClick={addComment}>등록</Button>
-        </Box>
+          <TextBox minHeight="240px">
+            {postDetail && postDetail.content}
+          </TextBox>
 
-        {commentList && (
-          <>
-            <CommentBox>
-              {commentList &&
-                commentList.map((comment) => {
-                  return (
-                    <BoardComment
-                      key={comment.commentId}
-                      comment={comment}
-                      boardName={boardName}
-                    />
-                  );
-                })}
-            </CommentBox>
-            <div ref={target}>{isLoading && "loading..."}</div>
-          </>
-        )}
-      </Box>
-    </BoardDetailContainer>
+          <Box between width="100%" margin="12px 0px 56px 0px">
+            {likeStatus ? (
+              <LikeBox
+                onClick={() => {
+                  handleLikeToggle();
+                  setLikeCount(likeCount - 1);
+                }}
+              >
+                <div
+                  style={{
+                    height: "24px",
+                  }}
+                >
+                  <ActiveLikeIcon />
+                </div>
+                <LikeCount>{likeCount}개</LikeCount>
+              </LikeBox>
+            ) : (
+              <LikeBox
+                onClick={() => {
+                  handleLikeToggle();
+                  setLikeCount(likeCount + 1);
+                }}
+              >
+                <div
+                  style={{
+                    height: "24px",
+                  }}
+                >
+                  <LikeIcon />
+                </div>
+                <LikeCount>{likeCount}개</LikeCount>
+              </LikeBox>
+            )}
+
+            <Date>
+              {postDetail && postDetail.regDate
+                ? postDetail.regDate
+                    .split("T")[0]
+                    .replace("-", ". ")
+                    .replace("-", ". ")
+                : ""}
+            </Date>
+          </Box>
+
+          <Box margin="0px 0px 20px 0px" between width="100%">
+            <TextInputBox
+              width="275px"
+              margin="0px 8px 0px 0px"
+              ref={inputRef}
+              onChange={(e) => setContent(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && addComment()}
+              value={content}
+              placeholder="댓글을 입력해 주세요."
+              onInput={handleResizeInputHeight("50px", inputRef)}
+            />
+            <Button onClick={addComment}>등록</Button>
+          </Box>
+
+          {commentList && (
+            <>
+              <CommentBox>
+                {commentList &&
+                  commentList.map((comment) => {
+                    return (
+                      <BoardComment
+                        key={comment.commentId}
+                        comment={comment}
+                        boardName={boardName}
+                      />
+                    );
+                  })}
+              </CommentBox>
+              <div ref={target}>{isLoading && "loading..."}</div>
+            </>
+          )}
+        </Box>
+      </BoardDetailContainer>
+      <BottomNav />
+    </>
   );
 };
 
@@ -446,7 +452,7 @@ const Nickname = styled.div`
   margin-left: 8px;
   width: 214px;
   font-size: 14px;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const EditBtn = styled.button`
@@ -477,9 +483,9 @@ const UserHashTagItem = styled.div`
 `;
 
 const TextBox = styled.pre`
-  /* width: ${(props) => props.width}; */
   width: 100%;
-  height: ${(props) => props.height}px;
+  min-height: ${(props) => props.minHeight};
+  height: auto;
   margin: ${(props) => props.margin};
   padding: 15px 16px;
   font-size: 14px;
@@ -491,8 +497,6 @@ const TextBox = styled.pre`
   white-space: pre-wrap;
   word-break: break-all;
 
-  overflow: auto;
-
   &::placeholder {
     color: #999999;
   }
@@ -500,7 +504,6 @@ const TextBox = styled.pre`
 
 const TextInputBox = styled.textarea`
   width: ${(props) => props.width};
-  /* width: 100%; */
   height: ${(props) => props.height}px;
   margin-bottom: ${(props) => props.marginBtm}px;
   margin: ${(props) => props.margin};

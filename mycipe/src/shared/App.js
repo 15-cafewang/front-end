@@ -6,8 +6,7 @@ import { history } from "../redux/configureStore";
 import { Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import Header from "./Header";
-import BottomNav from "./BottomNav";
+
 import PrivateRoute from "../auth/PrivateRoute";
 import PublickRoute from "../auth/PublickRoute";
 
@@ -16,6 +15,7 @@ import { ReactComponent as FeedBackIcon } from "../assets/icon/feedBackIcon.svg"
 import { ReactComponent as FeedBackCafeIcon } from "../assets/icon/feedBackCafeIcon.svg";
 
 // pages
+import Tutorial from "../pages/Tutorial/Tutorial";
 import Intro from "../pages/Auth/Intro";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
@@ -66,100 +66,86 @@ function App() {
         </ButtonCafe>
       </FloatButton>
       <WebVer />
-
-      <Outter>
-        <Container>
-          <Header />
-          <Switch>
-            <PublickRoute path="/" exact component={Intro} />
-            <PublickRoute path="/login" exact component={Login} />
-            <PublickRoute path="/signup" exact component={Signup} />
-            <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
-            <PrivateRoute path="/main" exact component={Main} />
-            <PrivateRoute path="/cafeboard" exact component={CafeBoardMain} />
-            <PrivateRoute
-              path="/cafeboard/write"
-              exact
-              component={CafeBoardWrite}
-            />
-            <PrivateRoute
-              path="/cafeboard/write/:id"
-              exact
-              component={CafeBoardWrite}
-            />
-            <PrivateRoute
-              path="/cafeboard/detail/:cafeid"
-              exact
-              component={CafeBoardDetail}
-            />
-            <PrivateRoute
-              path="/bulletinboard"
-              exact
-              component={BulletinBoardMain}
-            />
-            <PrivateRoute
-              path="/bulletinboard/write"
-              exact
-              component={BulletinBoardWrite}
-            />
-            <PrivateRoute
-              path="/bulletinboard/detail/:boardid"
-              exact
-              component={BulletinBoardDetail}
-            />
-            <PrivateRoute
-              path="/bulletinboard/write/:id"
-              exact
-              component={BulletinBoardWrite}
-            />
-            <PrivateRoute
-              path="/usermain/:nickname"
-              exact
-              component={UserMain}
-            />
-            <PrivateRoute
-              path="/userpageprofileedit"
-              exact
-              component={UserpageProfileEdit}
-            />
-            <PrivateRoute
-              path="/userpagefollowlist/:nickname"
-              exact
-              component={UserPageFollowList}
-            />
-            <PrivateRoute path="/searchmain" component={SearchMain} />
-            <PrivateRoute path="/setting" component={Setting} />
-            <NotFound />
-          </Switch>
-          <BottomNav />
-        </Container>
-      </Outter>
+          
+      <Container>
+        <Switch>
+          <PublickRoute path="/" exact component={Tutorial}/>
+            <PublickRoute path="/intro" exact component={Intro} />
+          <PublickRoute path="/login" exact component={Login} />
+          <PublickRoute path="/signup" exact component={Signup} />
+          <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
+          <PrivateRoute path="/main" exact component={Main} />
+          <PrivateRoute path="/cafeboard" exact component={CafeBoardMain} />
+          <PrivateRoute
+            path="/cafeboard/write"
+            exact
+            component={CafeBoardWrite}
+          />
+          <PrivateRoute
+            path="/cafeboard/write/:id"
+            exact
+            component={CafeBoardWrite}
+          />
+          <PrivateRoute
+            path="/cafeboard/detail/:cafeid"
+            exact
+            component={CafeBoardDetail}
+          />
+          <PrivateRoute
+            path="/bulletinboard"
+            exact
+            component={BulletinBoardMain}
+          />
+          <PrivateRoute
+            path="/bulletinboard/write"
+            exact
+            component={BulletinBoardWrite}
+          />
+          <PrivateRoute
+            path="/bulletinboard/detail/:boardid"
+            exact
+            component={BulletinBoardDetail}
+          />
+          <PrivateRoute
+            path="/bulletinboard/write/:id"
+            exact
+            component={BulletinBoardWrite}
+          />
+          <PrivateRoute path="/usermain/:nickname" exact component={UserMain} />
+          <PrivateRoute
+            path="/userpageprofileedit"
+            exact
+            component={UserpageProfileEdit}
+          />
+          <PrivateRoute
+            path="/userpagefollowlist/:nickname"
+            exact
+            component={UserPageFollowList}
+          />
+          <PrivateRoute path="/searchmain" component={SearchMain} />
+          <PrivateRoute path="/setting" component={Setting} />
+          <NotFound />
+        </Switch>
+      </Container>
     </ConnectedRouter>
   );
 }
 
 const Container = styled.div`
   width: 375px;
-  height: 100%;
+
+  min-height: 100vh;
+  padding-top: 48px;
   padding-bottom: 60px;
   position: relative;
   background: #fff;
   overflow-y: auto;
   overflow-x: hidden;
+  margin: auto;
 
   ::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const Outter = styled.div`
-  position: fixed;
-  left: 60%;
-  transform: translate(-60%, 0);
-  height: 100vh;
-
-  background-size: cover;
-  background-repeat: no-repeat;
 `;
 
 const WebVer = styled.div`

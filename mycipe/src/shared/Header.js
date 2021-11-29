@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 
 import { ReactComponent as BackIcon } from "../assets/icon/HeaderIcon/back.svg";
@@ -112,6 +112,14 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>카페 후기</PageName>
+        <SearchBox
+          placeholder="카페후기 검색하기"
+          onClick={() => {
+            history.push("/searchmain");
+            dispatch(resetList());
+            dispatch(whereFrom("cafe"));
+          }}
+        />
         <IconInner height="24px">
           <SearchIcon
             onClick={() => {
@@ -146,6 +154,14 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>게시판</PageName>
+        <SearchBox
+          placeholder="게시물 검색하기"
+          onClick={() => {
+            history.push("/searchmain");
+            dispatch(resetList());
+            dispatch(whereFrom("cafe"));
+          }}
+        />
         <IconInner height="24px">
           <SearchIcon
             onClick={() => {
@@ -193,11 +209,11 @@ const Header = (props) => {
 };
 
 const HeaderInner = styled.div`
-  width: 100%;
+  width: 375px;
   height: 48px;
   padding: 0px 20px;
-  z-index: 1;
-  position: sticky;
+  z-index: 10;
+  position: fixed;
   top: 0;
 
   background: #fff;
@@ -220,6 +236,18 @@ const PageName = styled.span`
 const LeftInner = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const SearchBox = styled.input`
+  background-color: #f8f8fa;
+  width: 200px;
+  height: 28px;
+  padding: 14px;
+
+  &::placeholder {
+    color: #999999;
+    font-size: 14px;
+  }
 `;
 
 const IconInner = styled.button`
