@@ -421,7 +421,7 @@ const SearchListInner = styled.div`
 
 const SelectedHashTagInner = styled.div`
   display: ${(props) => (props.cafeList ? "flex" : "none")};
-  margin-top: 22px;
+  margin-top: 12px;
   margin-bottom: -10px;
   overflow: auto;
   white-space: nowrap;
