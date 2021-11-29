@@ -50,6 +50,13 @@ const Login = () => {
     }
   };
 
+  // enter키 이벤트
+  const onKeyPress = (e) => {
+    if (e.key == 'Enter') {
+        login()
+    }
+}
+
   return (
     <React.Fragment>
       <HeaderInner>
@@ -103,6 +110,7 @@ const Login = () => {
             type="password"
             placeholder="비밀번호"
             value={userInfo.password || ""}
+            onKeyPress={onKeyPress}
             onChange={(e) => {
               setUserInfo({ ...userInfo, password: e.target.value });
             }}

@@ -6,7 +6,7 @@ const ScrollToTop = ({ children }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
-
+console.log("스크롤바")
   return <>{children}</>;
 };
 

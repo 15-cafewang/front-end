@@ -140,7 +140,7 @@ const Signup = () => {
           <InputBox>
             <InputPwd
               type="password"
-              placeholder="영문,숫자,특수문자 포함하여 8자 이내"
+              placeholder="영문,숫자,특수문자 포함하여 8~20자"
               value={userInfo.password || ""}
               onChange={(e) => {
                 setUserInfo({ ...userInfo, password: e.target.value });

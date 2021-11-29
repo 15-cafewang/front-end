@@ -35,6 +35,10 @@ const BulletinBoardMain = () => {
   const pageRef = useRef(1);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
+  useEffect(() => {
     dispatch(
       getBulletinPostListDB({
         page: 1,

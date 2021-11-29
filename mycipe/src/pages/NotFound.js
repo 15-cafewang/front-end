@@ -19,11 +19,14 @@ const NotFound = () => {
         margin="18px 100px 100px 125px"
         height="28px"
         width="129px"
+        border_radius="6px"
         _onClick={() => {
           history.push("/main");
         }}
       >
+        <Text>
         홈으로 가기
+        </Text>
       </Button>
     </NotFoundContainer>
   );
@@ -37,11 +40,15 @@ const NotFoundContainer = styled.div`
   text-align: center;
 `;
 const Box = styled.div`
-  color: #7692e4;
+  color: #191919;
   font-size: 60px;
   margin-top: 300px;
 `;
 const TextBox = styled.div`
   font-size: 14px;
   line-height: 20px;
+`;
+
+const Text = styled.div`
+  color: white;
 `;

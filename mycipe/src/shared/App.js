@@ -32,6 +32,8 @@ import Main from "../pages/MainPage/Main";
 import UserMain from "../pages/UserPage/UserMain";
 import UserpageProfileEdit from "../pages/UserPage/UserProfileEdit";
 import UserPageFollowList from "../pages/UserPage/UserFollowList";
+import Tutorial from "../pages/Tutorial/Tutorial";
+
 
 import SearchMain from "../pages/SearchPage/SearchMain";
 import Setting from "../pages/SettingPage/Setting";
@@ -50,6 +52,7 @@ function App() {
     }
   }, [dispatch, isToken]);
 
+  
   return (
     <ConnectedRouter history={history}>
       <FloatButton
@@ -66,12 +69,12 @@ function App() {
         </ButtonCafe>
       </FloatButton>
       <WebVer />
-
       <Outter>
         <Container>
           <Header />
           <Switch>
-            <PublickRoute path="/" exact component={Intro} />
+          <PublickRoute path="/" exact component={Tutorial}/>
+            <PublickRoute path="/intro" exact component={Intro} />
             <PublickRoute path="/login" exact component={Login} />
             <PublickRoute path="/signup" exact component={Signup} />
             <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
@@ -133,33 +136,31 @@ function App() {
           </Switch>
           <BottomNav />
         </Container>
-      </Outter>
+        </Outter>
     </ConnectedRouter>
   );
 }
 
 const Container = styled.div`
-  width: 375px;
-  height: 100%;
-  padding-bottom: 60px;
-  position: relative;
-  background: #fff;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
+width: 375px;
+height: 100%;
+padding-bottom: 60px;
+position: relative;
+background: #fff;
+overflow-y: auto;
+overflow-x: hidden;
+::-webkit-scrollbar {
+  display: none;
+}
 `;
 
 const Outter = styled.div`
-  position: fixed;
-  left: 60%;
-  transform: translate(-60%, 0);
-  height: 100vh;
-
-  background-size: cover;
-  background-repeat: no-repeat;
+position: fixed;
+left: 60%;
+transform: translate(-60%, 0);
+height: 100vh;
+background-size: cover;
+background-repeat: no-repeat;
 `;
 
 const WebVer = styled.div`

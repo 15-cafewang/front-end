@@ -81,6 +81,8 @@ const BoardDetail = ({ boardName }) => {
     setLikeCount(postDetail && postDetail.likeCount);
   }, [postDetail]);
 
+  
+
   // textarea 높이 자동 resize
   const handleResizeInputHeight = (height, ref) => {
     if (ref === null || ref.current === null) {
@@ -125,6 +127,17 @@ const BoardDetail = ({ boardName }) => {
     }
   }, [dispatch, boardId, boardName]);
 
+  // useEffect(() => {
+  //   const scrollToTop = () => {
+  //     window.scrollTo({
+  //       top:0,
+  //       behavior: "smooth",
+  //     })
+  //   }
+  //   if(window.pageYOffset > 0) scrollToTop();
+  //   console.log("스크롤바")
+  // },[]);
+  
   // 관찰이 시작될 때 실행될 콜백 함수
   const fetchMoreCafe = (page) => {
     setIsLoading(true);
@@ -210,6 +223,10 @@ const BoardDetail = ({ boardName }) => {
       setPopUp(false);
     }, delay);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <BoardDetailContainer>
       {isActive && <ModalBackground />}
@@ -386,7 +403,7 @@ const BoardDetail = ({ boardName }) => {
             margin="0px 8px 0px 0px"
             ref={inputRef}
             onChange={(e) => setContent(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && addComment()}
+            // onKeyPress={(e) => e.key === "Enter" && addComment()}
             value={content}
             placeholder="댓글을 입력해 주세요."
             onInput={handleResizeInputHeight("50px", inputRef)}

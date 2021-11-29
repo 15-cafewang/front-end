@@ -46,6 +46,11 @@ const CafeBoardMain = () => {
     );
   }, [dispatch, currentSorting.sortedByDate]);
 
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   // 관찰이 시작될 때 실행될 콜백 함수
   const fetchMorecafe = (page) => {
     setIsLoading(true);
