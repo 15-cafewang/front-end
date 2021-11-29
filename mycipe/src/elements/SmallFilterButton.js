@@ -23,6 +23,7 @@ const Button = styled.button`
   padding: ${(props) => (props.padding ? props.padding : "8px")};
   font-size: 12px;
   color: #767676;
+  font-family:'Pretendard';
   ${(props) => props.active && `color : #000; font-weight : 500`};
 `;
 

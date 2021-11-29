@@ -231,6 +231,7 @@ const CommmentContent = styled.pre`
   margin: 0px 0px 8px 0px;
   font-size: 12px;
   color: #191919;
+  font-family: 'Pretendard-Regular';
 
   white-space: pre-wrap;
   word-break: break-all;
@@ -243,6 +244,7 @@ const Nickname = styled.div`
   font-size: 14px;
   color: #191919;
   cursor: pointer;
+  font-family: 'Pretendard-Medium';
 `;
 
 const Date = styled.div`
