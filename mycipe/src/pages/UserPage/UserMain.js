@@ -347,7 +347,7 @@ const UserMain = (props) => {
         {/* 게시물 보여주기 */}
         {filterButtons.cafe ? (
           <>
-            <CardList margin="-12px 20px 0px">
+            <CardList margin="-12px 20px 12px">
               {isFetching && <SpinnerImg src={Spinner} />}
               {currentList.length !== 0
                 ? currentList.map((item, idx) => {
