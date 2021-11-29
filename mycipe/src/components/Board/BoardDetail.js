@@ -172,7 +172,7 @@ const BoardDetail = ({ boardName }) => {
 
   // 댓글 추가
   const addComment = () => {
-    if (content === "") {
+    if (!content) {
       alertPopUp(" 내용을 작성해 주세요!", 1200);
       return;
     }
@@ -386,7 +386,6 @@ const BoardDetail = ({ boardName }) => {
             margin="0px 8px 0px 0px"
             ref={inputRef}
             onChange={(e) => setContent(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && addComment()}
             value={content}
             placeholder="댓글을 입력해 주세요."
             onInput={handleResizeInputHeight("50px", inputRef)}
