@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 
 import { ReactComponent as BackIcon } from "../assets/icon/HeaderIcon/back.svg";
