@@ -127,7 +127,9 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
               verCenter
               between
             >
-              <Nickname>{comment.nickname}</Nickname>
+              <Nickname onClick={() => {
+            history.push(`/usermain/${comment.nickname}`);
+          }}>{comment.nickname}</Nickname>
               <Date> {TimeCounting(comment.regDate, timeOption)}</Date>
             </Box>
             {isEdit ? (
@@ -240,6 +242,7 @@ const Nickname = styled.div`
   flex: auto; // flex : 1 1 auto;
   font-size: 14px;
   color: #191919;
+  cursor: pointer;
 `;
 
 const Date = styled.div`

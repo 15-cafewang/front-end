@@ -11,6 +11,7 @@ import PopUp from "../../shared/PopUp";
 import { nickCheck as validNickname } from "../../shared/common";
 import { Button, Text } from "../../elements/";
 
+import Header from "../../shared/Header";
 import ImageUpload from "../../shared/ImageUpload";
 
 import { updateUserInfoDB } from "../../redux/Async/user";
@@ -26,6 +27,9 @@ const UserpageProfileEdit = () => {
     file: "",
     previewURL: LoginUserInfo.profileImage,
   });
+
+  console.log(file.file);
+  if (file.file) console.log(123);
 
   // alert
   const [popUp, setPopUp] = useState(null);
@@ -87,6 +91,10 @@ const UserpageProfileEdit = () => {
   //중복확인
   const confirmNickname = async () => {
     try {
+      if (inputRef.current.value === LoginUserInfo.nickname) {
+        alertPopUp("이미 동일한 닉네임입니다.", 700);
+        return;
+      }
       const response = await confirmNicknameAPI(inputRef.current.value);
       setIsConfirm(true);
       alertPopUp(response.data.message, 700);
@@ -97,6 +105,7 @@ const UserpageProfileEdit = () => {
 
   return (
     <ProfileInfoInner>
+      <Header />
       {isActive && <ModalBackground />}
       {/* alert 창 */}
       <PopUp
@@ -138,14 +147,32 @@ const UserpageProfileEdit = () => {
         )}
       </Grid>
 
-      <Button
-        color="#fff"
-        _onClick={() => {
-          updateInfo();
-        }}
-      >
-        변경하기
-      </Button>
+      {file.file || isConfirm ? (
+        <Button
+          color="#fff"
+          _onClick={() => {
+            updateInfo();
+          }}
+        >
+          변경하기
+        </Button>
+      ) : (
+        <Button
+          color="#fff"
+          bg="#ededed"
+          _onClick={() => {
+            const newNickname = inputRef.current.value;
+            if (newNickname !== LoginUserInfo.nickname) {
+              // 닉네임을 변경했지만, 중복확인 버튼을 누르지 않았을떄.
+              alertPopUp("중복확인을 해주세요.", 700);
+            } else {
+              alertPopUp("변경된 사항이 없습니다.", 700);
+            }
+          }}
+        >
+          변경하기
+        </Button>
+      )}
     </ProfileInfoInner>
   );
 };

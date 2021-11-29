@@ -45,7 +45,10 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
                     <ImageContent>
                       <Text>
                         {banner.title}왕은 <br />
-                        <span>{banner.kinginfo?.nickname}</span>님
+                        <BannerText color={banner.fontColor}>
+                          {banner.kinginfo?.nickname}
+                        </BannerText>
+                        님
                         <br />
                         입니다!
                       </Text>
@@ -74,6 +77,11 @@ const ImageSlider = ({ imageList, isBanner, bannerList }) => {
     );
   }
 };
+
+const BannerText = styled.span`
+  color: ${(props) => props.color};
+  -webkit-text-stroke: 0px;
+`;
 
 const Text = styled.p`
   text-align: center;

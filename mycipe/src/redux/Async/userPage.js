@@ -103,15 +103,10 @@ const getInfinityScrollLikeBoardsDB = createAsyncThunk(
 //유저 팔로우 하기
 const userFollowDB = createAsyncThunk(
   "userpage/follow",
-  async (userInfo, thunkAPI) => {
-    const response = await follow(userInfo.nickname);
+  async (nickname, thunkAPI) => {
+    const response = await follow(nickname);
 
-    const data = {
-      userInfo: userInfo,
-      message: response.data.message,
-    };
-
-    return data;
+    return nickname;
   }
 );
 
@@ -121,12 +116,7 @@ const userUnFollowDB = createAsyncThunk(
   async (nickname, thunkAPI) => {
     const response = await unFollow(nickname);
 
-    const data = {
-      nickname: nickname,
-      message: response.data.messgae,
-    };
-
-    return data;
+    return nickname;
   }
 );
 

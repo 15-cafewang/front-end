@@ -79,7 +79,7 @@ const Signup = () => {
           {userInfo.email ? (
             emailCheck(userInfo.email) ? (
               checkEmail ? (
-                <Text color="#E4E4E4" size="12px">
+                <Text color="#0000CD" size="12px">
                   사용가능한 이메일입니다.
                 </Text>
               ) : (
@@ -114,7 +114,7 @@ const Signup = () => {
           {userInfo.nickname ? (
             nickCheck(userInfo.nickname) ? (
               checkNick ? (
-                <Text color="#E4E4E4" size="12px">
+                <Text color="#0000CD" size="12px">
                   사용가능한 닉네임입니다.
                 </Text>
               ) : (
@@ -149,7 +149,7 @@ const Signup = () => {
           </InputBox>
           {userInfo.password ? (
             pwCheck(userInfo.password) ? (
-              <Text color="#E4E4E4" size="12px">
+              <Text color="#0000CD" size="12px">
                 사용가능한 비밀번호입니다.
               </Text>
             ) : (
@@ -181,7 +181,7 @@ const Signup = () => {
           </InputBox>
           {userInfo.passwordCheck ? (
             pwdConfirm(userInfo.password, userInfo.passwordCheck) ? (
-              <Text color="#E4E4E4" size="12px">
+              <Text color="#0000CD" size="12px">
                 비밀번호가 일치합니다.
               </Text>
             ) : (

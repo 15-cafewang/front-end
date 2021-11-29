@@ -15,6 +15,9 @@ import ModalBackground from "../../shared/ModalBackground";
 import UserCard from "../../components/Card/UserCard";
 import ImageSlider from "../../shared/ImageSlider";
 
+import Header from "../../shared/Header";
+import BottomNav from "../../shared/BottomNav";
+
 import likeKing from "../../assets/image/banner/likeKing.svg";
 import commentKing from "../../assets/image/banner/commentKing.svg";
 import writeKing from "../../assets/image/banner/writeKing.svg";
@@ -69,7 +72,6 @@ const Main = (props) => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
     });
 
     dispatch(getPopularWeekListDB());
@@ -88,14 +90,35 @@ const Main = (props) => {
 
   // 배너에 보여줄 정보
   const bannerList = [
-    { img: likeKing, title: "좋아요", kinginfo: kingList.getLikeKing },
-    { img: writeKing, title: "게시물", kinginfo: kingList.getPostKing },
-    { img: followerKing, title: "팔로워", kinginfo: kingList.getFollowKing },
-    { img: commentKing, title: "댓글", kinginfo: kingList.getCommentKing },
+    {
+      img: likeKing,
+      title: "좋아요",
+      kinginfo: kingList.getLikeKing,
+      fontColor: "#ffffff",
+    },
+    {
+      img: writeKing,
+      title: "게시물",
+      kinginfo: kingList.getPostKing,
+      fontColor: "#767676",
+    },
+    {
+      img: followerKing,
+      title: "팔로워",
+      kinginfo: kingList.getFollowKing,
+      fontColor: "#767676",
+    },
+    {
+      img: commentKing,
+      title: "댓글",
+      kinginfo: kingList.getCommentKing,
+      fontColor: "#ffffff",
+    },
   ];
 
   return (
     <>
+      <Header />
       <MainInner>
         <ImageSlider bannerList={bannerList} isBanner />
         {isActive && <ModalBackground />}
@@ -283,6 +306,7 @@ const Main = (props) => {
           <SmallFeedBackCafeIcon />
         </ButtonSmall>
       </FloatButton>
+      <BottomNav />
     </>
   );
 };

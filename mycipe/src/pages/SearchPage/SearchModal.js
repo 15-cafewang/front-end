@@ -189,8 +189,9 @@ const SearchModalInner = styled.div`
 
   background: #ffffff;
   position: absolute;
-
+  padding: 0px 20px;
   top: 48px;
+  right: 0px;
   width: 100%;
   height: auto;
 

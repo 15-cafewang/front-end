@@ -6,6 +6,9 @@ import { BigFilterButton } from "../../elements";
 import UserCard from "../../components/Card/UserCard";
 
 import ModalBackground from "../../shared/ModalBackground";
+import Blank from "../../shared/Blank";
+
+import Header from "../../shared/Header";
 
 import { useParams } from "react-router-dom";
 
@@ -25,6 +28,10 @@ const UserPageFollowList = (props) => {
   const isFollower = useSelector((state) => state.userPage.isFollower);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+
     if (isFollower) {
       dispatch(userFollowListDB(nickname));
     } else {
@@ -34,6 +41,7 @@ const UserPageFollowList = (props) => {
 
   return (
     <>
+      <Header />
       <Container>
         {isActive && <ModalBackground />}
         <BigFilterButton
@@ -56,51 +64,14 @@ const UserPageFollowList = (props) => {
         </BigFilterButton>
 
         <UserCardList>
-          {userList.map((item, idx) => {
-            return <UserCard key={idx} {...item} />;
-          })}
+          {userList.length !== 0 ? (
+            userList.map((item, idx) => {
+              return <UserCard key={idx} {...item} />;
+            })
+          ) : (
+            <Blank message="팔로우 / 팔로잉한 유저가 없습니다." />
+          )}
         </UserCardList>
-
-        {/* 추가 기능 사항 */}
-        {/* {nickname === LoginUserNickname ? (
-          <UserCardList>
-            {userList.map((item, idx) => {
-              if (isFollower) return <FollowerCard key={idx} {...item} />;
-              else
-                return (
-                  <FollowingCard key={idx} {...item} followingState={true} />
-                );
-
-       
-            })}
-          </UserCardList>
-        ) : (
-          <UserCardList>
-            {userList.map((item, idx) => {
-              if (isFollower) {
-                if (LoginUserList.includes(item.nickname)) {
-                  return (
-                    <FollowingCard key={idx} {...item} followingState={true} />
-                  );
-                } else {
-                  return (
-                    <FollowingCard key={idx} {...item} followingState={false} />
-                  );
-                }
-              } else {
-                if (LoginUserList.includes(item.nickname)) {
-                  return (
-                    <FollowingCard key={idx} {...item} followingState={true} />
-                  );
-                } else {
-                  return (
-                    <FollowingCard key={idx} {...item} followingState={false} />
-                  );
-                }
-              }
-            })}
-          </UserCardList>
-        )} */}
       </Container>
     </>
   );
