@@ -9,6 +9,9 @@ import { history } from "../../redux/configureStore";
 import BoardCard from "../../components/Card/BoardCard";
 import CafeCard from "../../components/Card/CafeCard";
 
+import Header from "../../shared/Header";
+import BottomNav from "../../shared/BottomNav";
+
 import {
   BigFilterButton,
   SmallFilterButton,
@@ -97,6 +100,9 @@ const UserMain = (props) => {
   }
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     dispatch(getUserInfoDB(userNickname));
     dispatch(getUserWrittencafesDB({ page: 1, nickname: userNickname }));
   }, [dispatch, userNickname]);
@@ -176,8 +182,9 @@ const UserMain = (props) => {
 
   return (
     <>
+      {isActive && <ModalBackground />}
       <UserMainInner>
-        {isActive && <ModalBackground />}
+        <Header />
 
         <UserProfileInner>
           <UserProfileImage src={userInfo.image} />
@@ -345,7 +352,7 @@ const UserMain = (props) => {
         {/* 게시물 보여주기 */}
         {filterButtons.cafe ? (
           <>
-            <CardList margin="-12px 20px 0px">
+            <CardList margin="-12px 20px 12px">
               {isFetching && <SpinnerImg src={Spinner} />}
               {currentList.length !== 0
                 ? currentList.map((item, idx) => {
@@ -384,6 +391,7 @@ const UserMain = (props) => {
             <div ref={target}>{isLoading && "loading..."}</div>
           </>
         )}
+        <BottomNav />
       </UserMainInner>
     </>
   );

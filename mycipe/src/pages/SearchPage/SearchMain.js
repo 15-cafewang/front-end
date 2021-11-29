@@ -11,6 +11,7 @@ import SearchModal from "./SearchModal";
 
 import CafeCard from "../../components/Card/CafeCard";
 import BoardCard from "../../components/Card/BoardCard";
+import BottomNav from "../../shared/BottomNav";
 
 import PopUp from "../../shared/PopUp";
 import Spinner from "../../assets/image/Spinner.gif";
@@ -176,6 +177,43 @@ const SearchMain = () => {
 
   return (
     <>
+      {/* 헤더 */}
+      <HeaderInner flexBetween>
+        <LeftInner>
+          <BackIcon
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </LeftInner>
+
+        <SearchInput
+          ref={inputRef}
+          onKeyPress={onEnter}
+          placeholder="검색어를 입력해 주세요."
+          onClick={() => {
+            // 검색된 게시물이없으면 인풋창 클릭해도 모달이 닫히지않음.
+            if (isList) {
+              setIsSearch(!isSearch);
+            }
+          }}
+        />
+
+        <SearchButton onClick={searchKeyword}>검색</SearchButton>
+
+        {/* 검색모달 */}
+        {isActive ? (
+          ""
+        ) : (
+          <SearchModal
+            isSearch={isSearch}
+            setIsSearch={setIsSearch}
+            SearchModalRef={SearchModalRef}
+          />
+        )}
+      </HeaderInner>
+
       <Container>
         {/* alert 창 */}
         <PopUp
@@ -184,46 +222,8 @@ const SearchMain = () => {
           message="입력된 검색어가 없습니다."
           isButton={false}
         />
-
         {/* 모달 */}
         {isActive && <ModalBackground />}
-
-        {/* 헤더 */}
-        <HeaderInner flexBetween>
-          <LeftInner>
-            <BackIcon
-              onClick={() => {
-                history.goBack();
-              }}
-            />
-          </LeftInner>
-
-          <SearchInput
-            ref={inputRef}
-            onKeyPress={onEnter}
-            placeholder="검색어를 입력해 주세요."
-            onClick={() => {
-              // 검색된 게시물이없으면 인풋창 클릭해도 모달이 닫히지않음.
-              if (isList) {
-                setIsSearch(!isSearch);
-              }
-            }}
-          />
-
-          <SearchButton onClick={searchKeyword}>검색</SearchButton>
-
-          {/* 검색모달 */}
-          {isActive ? (
-            ""
-          ) : (
-            <SearchModal
-              isSearch={isSearch}
-              setIsSearch={setIsSearch}
-              SearchModalRef={SearchModalRef}
-            />
-          )}
-        </HeaderInner>
-
         <ListContainer>
           {/* 카페 후기를 검색했을때만 해쉬태그를 보여줌. */}
           <SelectedHashTagInner cafeList={cafeList.length !== 0 ? true : false}>
@@ -232,7 +232,7 @@ const SearchMain = () => {
           </SelectedHashTagInner>
 
           {/* 인기순 & 최신순 버튼 */}
-          <ButtonInner small>
+          <ButtonInner small margin="14px 0px 0px 0px">
             <SmallFilterButton
               active={currentSorting === "byDate" ? true : false}
               _onClick={(e) => {
@@ -348,6 +348,7 @@ const SearchMain = () => {
           )}
         </ListContainer>
       </Container>
+      <BottomNav />
     </>
   );
 };
@@ -361,11 +362,11 @@ const Container = styled.div`
 const ListContainer = styled.div``;
 
 const HeaderInner = styled.div`
-  width: 100%;
-  height: 100%;
-  margin: 10px 0px 22px 0px;
-  position: sticky;
-  z-index: 0;
+  width: 375px;
+  height: 48px;
+  padding: 0px 20px;
+  z-index: 10;
+  position: fixed;
   top: 0;
 
   background: #fff;
@@ -420,7 +421,8 @@ const SearchListInner = styled.div`
 
 const SelectedHashTagInner = styled.div`
   display: ${(props) => (props.cafeList ? "flex" : "none")};
-  /* margin: 12px 0px 20px 20px; */
+  margin-top: 12px;
+  margin-bottom: -10px;
   overflow: auto;
   white-space: nowrap;
 

@@ -11,6 +11,7 @@ import PopUp from "../../shared/PopUp";
 import { nickCheck as validNickname } from "../../shared/common";
 import { Button, Text } from "../../elements/";
 
+import Header from "../../shared/Header";
 import ImageUpload from "../../shared/ImageUpload";
 
 import { updateUserInfoDB } from "../../redux/Async/user";
@@ -90,6 +91,10 @@ const UserpageProfileEdit = () => {
   //중복확인
   const confirmNickname = async () => {
     try {
+      if (inputRef.current.value === LoginUserInfo.nickname) {
+        alertPopUp("이미 동일한 닉네임입니다.", 700);
+        return;
+      }
       const response = await confirmNicknameAPI(inputRef.current.value);
       setIsConfirm(true);
       alertPopUp(response.data.message, 700);
@@ -100,6 +105,7 @@ const UserpageProfileEdit = () => {
 
   return (
     <ProfileInfoInner>
+      <Header />
       {isActive && <ModalBackground />}
       {/* alert 창 */}
       <PopUp

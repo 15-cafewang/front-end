@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,8 +32,16 @@ const BoardWrite = ({ boardName }) => {
   // 입력 값 state
   const [post, setPost] = useState(null);
 
+  // 텍스트 길이 state
+  const [titleLength, setTitleLength] = useState(0);
+  const [locationLength, setLocationLength] = useState(0);
+  const [contentLength, setContentLength] = useState(0);
+
+  const titleBoxRef = useRef(null);
   const titleRef = useRef(null);
+  const locationBoxRef = useRef(null);
   const locationRef = useRef(null);
+  const contentBoxRef = useRef(null);
   const contentRef = useRef(null);
 
   const currentPost = useSelector((state) =>
@@ -51,6 +58,19 @@ const BoardWrite = ({ boardName }) => {
     ref.current.style.height = height;
     ref.current.style.height = ref.current.scrollHeight + "px";
   };
+
+  // 글자수 제한 함수
+  const checkTextLength = (e, maxLength, setLength) => {
+    let targetText = e.target.value;
+    let textLength = e.target.value.length;
+
+    if (textLength <= maxLength) setLength(e.target.value.length);
+    else {
+      e.target.value = targetText.substr(0, maxLength);
+      setLength(maxLength);
+    }
+  };
+
   useEffect(() => {
     // 수정모드인데 리덕스에 현재 게시물 정보가 남아있다.
     if (isEdit && currentPost) {
@@ -72,6 +92,14 @@ const BoardWrite = ({ boardName }) => {
       }
     }
   }, [boardName, currentPost, isEdit, params.id]);
+
+  useEffect(() => {
+    if (isEdit && post) {
+      setTitleLength(post.title.length);
+      setContentLength(post.content.length);
+      if (boardName === "cafeBoard") setLocationLength(post.location.length);
+    }
+  }, [isEdit, post, boardName]);
 
   const addPost = () => {
     if (post && post.previewURLList && post.previewURLList.length >= 6) {
@@ -257,6 +285,7 @@ const BoardWrite = ({ boardName }) => {
       <HeaderInner flexBetween>
         <LeftInner>
           <BackIcon
+            style={{ cursor: "pointer" }}
             onClick={() => {
               history.goBack();
             }}
@@ -293,43 +322,71 @@ const BoardWrite = ({ boardName }) => {
         {!isEdit && <ImageListUpload post={post} setPost={setPost} />}
 
         <TextInputBox
-          ref={titleRef}
-          onIput={handleResizeInputHeight("48px", titleRef)}
-          onChange={(e) => setPost({ ...post, title: e.target.value })}
+          height="48px"
+          onChange={handleResizeInputHeight("30px", titleBoxRef)}
+          ref={titleBoxRef}
           borderNone
-          height="48"
-          placeholder={boardName === "cafeBoard" ? "카페 이름" : "게시글 제목"}
-          value={post ? post.title : ""}
-        />
+        >
+          <LengthText>{titleLength} / 100</LengthText>
+          <TextInput
+            ref={titleRef}
+            onInput={handleResizeInputHeight("24px", titleRef)}
+            onChange={(e) => {
+              checkTextLength(e, 100, setTitleLength);
+              setPost({ ...post, title: e.target.value });
+            }}
+            placeholder={
+              boardName === "cafeBoard" ? "카페 이름" : "게시글 제목"
+            }
+            value={post ? post.title : ""}
+          ></TextInput>
+        </TextInputBox>
 
         {/* 카페 후기 작성시에만 렌더링 해줌 */}
         {boardName === "cafeBoard" ? (
           <TextInputBox
-            ref={locationRef}
-            onIput={handleResizeInputHeight("48px", locationRef)}
-            onChange={(e) => setPost({ ...post, location: e.target.value })}
+            height="48px"
+            onChange={handleResizeInputHeight("30px", locationBoxRef)}
+            ref={locationBoxRef}
             borderNone
-            height="48"
-            placeholder="카페 위치 (ex. 홍대 어딘가)"
-            value={post ? post.location : ""}
-          />
+          >
+            <LengthText>{locationLength} / 100</LengthText>
+            <TextInput
+              ref={locationRef}
+              onInput={handleResizeInputHeight("24px", locationRef)}
+              onChange={(e) => {
+                checkTextLength(e, 100, setLocationLength);
+                setPost({ ...post, location: e.target.value });
+              }}
+              placeholder="카페 위치 (ex. 홍대 어딘가)"
+              value={post ? post.location : ""}
+            />
+          </TextInputBox>
         ) : (
           ""
         )}
-
         <TextInputBox
-          ref={contentRef}
-          onIput={handleResizeInputHeight("240px", contentRef)}
-          onChange={(e) => setPost({ ...post, content: e.target.value })}
-          height="240"
-          marginBtm="24"
-          placeholder={
-            boardName === "cafeBoard"
-              ? "카페 설명을 입력해주세요."
-              : "게시글 내용을 작성해주세요."
-          }
-          value={post ? post.content : ""}
-        />
+          height="240px"
+          onChange={handleResizeInputHeight("240px", contentBoxRef)}
+          ref={contentBoxRef}
+          marginBtm="24px"
+        >
+          <LengthText>{contentLength} / 1000</LengthText>
+          <TextInput
+            ref={contentRef}
+            onInput={handleResizeInputHeight("220px", contentRef)}
+            onChange={(e) => {
+              checkTextLength(e, 1000, setContentLength);
+              setPost({ ...post, content: e.target.value });
+            }}
+            placeholder={
+              boardName === "cafeBoard"
+                ? "카페 설명을 입력해주세요."
+                : "게시글 내용을 작성해주세요."
+            }
+            value={post ? post.content : ""}
+          />
+        </TextInputBox>
 
         {/* 카페 후기 작성시에만 렌더링 해줌 */}
         {boardName === "cafeBoard" && (
@@ -369,11 +426,11 @@ const BoardWriteWrapper = styled.div`
 `;
 
 const HeaderInner = styled.div`
-  width: 100%;
+  width: 375px;
   height: 48px;
   z-index: 1;
   padding: 0px 20px;
-  position: sticky;
+  position: fixed;
   top: 0;
 
   background: #fff;
@@ -404,14 +461,25 @@ const Button = styled.button`
   justify-content: center;
 `;
 
-const TextInputBox = styled.textarea`
+const TextInputBox = styled.div`
   width: 100%;
-  height: ${(props) => props.height}px;
-  padding: 14px 16px;
+  height: ${(props) => props.height};
+  padding: 1px 16px;
   border: 1px solid #999999;
-  margin-bottom: ${(props) => props.marginBtm}px;
+  ${(props) => props.marginBtm && `margin-bottom : ${props.marginBtm};`}
   ${(props) => props.borderNone && `border-bottom : none;`}
 
+  resize: none;
+  /* overflow: auto; */
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const TextInput = styled.textarea`
+  height: 90%;
+  width: 100%;
   resize: none;
   overflow: hidden;
 
@@ -427,6 +495,12 @@ const HashTagTitle = styled.p`
   margin-bottom: 8px;
   font-size: 14px;
   color: #999999;
+`;
+
+const LengthText = styled.p`
+  color: #999999;
+  font-size: 8px;
+  margin-bottom: ${(props) => props.marginBtm}px;
 `;
 
 export default BoardWrite;

@@ -5,7 +5,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // elements
 import Image from "../elements/Image";
-import { history } from "../redux/configureStore";
 
 const ImageSlider = ({ imageList, isBanner, bannerList }) => {
   const settings = {
