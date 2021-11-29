@@ -112,6 +112,23 @@ const Header = (props) => {
     return (
       <HeaderInner flexBetween>
         <PageName>카페 후기</PageName>
+        <SearchBox
+          placeholder="카페후기 검색하기"
+          onClick={() => {
+            history.push("/searchmain");
+            dispatch(resetList());
+            dispatch(whereFrom("cafe"));
+          }}
+        />
+        <IconInner height="24px">
+          <SearchIcon
+            onClick={() => {
+              history.push("/searchmain");
+              dispatch(resetList());
+              dispatch(whereFrom("cafe"));
+            }}
+          />
+        </IconInner>
       </HeaderInner>
     );
   }
@@ -232,7 +249,9 @@ const SearchBox = styled.input`
     font-size: 14px;
   }
 `;
+
 const IconInner = styled.button`
   height: ${(props) => props.height};
 `;
+
 export default Header;
