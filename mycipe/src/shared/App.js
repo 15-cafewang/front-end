@@ -16,6 +16,7 @@ import { ReactComponent as FeedBackIcon } from "../assets/icon/feedBackIcon.svg"
 import { ReactComponent as FeedBackCafeIcon } from "../assets/icon/feedBackCafeIcon.svg";
 
 // pages
+import Tutorial from "../pages/Tutorial/Tutorial";
 import Intro from "../pages/Auth/Intro";
 import Login from "../pages/Auth/Login";
 import Signup from "../pages/Auth/Signup";
@@ -71,7 +72,8 @@ function App() {
         <Container>
           <Header />
           <Switch>
-            <PublickRoute path="/" exact component={Intro} />
+          <PublickRoute path="/" exact component={Tutorial}/>
+            <PublickRoute path="/intro" exact component={Intro} />
             <PublickRoute path="/login" exact component={Login} />
             <PublickRoute path="/signup" exact component={Signup} />
             <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
