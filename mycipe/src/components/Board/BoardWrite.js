@@ -47,8 +47,22 @@ const regionList = [
 const BoardWrite = ({ boardName }) => {
   const dispatch = useDispatch();
   const params = useParams();
-  const isActive = useSelector((state) => state.modal.isActive);
   const isEdit = params.id ? true : false;
+
+  const isCafeAddLoading = useSelector(
+    (state) => state.cafeBoard.isCafeAddLoading
+  );
+  const isCafeEditLoading = useSelector(
+    (state) => state.cafeBoard.isCafeEditLoading
+  );
+  const isBoardAddLoading = useSelector(
+    (state) => state.bulletinBoard.isBoardAddLoading
+  );
+  const isBoardEditLoading = useSelector(
+    (state) => state.bulletinBoard.isBoardEditLoading
+  );
+
+  const isActive = useSelector((state) => state.modal.isActive);
 
   // 입력 값 state
   const [post, setPost] = useState(null);
@@ -56,7 +70,6 @@ const BoardWrite = ({ boardName }) => {
   // 드롭다운 state
   const [isDown, setIsDown] = useState(false);
   const [region, setRegion] = useState(null);
-  const [detailLocation, setDetailLocation] = useState(null);
 
   // 텍스트 길이 state
   const [titleLength, setTitleLength] = useState(0);
@@ -64,7 +77,7 @@ const BoardWrite = ({ boardName }) => {
   const [contentLength, setContentLength] = useState(0);
 
   const titleRef = useRef(null);
-  // const locationRef = useRef(null);
+  const detailLocationRef = useRef(null);
   const contentBoxRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -100,6 +113,18 @@ const BoardWrite = ({ boardName }) => {
       top: 0,
     });
   }, []);
+
+  useEffect(() => {
+    if (isCafeAddLoading || isBoardAddLoading)
+      alertPopUp("작성중입니다 😉", 1000);
+    if (isCafeEditLoading || isBoardEditLoading)
+      alertPopUp("수정중입니다 😉", 1000);
+  }, [
+    isCafeAddLoading,
+    isCafeEditLoading,
+    isBoardAddLoading,
+    isBoardEditLoading,
+  ]);
 
   useEffect(() => {
     const DetectOutsideClick = () => {
@@ -139,19 +164,19 @@ const BoardWrite = ({ boardName }) => {
 
   useEffect(() => {
     if (isEdit && post) {
-      setRegion(post && post.location.split(" ")[0]);
-      setDetailLocation(
-        post &&
-          post.location.substr(
-            post.location.indexOf(" ") + 1,
-            post.location.length
-          )
-      );
-      setTitleLength(post.title.length);
-      setContentLength(post.content.length);
+      setTitleLength(titleRef.current.value.length);
+      setContentLength(contentRef.current.value.length);
+
       if (boardName === "cafeBoard") setLocationLength(post.location.length);
     }
   }, [isEdit, post, boardName]);
+
+  // 수정모드에 처음 들어왔을 때 region을 설정해준다.
+  useEffect(() => {
+    if (post) {
+      if (!isDown && !region) setRegion(post.location.split(" ")[0]);
+    }
+  }, [isDown, region, post]);
 
   const addPost = () => {
     if (post && post.previewURLList && post.previewURLList.length >= 6) {
@@ -162,15 +187,23 @@ const BoardWrite = ({ boardName }) => {
     // 수정모드
     if (isEdit) {
       if (boardName === "cafeBoard") {
-        if (!post.title || !post.content || !region || !detailLocation) {
+        if (
+          !titleRef.current.value ||
+          !contentRef.current.value ||
+          !region ||
+          !detailLocationRef.current.value
+        ) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
 
         const cafeFormData = new FormData();
-        cafeFormData.append("title", post.title);
-        cafeFormData.append("content", post.content);
-        cafeFormData.append("location", `${region} ${detailLocation}`);
+        cafeFormData.append("title", titleRef.current.value);
+        cafeFormData.append("content", contentRef.current.value);
+        cafeFormData.append(
+          "location",
+          `${region} ${detailLocationRef.current.value}`
+        );
         cafeFormData.append("tag", post.tags);
 
         // 삭제한 이미지가 있을 때
@@ -206,29 +239,35 @@ const BoardWrite = ({ boardName }) => {
       }
 
       if (boardName === "bulletinBoard") {
-        if (!post.title && !post.content) {
+        if (!titleRef.current.value && !contentRef.current.value) {
           alertPopUp(" 제목과 내용을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.title) {
+        if (!titleRef.current.value) {
           alertPopUp(" 제목을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.content) {
+        if (!contentRef.current.value) {
           alertPopUp(" 내용을 작성해 주세요!", 1200);
           return;
         }
 
         const bulletinFormData = new FormData();
 
-        bulletinFormData.append("title", post.title);
-        bulletinFormData.append("content", post.content);
+        bulletinFormData.append("title", titleRef.current.value);
+        bulletinFormData.append("content", contentRef.current.value);
 
         if (post.fileList) {
           for (const f of post.fileList) {
             bulletinFormData.append("image", f);
+          }
+        }
+
+        if (post.deleteImage) {
+          for (const d of post.deleteImage) {
+            bulletinFormData.append("deleteImage", d);
           }
         }
 
@@ -248,16 +287,24 @@ const BoardWrite = ({ boardName }) => {
     // 작성모드
     if (!isEdit) {
       if (boardName === "cafeBoard") {
-        if (!post.title || !post.content || !region || !detailLocation) {
+        if (
+          !titleRef.current.value ||
+          !contentRef.current.value ||
+          !region ||
+          !detailLocationRef.current.value
+        ) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
 
         const cafeFormData = new FormData();
 
-        cafeFormData.append("title", post.title);
-        cafeFormData.append("content", post.content);
-        cafeFormData.append("location", `${region} ${detailLocation}`);
+        cafeFormData.append("title", titleRef.current.value);
+        cafeFormData.append("content", contentRef.current.value);
+        cafeFormData.append(
+          "location",
+          `${region} ${detailLocationRef.current.value}`
+        );
         cafeFormData.append("tag", post.tags);
 
         if (!post.fileList) {
@@ -280,25 +327,25 @@ const BoardWrite = ({ boardName }) => {
       }
 
       if (boardName === "bulletinBoard") {
-        if (!post.title && !post.content) {
+        if (!titleRef.current.value && !contentRef.current.value) {
           alertPopUp(" 제목과 내용을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.title) {
+        if (!titleRef.current.value) {
           alertPopUp(" 제목을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.content) {
+        if (!contentRef.current.value) {
           alertPopUp(" 내용을 작성해 주세요!", 1200);
           return;
         }
 
         const bulletinFormData = new FormData();
 
-        bulletinFormData.append("title", post.title);
-        bulletinFormData.append("content", post.content);
+        bulletinFormData.append("title", titleRef.current.value);
+        bulletinFormData.append("content", contentRef.current.value);
 
         for (const f of post.fileList) {
           bulletinFormData.append("image", f);
@@ -362,7 +409,16 @@ const BoardWrite = ({ boardName }) => {
 
         <Button
           onClick={() => {
-            addPost();
+            if (
+              isCafeAddLoading ||
+              isBoardAddLoading ||
+              isBoardAddLoading ||
+              isBoardEditLoading
+            ) {
+              return;
+            } else {
+              addPost();
+            }
           }}
         >
           완료
@@ -393,10 +449,9 @@ const BoardWrite = ({ boardName }) => {
           onInput={handleResizeInputHeight("48px", titleRef)}
           onChange={(e) => {
             checkTextLength(e, 100, setTitleLength);
-            setPost({ ...post, title: e.target.value });
           }}
           placeholder={boardName === "cafeBoard" ? "카페 이름" : "게시글 제목"}
-          value={post ? post.title : ""}
+          defaultValue={post ? post.title : ""}
         ></TextInput>
 
         {/* 위치 */}
@@ -423,14 +478,20 @@ const BoardWrite = ({ boardName }) => {
               border="1px solid #999"
               padding="14px 16px"
               borderNone
-              // ref={locationRef}
+              ref={detailLocationRef}
               // onInput={handleResizeInputHeight("27px", locationRef)}
               onChange={(e) => {
                 checkTextLength(e, 100, setLocationLength);
-                setDetailLocation(e.target.value);
               }}
               placeholder="상세 위치 (ex. 홍대 어딘가)"
-              value={detailLocation}
+              defaultValue={
+                post && post.location
+                  ? post.location.substr(
+                      post.location.indexOf(" ") + 1,
+                      post.location.length
+                    )
+                  : ""
+              }
             />
           </LocationBox>
         )}
@@ -439,7 +500,7 @@ const BoardWrite = ({ boardName }) => {
             {regionList.map((r) => (
               <Region
                 key={r}
-                onClick={(e) => {
+                onClick={() => {
                   setRegion(r);
                 }}
               >
@@ -463,14 +524,13 @@ const BoardWrite = ({ boardName }) => {
             onInput={handleResizeInputHeight("196px", contentRef)}
             onChange={(e) => {
               checkTextLength(e, 1000, setContentLength);
-              setPost({ ...post, content: e.target.value });
             }}
             placeholder={
               boardName === "cafeBoard"
                 ? "카페 설명을 입력해주세요."
                 : "게시글 내용을 작성해주세요."
             }
-            value={post ? post.content : ""}
+            defaultValue={post ? post.content : ""}
           />
           <LengthText>{contentLength} / 1000</LengthText>
         </TextInputBox>
