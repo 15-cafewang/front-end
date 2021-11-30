@@ -76,10 +76,13 @@ const UserpageProfileEdit = () => {
           profileImage: file.previewURL,
         })
       );
+
       //alert
       alertPopUp(msg, 700, newNickname);
     } catch (errorMsg) {
-      alertPopUp("파일 이름이 너무 깁니다.", 700);
+      alertPopUp(errorMsg, 700);
+      setIsConfirm(false);
+      setIsLoding(false);
     }
   };
 
@@ -150,11 +153,12 @@ const UserpageProfileEdit = () => {
 
       {file.file || isConfirm ? (
         isloding ? (
-          <Button color="#fff" bg="#ededed">
+          <Button margin=" 32px 0px 0px 0px" color="#fff" bg="#ededed">
             변경중..
           </Button>
         ) : (
           <Button
+            margin=" 32px 0px 0px 0px"
             color="#fff"
             _onClick={() => {
               updateInfo();
@@ -166,6 +170,7 @@ const UserpageProfileEdit = () => {
         )
       ) : (
         <Button
+          margin=" 32px 0px 0px 0px"
           color="#fff"
           bg="#ededed"
           _onClick={() => {
