@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
-import _ from "lodash";
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 
@@ -174,15 +173,6 @@ const UserMain = (props) => {
   // 게시물 불러오기 무한스크롤
   useInterSectionObserver(fetchMoreData, pageRef, target.current, currentList);
 
-  //팔로우 & 언팔로우
-  const followDebounce = _.debounce(() => {
-    dispatch(userFollowDB(userInfo.nickname));
-  }, 0);
-
-  const unFollowDebounce = _.debounce(() => {
-    dispatch(userUnFollowDB(userInfo.nickname));
-  }, 0);
-
   return (
     <>
       {isActive && <ModalBackground />}
@@ -226,9 +216,20 @@ const UserMain = (props) => {
             ) : isFetchingStatus ? (
               <FollowBtn onClick={() => {}}>반영중..</FollowBtn>
             ) : userInfo.followStatus ? (
-              <FollowBtn onClick={unFollowDebounce}>팔로우취소</FollowBtn>
+              <FollowBtn
+                onClick={() => {
+                  dispatch(userUnFollowDB(userInfo.nickname));
+                }}
+              >
+                팔로우취소
+              </FollowBtn>
             ) : (
-              <FollowBtn active onClick={followDebounce}>
+              <FollowBtn
+                active
+                onClick={() => {
+                  dispatch(userFollowDB(userInfo.nickname));
+                }}
+              >
                 팔로우하기
               </FollowBtn>
             )}
