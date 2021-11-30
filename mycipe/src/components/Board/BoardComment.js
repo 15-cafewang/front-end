@@ -127,9 +127,13 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
               verCenter
               between
             >
-              <Nickname onClick={() => {
-            history.push(`/usermain/${comment.nickname}`);
-          }}>{comment.nickname}</Nickname>
+              <Nickname
+                onClick={() => {
+                  history.push(`/usermain/${comment.nickname}`);
+                }}
+              >
+                {comment.nickname}
+              </Nickname>
               <Date> {TimeCounting(comment.regDate, timeOption)}</Date>
             </Box>
             {isEdit ? (
@@ -148,15 +152,14 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
             <Box width="100%" between>
               {likeStatus ? (
                 <LikeBox
+                  width="20%"
                   onClick={() => {
                     LikeToggle();
                     setLikeCount(likeCount - 1);
                   }}
                 >
-                  <div>
-                    <ActiveSmallLike />
-                  </div>
-                  <LikeCount>{likeCount}개</LikeCount>
+                  <ActiveSmallLike />
+                  <LikeCount margin="0px 0px 0px 4px">{likeCount}개</LikeCount>
                 </LikeBox>
               ) : (
                 <LikeBox
@@ -165,14 +168,12 @@ const BoardComment = ({ _onClick, boardName, commentId, comment }) => {
                     setLikeCount(likeCount + 1);
                   }}
                 >
-                  <div>
-                    <SmallLike />
-                  </div>
-                  <LikeCount>{likeCount}개</LikeCount>
+                  <SmallLike />
+                  <LikeCount margin="0px 0px 0px 4px">{likeCount}개</LikeCount>
                 </LikeBox>
               )}
 
-              <Box>
+              <Box width="auto">
                 {isWriter && (
                   <>
                     {isEdit ? (
@@ -253,16 +254,16 @@ const Date = styled.div`
 `;
 
 const LikeBox = styled.button`
-  width: 40px;
-
+  width: auto;
+  height: 16px;
   display: flex;
   align-items: center;
 `;
 
-const LikeCount = styled.div`
+const LikeCount = styled.span`
+  ${(props) => props.margin && `margin : ${props.margin};`}
   font-size: 12px;
   color: #767676;
-  width: 220px;
 `;
 
 const EditBtn = styled.button`
