@@ -235,6 +235,7 @@ const HeaderInner = styled.div`
 const PageName = styled.span`
   font-size: 16px;
   margin-left: 8px;
+  font-family: "Pretendard-Medium";
 `;
 
 const SignupContainer = styled.div`

@@ -111,7 +111,7 @@ const Text = styled.p`
   font-size: 12px;
   margin: 2px 0px;
   color: #767676;
-  font-family: 'Pretendard-Regular';
+  font-family: "Pretendard-Regular";
 
   white-space: nowrap;
   overflow: hidden;
@@ -122,7 +122,7 @@ const Title = styled(Text)`
   font-size: 16px;
   color: #000;
   font-weight: 500;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 `;
 
 const IconsInner = styled.div`

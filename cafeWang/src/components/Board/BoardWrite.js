@@ -546,6 +546,7 @@ const Button = styled.button`
   font-size: 16px;
   color: #000000;
   justify-content: center;
+  font-family: "Pretendard-Medium";
 `;
 
 const TextInputBox = styled.div`
@@ -573,7 +574,7 @@ const TextInput = styled.textarea`
 
   resize: none;
   overflow: hidden;
-
+  font-family: "Pretendard-Medium";
   white-space: pre-wrap;
   word-break: break-all;
 
@@ -636,6 +637,7 @@ const SelectText = styled.p`
   height: 24px;
   font-size: 14px;
   color: #999;
+  font-family: "Pretendard-Medium";
 `;
 
 const HashTagTitle = styled.p`
