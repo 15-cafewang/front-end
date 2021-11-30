@@ -14,8 +14,6 @@ import Image from "../../elements/Image";
 // components
 import Header from "../../shared/Header";
 import BottomNav from "../../shared/BottomNav";
-
-// import Comment from "../../shared/Comment";
 import BoardComment from "./BoardComment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";
@@ -329,7 +327,9 @@ const BoardDetail = ({ boardName }) => {
             </TextBox>
           )}
 
-          <TextBox minHeight="240px">{postDetail && postDetail.content}</TextBox>
+          <TextBox minHeight="240px">
+            {postDetail && postDetail.content}
+          </TextBox>
 
           <Box between width="100%" margin="12px 0px 56px 0px">
             {likeStatus ? (
@@ -407,7 +407,6 @@ const BoardDetail = ({ boardName }) => {
               <div ref={target}>{isLoading && "loading..."}</div>
             </>
           )}
-
         </Box>
       </BoardDetailContainer>
       <BottomNav />
