@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
-import _ from "lodash";
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 
@@ -51,6 +50,9 @@ const UserMain = (props) => {
   const isActive = useSelector((state) => state.modal.isActive);
   //스피너
   const isFetching = useSelector((state) => state.userPage.isFetching);
+  const isFetchingStatus = useSelector(
+    (state) => state.userPage.isFetchingStatus
+  );
 
   console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
@@ -171,15 +173,6 @@ const UserMain = (props) => {
   // 게시물 불러오기 무한스크롤
   useInterSectionObserver(fetchMoreData, pageRef, target.current, currentList);
 
-  //팔로우 & 언팔로우
-  const followDebounce = _.debounce(() => {
-    dispatch(userFollowDB(userInfo.nickname));
-  }, 150);
-
-  const unFollowDebounce = _.debounce(() => {
-    dispatch(userUnFollowDB(userInfo.nickname));
-  }, 150);
-
   return (
     <>
       {isActive && <ModalBackground />}
@@ -220,10 +213,23 @@ const UserMain = (props) => {
               >
                 프로필편집
               </ProfileEditButton>
+            ) : isFetchingStatus ? (
+              <FollowBtn onClick={() => {}}>반영중..</FollowBtn>
             ) : userInfo.followStatus ? (
-              <FollowBtn onClick={unFollowDebounce}>팔로우취소</FollowBtn>
+              <FollowBtn
+                onClick={() => {
+                  dispatch(userUnFollowDB(userInfo.nickname));
+                }}
+              >
+                팔로우취소
+              </FollowBtn>
             ) : (
-              <FollowBtn active onClick={followDebounce}>
+              <FollowBtn
+                active
+                onClick={() => {
+                  dispatch(userFollowDB(userInfo.nickname));
+                }}
+              >
                 팔로우하기
               </FollowBtn>
             )}
@@ -434,12 +440,12 @@ const UserProfileContent = styled.div`
 
 const Button = styled.button`
   color: #999;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 `;
 
 const ProfileEditButton = styled.button`
   border: 1px solid #999999;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
   padding: 4px 12px;
   font-size: 14px;
   color: #767676;
@@ -447,7 +453,7 @@ const ProfileEditButton = styled.button`
 
 const FollowBtn = styled(ProfileEditButton)`
   font-weight: 500;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 
   ${(props) =>
     props.active &&
@@ -467,13 +473,12 @@ const CardList = styled.ul`
 
 const Text = styled.span`
   font-size: 14px;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 `;
 
 const Count = styled.span`
   margin-right: 4px;
-  font-family: 'Pretendard-Medium';
-
+  font-family: "Pretendard-Medium";
 `;
 
 const SpinnerImg = styled.img`

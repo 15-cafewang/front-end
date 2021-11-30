@@ -319,7 +319,6 @@ const SearchMain = () => {
                     <CafeCard
                       key={cafe.cafeId}
                       {...cafe}
-                      image={cafe.images[0]}
                       _onClick={() => {
                         history.push(`/cafeboard/detail/${cafe.cafeId}`);
                       }}
@@ -404,7 +403,7 @@ const SearchButton = styled(Button)`
   width: 50px;
   height: 28px;
   background: #191919;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 
   color: #fff;
 `;
