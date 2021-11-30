@@ -149,6 +149,7 @@ const Title = styled.p`
   font-size: 14px;
   font-weight: 500;
   width: 208px;
+  font-family: 'Pretendard-Medium';
 
   //1줄일떄 말줄임
   overflow: hidden;
@@ -169,6 +170,7 @@ const Content = styled.p`
   font-size: 12px;
   color: #191919;
   width: 208px;
+  font-family: 'Pretendard-Regular';
 
   //2줄이상 말줄임
   overflow: hidden;

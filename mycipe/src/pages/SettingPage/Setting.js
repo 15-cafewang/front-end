@@ -30,6 +30,8 @@ const InnerSetting = styled.div`
   min-height: 300px;
 `;
 
-const LogoutButton = styled.button``;
+const LogoutButton = styled.button`
+font-family: 'Pretendard-Medium';
+`;
 
 export default Setting;

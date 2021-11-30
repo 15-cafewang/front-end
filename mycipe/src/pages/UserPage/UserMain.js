@@ -434,11 +434,12 @@ const UserProfileContent = styled.div`
 
 const Button = styled.button`
   color: #999;
+  font-family: 'Pretendard-Medium';
 `;
 
 const ProfileEditButton = styled.button`
   border: 1px solid #999999;
-
+  font-family: 'Pretendard-Medium';
   padding: 4px 12px;
   font-size: 14px;
   color: #767676;
@@ -446,6 +447,7 @@ const ProfileEditButton = styled.button`
 
 const FollowBtn = styled(ProfileEditButton)`
   font-weight: 500;
+  font-family: 'Pretendard-Medium';
 
   ${(props) =>
     props.active &&
@@ -465,10 +467,13 @@ const CardList = styled.ul`
 
 const Text = styled.span`
   font-size: 14px;
+  font-family: 'Pretendard-Medium';
 `;
 
 const Count = styled.span`
   margin-right: 4px;
+  font-family: 'Pretendard-Medium';
+
 `;
 
 const SpinnerImg = styled.img`

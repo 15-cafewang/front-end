@@ -231,6 +231,7 @@ const PageName = styled.span`
   margin: ${(props) => props.margin};
   height: 16px;
   line-height: 20px;
+  font-family: 'Pretendard-Medium';
 `;
 
 const LeftInner = styled.div`

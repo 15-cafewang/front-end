@@ -404,6 +404,7 @@ const SearchButton = styled(Button)`
   width: 50px;
   height: 28px;
   background: #191919;
+  font-family: 'Pretendard-Medium';
 
   color: #fff;
 `;
