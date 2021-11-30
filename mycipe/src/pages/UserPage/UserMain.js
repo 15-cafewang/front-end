@@ -51,6 +51,9 @@ const UserMain = (props) => {
   const isActive = useSelector((state) => state.modal.isActive);
   //스피너
   const isFetching = useSelector((state) => state.userPage.isFetching);
+  const isFetchingStatus = useSelector(
+    (state) => state.userPage.isFetchingStatus
+  );
 
   console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
@@ -174,11 +177,11 @@ const UserMain = (props) => {
   //팔로우 & 언팔로우
   const followDebounce = _.debounce(() => {
     dispatch(userFollowDB(userInfo.nickname));
-  }, 150);
+  }, 0);
 
   const unFollowDebounce = _.debounce(() => {
     dispatch(userUnFollowDB(userInfo.nickname));
-  }, 150);
+  }, 0);
 
   return (
     <>
@@ -220,6 +223,8 @@ const UserMain = (props) => {
               >
                 프로필편집
               </ProfileEditButton>
+            ) : isFetchingStatus ? (
+              <FollowBtn onClick={() => {}}>반영중..</FollowBtn>
             ) : userInfo.followStatus ? (
               <FollowBtn onClick={unFollowDebounce}>팔로우취소</FollowBtn>
             ) : (
@@ -434,12 +439,12 @@ const UserProfileContent = styled.div`
 
 const Button = styled.button`
   color: #999;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 `;
 
 const ProfileEditButton = styled.button`
   border: 1px solid #999999;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
   padding: 4px 12px;
   font-size: 14px;
   color: #767676;
@@ -447,7 +452,7 @@ const ProfileEditButton = styled.button`
 
 const FollowBtn = styled(ProfileEditButton)`
   font-weight: 500;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 
   ${(props) =>
     props.active &&
@@ -467,13 +472,12 @@ const CardList = styled.ul`
 
 const Text = styled.span`
   font-size: 14px;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 `;
 
 const Count = styled.span`
   margin-right: 4px;
-  font-family: 'Pretendard-Medium';
-
+  font-family: "Pretendard-Medium";
 `;
 
 const SpinnerImg = styled.img`
