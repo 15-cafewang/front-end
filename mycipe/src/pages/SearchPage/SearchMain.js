@@ -35,7 +35,7 @@ const SearchMain = () => {
   const isList = useSelector((state) => state.search.isList);
 
   // 검색페이지를올떄 자유게시판에서 왔는지, 카페 후기게시판에서왔는지를 판단하기위함.
-  const whereFrom = useSelector((state) => state.search.whereFrom);
+  const whereFrom = useSelector((state) => state.whereFrom.whereFrom);
 
   const hashTag = useSelector((state) => state.search.hashTag);
   const preKeyword = useSelector((state) => state.search.keyword);

@@ -22,7 +22,7 @@ const SearchModal = ({ isSearch, setIsSearch }) => {
   const [popUp, setPopUp] = useState(false);
 
   // 카페 후기게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
-  const whereFrom = useSelector((state) => state.search.whereFrom);
+  const whereFrom = useSelector((state) => state.whereFrom.whereFrom);
 
   //카페 후기 최근검색목록 리스트
   const cafeSearchList = useSelector((state) => state.search.cafeSearchList);
