@@ -47,9 +47,6 @@ const SearchMain = () => {
   //검색어 받는변수
   const inputRef = useRef();
 
-  //모달제어
-  // const SearchModalRef = useRef();
-
   // 검색모달창 외부클릭시 닫음.
   useEffect(() => {
     const DetectOutsideClick = () => {
