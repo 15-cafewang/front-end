@@ -67,7 +67,8 @@ const UserpageProfileEdit = () => {
       if (file.file) {
         profileFofmData.append("image", file.file);
       }
-
+      // 프로필정보 변경중
+      setIsLoding(true);
       const msg = await dispatch(updateUserInfoDB(profileFofmData)).unwrap();
 
       dispatch(
@@ -81,7 +82,6 @@ const UserpageProfileEdit = () => {
       alertPopUp(msg, 700, newNickname);
     } catch (errorMsg) {
       alertPopUp(errorMsg, 700);
-      setIsConfirm(false);
       setIsLoding(false);
     }
   };
@@ -162,7 +162,6 @@ const UserpageProfileEdit = () => {
             color="#fff"
             _onClick={() => {
               updateInfo();
-              setIsLoding(true);
             }}
           >
             변경하기
