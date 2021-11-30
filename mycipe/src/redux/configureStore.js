@@ -12,6 +12,7 @@ import cafeBoardSlice from "./Modules/cafeBoardSlice";
 import mainPageSlice from "./Modules/mainPageSlice";
 import searchSlice from "./Modules/searchSlice";
 import popUpSlice from "./Modules/popupSlice";
+import whereFromSlice from "./Modules/whereFromSlice";
 
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
@@ -29,7 +30,13 @@ const userPagePersistConfig = {
 const searchPersistConfig = {
   key: "Search",
   storage: storage,
-  whitelist: ["whereFrom", "cafeSearchList", "boardSearchList"],
+  whitelist: ["cafeSearchList", "boardSearchList"],
+};
+
+const whereFromPersistConfig = {
+  key: "whereFrom",
+  storage: storageSession,
+  whitelist: ["whereFrom"],
 };
 
 const reducer = combineReducers({
@@ -41,6 +48,7 @@ const reducer = combineReducers({
   cafeBoard: cafeBoardSlice.reducer,
   mainPage: mainPageSlice.reducer,
   search: persistReducer(searchPersistConfig, searchSlice.reducer),
+  whereFrom: persistReducer(whereFromPersistConfig, whereFromSlice.reducer),
   popUp: popUpSlice.reducer,
 });
 

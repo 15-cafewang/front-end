@@ -35,7 +35,7 @@ const SearchMain = () => {
   const isList = useSelector((state) => state.search.isList);
 
   // 검색페이지를올떄 자유게시판에서 왔는지, 카페 후기게시판에서왔는지를 판단하기위함.
-  const whereFrom = useSelector((state) => state.search.whereFrom);
+  const whereFrom = useSelector((state) => state.whereFrom.whereFrom);
 
   const hashTag = useSelector((state) => state.search.hashTag);
   const preKeyword = useSelector((state) => state.search.keyword);
@@ -47,9 +47,6 @@ const SearchMain = () => {
   //검색어 받는변수
   const inputRef = useRef();
 
-  //모달제어
-  const SearchModalRef = useRef();
-
   // 검색모달창 외부클릭시 닫음.
   useEffect(() => {
     const DetectOutsideClick = () => {
@@ -57,13 +54,13 @@ const SearchMain = () => {
       inputRef.current.value = "";
     };
 
-    if (isSearch && isList)
-      SearchModalRef.current.addEventListener("click", DetectOutsideClick);
-
-    return () => {
-      // 위에 이벤트가 부여됬을떄만 remove시키기위해 옵셔널 체이닝사용.
-      SearchModalRef.current?.removeEventListener("click", DetectOutsideClick);
-    };
+    if (isSearch && isList) {
+      window.addEventListener("click", DetectOutsideClick);
+      return () => {
+        // 위에 이벤트가 부여됬을떄만 remove시키기위해 옵셔널 체이닝사용.
+        window.removeEventListener("click", DetectOutsideClick);
+      };
+    }
   }, [isSearch]);
 
   // 검색 실행
@@ -96,12 +93,15 @@ const SearchMain = () => {
       dispatch(setSorting("byDate"));
       setIsSearch(!isSearch);
     }
+
+    inputRef.current.value = "";
   };
 
   //엔터누를시 검색
   const onEnter = (e) => {
     if (e.key === "Enter") {
       searchKeyword();
+      inputRef.current.value = "";
     }
   };
 
@@ -206,11 +206,7 @@ const SearchMain = () => {
         {isActive ? (
           ""
         ) : (
-          <SearchModal
-            isSearch={isSearch}
-            setIsSearch={setIsSearch}
-            SearchModalRef={SearchModalRef}
-          />
+          <SearchModal isSearch={isSearch} setIsSearch={setIsSearch} />
         )}
       </HeaderInner>
 
