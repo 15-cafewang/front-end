@@ -23,13 +23,14 @@ const UserpageProfileEdit = () => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
   const LoginUserInfo = useSelector((state) => state.user.userInfo);
+
+  //업로딩상태관리.
+  const [isloding, setIsLoding] = useState(false);
+
   const [file, setFile] = useState({
     file: "",
     previewURL: LoginUserInfo.profileImage,
   });
-
-  console.log(file.file);
-  if (file.file) console.log(123);
 
   // alert
   const [popUp, setPopUp] = useState(null);
@@ -148,14 +149,21 @@ const UserpageProfileEdit = () => {
       </Grid>
 
       {file.file || isConfirm ? (
-        <Button
-          color="#fff"
-          _onClick={() => {
-            updateInfo();
-          }}
-        >
-          변경하기
-        </Button>
+        isloding ? (
+          <Button color="#fff" bg="#ededed">
+            변경중..
+          </Button>
+        ) : (
+          <Button
+            color="#fff"
+            _onClick={() => {
+              updateInfo();
+              setIsLoding(true);
+            }}
+          >
+            변경하기
+          </Button>
+        )
       ) : (
         <Button
           color="#fff"
