@@ -451,8 +451,7 @@ const Nickname = styled.div`
   width: 214px;
   font-size: 14px;
   cursor: pointer;
-  font-family: 'Pretendard-Medium';
-
+  font-family: "Pretendard-Medium";
 `;
 
 const EditBtn = styled.button`
@@ -491,7 +490,7 @@ const TextBox = styled.pre`
   font-size: 14px;
   color: #191919;
   border: 1px solid #999999;
-  font-family: 'Pretendard-Regular';
+  font-family: "Pretendard-Regular";
   ${(props) => props.margin && `margin : ${props.margin};`}
   ${(props) => props.borderNone && `border-bottom : none;`}
 
@@ -512,7 +511,7 @@ const TextInputBox = styled.textarea`
   background: #f8f8fa;
   font-size: 14px;
   color: #191919;
-  font-family: 'Pretendard-Regular';
+  font-family: "Pretendard-Regular";
 
   resize: none;
   overflow: hidden;
@@ -547,7 +546,7 @@ const Button = styled.div`
   color: #767676;
   background-color: #ffffff;
   cursor: pointer;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 `;
 
 const CommentBox = styled.div`
