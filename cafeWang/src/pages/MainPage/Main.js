@@ -27,7 +27,7 @@ import { ReactComponent as LogoIcon } from "../../assets/icon/HeaderIcon/logo.sv
 import { ReactComponent as SmallFeedBackCafeIcon } from "../../assets/icon/smallFeedBackCafeIcon.svg";
 import { ReactComponent as CoachMarkIcon } from "../../assets/icon/coachmark.svg";
 
-import { mainApi } from "../../shared/api/mainApi";
+import { getRankListDB, getKingListDB } from "../../shared/api/mainApi";
 
 // 날짜 라이브러리
 import dayjs from "dayjs";
@@ -55,9 +55,8 @@ const Main = (props) => {
 
   async function fetchData() {
     try {
-      const rankListResponse = mainApi.getRankList();
-
-      const kingListResponse = mainApi.getKingList();
+      const rankListResponse = getRankListDB();
+      const kingListResponse = getKingListDB();
 
       const getRankList = (await rankListResponse).data.data;
       const getKingList = (await kingListResponse).data.data;

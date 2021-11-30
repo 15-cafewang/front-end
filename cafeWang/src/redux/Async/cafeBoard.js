@@ -6,7 +6,7 @@ import {
   addPost,
   editPost,
   deletePost,
-  getPostDetail,
+  getCafeDetail,
   getComment,
   addComment,
   editComment,
@@ -52,7 +52,7 @@ export const getInfinityScrollDB = createAsyncThunk(
 export const getCafePostDetailDB = createAsyncThunk(
   "cafeBoard/getPostDetail",
   async (data) => {
-    const response = await getPostDetail(data);
+    const response = await getCafeDetail(data);
     return response.data.data;
   }
 );
