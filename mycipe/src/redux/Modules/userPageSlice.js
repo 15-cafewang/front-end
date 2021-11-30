@@ -20,6 +20,9 @@ import {
 const initialState = {
   isFetching: false,
 
+  //팔로우 버튼 상태.
+  isFetchingStatus: false,
+
   // 페이지 유저정보
   userInfo: {
     image: null,
@@ -236,32 +239,34 @@ const userPageSlice = createSlice({
 
     //유저 팔로우 하기
     [userFollowDB.pending]: (state, action) => {
-      state.isFetching = true;
+      state.isFetchingStatus = true;
     },
 
     [userFollowDB.fulfilled]: (state, action) => {
-      state.isFetching = false;
+      state.isFetchingStatus = false;
       state.userInfo.followingCount++;
       state.userInfo.followStatus = true;
     },
 
     [userFollowDB.rejected]: (state, action) => {
+      state.isFetchingStatus = false;
       alert("팔로우 하기 에러발생", action.error);
     },
 
     //유저 팔로우 취소
     [userUnFollowDB.pending]: (state, action) => {
-      state.isFetching = true;
+      state.isFetchingStatus = true;
     },
 
     [userUnFollowDB.fulfilled]: (state, action) => {
-      state.isFetching = false;
+      state.isFetchingStatus = false;
       state.userInfo.followingCount--;
 
       state.userInfo.followStatus = false;
     },
 
     [userUnFollowDB.rejected]: (state, action) => {
+      state.isFetchingStatus = false;
       alert("팔로우 취소하기 에러발생", action.error);
     },
 
@@ -275,8 +280,7 @@ const userPageSlice = createSlice({
 
       state.userList = action.payload;
     },
-    [userFollowListDB.rejected]: (state, action) => {
-    },
+    [userFollowListDB.rejected]: (state, action) => {},
 
     //유저 팔로잉리스트 불러오기
     [userFollowingListDB.pending]: (state, action) => {
@@ -288,8 +292,7 @@ const userPageSlice = createSlice({
       state.isFollower = false;
       state.userList = action.payload;
     },
-    [userFollowingListDB.rejected]: (state, action) => {
-    },
+    [userFollowingListDB.rejected]: (state, action) => {},
   },
 });
 
