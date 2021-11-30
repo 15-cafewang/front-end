@@ -25,6 +25,7 @@ const Button = styled.button`
   border: 1px solid #ededed;
   border-left: none;
   border-right: none;
+  font-family: 'Pretendard-Regular';
 
   ${(props) => props.noneBorderTop && `border-top : none `};
   ${(props) => props.active && `border-bottom : 2px solid #000000 `};

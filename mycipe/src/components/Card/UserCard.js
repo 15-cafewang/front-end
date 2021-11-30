@@ -94,6 +94,7 @@ const GridRight = styled.div`
 `;
 
 const Text = styled.span`
+ font-family: 'Pretendard-Medium';
   color: ${(props) => (props.color ? props.color : "#000")};
   font-size: ${(props) => (props.size ? props.size : "")};
   margin: ${(props) => (props.margin ? props.margin : "")};

@@ -134,7 +134,7 @@ const Main = (props) => {
                   history.push(`/cafeboard/detail/${c.cafeId}`);
                 }}
                 key={c.cafeId}
-                image={c.images[0]}
+                image={c.image}
                 {...c}
               />
             );
@@ -236,7 +236,7 @@ const Main = (props) => {
                   history.push(`/cafeboard/detail/${m.cafeId}`);
                 }}
                 key={m.cafeId}
-                image={m.images[0]}
+                image={m.image}
                 {...m}
               />
             );
@@ -263,7 +263,7 @@ const Main = (props) => {
                   history.push(`/cafeboard/detail/${m.cafeId}`);
                 }}
                 key={m.cafeId}
-                image={m.images[0]}
+                image={m.image}
                 {...m}
               />
             );
@@ -339,6 +339,7 @@ const Banner = styled.div`
 
 const BannerTitle = styled.span`
   font-size: 16px;
+  font-family: "Pretendard-Medium";
 `;
 
 const BannerButtonInner = styled.div`
@@ -358,7 +359,7 @@ const BannerDateButton = styled.button`
   height: 24px;
 
   font-size: 14px;
-
+  font-family: "Pretendard-Medium";
   color: ${(props) => (props.color ? "#fff" : "#767676")};
   background-color: ${(props) => (props.backgroundColor ? "#191919" : "#fff")};
   border: ${(props) => (props.border ? "1px solid #000" : "1px solid #999999")};
@@ -368,6 +369,7 @@ const RankingButton = styled(BannerDateButton)`
   padding: 4px 8px;
   width: 80px;
   height: 28px;
+  font-family: "Pretendard-Medium";
 
   ${(props) =>
     props.isActive &&
@@ -381,6 +383,7 @@ const RankingButton = styled(BannerDateButton)`
 const BannerMoreButton = styled.button`
   font-size: 12px;
   color: #999;
+  font-family: "Pretendard-Regular";
 `;
 
 const CafeCardList = styled.ul`
@@ -444,6 +447,7 @@ const Date = styled.span`
   color: #767676;
   font-size: 14px;
   margin-left: 8px;
+  font-family: "Pretendard-Regular";
 `;
 
 export default Main;

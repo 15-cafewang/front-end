@@ -5,9 +5,6 @@ import { getSearchCafeDB, getSearchBoardDB } from "../Async/Search";
 const initialState = {
   isFetching: false,
 
-  //어떤 게시판으로부터 왔는지
-  whereFrom: "",
-
   //현재 검색페이지에서 게시물 리스트가 존재하는지(카페 후기 or 자유게시판을 불러올떄 true로바꿔준다.)
   isList: false,
 
@@ -60,10 +57,6 @@ const searchSlice = createSlice({
 
   //동기
   reducers: {
-    whereFrom: (state, action) => {
-      state.whereFrom = action.payload;
-    },
-
     //카페 후기 메인 or 자유게시판 메인에서 넘어올떄 저장된 게시물들 전부 초기화.
     resetList: (state, action) => {
       state.boardList = [];
@@ -186,8 +179,6 @@ const searchSlice = createSlice({
 });
 
 export const {
-  whereFrom,
-
   resetList,
 
   setKeyword,

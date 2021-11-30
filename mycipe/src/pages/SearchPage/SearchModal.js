@@ -16,13 +16,13 @@ import {
   deleteBoardKeyword,
 } from "../../redux/Modules/searchSlice";
 
-const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
+const SearchModal = ({ isSearch, setIsSearch }) => {
   const dispatch = useDispatch();
 
   const [popUp, setPopUp] = useState(false);
 
   // 카페 후기게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
-  const whereFrom = useSelector((state) => state.search.whereFrom);
+  const whereFrom = useSelector((state) => state.whereFrom.whereFrom);
 
   //카페 후기 최근검색목록 리스트
   const cafeSearchList = useSelector((state) => state.search.cafeSearchList);
@@ -32,7 +32,6 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
 
   return (
     <>
-      <SearchMidalBackground ref={SearchModalRef} isSearch={isSearch} />
       <SearchModalInner isSearch={isSearch}>
         <RecentSearchInner>
           <Grid padding="42px 0px 0px 0px">
@@ -134,55 +133,42 @@ const SearchModal = ({ isSearch, setIsSearch, SearchModalRef }) => {
                   );
                 })}
           </SearchWordList>
-
-          <>
-            {/* 해쉬태그검색은 카페 후기검색에만 있는 기능이니 카페 후기게시판에서 이동했는지 확인 */}
-            {whereFrom === "cafe" && (
-              <>
-                <Grid margin="16px 0px">
-                  <Text grey>추천 키워드</Text>
-                </Grid>
-                <Grid center padding="0px 0px 32px 0px">
-                  <HashTag
-                    isSearch={isSearch}
-                    fromSearch={true}
-                    _onClick={(e) => {
-                      if (e.target.nodeName === "LI") {
-                        const hashTag = e.target.innerHTML.substr(1);
-
-                        dispatch(
-                          getSearchCafeDB({
-                            keyword: hashTag,
-                            withTag: true,
-                            sortBy: "regDate",
-                          })
-                        );
-
-                        setIsSearch(!isSearch);
-                      }
-                    }}
-                  />
-                </Grid>
-              </>
-            )}
-          </>
         </RecentSearchInner>
+        <>
+          {/* 해쉬태그검색은 카페 후기검색에만 있는 기능이니 카페 후기게시판에서 이동했는지 확인 */}
+          {whereFrom === "cafe" && (
+            <>
+              <Grid margin="16px 0px">
+                <Text grey>추천 키워드</Text>
+              </Grid>
+              <Grid center padding="0px 0px 32px 0px">
+                <HashTag
+                  isSearch={isSearch}
+                  fromSearch={true}
+                  _onClick={(e) => {
+                    if (e.target.nodeName === "LI") {
+                      const hashTag = e.target.innerHTML.substr(1);
+
+                      dispatch(
+                        getSearchCafeDB({
+                          keyword: hashTag,
+                          withTag: true,
+                          sortBy: "regDate",
+                        })
+                      );
+
+                      setIsSearch(!isSearch);
+                    }
+                  }}
+                />
+              </Grid>
+            </>
+          )}
+        </>
       </SearchModalInner>
     </>
   );
 };
-
-const SearchMidalBackground = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0;
-  top: 0px;
-  left: 0px;
-
-  display: ${(props) => (props.isSearch ? "block" : "none")};
-`;
 
 const SearchModalInner = styled.div`
   height: auto;

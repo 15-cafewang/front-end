@@ -9,8 +9,8 @@ import { ReactComponent as LogoIcon } from "../assets/icon/HeaderIcon/logo.svg";
 import { history } from "../redux/configureStore";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { whereFrom, resetList } from "./../redux/Modules/searchSlice";
-
+import { resetList } from "./../redux/Modules/searchSlice";
+import { whereFrom } from "./../redux/Modules/whereFromSlice";
 const Header = (props) => {
   const dispatch = useDispatch();
   const location = useLocation().pathname;
@@ -231,6 +231,7 @@ const PageName = styled.span`
   margin: ${(props) => props.margin};
   height: 16px;
   line-height: 20px;
+  font-family: 'Pretendard-Medium';
 `;
 
 const LeftInner = styled.div`
