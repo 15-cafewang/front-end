@@ -14,8 +14,6 @@ import Image from "../../elements/Image";
 // components
 import Header from "../../shared/Header";
 import BottomNav from "../../shared/BottomNav";
-
-// import Comment from "../../shared/Comment";
 import BoardComment from "./BoardComment";
 import ImageSlider from "../../shared/ImageSlider";
 import ModalBackground from "../../shared/ModalBackground";

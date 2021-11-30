@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 // icon
 import { ReactComponent as BackIcon } from "../../assets/icon/HeaderIcon/back.svg";
+import { ReactComponent as DropDownIcon } from "../../assets/icon/dropdownIcon.svg";
 // shared components
 import ImageListUpload from "../../shared/ImageListUpload";
 import HashTag from "../../shared/HashTag";
@@ -23,6 +24,26 @@ import {
 import { getPostDetail } from "../../shared/api/cafeBoardApi";
 import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
 
+const regionList = [
+  "서울",
+  "경기",
+  "인천",
+  "부산",
+  "대구",
+  "광주",
+  "대전",
+  "울산",
+  "세종",
+  "강원",
+  "경남",
+  "경북",
+  "전남",
+  "전북",
+  "충남",
+  "충북",
+  "제주",
+];
+
 const BoardWrite = ({ boardName }) => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -32,15 +53,18 @@ const BoardWrite = ({ boardName }) => {
   // 입력 값 state
   const [post, setPost] = useState(null);
 
+  // 드롭다운 state
+  const [isDown, setIsDown] = useState(false);
+  const [region, setRegion] = useState(null);
+  const [detailLocation, setDetailLocation] = useState(null);
+
   // 텍스트 길이 state
   const [titleLength, setTitleLength] = useState(0);
   const [locationLength, setLocationLength] = useState(0);
   const [contentLength, setContentLength] = useState(0);
 
-  const titleBoxRef = useRef(null);
   const titleRef = useRef(null);
-  const locationBoxRef = useRef(null);
-  const locationRef = useRef(null);
+  // const locationRef = useRef(null);
   const contentBoxRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -72,6 +96,26 @@ const BoardWrite = ({ boardName }) => {
   };
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
+
+  useEffect(() => {
+    const DetectOutsideClick = () => {
+      setIsDown(!isDown);
+    };
+
+    if (isDown) {
+      window.addEventListener("click", DetectOutsideClick);
+    }
+
+    return () => {
+      window.removeEventListener("click", DetectOutsideClick);
+    };
+  }, [isDown]);
+
+  useEffect(() => {
     // 수정모드인데 리덕스에 현재 게시물 정보가 남아있다.
     if (isEdit && currentPost) {
       setPost(currentPost);
@@ -99,6 +143,15 @@ const BoardWrite = ({ boardName }) => {
       setContentLength(post.content.length);
       if (boardName === "cafeBoard") setLocationLength(post.location.length);
     }
+
+    setRegion(post && post.location.split(" ")[0]);
+    setDetailLocation(
+      post &&
+        post.location.substr(
+          post.location.indexOf(" ") + 1,
+          post.location.length
+        )
+    );
   }, [isEdit, post, boardName]);
 
   const addPost = () => {
@@ -110,14 +163,15 @@ const BoardWrite = ({ boardName }) => {
     // 수정모드
     if (isEdit) {
       if (boardName === "cafeBoard") {
-        if (!post.title || !post.content || !post.location) {
+        if (!post.title || !post.content || !region || !detailLocation) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
+
         const cafeFormData = new FormData();
         cafeFormData.append("title", post.title);
         cafeFormData.append("content", post.content);
-        cafeFormData.append("location", post.location);
+        cafeFormData.append("location", `${region} ${detailLocation}`);
         cafeFormData.append("tag", post.tags);
 
         // 삭제한 이미지가 있을 때
@@ -125,12 +179,12 @@ const BoardWrite = ({ boardName }) => {
           for (const d of post.deleteImage) {
             cafeFormData.append("deleteImage", d);
           }
+
           if (
             post.images.length === post.deleteImage.length &&
             post.fileList.length === 0
           ) {
             alertPopUp("카페 사진은 최소 1장 첨부 부탁드립니다 🙏", 1200);
-
             return;
           }
         }
@@ -169,6 +223,7 @@ const BoardWrite = ({ boardName }) => {
         }
 
         const bulletinFormData = new FormData();
+
         bulletinFormData.append("title", post.title);
         bulletinFormData.append("content", post.content);
 
@@ -194,19 +249,23 @@ const BoardWrite = ({ boardName }) => {
     // 작성모드
     if (!isEdit) {
       if (boardName === "cafeBoard") {
-        if (!post.title || !post.content || !post.location) {
+        if (!post.title || !post.content || !region || !detailLocation) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
+
         const cafeFormData = new FormData();
+
         cafeFormData.append("title", post.title);
         cafeFormData.append("content", post.content);
-        cafeFormData.append("location", post.location);
+        cafeFormData.append("location", `${region} ${detailLocation}`);
         cafeFormData.append("tag", post.tags);
+
         if (!post.fileList) {
           alertPopUp("카페 사진은 최소 1장 첨부 부탁드립니다 🙏", 1200);
           return;
         }
+
         for (const f of post.fileList) {
           cafeFormData.append("image", f);
         }
@@ -238,6 +297,7 @@ const BoardWrite = ({ boardName }) => {
         }
 
         const bulletinFormData = new FormData();
+
         bulletinFormData.append("title", post.title);
         bulletinFormData.append("content", post.content);
 
@@ -309,6 +369,8 @@ const BoardWrite = ({ boardName }) => {
           완료
         </Button>
       </HeaderInner>
+
+      {/* 작성 부분 */}
       <BoardWriteWrapper>
         {isActive && <ModalBackground />}
         {isEdit && post && (
@@ -321,60 +383,85 @@ const BoardWrite = ({ boardName }) => {
         )}
         {!isEdit && <ImageListUpload post={post} setPost={setPost} />}
 
-        <TextInputBox
+        {/* 제목 */}
+        <TextInput
           height="48px"
-          onChange={handleResizeInputHeight("30px", titleBoxRef)}
-          ref={titleBoxRef}
+          width="100%"
+          border="1px solid #999"
+          padding="14px 16px"
           borderNone
-        >
-          <LengthText>{titleLength} / 100</LengthText>
-          <TextInput
-            ref={titleRef}
-            onInput={handleResizeInputHeight("24px", titleRef)}
-            onChange={(e) => {
-              checkTextLength(e, 100, setTitleLength);
-              setPost({ ...post, title: e.target.value });
-            }}
-            placeholder={
-              boardName === "cafeBoard" ? "카페 이름" : "게시글 제목"
-            }
-            value={post ? post.title : ""}
-          ></TextInput>
-        </TextInputBox>
+          ref={titleRef}
+          onInput={handleResizeInputHeight("48px", titleRef)}
+          onChange={(e) => {
+            checkTextLength(e, 100, setTitleLength);
+            setPost({ ...post, title: e.target.value });
+          }}
+          placeholder={boardName === "cafeBoard" ? "카페 이름" : "게시글 제목"}
+          value={post ? post.title : ""}
+        ></TextInput>
 
+        {/* 위치 */}
         {/* 카페 후기 작성시에만 렌더링 해줌 */}
-        {boardName === "cafeBoard" ? (
-          <TextInputBox
-            height="48px"
-            onChange={handleResizeInputHeight("30px", locationBoxRef)}
-            ref={locationBoxRef}
-            borderNone
-          >
-            <LengthText>{locationLength} / 100</LengthText>
+        {boardName === "cafeBoard" && (
+          <LocationBox>
+            <DropDownBox>
+              {isEdit ? (
+                <SelectText>{region}</SelectText>
+              ) : (
+                <SelectText>{region ? region : "지역 선택"}</SelectText>
+              )}
+              <DropDownIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setIsDown(!isDown);
+                }}
+              />
+            </DropDownBox>
+
             <TextInput
-              ref={locationRef}
-              onInput={handleResizeInputHeight("24px", locationRef)}
+              height="48px"
+              width="calc((100% / 3) * 2)"
+              border="1px solid #999"
+              padding="14px 16px"
+              borderNone
+              // ref={locationRef}
+              // onInput={handleResizeInputHeight("27px", locationRef)}
               onChange={(e) => {
                 checkTextLength(e, 100, setLocationLength);
-                setPost({ ...post, location: e.target.value });
+                setDetailLocation(e.target.value);
               }}
-              placeholder="카페 위치 (ex. 홍대 어딘가)"
-              value={post ? post.location : ""}
+              placeholder="상세 위치 (ex. 홍대 어딘가)"
+              value={detailLocation}
             />
-          </TextInputBox>
-        ) : (
-          ""
+          </LocationBox>
         )}
+        {isDown && (
+          <RegionListBox>
+            {regionList.map((r) => (
+              <Region
+                key={r}
+                onClick={(e) => {
+                  setRegion(r);
+                }}
+              >
+                {r}
+              </Region>
+            ))}
+          </RegionListBox>
+        )}
+
+        {/* 내용 */}
         <TextInputBox
-          height="240px"
-          onChange={handleResizeInputHeight("240px", contentBoxRef)}
+          // height="240px"
+          onChange={handleResizeInputHeight("242px", contentBoxRef)}
           ref={contentBoxRef}
           marginBtm="24px"
         >
-          <LengthText>{contentLength} / 1000</LengthText>
           <TextInput
             ref={contentRef}
-            onInput={handleResizeInputHeight("220px", contentRef)}
+            height="196px"
+            width="100%"
+            onInput={handleResizeInputHeight("196px", contentRef)}
             onChange={(e) => {
               checkTextLength(e, 1000, setContentLength);
               setPost({ ...post, content: e.target.value });
@@ -386,6 +473,7 @@ const BoardWrite = ({ boardName }) => {
             }
             value={post ? post.content : ""}
           />
+          <LengthText>{contentLength} / 1000</LengthText>
         </TextInputBox>
 
         {/* 카페 후기 작성시에만 렌더링 해줌 */}
@@ -464,7 +552,7 @@ const Button = styled.button`
 const TextInputBox = styled.div`
   width: 100%;
   height: ${(props) => props.height};
-  padding: 1px 16px;
+  padding: 14px 16px 30px;
   border: 1px solid #999999;
   ${(props) => props.marginBtm && `margin-bottom : ${props.marginBtm};`}
   ${(props) => props.borderNone && `border-bottom : none;`}
@@ -478,8 +566,12 @@ const TextInputBox = styled.div`
 `;
 
 const TextInput = styled.textarea`
-  height: 90%;
-  width: 100%;
+  height: ${(props) => props.height};
+  width: ${(props) => props.width};
+  ${(props) => props.padding && `padding : ${props.padding};`};
+  ${(props) => props.border && `border : ${props.border};`}
+  ${(props) => props.borderNone && `border-bottom : none;`}
+
   resize: none;
   overflow: hidden;
 
@@ -491,6 +583,62 @@ const TextInput = styled.textarea`
   }
 `;
 
+const LocationBox = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+const DropDownBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 5px 14px 16px;
+  height: 48px;
+  width: calc(100% / 3);
+
+  border: 1px solid #999999;
+  border-right: none;
+  border-bottom: none;
+`;
+
+const RegionListBox = styled.ul`
+  height: 170px;
+  width: calc((100% - 40px) / 3);
+  position: absolute;
+  z-index: 5;
+  overflow: auto;
+
+  left: 20px;
+  top: 241px;
+  background: white;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.16));
+`;
+
+const Region = styled.li`
+  height: 48px;
+  padding: 14px 36px 14px 16px;
+  font-size: 14px;
+  color: #999;
+
+  cursor: pointer;
+
+  :hover {
+    background-color: #fafafa;
+  }
+`;
+
+const SelectText = styled.p`
+  padding: 2.5px 0px;
+  height: 24px;
+  font-size: 14px;
+  color: #999;
+`;
+
 const HashTagTitle = styled.p`
   margin-bottom: 8px;
   font-size: 14px;
@@ -498,9 +646,10 @@ const HashTagTitle = styled.p`
 `;
 
 const LengthText = styled.p`
-  color: #999999;
-  font-size: 8px;
-  margin-bottom: ${(props) => props.marginBtm}px;
+  margin-top: -3px;
+  text-align: right;
+  color: #797979;
+  font-size: 12px;
 `;
 
 export default BoardWrite;
