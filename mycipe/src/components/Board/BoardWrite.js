@@ -139,19 +139,18 @@ const BoardWrite = ({ boardName }) => {
 
   useEffect(() => {
     if (isEdit && post) {
+      setRegion(post && post.location.split(" ")[0]);
+      setDetailLocation(
+        post &&
+          post.location.substr(
+            post.location.indexOf(" ") + 1,
+            post.location.length
+          )
+      );
       setTitleLength(post.title.length);
       setContentLength(post.content.length);
       if (boardName === "cafeBoard") setLocationLength(post.location.length);
     }
-
-    setRegion(post && post.location.split(" ")[0]);
-    setDetailLocation(
-      post &&
-        post.location.substr(
-          post.location.indexOf(" ") + 1,
-          post.location.length
-        )
-    );
   }, [isEdit, post, boardName]);
 
   const addPost = () => {

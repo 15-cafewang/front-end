@@ -80,7 +80,7 @@ const CafeBoardMain = () => {
         {/* 정렬 박스 */}
         <ButtonInner height="32px" margin="12px 0px 8px 0px" small>
           <SmallFilterButton
-          font_family="Pretendard-Medium"
+            font_family="Pretendard-Medium"
             active={currentSorting.sortedByDate}
             _onClick={() => {
               setCurrentSorting({
@@ -118,7 +118,7 @@ const CafeBoardMain = () => {
                         history.push(`/cafeboard/detail/${r.cafeId}`);
                       }}
                       key={r.cafeId}
-                      image={r.images[0]}
+                      image={r.image}
                       {...r}
                     />
                   );
