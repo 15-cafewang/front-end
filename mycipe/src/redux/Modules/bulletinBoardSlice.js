@@ -17,6 +17,9 @@ import {
 } from "../Async/bulletinBoard";
 
 const initialstate = {
+  isBoardAddLoading: false,
+  isBoardEditLoading: false,
+
   isFetching: false,
   boardList: [],
   currentBoardPost: null,
@@ -39,6 +42,7 @@ const bulletinBoardSlice = createSlice({
     [getBulletinPostListDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
     // 무한 스크롤
     [getInfinityScrollDB.pending]: (state, acton) => {
       state.isFetching = true;
@@ -51,16 +55,18 @@ const bulletinBoardSlice = createSlice({
     [getInfinityScrollDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
+
     // 게시글 작성
     [addBulletinPostDB.pending]: (state, action) => {
-      state.isFetching = true;
+      state.isBoardAddLoading = true;
     },
     [addBulletinPostDB.fulfilled]: (state, { payload }) => {
-      state.isFetching = false;
+      state.isBoardAddLoading = false;
     },
     [addBulletinPostDB.rejected]: (state, action) => {
-      state.isFetching = false;
+      state.isBoardAddLoading = false;
     },
+
     // 게시글 상세 조회
     [getBulletinPostDetailDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -72,6 +78,7 @@ const bulletinBoardSlice = createSlice({
     [getBulletinPostDetailDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
     // 게시글 좋아요 토글
     [bulletinLikeToggleDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -82,16 +89,18 @@ const bulletinBoardSlice = createSlice({
     [bulletinLikeToggleDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
     // 게시글 수정
     [editBulletinPostDB.pending]: (state, action) => {
-      state.isFetching = true;
+      state.isBoardEditLoading = true;
     },
     [editBulletinPostDB.fulfilled]: (state, action) => {
-      state.isFetching = false;
+      state.isBoardEditLoading = false;
     },
     [editBulletinPostDB.rejected]: (state, action) => {
-      state.isFetching = false;
+      state.isBoardEditLoading = false;
     },
+
     // 게시글 삭제
     [deleteBulletinPostDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -102,6 +111,7 @@ const bulletinBoardSlice = createSlice({
     [deleteBulletinPostDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
     // 게시판 댓글 추가
     [addBulletinCommentDB.pending]: (state, action) => {
       state.isFetching = true;
