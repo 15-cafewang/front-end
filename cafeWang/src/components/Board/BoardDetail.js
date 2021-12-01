@@ -34,6 +34,8 @@ import {
   getInfinityScrollCafeCommentDB,
 } from "../../redux/Async/cafeBoard";
 
+import { getSearchCafeDB } from "../../redux/Async/Search";
+
 import {
   bulletinLikeToggleDB,
   getBulletinPostDetailDB,
@@ -326,7 +328,24 @@ const BoardDetail = ({ boardName, rankingStatus = 0 }) => {
                   {postDetail &&
                     postDetail.tags.map((tag) => {
                       return (
-                        <UserHashTagItem key={tag}>#{tag}</UserHashTagItem>
+                        <UserHashTagItem
+                          key={tag}
+                          onClick={(e) => {
+                            dispatch(
+                              getSearchCafeDB({
+                                keyword: tag,
+                                withTag: true,
+                                sortBy: "regDate",
+                              })
+                            )
+                              .unwrap()
+                              .then(() => {
+                                history.push("/searchmain");
+                              });
+                          }}
+                        >
+                          #{tag}
+                        </UserHashTagItem>
                       );
                     })}
                 </HashTagBox>
@@ -493,6 +512,7 @@ const UserHashTagItem = styled.div`
   border: 1px solid #999999;
   font-size: 14px;
   color: #767676;
+  cursor: pointer;
 `;
 
 const TextBox = styled.pre`
