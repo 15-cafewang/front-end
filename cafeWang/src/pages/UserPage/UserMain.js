@@ -365,7 +365,6 @@ const UserMain = (props) => {
                     return (
                       <CafeCard
                         {...item}
-                        image={item.imageList[0]}
                         _onClick={() => {
                           history.push(`/cafeboard/detail/${item.cafeId}`);
                         }}
@@ -385,7 +384,6 @@ const UserMain = (props) => {
                     return (
                       <BoardCard
                         {...item}
-                        image={item.imageList[0]}
                         _onClick={() => {
                           history.push(`/bulletinboard/detail/${item.boardId}`);
                         }}
