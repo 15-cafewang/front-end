@@ -68,7 +68,7 @@ const Signup = () => {
           </Text>
 
           <InputBox>
-            <InputId
+            <InputText
               type="text"
               placeholder="이메일을 입력해주세요"
               onChange={(e) => {
@@ -103,7 +103,7 @@ const Signup = () => {
             닉네임
           </Text>
           <InputBox>
-            <InputNick
+            <InputText
               type="text"
               placeholder="2~8자이내로 입력해주세요"
               onChange={(e) => {
@@ -138,7 +138,7 @@ const Signup = () => {
             비밀번호
           </Text>
           <InputBox>
-            <InputPwd
+            <InputText
               type="password"
               placeholder="영문,숫자,특수문자 포함하여 8자 이내"
               value={userInfo.password || ""}
@@ -170,7 +170,7 @@ const Signup = () => {
           </Text>
 
           <InputBox>
-            <InputPwdChk
+            <InputText
               type="password"
               placeholder="비밀번호를 다시 입력해주세요."
               value={userInfo.passwordCheck || ""}
@@ -235,6 +235,7 @@ const HeaderInner = styled.div`
 const PageName = styled.span`
   font-size: 16px;
   margin-left: 8px;
+  font-family: "Pretendard-Medium";
 `;
 
 const SignupContainer = styled.div`
@@ -252,27 +253,10 @@ const InputBox = styled.div`
   display: flex;
   align-items: center;
 `;
-const InputId = styled(Input)`
+const InputText = styled(Input)`
   background-color: #f8f8fa;
   width: 320px;
   height: 48px;
   border-radius: 6px;
-`;
-const InputNick = styled(Input)`
-  background-color: #f8f8fa;
-  width: 320px;
-  height: 48px;
-  border-radius: 6px;
-`;
-const InputPwd = styled(Input)`
-  background-color: #f8f8fa;
-  width: 320px;
-  height: 48px;
-  border-radius: 6px;
-`;
-const InputPwdChk = styled(Input)`
-  background-color: #f8f8fa;
-  width: 320px;
-  height: 48px;
-  border-radius: 6px;
+  font-family: "Pretendard-Regular";
 `;

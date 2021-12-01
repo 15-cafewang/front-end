@@ -84,4 +84,5 @@ const KakaoBtn = styled.img`
 
 const Text = styled.div`
   color: white;
+  font-family: "Pretendard-Medium";
 `;
