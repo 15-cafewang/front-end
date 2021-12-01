@@ -167,10 +167,12 @@ const BoardWrite = ({ boardName }) => {
 
   // 수정모드에 처음 들어왔을 때 region을 설정해준다.
   useEffect(() => {
-    if (isEdit && post) {
-      if (!isDown && !region) setRegion(post.location.split(" ")[0]);
+    if (boardName === "cafeBoard") {
+      if (isEdit && post) {
+        if (!isDown && !region) setRegion(post.location.split(" ")[0]);
+      }
     }
-  }, [isDown, region, post, isEdit]);
+  }, [isDown, region, post, isEdit, boardName]);
 
   const addPost = () => {
     if (post && post.previewURLList && post.previewURLList.length >= 6) {
