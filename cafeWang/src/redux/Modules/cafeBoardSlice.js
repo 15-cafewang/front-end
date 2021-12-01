@@ -18,6 +18,8 @@ import {
 
 // initialstate
 const initialstate = {
+  isLoading: false,
+
   isFetching: false,
   cafeList: [],
   currentcafePost: null,
@@ -27,7 +29,11 @@ const initialstate = {
 const cafeBoardSlice = createSlice({
   name: "cafeBoard",
   initialState: initialstate,
-  reducers: {},
+  reducers: {
+    setIsCafeLoading: (state, action) => {
+      state.isLoading = false;
+    },
+  },
   extraReducers: {
     // 카페 후기 목록 불러오기
     [getCafePostListDB.pending]: (state, action) => {
@@ -41,6 +47,7 @@ const cafeBoardSlice = createSlice({
     [getCafePostListDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
     // 무한스크롤
     [getInfinityScrollDB.pending]: (state, acton) => {
       state.isFetching = true;
@@ -53,16 +60,16 @@ const cafeBoardSlice = createSlice({
     [getInfinityScrollDB.rejected]: (state, acton) => {
       state.isFetching = false;
     },
+
     // 카페 후기 작성
     [addCafePostDB.pending]: (state, action) => {
-      state.isFetching = true;
+      state.isLoading = true;
     },
-    [addCafePostDB.fulfilled]: (state, action) => {
-      state.isfetching = false;
-    },
+    [addCafePostDB.fulfilled]: (state, action) => {},
     [addCafePostDB.rejected]: (state, action) => {
-      state.isfetching = false;
+      state.isLoading = false;
     },
+
     // 카페 후기 상세 조회
     [getCafePostDetailDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -71,19 +78,19 @@ const cafeBoardSlice = createSlice({
       state.isFetching = false;
       state.currentcafePost = payload;
     },
-    // 카페 후기  수정
-    [editCafePostDB.pending]: (state, action) => {
-      state.isFetching = true;
-    },
-    [editCafePostDB.fulfilled]: (state, action) => {
-      state.isFetching = false;
-    },
-    [editCafePostDB.rejected]: (state, action) => {
-      state.isFetching = false;
-    },
     [getCafePostDetailDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
+    // 카페 후기  수정
+    [editCafePostDB.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [editCafePostDB.fulfilled]: (state, action) => {},
+    [editCafePostDB.rejected]: (state, action) => {
+      state.isLoading = false;
+    },
+
     // 카페 후기 좋아요 토글
     [cafeLikeToggleDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -145,6 +152,7 @@ const cafeBoardSlice = createSlice({
     [editCafeCommentDB.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
     // 카페 후기 댓글 삭제
     [deleteCafeCommentDB.pending]: (state, action) => {
       state.isFetching = true;
@@ -186,5 +194,7 @@ const cafeBoardSlice = createSlice({
     },
   },
 });
+
+export const { setIsCafeLoading } = cafeBoardSlice.actions;
 
 export default cafeBoardSlice;

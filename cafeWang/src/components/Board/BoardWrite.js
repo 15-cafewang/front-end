@@ -15,6 +15,10 @@ import PopUp from "../../shared/PopUp";
 // async function
 import { addCafePostDB, editCafePostDB } from "../../redux/Async/cafeBoard";
 
+// action
+import { setIsCafeLoading } from "../../redux/Modules/cafeBoardSlice";
+import { setIsBoardLoading } from "../../redux/Modules/bulletinBoardSlice";
+
 import {
   addBulletinPostDB,
   editBulletinPostDB,
@@ -47,8 +51,12 @@ const regionList = [
 const BoardWrite = ({ boardName }) => {
   const dispatch = useDispatch();
   const params = useParams();
-  const isActive = useSelector((state) => state.modal.isActive);
   const isEdit = params.id ? true : false;
+
+  const isBoardLoading = useSelector((state) => state.bulletinBoard.isLoading);
+  const isCafeLoading = useSelector((state) => state.cafeBoard.isLoading);
+
+  const isActive = useSelector((state) => state.modal.isActive);
 
   // 입력 값 state
   const [post, setPost] = useState(null);
@@ -56,7 +64,6 @@ const BoardWrite = ({ boardName }) => {
   // 드롭다운 state
   const [isDown, setIsDown] = useState(false);
   const [region, setRegion] = useState(null);
-  const [detailLocation, setDetailLocation] = useState(null);
 
   // 텍스트 길이 state
   const [titleLength, setTitleLength] = useState(0);
@@ -64,7 +71,7 @@ const BoardWrite = ({ boardName }) => {
   const [contentLength, setContentLength] = useState(0);
 
   const titleRef = useRef(null);
-  // const locationRef = useRef(null);
+  const detailLocationRef = useRef(null);
   const contentBoxRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -99,7 +106,19 @@ const BoardWrite = ({ boardName }) => {
     window.scrollTo({
       top: 0,
     });
+
+    return () => {
+      dispatch(setIsCafeLoading());
+      dispatch(setIsBoardLoading());
+    };
   }, []);
+
+  useEffect(() => {
+    if (!isEdit && (isCafeLoading || isBoardLoading))
+      alertPopUp("작성중입니다 😉", 1000);
+    if (isEdit && (isCafeLoading || isBoardLoading))
+      alertPopUp("수정중입니다 😉", 1000);
+  }, [isCafeLoading, isBoardLoading]);
 
   useEffect(() => {
     const DetectOutsideClick = () => {
@@ -139,19 +158,19 @@ const BoardWrite = ({ boardName }) => {
 
   useEffect(() => {
     if (isEdit && post) {
-      setRegion(post && post.location.split(" ")[0]);
-      setDetailLocation(
-        post &&
-          post.location.substr(
-            post.location.indexOf(" ") + 1,
-            post.location.length
-          )
-      );
-      setTitleLength(post.title.length);
-      setContentLength(post.content.length);
+      setTitleLength(titleRef.current.value.length);
+      setContentLength(contentRef.current.value.length);
+
       if (boardName === "cafeBoard") setLocationLength(post.location.length);
     }
   }, [isEdit, post, boardName]);
+
+  // 수정모드에 처음 들어왔을 때 region을 설정해준다.
+  useEffect(() => {
+    if (isEdit && post) {
+      if (!isDown && !region) setRegion(post.location.split(" ")[0]);
+    }
+  }, [isDown, region, post, isEdit]);
 
   const addPost = () => {
     if (post && post.previewURLList && post.previewURLList.length >= 6) {
@@ -162,15 +181,24 @@ const BoardWrite = ({ boardName }) => {
     // 수정모드
     if (isEdit) {
       if (boardName === "cafeBoard") {
-        if (!post.title || !post.content || !region || !detailLocation) {
+        if (
+          !titleRef.current.value ||
+          !contentRef.current.value ||
+          !region ||
+          !detailLocationRef.current.value ||
+          post.tags.length === 0
+        ) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
 
         const cafeFormData = new FormData();
-        cafeFormData.append("title", post.title);
-        cafeFormData.append("content", post.content);
-        cafeFormData.append("location", `${region} ${detailLocation}`);
+        cafeFormData.append("title", titleRef.current.value);
+        cafeFormData.append("content", contentRef.current.value);
+        cafeFormData.append(
+          "location",
+          `${region} ${detailLocationRef.current.value}`
+        );
         cafeFormData.append("tag", post.tags);
 
         // 삭제한 이미지가 있을 때
@@ -206,29 +234,35 @@ const BoardWrite = ({ boardName }) => {
       }
 
       if (boardName === "bulletinBoard") {
-        if (!post.title && !post.content) {
+        if (!titleRef.current.value && !contentRef.current.value) {
           alertPopUp(" 제목과 내용을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.title) {
+        if (!titleRef.current.value) {
           alertPopUp(" 제목을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.content) {
+        if (!contentRef.current.value) {
           alertPopUp(" 내용을 작성해 주세요!", 1200);
           return;
         }
 
         const bulletinFormData = new FormData();
 
-        bulletinFormData.append("title", post.title);
-        bulletinFormData.append("content", post.content);
+        bulletinFormData.append("title", titleRef.current.value);
+        bulletinFormData.append("content", contentRef.current.value);
 
         if (post.fileList) {
           for (const f of post.fileList) {
             bulletinFormData.append("image", f);
+          }
+        }
+
+        if (post.deleteImage) {
+          for (const d of post.deleteImage) {
+            bulletinFormData.append("deleteImage", d);
           }
         }
 
@@ -248,16 +282,25 @@ const BoardWrite = ({ boardName }) => {
     // 작성모드
     if (!isEdit) {
       if (boardName === "cafeBoard") {
-        if (!post.title || !post.content || !region || !detailLocation) {
+        if (
+          !titleRef.current.value ||
+          !contentRef.current.value ||
+          !region ||
+          !detailLocationRef.current.value ||
+          !post.tags.length === 0
+        ) {
           alertPopUp("모든 항목을 작성해 주세요!", 1200);
           return;
         }
 
         const cafeFormData = new FormData();
 
-        cafeFormData.append("title", post.title);
-        cafeFormData.append("content", post.content);
-        cafeFormData.append("location", `${region} ${detailLocation}`);
+        cafeFormData.append("title", titleRef.current.value);
+        cafeFormData.append("content", contentRef.current.value);
+        cafeFormData.append(
+          "location",
+          `${region} ${detailLocationRef.current.value}`
+        );
         cafeFormData.append("tag", post.tags);
 
         if (!post.fileList) {
@@ -280,25 +323,25 @@ const BoardWrite = ({ boardName }) => {
       }
 
       if (boardName === "bulletinBoard") {
-        if (!post.title && !post.content) {
+        if (!titleRef.current.value && !contentRef.current.value) {
           alertPopUp(" 제목과 내용을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.title) {
+        if (!titleRef.current.value) {
           alertPopUp(" 제목을 작성해 주세요!", 1200);
           return;
         }
 
-        if (!post.content) {
+        if (!contentRef.current.value) {
           alertPopUp(" 내용을 작성해 주세요!", 1200);
           return;
         }
 
         const bulletinFormData = new FormData();
 
-        bulletinFormData.append("title", post.title);
-        bulletinFormData.append("content", post.content);
+        bulletinFormData.append("title", titleRef.current.value);
+        bulletinFormData.append("content", contentRef.current.value);
 
         for (const f of post.fileList) {
           bulletinFormData.append("image", f);
@@ -327,6 +370,7 @@ const BoardWrite = ({ boardName }) => {
 
     setTimeout(() => {
       setPopUp(false);
+
       back && history.goBack();
       url && history.push(url);
     }, delay);
@@ -360,13 +404,20 @@ const BoardWrite = ({ boardName }) => {
           </PageName>
         </LeftInner>
 
-        <Button
-          onClick={() => {
-            addPost();
-          }}
-        >
-          완료
-        </Button>
+        {isCafeLoading || isBoardLoading ? (
+          <Button color="#767676">
+            {isEdit ? "수정중 입니다! 😉" : "작성중 입니다! 😉"}
+          </Button>
+        ) : (
+          <Button
+            color="#000"
+            onClick={() => {
+              addPost();
+            }}
+          >
+            완료
+          </Button>
+        )}
       </HeaderInner>
 
       {/* 작성 부분 */}
@@ -393,10 +444,9 @@ const BoardWrite = ({ boardName }) => {
           onInput={handleResizeInputHeight("48px", titleRef)}
           onChange={(e) => {
             checkTextLength(e, 100, setTitleLength);
-            setPost({ ...post, title: e.target.value });
           }}
           placeholder={boardName === "cafeBoard" ? "카페 이름" : "게시글 제목"}
-          value={post ? post.title : ""}
+          defaultValue={post ? post.title : ""}
         ></TextInput>
 
         {/* 위치 */}
@@ -423,14 +473,20 @@ const BoardWrite = ({ boardName }) => {
               border="1px solid #999"
               padding="14px 16px"
               borderNone
-              // ref={locationRef}
+              ref={detailLocationRef}
               // onInput={handleResizeInputHeight("27px", locationRef)}
               onChange={(e) => {
                 checkTextLength(e, 100, setLocationLength);
-                setDetailLocation(e.target.value);
               }}
               placeholder="상세 위치 (ex. 홍대 어딘가)"
-              value={detailLocation}
+              defaultValue={
+                post && post.location
+                  ? post.location.substr(
+                      post.location.indexOf(" ") + 1,
+                      post.location.length
+                    )
+                  : ""
+              }
             />
           </LocationBox>
         )}
@@ -439,7 +495,7 @@ const BoardWrite = ({ boardName }) => {
             {regionList.map((r) => (
               <Region
                 key={r}
-                onClick={(e) => {
+                onClick={() => {
                   setRegion(r);
                 }}
               >
@@ -463,14 +519,13 @@ const BoardWrite = ({ boardName }) => {
             onInput={handleResizeInputHeight("196px", contentRef)}
             onChange={(e) => {
               checkTextLength(e, 1000, setContentLength);
-              setPost({ ...post, content: e.target.value });
             }}
             placeholder={
               boardName === "cafeBoard"
                 ? "카페 설명을 입력해주세요."
                 : "게시글 내용을 작성해주세요."
             }
-            value={post ? post.content : ""}
+            defaultValue={post ? post.content : ""}
           />
           <LengthText>{contentLength} / 1000</LengthText>
         </TextInputBox>
@@ -503,7 +558,6 @@ const Grid = styled.div`
 
 const BoardWriteWrapper = styled.div`
   padding: 20px 20px 20px;
-
   height: auto;
   min-height: calc(100% - 60px);
   position: relative;
@@ -519,7 +573,6 @@ const HeaderInner = styled.div`
   padding: 0px 20px;
   position: fixed;
   top: 0;
-
   background: #fff;
   display: flex;
   align-items: center;
@@ -544,7 +597,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   font-size: 16px;
-  color: #000000;
+  color: ${(props) => props.color};
   justify-content: center;
   font-family: "Pretendard-Medium";
 `;
@@ -556,10 +609,8 @@ const TextInputBox = styled.div`
   border: 1px solid #999999;
   ${(props) => props.marginBtm && `margin-bottom : ${props.marginBtm};`}
   ${(props) => props.borderNone && `border-bottom : none;`}
-
   resize: none;
   /* overflow: auto; */
-
   ::-webkit-scrollbar {
     display: none;
   }
@@ -571,13 +622,11 @@ const TextInput = styled.textarea`
   ${(props) => props.padding && `padding : ${props.padding};`};
   ${(props) => props.border && `border : ${props.border};`}
   ${(props) => props.borderNone && `border-bottom : none;`}
-
   resize: none;
   overflow: hidden;
   font-family: "Pretendard-Medium";
   white-space: pre-wrap;
   word-break: break-all;
-
   &::placeholder {
     color: #999999;
   }
@@ -592,11 +641,9 @@ const DropDownBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 14px 5px 14px 16px;
   height: 48px;
   width: calc(100% / 3);
-
   border: 1px solid #999999;
   border-right: none;
   border-bottom: none;
@@ -608,11 +655,9 @@ const RegionListBox = styled.ul`
   position: absolute;
   z-index: 5;
   overflow: auto;
-
   left: 20px;
   top: 241px;
   background: white;
-
   ::-webkit-scrollbar {
     display: none;
   }
@@ -624,9 +669,7 @@ const Region = styled.li`
   padding: 14px 36px 14px 16px;
   font-size: 14px;
   color: #999;
-
   cursor: pointer;
-
   :hover {
     background-color: #fafafa;
   }
