@@ -8,6 +8,11 @@ import { history } from "../../redux/configureStore";
 import { ReactComponent as ActiveLikeIcon } from "../../assets/icon/LikeIcon/activeLike.svg";
 import { ReactComponent as LikeIcon } from "../../assets/icon/LikeIcon/like.svg";
 
+import likeCrown from "../../assets/icon/CrownIcon/likeCrown.svg";
+import postCrown from "../../assets/icon/CrownIcon/postCrown.svg";
+import followerCrown from "../../assets/icon/CrownIcon/followerCrown.svg";
+import commentCrown from "../../assets/icon/CrownIcon/commentCrown.svg";
+
 // elements
 import Image from "../../elements/Image";
 
@@ -41,7 +46,7 @@ import {
 // 무한스크롤 Hook
 import { useInterSectionObserver } from "../../hooks/index";
 
-const BoardDetail = ({ boardName }) => {
+const BoardDetail = ({ boardName, rankingStatus = 0 }) => {
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -217,6 +222,14 @@ const BoardDetail = ({ boardName }) => {
       setPopUp(false);
     }, delay);
   };
+
+  let crownImage = "";
+  if (rankingStatus === 1) crownImage = likeCrown;
+  else if (rankingStatus === 2) crownImage = postCrown;
+  else if (rankingStatus === 3) crownImage = followerCrown;
+  else if (rankingStatus === 4) crownImage = commentCrown;
+  else crownImage = "";
+
   return (
     <>
       <Header />
@@ -271,6 +284,8 @@ const BoardDetail = ({ boardName }) => {
             >
               {postDetail && postDetail.nickname}
             </Nickname>
+
+            {rankingStatus !== 0 && <CrownImage src={crownImage} alt="왕관" />}
           </Box>
 
           {(isPostUser || userNickname === "admin") && (
@@ -447,7 +462,7 @@ const Box = styled.div`
 
 const Nickname = styled.div`
   margin-left: 8px;
-  width: 214px;
+  width: 50px;
   font-size: 14px;
   cursor: pointer;
   font-family: "Pretendard-Medium";
@@ -550,6 +565,13 @@ const Button = styled.div`
 
 const CommentBox = styled.div`
   width: 100%;
+`;
+
+const CrownImage = styled.img`
+  padding-bottom: 5px;
+  /* position: absolute;
+  top: 0px;
+  right: 0px; */
 `;
 
 export default BoardDetail;
