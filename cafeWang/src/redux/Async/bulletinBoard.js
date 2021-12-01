@@ -1,14 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { history } from "../configureStore";
 
-import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
+import {
+  getList,
+  addPost,
+  editPost,
+  deletePost,
+  getPostDetail,
+  getComment,
+  addComment,
+  editComment,
+  deleteComment,
+  likeToggle,
+  commentLikeToggle,
+} from "../../shared/api/bulletinBoardApi";
 
 // 게시글 작성
 export const addBulletinPostDB = createAsyncThunk(
   "bulletinBoard/addPost",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await bulletinBoardApi.addPost(data);
+      const response = await addPost(data);
 
       return response.data.message;
     } catch (error) {
@@ -21,7 +33,7 @@ export const addBulletinPostDB = createAsyncThunk(
 export const getBulletinPostListDB = createAsyncThunk(
   "bulletinBoard/getPostList",
   async (data) => {
-    const response = await bulletinBoardApi.getList(data.page, data.sortBy);
+    const response = await getList(data.page, data.sortBy);
     return response.data.data.content;
   }
 );
@@ -30,7 +42,7 @@ export const getBulletinPostListDB = createAsyncThunk(
 export const getInfinityScrollDB = createAsyncThunk(
   "bulletinBoard/getInfinityScroll",
   async (data) => {
-    const response = await bulletinBoardApi.getList(data.page, data.sortBy);
+    const response = await getList(data.page, data.sortBy);
     return response.data.data.content;
   }
 );
@@ -39,7 +51,7 @@ export const getInfinityScrollDB = createAsyncThunk(
 export const getBulletinPostDetailDB = createAsyncThunk(
   "bulletinBoard/getPostDetail",
   async (data) => {
-    const response = await bulletinBoardApi.getPostDetail(data);
+    const response = await getPostDetail(data);
     return response.data.data;
   }
 );
@@ -48,7 +60,7 @@ export const getBulletinPostDetailDB = createAsyncThunk(
 export const bulletinLikeToggleDB = createAsyncThunk(
   "bulletinBoard/likeToggle",
   async (data) => {
-    const response = await bulletinBoardApi.likeToggle(data);
+    const response = await likeToggle(data);
     return response.data.data;
   }
 );
@@ -58,10 +70,7 @@ export const editBulletinPostDB = createAsyncThunk(
   "bulletinBoard/editPost",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await bulletinBoardApi.editPost(
-        data.boardId,
-        data.formData
-      );
+      const response = await editPost(data.boardId, data.formData);
       return response.data.message;
     } catch (error) {
       return rejectWithValue(error);
@@ -73,7 +82,7 @@ export const editBulletinPostDB = createAsyncThunk(
 export const deleteBulletinPostDB = createAsyncThunk(
   "bulletinBoard/deletePost",
   async (data) => {
-    const response = await bulletinBoardApi.deletePost(data);
+    const response = await deletePost(data);
     history.push("/bulletinBoard");
     return response.data.data;
   }
@@ -83,7 +92,7 @@ export const deleteBulletinPostDB = createAsyncThunk(
 export const addBulletinCommentDB = createAsyncThunk(
   "bulletinBoard/addComment",
   async (data) => {
-    const response = await bulletinBoardApi.addComment(data);
+    const response = await addComment(data);
     return response.data.data;
   }
 );
@@ -92,7 +101,7 @@ export const addBulletinCommentDB = createAsyncThunk(
 export const getBulletinCommentDB = createAsyncThunk(
   "bulletinBoard/getComment",
   async (data) => {
-    const response = await bulletinBoardApi.getComment(data.boardId, data.page);
+    const response = await getComment(data.boardId, data.page);
     return response.data.data.content;
   }
 );
@@ -101,10 +110,7 @@ export const getBulletinCommentDB = createAsyncThunk(
 export const editBulletinCommentDB = createAsyncThunk(
   "bulletinBoard/editComment",
   async (data) => {
-    const response = await bulletinBoardApi.editComment(
-      data.commentId,
-      data.content
-    );
+    const response = await editComment(data.commentId, data.content);
     return response.data.data;
   }
 );
@@ -113,7 +119,7 @@ export const editBulletinCommentDB = createAsyncThunk(
 export const deleteBulletinCommentDB = createAsyncThunk(
   "bulletinBoard/deleteComment",
   async (commentId) => {
-    const response = await bulletinBoardApi.deleteComment(commentId);
+    const response = await deleteComment(commentId);
     const data = {
       commentId: commentId,
       message: response.data.message,
@@ -126,7 +132,7 @@ export const deleteBulletinCommentDB = createAsyncThunk(
 export const bulletinCommentLikeDB = createAsyncThunk(
   "bulletinBoardComment/likeToggle",
   async (data) => {
-    const response = await bulletinBoardApi.commentLikeToggle(data);
+    const response = await commentLikeToggle(data);
     return response.data.data;
   }
 );
@@ -135,7 +141,7 @@ export const bulletinCommentLikeDB = createAsyncThunk(
 export const getInfinityScrollBulletinCommentDB = createAsyncThunk(
   "cafeBoardComment/getInfinityScroll",
   async (data) => {
-    const response = await bulletinBoardApi.getComment(data.boardId, data.page);
+    const response = await getComment(data.boardId, data.page);
     return response.data.data.content;
   }
 );

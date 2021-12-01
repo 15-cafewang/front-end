@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../utils";
 
 const api = axios.create({
-  // baseURL: "https://nybae.shop/",
+  // baseURL: process.env.REACT_APP_API_URL,
   baseURL: "http://3.36.78.242:8080//",
 });
 

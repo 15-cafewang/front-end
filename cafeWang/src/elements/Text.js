@@ -32,7 +32,7 @@ const DefaultText = styled.p`
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
   margin: ${(props) => props.margin};
-
+  font-family: "Pretendard-Medium";
   font-weight: ${(props) => props.weight};
   width: ${(props) => props.width};
 `;
