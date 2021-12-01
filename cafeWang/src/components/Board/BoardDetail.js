@@ -227,7 +227,7 @@ const BoardDetail = ({ boardName }) => {
     }, delay);
   };
 
-  //카페후기 페이지에서만 왕관보여짐
+  //카페 상세 페이지에서만 왕관보여짐
 
   let crownImage = "";
   if (boardName === "cafeBoard") {
