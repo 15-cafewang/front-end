@@ -63,7 +63,7 @@ const CafeCard = ({
         <TextInner>
           <Grid>
             <Title>{title}</Title>
-            <CrownImage src={crownImage} alt="왕관" />
+            {rankingStatus !== 0 && <CrownImage src={crownImage} alt="왕관" />}
           </Grid>
           <Text>{nickname}</Text>
           <Text>{location}</Text>
