@@ -63,7 +63,7 @@ const CafeCard = ({
         <TextInner>
           <Grid>
             <Title>{title}</Title>
-            {rankingStatus !== 0 && <CrownImage src={crownImage} alt="왕관" />}
+            <CrownImage src={crownImage} alt="왕관" />
           </Grid>
           <Text>{nickname}</Text>
           <Text>{location}</Text>
@@ -126,7 +126,7 @@ const TextInner = styled.div`
 
 const Text = styled.p`
   font-size: 12px;
-  margin: 2px 0px;
+  margin-bottom: 1px;
   color: #767676;
   font-family: "Pretendard-Regular";
 
@@ -146,7 +146,7 @@ const IconsInner = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 6px 12px;
+  margin: 6px 12px 12px;
   font-size: 16px;
   height: 16px;
 `;
@@ -172,7 +172,6 @@ const Count = styled.span`
 `;
 
 const CrownImage = styled.img`
-  /* padding-bottom: 10px; */
   position: absolute;
   top: 0px;
   right: 0px;
