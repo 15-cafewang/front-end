@@ -140,7 +140,6 @@ const CafeBoardMain = () => {
                         history.push(`/cafeboard/detail/${r.cafeId}`);
                       }}
                       key={r.cafeId}
-                      image={r.images[0]}
                       {...r}
                     />
                   );
