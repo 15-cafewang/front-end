@@ -50,7 +50,7 @@ import { whereFrom } from "../../redux/Modules/whereFromSlice";
 // 무한스크롤 Hook
 import { useInterSectionObserver } from "../../hooks/index";
 
-const BoardDetail = ({ boardName, rankingStatus = 0 }) => {
+const BoardDetail = ({ boardName }) => {
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -227,12 +227,16 @@ const BoardDetail = ({ boardName, rankingStatus = 0 }) => {
     }, delay);
   };
 
+  //카페후기 페이지에서만 왕관보여짐
+
   let crownImage = "";
-  if (rankingStatus === 1) crownImage = likeCrown;
-  else if (rankingStatus === 2) crownImage = postCrown;
-  else if (rankingStatus === 3) crownImage = followerCrown;
-  else if (rankingStatus === 4) crownImage = commentCrown;
-  else crownImage = "";
+  if (boardName === "cafeBoard") {
+    if (postDetail?.rankingStatus === 1) crownImage = likeCrown;
+    else if (postDetail?.rankingStatus === 2) crownImage = postCrown;
+    else if (postDetail?.rankingStatus === 3) crownImage = followerCrown;
+    else if (postDetail?.rankingStatus === 4) crownImage = commentCrown;
+    else crownImage = "";
+  }
 
   return (
     <>
@@ -289,7 +293,9 @@ const BoardDetail = ({ boardName, rankingStatus = 0 }) => {
               {postDetail && postDetail.nickname}
             </Nickname>
 
-            {rankingStatus !== 0 && <CrownImage src={crownImage} alt="왕관" />}
+            {boardName === "cafeBoard" && postDetail?.rankingStatus !== 0 && (
+              <CrownImage src={crownImage} alt="왕관" />
+            )}
           </Box>
 
           {(isPostUser || userNickname === "admin") && (
