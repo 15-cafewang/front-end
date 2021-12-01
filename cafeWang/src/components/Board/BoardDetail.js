@@ -484,7 +484,7 @@ const Box = styled.div`
 
 const Nickname = styled.div`
   margin-left: 8px;
-  width: 50px;
+  width: auto;
   font-size: 14px;
   cursor: pointer;
   font-family: "Pretendard-Medium";
@@ -592,6 +592,7 @@ const CommentBox = styled.div`
 
 const CrownImage = styled.img`
   padding-bottom: 5px;
+  margin-left: 10px;
   /* position: absolute;
   top: 0px;
   right: 0px; */
