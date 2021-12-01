@@ -163,6 +163,7 @@ const ModalContentInner = styled.div`
 const ModalContent = styled.button`
   padding: 12px;
   width: 100%;
+  font-family: "Pretendard-Regular";
   &:hover {
     background-color: #f8f8fa;
   }

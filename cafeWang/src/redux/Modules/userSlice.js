@@ -13,6 +13,7 @@ import {
 const initialState = {
   isLogin: false,
   isFetching: false,
+
   emailConfirm: false,
   nickConfirm: false,
   userInfo: {

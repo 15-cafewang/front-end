@@ -25,8 +25,8 @@ import {
 } from "../../redux/Async/bulletinBoard";
 
 // api
-import { getPostDetail } from "../../shared/api/cafeBoardApi";
-import { bulletinBoardApi } from "../../shared/api/bulletinBoardApi";
+import { getCafeDetail } from "../../shared/api/cafeBoardApi";
+import { getPostDetail } from "../../shared/api/bulletinBoardApi";
 
 const regionList = [
   "서울",
@@ -144,12 +144,12 @@ const BoardWrite = ({ boardName }) => {
     // 수정모드인데 현재 게시물에 대한 정보가 없을 때 (리덕스 초기화 되었을 때)
     if (isEdit && !currentPost) {
       if (boardName === "cafeBoard") {
-        getPostDetail(params.id).then((res) => {
+        getCafeDetail(params.id).then((res) => {
           setPost(res.data.data);
         });
       }
       if (boardName === "bulletinBoard") {
-        bulletinBoardApi.getPostDetail(params.id).then((res) => {
+        getPostDetail(params.id).then((res) => {
           setPost(res.data.data);
         });
       }
@@ -599,6 +599,7 @@ const Button = styled.button`
   font-size: 16px;
   color: ${(props) => props.color};
   justify-content: center;
+  font-family: "Pretendard-Medium";
 `;
 
 const TextInputBox = styled.div`
@@ -623,6 +624,7 @@ const TextInput = styled.textarea`
   ${(props) => props.borderNone && `border-bottom : none;`}
   resize: none;
   overflow: hidden;
+  font-family: "Pretendard-Medium";
   white-space: pre-wrap;
   word-break: break-all;
   &::placeholder {
@@ -678,6 +680,7 @@ const SelectText = styled.p`
   height: 24px;
   font-size: 14px;
   color: #999;
+  font-family: "Pretendard-Medium";
 `;
 
 const HashTagTitle = styled.p`

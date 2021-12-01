@@ -6,6 +6,12 @@ import { useDispatch } from "react-redux";
 import { ReactComponent as SmallLike } from "../../assets/icon/LikeIcon/smallLike.svg";
 import { ReactComponent as CommentMiniIcon } from "../../assets/icon/CommmentIcon/commentMini.svg";
 import { ReactComponent as ActiveSmallLike } from "../../assets/icon/LikeIcon/activeSmallLike.svg";
+
+import likeCrown from "../../assets/icon/CrownIcon/likeCrown.svg";
+import postCrown from "../../assets/icon/CrownIcon/postCrown.svg";
+import followerCrown from "../../assets/icon/CrownIcon/followerCrown.svg";
+import commentCrown from "../../assets/icon/CrownIcon/commentCrown.svg";
+
 // elements
 import Image from "../../elements/Image";
 // async
@@ -22,6 +28,7 @@ const CafeCard = ({
   nickname,
   location,
   title,
+  rankingStatus = 0,
 }) => {
   const isImage = image ? `${image}` : "";
   const dispatch = useDispatch();
@@ -42,12 +49,22 @@ const CafeCard = ({
     setLikeCount(likeCount);
   }, [likeCount, likeStatus]);
 
+  let crownImage = "";
+  if (rankingStatus === 1) crownImage = likeCrown;
+  else if (rankingStatus === 2) crownImage = postCrown;
+  else if (rankingStatus === 3) crownImage = followerCrown;
+  else if (rankingStatus === 4) crownImage = commentCrown;
+  else crownImage = "";
+
   return (
     <CafeCardInner onClick={_onClick}>
       <Image shape="rectangle" src={isImage} size="medium" border />
       <CardContent>
         <TextInner>
-          <Title>{title}</Title>
+          <Grid>
+            <Title>{title}</Title>
+            {rankingStatus !== 0 && <CrownImage src={crownImage} alt="왕관" />}
+          </Grid>
           <Text>{nickname}</Text>
           <Text>{location}</Text>
         </TextInner>
@@ -111,7 +128,7 @@ const Text = styled.p`
   font-size: 12px;
   margin: 2px 0px;
   color: #767676;
-  font-family: 'Pretendard-Regular';
+  font-family: "Pretendard-Regular";
 
   white-space: nowrap;
   overflow: hidden;
@@ -122,7 +139,7 @@ const Title = styled(Text)`
   font-size: 16px;
   color: #000;
   font-weight: 500;
-  font-family: 'Pretendard-Medium';
+  font-family: "Pretendard-Medium";
 `;
 
 const IconsInner = styled.div`
@@ -152,6 +169,19 @@ const Count = styled.span`
   margin-left: 6px;
   color: #767676;
   padding: 2px 0px 2px 0px;
+`;
+
+const CrownImage = styled.img`
+  /* padding-bottom: 10px; */
+  position: absolute;
+  top: 0px;
+  right: 0px;
+`;
+
+const Grid = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 `;
 
 export default CafeCard;

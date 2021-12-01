@@ -23,13 +23,14 @@ const UserpageProfileEdit = () => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
   const LoginUserInfo = useSelector((state) => state.user.userInfo);
+
+  //업로딩상태관리.
+  const [isloding, setIsLoding] = useState(false);
+
   const [file, setFile] = useState({
     file: "",
     previewURL: LoginUserInfo.profileImage,
   });
-
-  console.log(file.file);
-  if (file.file) console.log(123);
 
   // alert
   const [popUp, setPopUp] = useState(null);
@@ -75,10 +76,12 @@ const UserpageProfileEdit = () => {
           profileImage: file.previewURL,
         })
       );
+
       //alert
       alertPopUp(msg, 700, newNickname);
     } catch (errorMsg) {
-      alertPopUp("파일 이름이 너무 깁니다.", 700);
+      alertPopUp(errorMsg, 700);
+      setIsLoding(false);
     }
   };
 
@@ -148,16 +151,25 @@ const UserpageProfileEdit = () => {
       </Grid>
 
       {file.file || isConfirm ? (
-        <Button
-          color="#fff"
-          _onClick={() => {
-            updateInfo();
-          }}
-        >
-          변경하기
-        </Button>
+        isloding ? (
+          <Button margin=" 32px 0px 0px 0px" color="#fff" bg="#ededed">
+            변경중..
+          </Button>
+        ) : (
+          <Button
+            margin=" 32px 0px 0px 0px"
+            color="#fff"
+            _onClick={() => {
+              updateInfo();
+              setIsLoding(true);
+            }}
+          >
+            변경하기
+          </Button>
+        )
       ) : (
         <Button
+          margin=" 32px 0px 0px 0px"
           color="#fff"
           bg="#ededed"
           _onClick={() => {

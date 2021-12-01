@@ -52,10 +52,10 @@ const Login = () => {
 
   // enter키 이벤트
   const onKeyPress = (e) => {
-    if (e.key === 'Enter') {
-        login()
+    if (e.key === "Enter") {
+      login();
     }
-}
+  };
 
   return (
     <React.Fragment>
@@ -190,6 +190,7 @@ const HeaderInner = styled.div`
 const PageName = styled.span`
   font-size: 16px;
   margin-left: 8px;
+  font-family: "Pretendard-Medium";
 `;
 const Input = styled.input`
   padding: 10px;
@@ -204,12 +205,14 @@ const InputId = styled(Input)`
   width: 320px;
   height: 48px;
   border-radius: 6px;
+  font-family: "Pretendard-Regular";
 `;
 const InputPwd = styled(Input)`
   background-color: #f8f8fa;
   width: 320px;
   height: 48px;
   border-radius: 6px;
+  font-family: "Pretendard-Regular";
 `;
 
 const KakaoBtn = styled.img`
@@ -232,4 +235,5 @@ const SignupText = styled.a`
   color: #191919;
   font-size: 12px;
   cursor: pointer;
+  font-family: "Pretendard-Medium";
 `;
