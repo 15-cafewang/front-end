@@ -12,7 +12,7 @@
   <img src='https://img.shields.io/badge/AWS-Amazon?logo=Amazon AWS'/>
 </p>
 
-## 🎉 카페왕(cafeWang) 서비스 소개
+## ☕️ 카페왕(cafeWang) 서비스 소개
 
 Link : https://cafewang.co.kr/
 
