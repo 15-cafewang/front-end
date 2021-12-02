@@ -105,8 +105,13 @@ const SearchMain = () => {
     }
   };
 
-  //처음접속시 인풋창 포커스
+  //처음접속시 인풋창 포커스 & 스크롤 탑 위치
   useEffect(() => {
+
+    window.scrollTo({
+      top: 0,
+    });
+
     inputRef.current.focus();
   }, []);
 
@@ -175,6 +180,10 @@ const SearchMain = () => {
     }
   }, []);
 
+
+
+  
+ 
   return (
     <>
       {/* 헤더 */}
