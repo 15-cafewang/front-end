@@ -48,7 +48,7 @@
 
 ## 🎫 프로젝트 구조
 
-![프로젝트 구조]![image (2)](https://user-images.githubusercontent.com/73606877/144458574-00562736-ba03-43a4-849c-5fd89d1a6a91.png)
+![프로젝트 구조](https://user-images.githubusercontent.com/73606877/144458574-00562736-ba03-43a4-849c-5fd89d1a6a91.png)
 
 
 ## 📌 팀원소개
