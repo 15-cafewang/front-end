@@ -275,9 +275,17 @@ const Main = (props) => {
           <LogoIcon />
           <ContactBox>
             <ContactText>
-              팀원소개 <A>Notion</A> &nbsp;&nbsp;|&nbsp;&nbsp; 프로젝트 &nbsp;
+              팀원소개
               <A
-                href="https://github.com/99-final-project"
+                href="https://locrian-cabbage-797.notion.site/CAFE-WANG-2cbfbbcf11fc4db4988e55b78a55997c"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Notion
+              </A>
+              &nbsp;&nbsp;|&nbsp;&nbsp; 프로젝트 &nbsp;
+              <A
+                href="https://github.com/15-cafewang"
                 target="_blank"
                 rel="noreferrer noopener"
               >
