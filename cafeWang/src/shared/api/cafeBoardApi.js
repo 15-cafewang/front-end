@@ -33,7 +33,7 @@ const getCafeDetail = (cafeId) => {
 
 // 댓글 조회
 const getComment = (cafeId, page) => {
-  return api.get(`/cafes/comment/${cafeId}?page=${page}&size=8&isAsc=false`);
+  return api.get(`/cafes/comment/${cafeId}?page=${page}&size=10&isAsc=false`);
 };
 
 // 댓글 작성

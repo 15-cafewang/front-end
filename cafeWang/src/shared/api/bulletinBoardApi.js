@@ -2,7 +2,7 @@ import api from "./index";
 
 // 게시판 목록 조회
 const getList = (page, sortBy) => {
-  return api.get(`/boards?page=${page}&size=7&isAsc=false&${sortBy}`);
+  return api.get(`/boards?page=${page}&size=10&isAsc=false&${sortBy}`);
 };
 
 // 게시판 작성
