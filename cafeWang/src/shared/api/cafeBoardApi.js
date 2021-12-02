@@ -2,7 +2,7 @@ import api from "./index";
 
 // 카페 목록 조회 (최신순, 인기순)
 const getPostList = (page, sortBy) => {
-  return api.get(`/cafes/list?page=${page}&size=204&isAsc=false&${sortBy}`);
+  return api.get(`/cafes/list?page=${page}&size=10&isAsc=false&${sortBy}`);
 };
 
 // 카페 작성
