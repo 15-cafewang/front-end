@@ -15,8 +15,10 @@
 ## ☕️ 카페왕(cafeWang) 서비스 소개
 
 Link : https://cafewang.co.kr/
+시연영상 : https://www.youtube.com/watch?v=vKbf85SGfvQ&t=49s
 
-### 🚶‍♂️ 나만 알고있는 카페를 누군가와 공유해보세요!
+
+### 🚶‍♂️ 나만 알고있는 카페를 누군가와 공유해보세요!     
 
 > - 이런 카페까지가봤다! 하는 나만 알고있는 독특한 카페를 알려주세요!
 
