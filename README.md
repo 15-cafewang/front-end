@@ -14,7 +14,8 @@
 
 ## ☕️ 카페왕(cafeWang) 서비스 소개
 
-Link : https://cafewang.co.kr/
+Link : https://cafewang.co.kr/   
+
 시연영상 : https://www.youtube.com/watch?v=vKbf85SGfvQ&t=49s
 
 
