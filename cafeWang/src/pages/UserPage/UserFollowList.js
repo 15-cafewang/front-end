@@ -1,43 +1,40 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { history } from "../../redux/configureStore";
+
 import { BigFilterButton } from "../../elements";
 
 import UserCard from "../../components/Card/UserCard";
-
 import ModalBackground from "../../shared/ModalBackground";
 import Blank from "../../shared/Blank";
-
 import Header from "../../shared/Header";
-
-import { useParams } from "react-router-dom";
 
 import {
   userFollowingListDB,
   userFollowListDB,
 } from "../../redux/Async/userPage";
 
-import { setIsFollower } from "../../redux/Modules/userPageSlice";
-
-const UserPageFollowList = (props) => {
+const UserPageFollowList = () => {
   const dispatch = useDispatch();
   const nickname = useParams().nickname;
+  const pageName = useParams().pagename;
 
   const isActive = useSelector((state) => state.modal.isActive);
   const userList = useSelector((state) => state.userPage.userList);
-  const isFollower = useSelector((state) => state.userPage.isFollower);
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
     });
 
-    if (isFollower) {
+    if (pageName === "follower") {
       dispatch(userFollowListDB(nickname));
     } else {
       dispatch(userFollowingListDB(nickname));
     }
-  }, [dispatch, isFollower, nickname, userList.length]);
+  }, [dispatch, pageName, nickname, userList.length]);
 
   return (
     <>
@@ -45,19 +42,19 @@ const UserPageFollowList = (props) => {
       <Container>
         {isActive && <ModalBackground />}
         <BigFilterButton
-          active={isFollower}
+          active={pageName === "follower"}
           noneBorderTop
           _onClick={() => {
-            dispatch(setIsFollower(true));
+            history.replace(`/userpagefollowlist/${nickname}/follower`);
           }}
         >
           팔로워
         </BigFilterButton>
         <BigFilterButton
-          active={!isFollower}
+          active={pageName === "following"}
           noneBorderTop
           _onClick={() => {
-            dispatch(setIsFollower(false));
+            history.replace(`/userpagefollowlist/${nickname}/following`);
           }}
         >
           팔로잉

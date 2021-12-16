@@ -118,7 +118,7 @@ function App() {
             component={UserpageProfileEdit}
           />
           <PrivateRoute
-            path="/userpagefollowlist/:nickname"
+            path="/userpagefollowlist/:nickname/:pagename"
             exact
             component={UserPageFollowList}
           />

@@ -102,10 +102,6 @@ const userPageSlice = createSlice({
     updateUserList: (state, action) => {
       state.userList = action.payload;
     },
-
-    setIsFollower: (state, action) => {
-      state.isFollower = action.payload;
-    },
   },
 
   extraReducers: {
@@ -296,7 +292,7 @@ const userPageSlice = createSlice({
   },
 });
 
-export const { resetPost, updateUserList, updateIsFollowing, setIsFollower } =
+export const { resetPost, updateUserList, updateIsFollowing } =
   userPageSlice.actions;
 
 export default userPageSlice;

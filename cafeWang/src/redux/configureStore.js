@@ -15,16 +15,10 @@ import popUpSlice from "./Modules/popupSlice";
 
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
-import storageSession from "redux-persist/lib/storage/session";
+
 import storage from "redux-persist/lib/storage";
 
 export const history = createBrowserHistory();
-
-const userPagePersistConfig = {
-  key: "userPage",
-  storage: storageSession,
-  whitelist: ["isFollower"],
-};
 
 const searchPersistConfig = {
   key: "Search",
@@ -35,7 +29,7 @@ const searchPersistConfig = {
 const reducer = combineReducers({
   router: connectRouter(history),
   user: userSlice.reducer,
-  userPage: persistReducer(userPagePersistConfig, userPageSlice.reducer),
+  userPage: userPageSlice.reducer,
   modal: modalSlice.reducer,
   bulletinBoard: bulletinBoardSlice.reducer,
   cafeBoard: cafeBoardSlice.reducer,
