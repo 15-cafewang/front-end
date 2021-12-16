@@ -16,13 +16,10 @@ import {
   deleteBoardKeyword,
 } from "../../redux/Modules/searchSlice";
 
-const SearchModal = ({ isSearch, setIsSearch }) => {
+const SearchModal = ({ isSearch, setIsSearch, whereFrom }) => {
   const dispatch = useDispatch();
 
   const [popUp, setPopUp] = useState(false);
-
-  // 카페 후기게시판 or 자유게시판 중 어디서 왔는지 판단해주는 변수
-  const whereFrom = useSelector((state) => state.whereFrom.whereFrom);
 
   //카페 후기 최근검색목록 리스트
   const cafeSearchList = useSelector((state) => state.search.cafeSearchList);
@@ -48,7 +45,7 @@ const SearchModal = ({ isSearch, setIsSearch }) => {
             {/* 전체삭제 버튼 */}
             <DeleteAllButton
               onClick={() => {
-                if (whereFrom === "cafe") {
+                if (whereFrom === "cafeboard") {
                   if (cafeSearchList.length === 0) {
                     setPopUp(true);
                     setTimeout(() => {
@@ -73,7 +70,7 @@ const SearchModal = ({ isSearch, setIsSearch }) => {
 
           <SearchWordList>
             {/* 카페 후기에서 왔으면 카페 후기 최근검색목록  아니면 자유게시판 최근검색목록 보여주기 */}
-            {whereFrom === "cafe"
+            {whereFrom === "cafeboard"
               ? cafeSearchList.map((keyword) => {
                   return (
                     <SearchWordInner key={keyword}>
@@ -136,7 +133,7 @@ const SearchModal = ({ isSearch, setIsSearch }) => {
         </RecentSearchInner>
         <>
           {/* 해쉬태그검색은 카페 후기검색에만 있는 기능이니 카페 후기게시판에서 이동했는지 확인 */}
-          {whereFrom === "cafe" && (
+          {whereFrom === "cafeboard" && (
             <>
               <Grid margin="16px 0px">
                 <Text grey>추천 키워드</Text>

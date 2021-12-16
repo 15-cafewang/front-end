@@ -66,11 +66,11 @@ function App() {
         </ButtonCafe>
       </FloatButton>
       <WebVer />
-          
+
       <Container>
         <Switch>
-          <PublickRoute path="/" exact component={Tutorial}/>
-            <PublickRoute path="/intro" exact component={Intro} />
+          <PublickRoute path="/" exact component={Tutorial} />
+          <PublickRoute path="/intro" exact component={Intro} />
           <PublickRoute path="/login" exact component={Login} />
           <PublickRoute path="/signup" exact component={Signup} />
           <PublickRoute path="/user/kakao/callback" exact component={Kakao} />
@@ -122,7 +122,7 @@ function App() {
             exact
             component={UserPageFollowList}
           />
-          <PrivateRoute path="/searchmain" component={SearchMain} />
+          <PrivateRoute path="/searchmain/:wherefrom" component={SearchMain} />
           <PrivateRoute path="/setting" component={Setting} />
           <NotFound />
         </Switch>

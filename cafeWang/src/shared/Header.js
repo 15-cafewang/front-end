@@ -10,7 +10,7 @@ import { history } from "../redux/configureStore";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetList } from "./../redux/Modules/searchSlice";
-import { whereFrom } from "./../redux/Modules/whereFromSlice";
+
 const Header = (props) => {
   const dispatch = useDispatch();
   const location = useLocation().pathname;
@@ -116,9 +116,8 @@ const Header = (props) => {
         <IconInner height="24px">
           <SearchIcon
             onClick={() => {
-              history.push("/searchmain");
+              history.push("/searchmain/cafeboard");
               dispatch(resetList());
-              dispatch(whereFrom("cafe"));
             }}
           />
         </IconInner>
@@ -151,9 +150,8 @@ const Header = (props) => {
         <IconInner height="24px">
           <SearchIcon
             onClick={() => {
-              history.push("/Searchmain");
+              history.push("/Searchmain/bulletinboard");
               dispatch(resetList());
-              dispatch(whereFrom("Board"));
             }}
           />
         </IconInner>
