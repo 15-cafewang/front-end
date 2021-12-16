@@ -10,6 +10,9 @@ import styled from "styled-components";
 import PrivateRoute from "../auth/PrivateRoute";
 import PublickRoute from "../auth/PublickRoute";
 
+//ga
+import ReactGA from "react-ga";
+
 // icon
 import { ReactComponent as FeedBackIcon } from "../assets/icon/feedBackIcon.svg";
 import { ReactComponent as FeedBackCafeIcon } from "../assets/icon/feedBackCafeIcon.svg";
@@ -39,6 +42,15 @@ import background from "../assets/image/background.png";
 
 import { loginCheck } from "../redux/Async/user";
 
+ReactGA.event({
+  category: "User",
+  action: "Created an Account",
+});
+ReactGA.exception({
+  description: "An error ocurred",
+  fatal: true,
+});
+
 function App() {
   const dispatch = useDispatch();
   // 로컬 스토리지 토큰 확인
@@ -50,6 +62,14 @@ function App() {
     }
   }, [dispatch, isToken]);
 
+  useEffect(() => {
+    ReactGA.initialize("UA-213841557-1");
+    history.listen((location) => {
+      ReactGA.set({ page: location.pathname }); // Update the user's current page
+      ReactGA.pageview(location.pathname); // Record a pageview for the given page
+    });
+    // ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
   return (
     <ConnectedRouter history={history}>
       <FloatButton

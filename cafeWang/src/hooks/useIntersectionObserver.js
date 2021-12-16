@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const SIZE = 7;
+const SIZE = 10;
 
 export const useInterSectionObserver = (callback, pageRef, target, list) => {
   useEffect(() => {
