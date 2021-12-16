@@ -45,8 +45,6 @@ import {
   getInfinityScrollBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
 
-import { whereFrom } from "../../redux/Modules/whereFromSlice";
-
 // 무한스크롤 Hook
 import { useInterSectionObserver } from "../../hooks/index";
 
@@ -339,7 +337,6 @@ const BoardDetail = ({ boardName }) => {
                         <UserHashTagItem
                           key={tag}
                           onClick={(e) => {
-                            dispatch(whereFrom("cafe"));
                             dispatch(
                               getSearchCafeDB({
                                 keyword: tag,
@@ -349,7 +346,7 @@ const BoardDetail = ({ boardName }) => {
                             )
                               .unwrap()
                               .then(() => {
-                                history.push("/searchmain");
+                                history.push("/searchmain/cafeboard");
                               });
                           }}
                         >
