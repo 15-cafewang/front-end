@@ -45,8 +45,6 @@ import {
   getInfinityScrollBulletinCommentDB,
 } from "../../redux/Async/bulletinBoard";
 
-import { whereFrom } from "../../redux/Modules/whereFromSlice";
-
 // 무한스크롤 Hook
 import { useInterSectionObserver } from "../../hooks/index";
 
@@ -190,6 +188,7 @@ const BoardDetail = ({ boardName }) => {
   const addComment = () => {
     if (!content) {
       alertPopUp(" 내용을 작성해 주세요!", 1200);
+      setButtonName(null);
       return;
     }
 
@@ -339,7 +338,6 @@ const BoardDetail = ({ boardName }) => {
                         <UserHashTagItem
                           key={tag}
                           onClick={(e) => {
-                            dispatch(whereFrom("cafe"));
                             dispatch(
                               getSearchCafeDB({
                                 keyword: tag,
@@ -349,7 +347,7 @@ const BoardDetail = ({ boardName }) => {
                             )
                               .unwrap()
                               .then(() => {
-                                history.push("/searchmain");
+                                history.push("/searchmain/cafeboard");
                               });
                           }}
                         >

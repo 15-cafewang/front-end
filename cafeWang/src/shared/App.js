@@ -138,11 +138,11 @@ function App() {
             component={UserpageProfileEdit}
           />
           <PrivateRoute
-            path="/userpagefollowlist/:nickname"
+            path="/userpagefollowlist/:nickname/:pagename"
             exact
             component={UserPageFollowList}
           />
-          <PrivateRoute path="/searchmain" component={SearchMain} />
+          <PrivateRoute path="/searchmain/:wherefrom" component={SearchMain} />
           <PrivateRoute path="/setting" component={Setting} />
           <NotFound />
         </Switch>

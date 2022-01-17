@@ -22,8 +22,6 @@ const PopUp = ({
     }
   };
 
-  const popUpRef = useRef();
-
   useEffect(() => {
     if (popUp) {
       window.addEventListener("keydown", hidePopUp);
@@ -34,7 +32,7 @@ const PopUp = ({
   }, [popUp]);
 
   return (
-    <PopUpContainer active={popUp} ref={popUpRef}>
+    <PopUpContainer active={popUp}>
       <Text isButton={isButton}>{message}</Text>
 
       {isButton && (

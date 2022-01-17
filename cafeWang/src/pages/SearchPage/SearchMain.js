@@ -21,8 +21,15 @@ import { getSearchCafeDB, getSearchBoardDB } from "../../redux/Async/Search";
 
 import { setSorting } from "../../redux/Modules/searchSlice";
 
+//interSectionObserver
+import { useInterSectionObserver } from "../../hooks/useIntersectionObserver";
+import { useParams } from "react-router";
+
 const SearchMain = () => {
   const [popUp, setPopUp] = useState(false);
+
+  // 검색페이지를올떄 자유게시판에서 왔는지, 카페 후기게시판에서왔는지를 판단하기위함.
+  const whereFrom = useParams().wherefrom;
 
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.modal.isActive);
@@ -33,9 +40,6 @@ const SearchMain = () => {
 
   //현재 게시물이 존재하는지(카페 후기 or 자유게시물 아무거나뭐든)
   const isList = useSelector((state) => state.search.isList);
-
-  // 검색페이지를올떄 자유게시판에서 왔는지, 카페 후기게시판에서왔는지를 판단하기위함.
-  const whereFrom = useSelector((state) => state.whereFrom.whereFrom);
 
   const hashTag = useSelector((state) => state.search.hashTag);
   const preKeyword = useSelector((state) => state.search.keyword);
@@ -73,7 +77,7 @@ const SearchMain = () => {
         setPopUp(false);
       }, 700);
     } else {
-      if (whereFrom === "cafe") {
+      if (whereFrom === "cafeboard") {
         dispatch(
           getSearchCafeDB({
             keyword,
@@ -107,7 +111,6 @@ const SearchMain = () => {
 
   //처음접속시 인풋창 포커스 & 스크롤 탑 위치
   useEffect(() => {
-
     window.scrollTo({
       top: 0,
     });
@@ -116,6 +119,7 @@ const SearchMain = () => {
   }, []);
 
   //게시물 불러오기(검색된 게시물을 클릭하여 상세페이지로 이동후 뭔가 동작(좋아요,댓글)을 하고 다시 뒤로돌아왔을떄 변경된내용을 반영시키기위해 다시 불러옴)
+
   // 최초에 검색하고 게시물을 불러올떈 동작하지않는다.
   useEffect(() => {
     // (검색전엔 아무것도 불러오지않은상태니 배열의 길이로 실행여부를 판단함.)
@@ -160,6 +164,8 @@ const SearchMain = () => {
     }
   }, []);
 
+  //게시물 불러오기(검색된 게시물을 클릭하여 상세페이지로 이동후 뭔가 동작(좋아요,댓글)을 하고 다시 뒤로돌아왔을떄 변경된내용을 반영시키기위해 다시 불러옴)
+  // 최초에 검색하고 게시물을 불러올떈 동작하지않는다.
   useEffect(() => {
     if (boardList.length !== 0) {
       if (currentSorting === "byDate") {
@@ -180,10 +186,13 @@ const SearchMain = () => {
     }
   }, []);
 
+  // //무한 스크롤
+  // const target = useRef(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const pageRef = useRef(1);
 
+  // useInterSectionObserver(fetchMoreData, pageRef, target.current, currentList);
 
-  
- 
   return (
     <>
       {/* 헤더 */}
@@ -215,7 +224,11 @@ const SearchMain = () => {
         {isActive ? (
           ""
         ) : (
-          <SearchModal isSearch={isSearch} setIsSearch={setIsSearch} />
+          <SearchModal
+            isSearch={isSearch}
+            setIsSearch={setIsSearch}
+            whereFrom={whereFrom}
+          />
         )}
       </HeaderInner>
 
@@ -248,7 +261,7 @@ const SearchMain = () => {
                 let keyword = null;
 
                 // 카페 후기검색일경우 해쉬태그도 생각해야한다.
-                if (whereFrom === "cafe") {
+                if (whereFrom === "cafeboard") {
                   if (hashTag) {
                     keyword = hashTag;
                   } else {
@@ -287,7 +300,7 @@ const SearchMain = () => {
 
                 let keyword = null;
 
-                if (whereFrom === "cafe") {
+                if (whereFrom === "cafeboard") {
                   if (hashTag) {
                     keyword = hashTag;
                   } else {
@@ -320,21 +333,24 @@ const SearchMain = () => {
             </SmallFilterButton>
           </ButtonInner>
           {/* 목록 뿌려주기 */}
-          {whereFrom === "cafe" ? (
-            <SearchListInner>
-              {isFetching && <SpinnerImg src={Spinner} />}
-              {cafeList.length !== 0 // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
-                ? cafeList.map((cafe) => (
-                    <CafeCard
-                      key={cafe.cafeId}
-                      {...cafe}
-                      _onClick={() => {
-                        history.push(`/cafeboard/detail/${cafe.cafeId}`);
-                      }}
-                    />
-                  ))
-                : !isFetching && <Blank message="조회된 글이 없습니다." />}
-            </SearchListInner>
+          {whereFrom === "cafeboard" ? (
+            <>
+              <SearchListInner>
+                {isFetching && <SpinnerImg src={Spinner} />}
+                {cafeList.length !== 0 // 검색된결과가 없다면 ( == 받아온 배열의 길이가 0 이라면) "게시물이 없습니다 "  보여줌.
+                  ? cafeList.map((cafe) => (
+                      <CafeCard
+                        key={cafe.cafeId}
+                        {...cafe}
+                        _onClick={() => {
+                          history.push(`/cafeboard/detail/${cafe.cafeId}`);
+                        }}
+                      />
+                    ))
+                  : !isFetching && <Blank message="조회된 글이 없습니다." />}
+              </SearchListInner>
+              {/* <div ref={target}>{isLoading && "loading..."}</div> */}
+            </>
           ) : (
             <SearchListInner>
               {boardList.length !== 0

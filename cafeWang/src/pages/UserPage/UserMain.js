@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-
 import { useParams } from "react-router";
 import { history } from "../../redux/configureStore";
 
@@ -37,7 +36,7 @@ import {
 } from "../../redux/Async/userPage";
 
 //sliceAction
-import { resetPost, setIsFollower } from "../../redux/Modules/userPageSlice";
+import { resetPost } from "../../redux/Modules/userPageSlice";
 
 //interSectionObserver
 import { useInterSectionObserver } from "../../hooks";
@@ -54,7 +53,6 @@ const UserMain = (props) => {
     (state) => state.userPage.isFetchingStatus
   );
 
-  console.log(isFetching);
   //로그인 유저정보, 페이지 정보 불러오기
   const loginUserInfo = useSelector((state) => state.user);
   const pageInfo = useSelector((state) => state.userPage);
@@ -187,8 +185,9 @@ const UserMain = (props) => {
             <Grid flexBetween>
               <Button
                 onClick={() => {
-                  dispatch(setIsFollower(true));
-                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                  history.push(
+                    `/userpagefollowlist/${userInfo.nickname}/follower`
+                  );
                 }}
               >
                 <Count>{userInfo.followingCount}</Count>
@@ -197,8 +196,9 @@ const UserMain = (props) => {
 
               <Button
                 onClick={() => {
-                  dispatch(setIsFollower(false));
-                  history.push(`/userpagefollowlist/${userInfo.nickname}`);
+                  history.push(
+                    `/userpagefollowlist/${userInfo.nickname}/following`
+                  );
                 }}
               >
                 <Count>{userInfo.followCount}</Count>
